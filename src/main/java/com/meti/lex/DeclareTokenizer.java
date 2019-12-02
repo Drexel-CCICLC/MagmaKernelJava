@@ -2,14 +2,14 @@ package com.meti.lex;
 
 import java.util.Optional;
 
-class DeclareTokenizer implements Tokenizer {
+class DeclareTokenizer extends FunctionalTokenizer {
     @Override
-    public Optional<? extends Token<?>> apply(LexerState lexerState) {
-        return Optional.of(new TokenImpl<>(TokenType.DECLARE, lexerState.compute().equals("var")))
-                .filter((token -> hasValidTrail(lexerState)));
+    protected Token<?> buildToken(LexerState lexerState) {
+        return new TokenImpl<>(TokenType.DECLARE, lexerState.compute().equals("var"));
     }
 
-    private boolean hasValidTrail(LexerState lexerState) {
+    @Override
+    protected boolean validate(LexerState lexerState) {
         Optional<Character> trailing = lexerState.trailing();
         return trailing.isEmpty() || trailing.get() == ' ';
     }
