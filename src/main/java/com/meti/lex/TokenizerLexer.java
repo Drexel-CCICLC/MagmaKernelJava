@@ -15,7 +15,7 @@ public class TokenizerLexer implements Lexer {
     public List<Token<?>> parse(String value) {
         LexerState state = new StringLexerState(value);
         List<Token<?>> tokens = new ArrayList<>();
-        while (state.hasMoreTokens()) {
+        while (state.hasMoreCharacters()) {
             state.next(tokenizers).ifPresent(tokens::add);
         }
         return tokens;

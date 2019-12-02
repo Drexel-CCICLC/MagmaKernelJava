@@ -2,12 +2,15 @@ package com.meti.lex;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 
 public interface LexerState {
-    Optional<Token<?>> next(Set<? extends Function<LexerState, Optional<Token<?>>>> functions);
+    Optional<? extends Token<?>> next(Set<? extends Tokenizer> functions);
+
+    Optional<Character> trailing();
+
+    LexerState extend();
 
     String compute();
 
-	boolean hasMoreTokens();
+    boolean hasMoreCharacters();
 }

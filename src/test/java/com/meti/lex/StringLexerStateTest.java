@@ -15,7 +15,7 @@ class StringLexerStateTest {
     void next() {
         LexerState state = new StringLexerState("test");
         Optional<Token<?>> expected = Optional.of(Mockito.mock(Token.class));
-        Optional<Token<?>> actual = state.next(singleton(lexerState -> expected));
+        Optional<? extends Token<?>> actual = state.next(singleton(lexerState -> expected));
         assertEquals(expected, actual);
         assertEquals("e", state.compute());
     }
@@ -30,8 +30,8 @@ class StringLexerStateTest {
     void hasMoreTokens() {
         LexerState state = new StringLexerState("t");
         Optional<Token<?>> expected = Optional.of(Mockito.mock(Token.class));
-        Optional<Token<?>> actual = state.next(singleton(lexerState -> expected));
+        Optional<? extends Token<?>> actual = state.next(singleton(lexerState -> expected));
         assertEquals(expected, actual);
-        assertFalse(state.hasMoreTokens());
+        assertFalse(state.hasMoreCharacters());
     }
 }

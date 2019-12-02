@@ -2,7 +2,6 @@ package com.meti.lex;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 
 public class StringLexerState implements LexerState {
     private final String value;
@@ -14,14 +13,20 @@ public class StringLexerState implements LexerState {
     }
 
     @Override
-    public Optional<Token<?>> next(Set<? extends Function<LexerState, Optional<Token<?>>>> functions) {
+    public Optional<? extends Token<?>> next(Set<? extends Tokenizer> functions) {
         var optional = functions.stream()
                 .map(state -> state.apply(this))
                 .flatMap(Optional::stream)
                 .findAny();
-        if(optional.isPresent()) advance();
+        if (optional.isPresent()) advance();
         else extend();
         return optional;
+    }
+
+    @Override
+    public Optional<Character> trailing() {
+        if (hasMoreCharacters()) return Optional.of(value.charAt(end));
+        else return Optional.empty();
     }
 
     private void advance() {
@@ -29,8 +34,10 @@ public class StringLexerState implements LexerState {
         end = beginning + 1;
     }
 
-    private void extend() {
+    @Override
+    public LexerState extend() {
         end++;
+        return this;
     }
 
     @Override
@@ -39,7 +46,7 @@ public class StringLexerState implements LexerState {
     }
 
     @Override
-    public boolean hasMoreTokens() {
+    public boolean hasMoreCharacters() {
         return beginning != value.length();
     }
 }
