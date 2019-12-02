@@ -1,4 +1,4 @@
-package com.meti;
+package com.meti.lex;
 
 import java.util.Optional;
 import java.util.function.Function;

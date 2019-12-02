@@ -1,4 +1,4 @@
-package com.meti;
+package com.meti.lex;
 
 public interface Token<T> {
 	TokenType type();
