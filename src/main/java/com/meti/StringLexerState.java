@@ -14,19 +14,12 @@ public class StringLexerState implements LexerState {
     }
 
     @Override
-    public Optional<Token<?>> next(Set<Function<LexerState, Optional<Token<?>>>> functions) {
+    public Optional<Token<?>> next(Set<? extends Function<LexerState, Optional<Token<?>>>> functions) {
         var optional = functions.stream()
                 .map(state -> state.apply(this))
                 .flatMap(Optional::stream)
                 .findAny();
         if(optional.isPresent()) advance();
-        else extend();
-        return optional;
-    }
-
-    @Override
-    public Optional<Token<?>> next(Optional<Token<?>> optional) {
-        if (optional.isPresent()) advance();
         else extend();
         return optional;
     }
