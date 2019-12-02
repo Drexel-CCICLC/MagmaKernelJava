@@ -1,39 +1,52 @@
 package com.meti;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
 
 public class StringLexerState implements LexerState {
-	private final String value;
-	private int beginning = 0;
-	private int end = 1;
+    private final String value;
+    private int beginning = 0;
+    private int end = 1;
 
-	public StringLexerState(String value) {
-		this.value = value;
-	}
+    public StringLexerState(String value) {
+        this.value = value;
+    }
 
-	@Override
-	public Optional<Token<?>> next(Optional<Token<?>> optional) {
-		if (optional.isPresent()) advance();
-		else extend();
-		return optional;
-	}
+    @Override
+    public Optional<Token<?>> next(Set<Function<LexerState, Optional<Token<?>>>> functions) {
+        var optional = functions.stream()
+                .map(state -> state.apply(this))
+                .flatMap(Optional::stream)
+                .findAny();
+        if(optional.isPresent()) advance();
+        else extend();
+        return optional;
+    }
 
-	private void advance() {
-		beginning = end;
-		end = beginning + 1;
-	}
+    @Override
+    public Optional<Token<?>> next(Optional<Token<?>> optional) {
+        if (optional.isPresent()) advance();
+        else extend();
+        return optional;
+    }
 
-	private void extend() {
-		end++;
-	}
+    private void advance() {
+        beginning = end;
+        end = beginning + 1;
+    }
 
-	@Override
-	public String compute() {
-		return value.substring(beginning, end);
-	}
+    private void extend() {
+        end++;
+    }
 
-	@Override
-	public boolean hasMoreTokens() {
-		return beginning != value.length();
-	}
+    @Override
+    public String compute() {
+        return value.substring(beginning, end);
+    }
+
+    @Override
+    public boolean hasMoreTokens() {
+        return beginning != value.length();
+    }
 }
