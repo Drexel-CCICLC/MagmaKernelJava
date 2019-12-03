@@ -1,5 +1,5 @@
 package com.meti.assemble;
 
-enum NodeProperty {
-    MUTABLE, CONTENT, NAME
+public enum NodeProperty {
+    MUTABLE, CONTENT, VALUE, NAME
 }
