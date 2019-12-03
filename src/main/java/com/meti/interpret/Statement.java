@@ -1,5 +1,5 @@
 package com.meti.interpret;
 
-interface Statement {
+public interface Statement {
     <T> T getProperty(StatementProperty property);
 }

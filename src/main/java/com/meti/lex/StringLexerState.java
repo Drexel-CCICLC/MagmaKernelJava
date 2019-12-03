@@ -47,6 +47,6 @@ public class StringLexerState implements LexerState {
 
     @Override
     public boolean hasMoreCharacters() {
-        return beginning != value.length();
+        return end != value.length() - 1;
     }
 }

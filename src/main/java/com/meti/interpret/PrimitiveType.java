@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-enum PrimitiveType implements Type {
+public enum PrimitiveType implements Type {
     INT("int");
 
     private final String value;

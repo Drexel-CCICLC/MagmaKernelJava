@@ -1,6 +1,6 @@
 package com.meti.interpret;
 
-import com.meti.assemble.IntegerNode;
+import com.meti.assemble.IntNode;
 import com.meti.assemble.Node;
 
 import java.util.Arrays;
@@ -9,7 +9,7 @@ import java.util.Optional;
 class PrimitiveResolver implements Resolver {
     @Override
     public Optional<Type> resolve(Node node) {
-        if (node instanceof IntegerNode) {
+        if (node instanceof IntNode) {
             return Optional.of(PrimitiveType.INT);
         } else {
             return Optional.empty();

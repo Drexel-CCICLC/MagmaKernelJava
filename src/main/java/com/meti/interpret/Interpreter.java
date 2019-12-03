@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-interface Interpreter {
+public interface Interpreter {
     Type resolve(Node node);
 
     Type resolve(String name);

@@ -6,7 +6,7 @@ import com.meti.assemble.NodeProperty;
 
 import java.util.Optional;
 
-class DeclarationPattern implements Pattern {
+class DeclarePattern implements Pattern {
     @Override
     public Optional<Statement> match(Node node, Interpreter interpreter) {
         if (node instanceof DeclareNode) {

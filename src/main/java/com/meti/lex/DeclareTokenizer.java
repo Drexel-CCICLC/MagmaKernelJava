@@ -11,6 +11,9 @@ class DeclareTokenizer extends FunctionalTokenizer {
     @Override
     protected boolean validate(LexerState lexerState) {
         Optional<Character> trailing = lexerState.trailing();
-        return trailing.isEmpty() || trailing.get() == ' ';
+        String computed = lexerState.compute();
+        boolean isValid = computed.equals("var") ||
+                computed.equals("val");
+        return isValid && (trailing.isEmpty() || trailing.get() == ' ');
     }
 }

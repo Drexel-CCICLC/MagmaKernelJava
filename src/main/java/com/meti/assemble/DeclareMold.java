@@ -44,7 +44,9 @@ class DeclareMold implements NodeMold {
     public Optional<Node> set(Assembler assembler) {
         boolean mutable = manager.atSingle(0).castedValue();
         String name = manager.atSingle(1).castedValue();
-        Stream<Node> content = assembler.assemble(manager.at(2));
+        Node content = assembler.assemble(manager.at(2))
+                .findAny()
+                .orElseThrow();
         return Optional.of(new DeclareNode(mutable, name, content));
     }
 }

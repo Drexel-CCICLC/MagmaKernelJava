@@ -18,7 +18,7 @@ class IntegerMold implements NodeMold {
     public Optional<Node> set(Assembler assembler) {
         return Optional.ofNullable(value)
                 .map((Function<Token<?>, Integer>) Token::castedValue)
-                .map(IntegerNode::new);
+                .map(IntNode::new);
     }
 }
 

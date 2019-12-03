@@ -1,6 +1,6 @@
 package com.meti.interpret;
 
-enum StatementProperty {
+public enum StatementProperty {
     TYPE,
     MUTABLE,
     NAME,

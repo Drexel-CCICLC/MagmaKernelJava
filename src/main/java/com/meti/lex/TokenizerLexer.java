@@ -18,6 +18,10 @@ public class TokenizerLexer implements Lexer {
         while (state.hasMoreCharacters()) {
             state.next(tokenizers).ifPresent(tokens::add);
         }
+        String compute = state.compute();
+        if (!compute.isEmpty()) {
+            throw new IllegalArgumentException("Failed to tokenize: \"" + compute + "\"");
+        }
         return tokens;
     }
 }

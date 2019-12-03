@@ -1,13 +1,10 @@
 package com.meti.interpret;
 
-import java.util.List;
 import java.util.Map;
 
 import static com.meti.interpret.StatementProperty.*;
 
-class DeclareStatement implements Statement {
-    private final Map<StatementProperty, Object> properties;
-
+public class DeclareStatement extends MapStatement {
     DeclareStatement(Type type, boolean mutable, String name, Statement value) {
         this(Map.of(
                 TYPE, type,
@@ -18,11 +15,7 @@ class DeclareStatement implements Statement {
     }
 
     DeclareStatement(Map<StatementProperty, Object> properties) {
-        this.properties = properties;
+        super(properties);
     }
 
-    @Override
-    public <T> T getProperty(StatementProperty property) {
-        return (T) properties.get(property);
-    }
 }
