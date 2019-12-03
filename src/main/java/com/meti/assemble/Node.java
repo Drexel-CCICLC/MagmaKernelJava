@@ -1,4 +1,4 @@
 package com.meti.assemble;
 
-interface Node {
+public interface Node {
 }
