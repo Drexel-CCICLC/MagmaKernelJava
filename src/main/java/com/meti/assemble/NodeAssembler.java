@@ -8,9 +8,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 class NodeAssembler implements Assembler {
-    private final Set<NodeMoldFactory> moldFactories;
+    private final Set<? extends NodeMoldFactory> moldFactories;
 
-    NodeAssembler(Set<NodeMoldFactory> moldFactories) {
+    NodeAssembler(Set<? extends NodeMoldFactory> moldFactories) {
         this.moldFactories = moldFactories;
     }
 
