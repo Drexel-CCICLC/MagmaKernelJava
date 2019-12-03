@@ -32,6 +32,6 @@ class StringLexerStateTest {
         Optional<Token<?>> expected = Optional.of(Mockito.mock(Token.class));
         Optional<? extends Token<?>> actual = state.next(singleton(lexerState -> expected));
         assertEquals(expected, actual);
-        assertFalse(state.hasMoreCharacters());
+        assertFalse(state.hasMoreToScan());
     }
 }

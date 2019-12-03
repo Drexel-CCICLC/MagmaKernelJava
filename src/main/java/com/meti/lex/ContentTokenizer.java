@@ -5,7 +5,7 @@ import java.util.Set;
 
 class ContentTokenizer extends FunctionalTokenizer {
     private final Set<Character> validTrails = Set.of(
-            ';'
+            ' '
     );
 
     @Override
@@ -16,7 +16,7 @@ class ContentTokenizer extends FunctionalTokenizer {
     @Override
     protected boolean validate(LexerState lexerState) {
         Optional<Character> trail = lexerState.trailing();
-        return trail.isPresent() && validTrails.stream()
-                .anyMatch(character -> character == trail.get());
+        if (trail.isEmpty()) return true;
+        return validTrails.stream().anyMatch(character -> character == trail.get());
     }
 }

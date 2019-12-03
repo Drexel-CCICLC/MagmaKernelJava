@@ -11,7 +11,7 @@ class IntegerMold implements NodeMold {
 
     @Override
     public void pour(Token<?> token) {
-        if(token.type() == TokenType.INTEGER) this.value = token;
+        if(token.type() == TokenType.INT) this.value = token;
     }
 
     @Override

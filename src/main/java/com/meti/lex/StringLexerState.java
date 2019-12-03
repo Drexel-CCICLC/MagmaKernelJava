@@ -24,14 +24,36 @@ public class StringLexerState implements LexerState {
     }
 
     @Override
-    public Optional<Character> trailing() {
-        if (hasMoreCharacters()) return Optional.of(value.charAt(end));
-        else return Optional.empty();
+    public String toString() {
+        return "StringLexerState{" +
+                "value='" + compute() + '\'' +
+                '}';
     }
 
-    private void advance() {
+    @Override
+    public Optional<Character> trailing() {
+        return trailing(1).map(value -> value.charAt(0));
+    }
+
+    @Override
+    public Optional<String> trailing(int count) {
+        if (end < value.length()) {
+            var endIndex = Math.min(value.length(), end + count);
+            return Optional.of(value.substring(end, endIndex));
+        } else return Optional.empty();
+    }
+
+    @Override
+    public void advance() {
         beginning = end;
         end = beginning + 1;
+    }
+
+    @Override
+    public void skipWhitespace() {
+        while (compute().charAt(0) == ' ') {
+            advance();
+        }
     }
 
     @Override
@@ -46,7 +68,7 @@ public class StringLexerState implements LexerState {
     }
 
     @Override
-    public boolean hasMoreCharacters() {
-        return end != value.length() - 1;
+    public boolean hasMoreToScan() {
+        return beginning < value.length();
     }
 }

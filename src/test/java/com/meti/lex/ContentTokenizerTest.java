@@ -9,6 +9,6 @@ class ContentTokenizerTest {
     @Test
     void validate() {
         var tokenizer = new ContentTokenizer();
-        assertTrue(tokenizer.validate(new StringLexerState("x;")));
+        assertTrue(tokenizer.validate(new StringLexerState("x")));
     }
 }

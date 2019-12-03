@@ -8,9 +8,15 @@ public interface LexerState {
 
     Optional<Character> trailing();
 
+    Optional<String> trailing(int count);
+
+    void advance();
+
+    void skipWhitespace();
+
     LexerState extend();
 
     String compute();
 
-    boolean hasMoreCharacters();
+    boolean hasMoreToScan();
 }

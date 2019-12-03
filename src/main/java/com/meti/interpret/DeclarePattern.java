@@ -15,7 +15,7 @@ class DeclarePattern implements Pattern {
                     interpreter.resolve(value),
                     node.getProperty(NodeProperty.MUTABLE),
                     node.getProperty(NodeProperty.NAME),
-                    interpreter.interpret(node).orElseThrow()
+                    interpreter.interpret(value).orElseThrow()
             ));
         } else {
             return Optional.empty();

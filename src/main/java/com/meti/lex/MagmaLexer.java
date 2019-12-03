@@ -6,7 +6,9 @@ public class MagmaLexer extends TokenizerLexer {
     public MagmaLexer() {
         this(Set.of(
                 new ContentTokenizer(),
-                new DeclareTokenizer()
+                new DeclareTokenizer(),
+                new IntegerTokenizer(),
+                new EndTokenizer()
         ));
     }
 
