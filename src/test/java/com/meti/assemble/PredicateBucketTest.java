@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
-class ListBucketTest {
+class PredicateBucketTest {
 
 	@Test
 	void append() {
-		List<String> numbers = new ListBucket<>(ListBucketTest::isNumber)
+		List<String> numbers = new PredicateBucket<>(PredicateBucketTest::isNumber)
 				.append("123")
 				.append("abvis")
 				.append("1038")
@@ -32,7 +32,7 @@ class ListBucketTest {
 
 	@Test
 	void stream() {
-		Bucket<String> bucket = new ListBucket<>(string -> true);
+		Bucket<String> bucket = new PredicateBucket<>(string -> true);
 		assertEquals(0L, bucket.stream().count());
 	}
 }

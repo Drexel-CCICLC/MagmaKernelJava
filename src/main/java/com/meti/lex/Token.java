@@ -1,7 +1,11 @@
 package com.meti.lex;
 
 public interface Token<T> {
-	TokenType type();
+    TokenType type();
 
-	T value();
+    T value();
+
+    default <R> R castedValue() {
+		return (R) value();
+    }
 }

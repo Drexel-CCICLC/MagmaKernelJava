@@ -2,8 +2,8 @@ package com.meti.assemble;
 
 import com.meti.lex.Token;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 interface Assembler {
-    List<Node> assemble(List<Token<?>> tokens);
+    Stream<Node> assemble(Stream<Token<?>> tokens);
 }
