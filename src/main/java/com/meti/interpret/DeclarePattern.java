@@ -9,7 +9,7 @@ import java.util.Optional;
 class DeclarePattern implements Pattern {
     @Override
     public Optional<Statement> match(Node node, Interpreter interpreter) {
-        if (node instanceof DeclareNode) {
+        if (node.getProperty(NodeProperty.ID).equals(DeclareNode.ID)) {
             Node value = node.getProperty(NodeProperty.VALUE);
             return Optional.of(new DeclareStatement(
                     interpreter.resolve(value),
