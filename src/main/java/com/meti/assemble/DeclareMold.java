@@ -7,15 +7,19 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 class DeclareMold implements NodeMold {
-    private final PredicateBucket declare = by(type(TokenType.DECLARE).and(single()));
-    private final PredicateBucket name = by(type(TokenType.CONTENT).and(single()));
-    private final PredicateBucket content = by(type(TokenType.END).negate());
-    private final PredicateBucket end = by(type(TokenType.END));
     private final BucketManager<Token<?>> manager = new ListBucketManager<Token<?>>(
-            declare, name, content, end);
+            by(type(TokenType.DECLARE).and(single())),
+            by(type(TokenType.CONTENT).and(single())),
+            by(type(TokenType.CONTENT).and(single()).and(valueEquals("="))),
+            by(type(TokenType.END).negate()),
+            by(type(TokenType.END)));
 
     private static Predicate<Token<?>> type(final TokenType type) {
         return token -> token.type().equals(type);
+    }
+
+    private Predicate<Token<?>> valueEquals(final Object value) {
+        return token -> token.value().equals(value);
     }
 
     private Predicate<? super Token<?>> single() {
@@ -41,11 +45,10 @@ class DeclareMold implements NodeMold {
 
     @Override
     public Optional<Node> set(Assembler assembler) {
-        //manager.allPresent()?
         if (manager.allPresent()) {
             boolean mutable = manager.atSingle(0).castedValue();
             String name = manager.atSingle(1).castedValue();
-            Node content = assembler.assemble(manager.at(2))
+            Node content = assembler.assemble(manager.at(3))
                     .findAny()
                     .orElseThrow();
             return Optional.of(new DeclareNode(mutable, name, content));

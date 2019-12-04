@@ -15,6 +15,8 @@ class ContentTokenizer extends FunctionalTokenizer {
 
     @Override
     protected boolean validate(LexerState lexerState) {
+        String value = lexerState.compute();
+        if (value.startsWith("\"")) return false;
         Optional<Character> trail = lexerState.trailing();
         if (trail.isEmpty()) return true;
         return validTrails.stream().anyMatch(character -> character == trail.get());

@@ -7,6 +7,7 @@ public class MagmaLexer extends TokenizerLexer {
         this(List.of(
 				new DeclareTokenizer(),
 				new IntegerTokenizer(),
+				new StringTokenizer(),
 				new EndTokenizer(),
 				new ContentTokenizer()
 		));
