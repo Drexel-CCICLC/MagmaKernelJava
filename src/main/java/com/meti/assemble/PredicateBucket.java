@@ -21,8 +21,9 @@ public class PredicateBucket<T> implements Bucket<T> {
                 '}';
     }
 
+    @SafeVarargs
     @Override
-    public Bucket<T> appendAll(T... values) {
+    public final Bucket<T> appendAll(T... values) {
         Arrays.stream(values).forEach(this::append);
         return this;
     }

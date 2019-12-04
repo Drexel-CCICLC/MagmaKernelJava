@@ -11,6 +11,7 @@ class ListBucketManager<T> implements BucketManager<T> {
     private Bucket<T> current;
     private int currentIndex;
 
+    @SafeVarargs
     ListBucketManager(Bucket<T>... buckets) {
         this(List.of(buckets));
     }
