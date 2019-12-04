@@ -3,7 +3,6 @@ package com.meti.lex;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class TokenizerLexer implements Lexer {
     private final List<? extends Tokenizer> tokenizers;

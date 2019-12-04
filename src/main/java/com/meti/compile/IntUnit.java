@@ -1,7 +1,6 @@
 package com.meti.compile;
 
 import com.meti.interpret.PrimitiveStatement;
-import com.meti.interpret.PrimitiveType;
 import com.meti.interpret.Statement;
 import com.meti.interpret.StatementProperty;
 
