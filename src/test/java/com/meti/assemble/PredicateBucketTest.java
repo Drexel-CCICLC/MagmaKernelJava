@@ -13,9 +13,7 @@ class PredicateBucketTest {
 	@Test
 	void append() {
 		List<String> numbers = new PredicateBucket<>(PredicateBucketTest::isNumber)
-				.append("123")
-				.append("abvis")
-				.append("1038")
+				.appendAll("123", "abvis", "1038")
 				.stream()
 				.collect(Collectors.toList());
 		assertIterableEquals(List.of("123", "1038"), numbers);

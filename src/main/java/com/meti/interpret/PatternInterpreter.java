@@ -45,7 +45,7 @@ class PatternInterpreter implements Interpreter {
     }
 
     @Override
-    public void interpret(Stream<Node> nodes) {
+    public void interpret(Stream<? extends Node> nodes) {
         nodes.map(this::interpret)
                 .flatMap(Optional::stream)
                 .forEach(statements::add);

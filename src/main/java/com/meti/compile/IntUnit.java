@@ -12,6 +12,7 @@ class IntUnit implements Unit {
         if (!statement.getProperty(StatementProperty.TYPE).equals(PrimitiveType.INT)) {
             return Optional.empty();
         }
-        return Optional.of(String.valueOf(statement.getProperty(StatementProperty.VALUE)));
+        int value = statement.getProperty(StatementProperty.VALUE);
+        return Optional.of(String.valueOf(value));
     }
 }

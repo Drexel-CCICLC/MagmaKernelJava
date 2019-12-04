@@ -13,7 +13,7 @@ public interface Interpreter {
 
     Optional<Statement> interpret(Node node);
 
-    void interpret(Stream<Node> nodes);
+    void interpret(Stream<? extends Node> nodes);
 
     List<Statement> collect();
 }
