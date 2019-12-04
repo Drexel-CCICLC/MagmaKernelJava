@@ -9,9 +9,16 @@ import java.util.stream.Collectors;
 
 class UnitTranslator implements Translator {
     private final Set<Unit> units;
+    private final Aliaser aliaser;
 
-    UnitTranslator(Set<Unit> units) {
+    UnitTranslator(Set<Unit> units, Aliaser aliaser) {
         this.units = units;
+        this.aliaser = aliaser;
+    }
+
+    @Override
+    public Aliaser aliaser() {
+        return aliaser;
     }
 
     private Optional<String> compile(com.meti.interpret.Statement statement) {

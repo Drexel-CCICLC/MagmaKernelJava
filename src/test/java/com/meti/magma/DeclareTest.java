@@ -1,14 +1,13 @@
 package com.meti.magma;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DeclareTest extends MagmaTest {
     @Test
-    void test(){
+    void test() {
         String result = compile("val x = 10;");
-        assertEquals("var a0=10;", result);
+        assertEquals("int a0=10;", result);
     }
 }

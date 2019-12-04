@@ -8,6 +8,8 @@ public interface BucketManager<T> {
         return at(index).findAny().orElseThrow();
     }
 
+    boolean allPresent();
+
     Stream<T> at(int index);
 
     Stream<Stream<T>> split(int index, Predicate<? super T> predicate);

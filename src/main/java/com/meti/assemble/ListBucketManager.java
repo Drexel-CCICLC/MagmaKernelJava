@@ -3,6 +3,7 @@ package com.meti.assemble;
 import com.meti.util.PredicateStreamSplitter;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -22,6 +23,14 @@ class ListBucketManager<T> implements BucketManager<T> {
     }
 
     @Override
+    public boolean allPresent() {
+        return buckets.stream()
+                .map(Bucket::stream)
+                .mapToLong(Stream::count)
+                .allMatch(value -> value > 0);
+    }
+
+    @Override
     public Stream<T> at(int index) {
         return buckets.get(index).stream();
     }
@@ -38,7 +47,7 @@ class ListBucketManager<T> implements BucketManager<T> {
         }
         current = buckets.get(currentIndex);
         put(token);
-	}
+    }
 
     @Override
     public void put(T token) {

@@ -3,7 +3,7 @@ package com.meti.interpret;
 import java.util.List;
 import java.util.Optional;
 
-interface Type {
+public interface Type {
     String value();
 
     List<Type> parameters();
