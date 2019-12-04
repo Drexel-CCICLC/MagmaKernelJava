@@ -15,7 +15,7 @@ class ListBucketManager<T> implements BucketManager<T> {
 		this(List.of(buckets));
 	}
 
-	ListBucketManager(List<? extends Bucket<T>> buckets) {
+	private ListBucketManager(List<? extends Bucket<T>> buckets) {
 		this.buckets = buckets;
 		this.current = buckets.get(0);
 		this.currentIndex = 0;

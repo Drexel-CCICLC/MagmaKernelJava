@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 class DeclareMold implements NodeMold {
-    private final BucketManager<Token<?>> manager = new ListBucketManager(
+    private final BucketManager<Token<?>> manager = new ListBucketManager<Token<?>>(
             by(type(TokenType.DECLARE).and(count(1))),
             by(type(TokenType.CONTENT).and(count(1))),
             by(type(TokenType.END).negate()),
