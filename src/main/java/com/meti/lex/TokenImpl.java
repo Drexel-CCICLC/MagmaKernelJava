@@ -10,6 +10,14 @@ class TokenImpl<T> implements Token<T> {
     }
 
     @Override
+    public String toString() {
+        return "TokenImpl{" +
+                "type=" + type +
+                ", value=" + value +
+                '}';
+    }
+
+    @Override
     public TokenType type() {
         return type;
     }

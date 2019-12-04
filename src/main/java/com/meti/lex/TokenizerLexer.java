@@ -6,9 +6,9 @@ import java.util.Optional;
 import java.util.Set;
 
 public class TokenizerLexer implements Lexer {
-    private final Set<? extends Tokenizer> tokenizers;
+    private final List<? extends Tokenizer> tokenizers;
 
-    public TokenizerLexer(Set<? extends Tokenizer> tokenizers) {
+    public TokenizerLexer(List<? extends Tokenizer> tokenizers) {
         this.tokenizers = tokenizers;
     }
 

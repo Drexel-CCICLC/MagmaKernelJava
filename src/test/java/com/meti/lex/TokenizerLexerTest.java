@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.singleton;
+import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -14,7 +15,7 @@ class TokenizerLexerTest {
 
     @Test
     void parse() {
-        Lexer lexer = new TokenizerLexer(singleton(this::tokenize));
+        Lexer lexer = new TokenizerLexer(singletonList(this::tokenize));
         List<Token<?>> tokens = lexer.parse("25963");
         assertTrue(tokens.stream()
                 .allMatch(token -> token.type().equals(TokenType.CONTENT)));

@@ -7,27 +7,35 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class PredicateBucket<T> implements Bucket<T> {
-	private final Collection<T> list = new ArrayList<>();
-	private final Predicate<? super T> predicate;
+    private final Collection<T> list = new ArrayList<>();
+    private final Predicate<? super T> predicate;
 
-	public PredicateBucket(Predicate<? super T> predicate) {
-		this.predicate = predicate;
-	}
+    public PredicateBucket(Predicate<? super T> predicate) {
+        this.predicate = predicate;
+    }
 
-	@Override
-	public Bucket<T> appendAll(T... values){
-		Arrays.stream(values).forEach(this::append);
-		return this;
-	}
+    @Override
+	public String toString() {
+        return "PredicateBucket{" +
+                "list=" + list +
+                '}';
+    }
 
-	@Override
-	public boolean append(T value) {
-		if (predicate.test(value)) list.add(value);
-		return predicate.test(value);
-	}
+    @Override
+    public Bucket<T> appendAll(T... values) {
+        Arrays.stream(values).forEach(this::append);
+        return this;
+    }
 
-	@Override
-	public Stream<T> stream() {
-		return list.stream();
-	}
+    @Override
+    public boolean append(T value) {
+        boolean result = predicate.test(value);
+        if (result) list.add(value);
+        return result;
+    }
+
+    @Override
+    public Stream<T> stream() {
+        return list.stream();
+    }
 }

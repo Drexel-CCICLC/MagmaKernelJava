@@ -1,10 +1,10 @@
 package com.meti.lex;
 
-import java.util.Set;
+import java.util.List;
 
 public class MagmaLexer extends TokenizerLexer {
 	public MagmaLexer() {
-        this(Set.of(
+        this(List.of(
 				new DeclareTokenizer(),
 				new IntegerTokenizer(),
 				new EndTokenizer(),
@@ -12,7 +12,7 @@ public class MagmaLexer extends TokenizerLexer {
 		));
 	}
 
-	public MagmaLexer(Set<? extends Tokenizer> tokenizers) {
+	public MagmaLexer(List<? extends Tokenizer> tokenizers) {
 		super(tokenizers);
 	}
 }

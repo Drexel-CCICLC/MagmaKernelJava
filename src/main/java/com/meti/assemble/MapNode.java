@@ -11,6 +11,11 @@ class MapNode implements Node {
     }
 
     @Override
+    public boolean hasProperty(NodeProperty key) {
+        return map.containsKey(key);
+    }
+
+    @Override
     public <T> T getProperty(NodeProperty key) {
         return (T) map.get(key);
     }
