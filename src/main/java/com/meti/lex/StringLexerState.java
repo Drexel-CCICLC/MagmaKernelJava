@@ -32,14 +32,10 @@ public class StringLexerState implements LexerState {
 
     @Override
     public Optional<Character> trailing() {
-        return trailing(1).map(value -> value.charAt(0));
-    }
-
-    @Override
-    public Optional<String> trailing(int count) {
         if (end < value.length()) {
-            var endIndex = Math.min(value.length(), end + count);
-            return Optional.of(value.substring(end, endIndex));
+            var endIndex = Math.min(value.length(), end + 1);
+            return Optional.of(value.substring(end, endIndex))
+                    .map(string -> string.charAt(0));
         } else return Optional.empty();
     }
 

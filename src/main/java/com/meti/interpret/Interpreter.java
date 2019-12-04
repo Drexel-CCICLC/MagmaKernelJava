@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 public interface Interpreter {
     Type resolve(Node node);
 
+    //TODO: add test
     Type resolve(String name);
 
     Optional<Statement> interpret(Node node);

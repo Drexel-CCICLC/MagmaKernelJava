@@ -7,8 +7,8 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 class DeclareMold implements NodeMold {
-    private final PredicateBucket declare = by(type(TokenType.DECLARE).and(count(1)));
-    private final PredicateBucket name = by(type(TokenType.CONTENT).and(count(1)));
+    private final PredicateBucket declare = by(type(TokenType.DECLARE).and(single()));
+    private final PredicateBucket name = by(type(TokenType.CONTENT).and(single()));
     private final PredicateBucket content = by(type(TokenType.END).negate());
     private final PredicateBucket end = by(type(TokenType.END));
     private final BucketManager<Token<?>> manager = new ListBucketManager<Token<?>>(
@@ -18,14 +18,14 @@ class DeclareMold implements NodeMold {
         return token -> token.type().equals(type);
     }
 
-    private Predicate<? super Token<?>> count(int count) {
+    private Predicate<? super Token<?>> single() {
         return new Predicate<>() {
             private int counter = -1;
 
             @Override
             public boolean test(Token<?> token) {
                 counter++;
-                return counter < count;
+                return counter < 1;
             }
         };
     }

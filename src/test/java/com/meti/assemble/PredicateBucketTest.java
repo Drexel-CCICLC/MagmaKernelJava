@@ -12,7 +12,8 @@ class PredicateBucketTest {
 
 	@Test
 	void append() {
-		List<String> numbers = new PredicateBucket<>(PredicateBucketTest::isNumber)
+		Bucket<String> bucket = new PredicateBucket<>(PredicateBucketTest::isNumber);
+		List<String> numbers = bucket
 				.appendAll("123", "abvis", "1038")
 				.stream()
 				.collect(Collectors.toList());

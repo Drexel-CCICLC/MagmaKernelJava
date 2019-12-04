@@ -9,6 +9,7 @@ public enum PrimitiveType implements Type {
 
     private final String value;
 
+    //TODO: add more types
     PrimitiveType(String value) {
         this.value = value;
     }

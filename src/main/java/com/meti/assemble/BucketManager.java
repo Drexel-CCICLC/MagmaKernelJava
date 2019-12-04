@@ -12,6 +12,7 @@ interface BucketManager<T> {
 
     Stream<T> at(int index);
 
+    //TODO: add test
     Stream<Stream<T>> split(int index, Predicate<? super T> predicate);
 
     void put(T token);
