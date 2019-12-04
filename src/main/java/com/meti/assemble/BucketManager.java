@@ -3,7 +3,7 @@ package com.meti.assemble;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public interface BucketManager<T> {
+interface BucketManager<T> {
     default T atSingle(int index) {
         return at(index).findAny().orElseThrow();
     }

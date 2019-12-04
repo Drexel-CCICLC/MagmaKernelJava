@@ -14,7 +14,7 @@ public class DeclareStatement extends MapStatement {
         ));
     }
 
-    DeclareStatement(Map<StatementProperty, Object> properties) {
+    private DeclareStatement(Map<StatementProperty, Object> properties) {
         super(properties);
     }
 

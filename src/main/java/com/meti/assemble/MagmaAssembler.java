@@ -10,7 +10,7 @@ public class MagmaAssembler extends MoldAssembler {
         ));
     }
 
-    MagmaAssembler(List<? extends NodeMoldFactory> moldFactories) {
+    private MagmaAssembler(List<? extends NodeMoldFactory> moldFactories) {
         super(moldFactories);
     }
 }

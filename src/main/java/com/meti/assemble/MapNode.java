@@ -6,7 +6,7 @@ import java.util.Map;
 class MapNode implements Node {
     private final Map<NodeProperty, Object> map = new HashMap<>();
 
-    public MapNode(Map<NodeProperty, Object> others) {
+    MapNode(Map<NodeProperty, Object> others) {
         map.putAll(others);
     }
 

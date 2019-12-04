@@ -7,7 +7,7 @@ public class MagmaTranslator extends UnitTranslator {
         this(Set.of(new DeclareUnit(), new IntUnit()), new SimpleAliaser());
     }
 
-    MagmaTranslator(Set<Unit> units, Aliaser aliaser) {
+    private MagmaTranslator(Set<Unit> units, Aliaser aliaser) {
         super(units, aliaser);
     }
 }

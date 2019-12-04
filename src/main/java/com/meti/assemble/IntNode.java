@@ -7,7 +7,7 @@ public class IntNode extends MapNode {
         this(Map.of(NodeProperty.VALUE, value));
     }
 
-    public IntNode(Map<NodeProperty, Object> others) {
+    private IntNode(Map<NodeProperty, Object> others) {
         super(others);
     }
 }

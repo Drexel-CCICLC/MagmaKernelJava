@@ -13,7 +13,7 @@ public class PrimitiveStatement extends MapStatement {
         ));
     }
 
-    PrimitiveStatement(Map<StatementProperty, Object> properties) {
+    private PrimitiveStatement(Map<StatementProperty, Object> properties) {
         super(properties);
     }
 }

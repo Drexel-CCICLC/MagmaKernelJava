@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 class MagmaTest {
-    public String compile(String value) {
+    String compile(String value) {
         Lexer lexer = new MagmaLexer();
         Assembler assembler = new MagmaAssembler();
         Interpreter interpreter = new MagmaInterpreter();

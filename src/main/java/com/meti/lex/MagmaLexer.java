@@ -12,7 +12,7 @@ public class MagmaLexer extends TokenizerLexer {
 		));
 	}
 
-	public MagmaLexer(List<? extends Tokenizer> tokenizers) {
+	private MagmaLexer(List<? extends Tokenizer> tokenizers) {
 		super(tokenizers);
 	}
 }
