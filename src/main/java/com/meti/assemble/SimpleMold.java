@@ -6,7 +6,11 @@ import com.meti.lex.TokenType;
 import java.util.function.Predicate;
 
 abstract class SimpleMold implements NodeMold {
-    protected static Predicate<Token<?>> type(final TokenType type) {
+	protected static Predicate<Token<?>> any() {
+		return token -> true;
+    }
+
+	protected static Predicate<Token<?>> type(final TokenType type) {
         return token -> token.type().equals(type);
     }
 

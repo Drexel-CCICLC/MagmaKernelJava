@@ -4,11 +4,15 @@ import java.util.List;
 
 public class MagmaLexer extends TokenizerLexer {
 	public MagmaLexer() {
+		this(new Binding<>(0));
+	}
+
+	public MagmaLexer(Binding<Integer> depth) {
         this(List.of(
 				new DeclareTokenizer(),
 				new IntegerTokenizer(),
 				new StringTokenizer(),
-				new EndTokenizer(),
+				new EndTokenizer(depth),
 				new ContentTokenizer()
 		));
 	}

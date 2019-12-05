@@ -10,8 +10,7 @@ class DeclareMold extends SimpleMold {
             by(type(TokenType.DECLARE).and(single())),
             by(type(TokenType.CONTENT).and(single())),
             by(type(TokenType.CONTENT).and(single()).and(valueEquals("="))),
-            by(type(TokenType.END).negate()),
-            by(type(TokenType.END)));
+            by(any()));
 
     @Override
     public void pour(Token<?> token) {
