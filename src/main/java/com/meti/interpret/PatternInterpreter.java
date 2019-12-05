@@ -10,10 +10,10 @@ import java.util.stream.Stream;
 
 class PatternInterpreter implements Interpreter {
     private final List<Statement> statements = new ArrayList<>();
-    private final Set<Resolver> resolvers;
-    private final Set<Pattern> patterns;
+    private final Set<? extends Resolver> resolvers;
+    private final Set<? extends Pattern> patterns;
 
-    PatternInterpreter(Set<Pattern> patterns, Set<Resolver> resolvers) {
+    PatternInterpreter(Set<? extends Pattern> patterns, Set<? extends Resolver> resolvers) {
         this.resolvers = resolvers;
         this.patterns = patterns;
     }

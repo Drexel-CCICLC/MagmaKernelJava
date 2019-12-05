@@ -1,5 +1,6 @@
 package com.meti.assemble;
 
+@FunctionalInterface
 interface NodeMoldFactory {
-    NodeMold create();
+    Mold create();
 }

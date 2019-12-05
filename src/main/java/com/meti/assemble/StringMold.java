@@ -6,7 +6,7 @@ import com.meti.lex.TokenType;
 import java.util.Optional;
 import java.util.function.Function;
 
-class StringMold implements NodeMold {
+class StringMold implements Mold {
     private Token<?> token;
 
     @Override

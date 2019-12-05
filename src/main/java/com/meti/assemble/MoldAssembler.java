@@ -32,7 +32,7 @@ class MoldAssembler implements Assembler {
 	private Optional<Node> assembleSingle(Stream<? extends Token<?>> tokenStream) {
 		List<Token<?>> tokens = tokenStream.collect(Collectors.toList());
 		return moldFactories.stream()
-				.map((Function<NodeMoldFactory, NodeMold>) NodeMoldFactory::create)
+				.map((Function<NodeMoldFactory, Mold>) NodeMoldFactory::create)
 				.peek(nodeMold -> nodeMold.pourAll(tokens.stream()))
 				.map(mold -> mold.set(this))
 				.flatMap(Optional::stream)

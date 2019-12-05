@@ -6,7 +6,7 @@ import com.meti.lex.TokenType;
 import java.util.Optional;
 import java.util.function.Function;
 
-class IntegerMold implements NodeMold {
+class IntegerMold implements Mold {
     private Token<?> value;
 
     @Override

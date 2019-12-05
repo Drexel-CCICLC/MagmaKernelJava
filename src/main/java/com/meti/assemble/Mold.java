@@ -5,8 +5,8 @@ import com.meti.lex.Token;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-interface NodeMold {
-    default void pourAll(Stream<Token<?>> tokens) {
+interface Mold {
+    default void pourAll(Stream<? extends Token<?>> tokens) {
         tokens.forEach(this::pour);
     }
 
