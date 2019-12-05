@@ -6,7 +6,9 @@ public class MagmaAssembler extends MoldAssembler {
     public MagmaAssembler() {
         this(List.of(
                 DeclareMold::new,
-                IntegerMold::new
+                AssignMold::new,
+                IntegerMold::new,
+                StringMold::new
         ));
     }
 

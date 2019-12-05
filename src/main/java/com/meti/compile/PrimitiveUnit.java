@@ -6,13 +6,15 @@ import com.meti.interpret.StatementProperty;
 
 import java.util.Optional;
 
-class IntUnit implements Unit {
+class PrimitiveUnit implements Unit {
     @Override
     public Optional<String> translate(Statement statement, Translator translator) {
         if (!(statement instanceof PrimitiveStatement)) {
             return Optional.empty();
         }
-        int value = statement.getProperty(StatementProperty.VALUE);
-        return Optional.of(String.valueOf(value));
+        Object value = statement.getProperty(StatementProperty.VALUE);
+        return value instanceof String ?
+                Optional.of("\"" + value + "\"") :
+                Optional.of(String.valueOf(value));
     }
 }

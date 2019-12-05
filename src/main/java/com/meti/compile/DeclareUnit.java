@@ -26,6 +26,10 @@ class DeclareUnit implements Unit {
     }
 
     private String build(Type type, String name, String value) {
-        return type.value() + " " + name + "=" + value + ";";
+        String typeString = type.value();
+        if (typeString.equals("string")) {
+            typeString = "String";
+        }
+        return typeString + " " + name + "=" + value + ";";
     }
 }

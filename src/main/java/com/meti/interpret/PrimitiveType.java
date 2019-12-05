@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 public enum PrimitiveType implements Type {
-    INT("int");
+    INT("int"),
+    STRING("string");
 
     private final String value;
 
