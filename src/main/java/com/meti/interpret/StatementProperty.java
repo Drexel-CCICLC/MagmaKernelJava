@@ -5,5 +5,5 @@ public enum StatementProperty {
     MUTABLE,
     NAME,
     CONTENT,
-    VALUE
+	CONDITION, ALTERNATE, VALUE
 }
