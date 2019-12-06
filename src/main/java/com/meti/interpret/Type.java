@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Type {
-    String value();
+    Optional<String> value();
 
     List<Type> parameters();
 

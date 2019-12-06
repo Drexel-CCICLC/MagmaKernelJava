@@ -5,6 +5,7 @@ import java.util.List;
 public class MagmaAssembler extends MoldAssembler {
 	public MagmaAssembler() {
 		this(List.of(
+				FunctionMold::new,
 				WhileMold::new,
 				IfMold::new,
 				BlockMold::new,

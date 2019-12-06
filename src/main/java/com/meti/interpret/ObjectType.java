@@ -12,8 +12,8 @@ class ObjectType implements Type {
     }
 
     @Override
-    public String value() {
-        return name;
+    public Optional<String> value() {
+        return Optional.ofNullable(name);
     }
 
     @Override

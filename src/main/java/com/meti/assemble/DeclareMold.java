@@ -5,7 +5,7 @@ import com.meti.lex.TokenType;
 
 import java.util.Optional;
 
-class DeclareMold extends SimpleMold {
+class DeclareMold extends BucketMold {
     private final BucketManager<Token<?>> manager = new ListBucketManager<Token<?>>(
             by(type(TokenType.DECLARE).and(single())),
             by(type(TokenType.CONTENT).and(single())),

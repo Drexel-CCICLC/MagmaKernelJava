@@ -4,20 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public enum PrimitiveType implements Type {
-	INT("int"),
-    STRING("string"), BOOLEAN("boolean");
-
-	private final String value;
-
-	//TODO: add more types
-	PrimitiveType(String value) {
-		this.value = value;
-	}
-
+public class VoidType implements Type {
 	@Override
 	public Optional<String> value() {
-		return Optional.ofNullable(value);
+		return Optional.of("void");
 	}
 
 	@Override

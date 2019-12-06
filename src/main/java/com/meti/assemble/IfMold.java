@@ -9,7 +9,7 @@ import static com.meti.lex.Keyword.IF;
 import static com.meti.lex.TokenType.KEYWORD;
 import static com.meti.lex.TokenType.PARENTHESIS;
 
-public class IfMold extends SimpleMold {
+public class IfMold extends BucketMold {
 	private final BucketManager<Token<?>> manager = new ListBucketManager<>(
 			by(type(KEYWORD).and(valueEquals(IF)).and(single())),
 			by(type(PARENTHESIS).and(valueEquals(true).and(single()))),

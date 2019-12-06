@@ -8,7 +8,7 @@ import static com.meti.lex.Keyword.*;
 import static com.meti.lex.TokenType.KEYWORD;
 import static com.meti.lex.TokenType.PARENTHESIS;
 
-public class WhileMold extends SimpleMold {
+public class WhileMold extends BucketMold {
 	private final BucketManager<Token<?>> manager = new ListBucketManager<>(
 			by(type(KEYWORD).and(valueEquals(WHILE)).and(single())),
 			by(type(PARENTHESIS).and(valueEquals(true).and(single()))),

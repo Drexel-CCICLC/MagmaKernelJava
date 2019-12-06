@@ -15,7 +15,7 @@ public class VariableResolver implements Resolver {
 	}
 
 	@Override
-	public Optional<Type> resolve(Node node) {
+	public Optional<Type> resolve(Node node, Interpreter interpreter) {
 		if (node instanceof VariableNode) {
 			String variableName = node.getProperty(NodeProperty.VALUE);
 			if(!variables.containsKey(variableName)) {

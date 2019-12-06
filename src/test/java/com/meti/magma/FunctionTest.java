@@ -8,10 +8,10 @@ class FunctionTest extends MagmaTest {
 	@Test
 	void empty() {
 		String content = """
-			val empty = [] => void :{
+			val empty = () => void :{
 			}
 		""";
 		String value = compile(content);
-		assertEquals("public void empty(){}", value);
+		assertEquals("Function<Object[],Object> a0=(b1)->{};", value);
 	}
 }

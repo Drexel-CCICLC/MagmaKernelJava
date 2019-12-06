@@ -8,7 +8,6 @@ import com.meti.util.StreamSplitter;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -37,7 +36,8 @@ class MoldAssembler implements Assembler {
 		return depth;
 	}
 
-	private Optional<Node> assembleSingle(Stream<? extends Token<?>> tokenStream) {
+	@Override
+	public Optional<Node> assembleSingle(Stream<? extends Token<?>> tokenStream) {
 		List<Token<?>> tokens = tokenStream.collect(Collectors.toList());
 		return moldFactories.stream()
 				.map((Function<NodeMoldFactory, Mold>) NodeMoldFactory::create)

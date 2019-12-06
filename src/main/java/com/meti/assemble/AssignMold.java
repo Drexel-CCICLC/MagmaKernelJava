@@ -5,7 +5,7 @@ import com.meti.lex.TokenType;
 
 import java.util.Optional;
 
-class AssignMold extends SimpleMold {
+class AssignMold extends BucketMold {
 	private final BucketManager<Token<?>> manager = new ListBucketManager<Token<?>>(
 			by(type(TokenType.CONTENT).and(single())),
 			by(type(TokenType.CONTENT).and(single()).and(valueEquals("="))),

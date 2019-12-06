@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class BlockMold extends SimpleMold {
+public class BlockMold extends BucketMold {
 	private final BucketManager<Token<?>> manager = new ListBucketManager<>(
 			by(type(TokenType.BRACKET).and(valueEquals(true))),
 			by(type(TokenType.BRACKET).and(valueEquals(false)).negate()),
@@ -22,7 +22,7 @@ public class BlockMold extends SimpleMold {
 
 	@Override
 	public Optional<Node> set(Assembler assembler) {
-		if (manager.allPresent()) {
+		if (manager.allPresent(0, 2)) {
 			Binding<Integer> depth = assembler.depth();
 			depth.set(depth.get() + 1);
 			List<Node> nodes = assembler.assemble(manager.at(1)).collect(Collectors.toList());

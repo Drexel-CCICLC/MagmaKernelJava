@@ -5,7 +5,7 @@ import com.meti.lex.TokenType;
 
 import java.util.function.Predicate;
 
-abstract class SimpleMold implements Mold {
+abstract class BucketMold implements Mold {
 	static Predicate<Token<?>> any() {
 		return token -> true;
     }

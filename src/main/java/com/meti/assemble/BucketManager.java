@@ -4,7 +4,9 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 interface BucketManager<T> {
-    default T atSingle(int index) {
+	boolean allPresent(int... indices);
+
+	default T atSingle(int index) {
         return at(index).findAny().orElseThrow();
     }
 

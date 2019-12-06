@@ -5,6 +5,7 @@ import java.util.Set;
 public class MagmaTranslator extends UnitTranslator {
 	public MagmaTranslator() {
 		this(Set.of(
+				new FunctionUnit(),
 				new AssignUnit(),
 				new DeclareUnit(),
 				new PrimitiveUnit(),

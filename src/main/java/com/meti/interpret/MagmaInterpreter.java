@@ -12,6 +12,7 @@ public class MagmaInterpreter extends PatternInterpreter {
 	public MagmaInterpreter(Map<String, Type> variables) {
 		this(
 				Set.of(
+						new FunctionPattern(variables),
 						new AssignPattern(variables),
 						new DeclarePattern(variables),
 						new PrimitivePattern(),
@@ -22,7 +23,8 @@ public class MagmaInterpreter extends PatternInterpreter {
 				),
 				Set.of(
 						new PrimitiveResolver(),
-						new VariableResolver(variables)
+						new VariableResolver(variables),
+						new FunctionResolver()
 				)
 		);
 	}

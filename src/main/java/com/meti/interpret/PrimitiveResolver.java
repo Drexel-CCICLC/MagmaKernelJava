@@ -14,7 +14,7 @@ import static java.util.Optional.of;
 
 class PrimitiveResolver implements Resolver {
 	@Override
-	public Optional<Type> resolve(Node node) {
+	public Optional<Type> resolve(Node node, Interpreter interpreter) {
 		if (node instanceof IntNode) {
 			return of(INT);
 		} else if (node instanceof StringNode) {
@@ -28,6 +28,7 @@ class PrimitiveResolver implements Resolver {
 
 	@Override
 	public Optional<? extends Type> resolve(String value) {
+		if(value.equals("void")) return of(new VoidType());
 		return Arrays.stream(values())
 				.filter(primitiveType -> primitiveType.value().equals(value))
 				.findAny();
