@@ -15,7 +15,6 @@ public class BlockUnit implements Unit {
 			List<Statement> value = statement.getProperty(StatementProperty.VALUE);
 			String lines = value.stream()
 					.map(translator::translate)
-					.map(s -> s + ";")
 					.collect(Collectors.joining());
 			return Optional.of("{" + lines + "}");
 		}

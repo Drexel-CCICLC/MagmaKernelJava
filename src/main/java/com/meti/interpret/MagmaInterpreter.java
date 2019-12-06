@@ -17,6 +17,7 @@ public class MagmaInterpreter extends PatternInterpreter {
 						new PrimitivePattern(),
                         new VariablePattern(),
 						new IfPattern(),
+						new WhilePattern(),
 						new BlockPattern()
 				),
 				Set.of(

@@ -10,6 +10,7 @@ public class MagmaTranslator extends UnitTranslator {
 				new PrimitiveUnit(),
                 new VariableUnit(),
 				new IfUnit(),
+				new WhileUnit(),
 				new BlockUnit()
         ), new SimpleAliaser());
 	}
