@@ -7,7 +7,8 @@ public class ParenthesisTokenizer implements Tokenizer {
 	public Optional<? extends Token<?>> apply(LexerState lexerState) {
 		String compute = lexerState.compute();
 		if (compute.equals("(") || compute.equals(")")) {
-			return Optional.of(new TokenImpl<>(TokenType.PARENTHESIS, compute.equals("(")));
+			boolean opened = compute.equals("(");
+			return Optional.of(new TokenImpl<>(TokenType.PARENTHESIS, opened));
 		} else {
 			return Optional.empty();
 		}

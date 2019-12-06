@@ -14,7 +14,7 @@ public class MagmaLexer extends TokenizerLexer {
 				new StringTokenizer(),
 				new EndTokenizer(depth),
 		        new KeywordTokenizer(),
-				new BracketTokenizer(),
+				new BracketTokenizer(depth),
 				new ParenthesisTokenizer(),
 				new ContentTokenizer()
 		));

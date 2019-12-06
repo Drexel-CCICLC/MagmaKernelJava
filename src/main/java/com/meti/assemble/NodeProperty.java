@@ -5,5 +5,5 @@ public enum NodeProperty {
     CONTENT,
     VALUE,
     NAME,
-    ID
+	ALTERNATE, CONDITION, ID
 }

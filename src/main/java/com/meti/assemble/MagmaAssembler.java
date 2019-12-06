@@ -5,11 +5,14 @@ import java.util.List;
 public class MagmaAssembler extends MoldAssembler {
 	public MagmaAssembler() {
 		this(List.of(
+				IfMold::new,
+				BlockMold::new,
 				DeclareMold::new,
 				AssignMold::new,
-				IntegerMold::new,
+				IntMold::new,
+				BooleanMold::new,
 				StringMold::new,
-                VariableMold::new
+				VariableMold::new
 		));
 	}
 
