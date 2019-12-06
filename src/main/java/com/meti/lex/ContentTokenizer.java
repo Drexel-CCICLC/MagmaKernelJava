@@ -7,7 +7,8 @@ class ContentTokenizer extends FunctionalTokenizer {
     private final Set<Character> validTrails = Set.of(
             ' ',
             ';',
-            ')'
+            ')',
+            '{'
     );
 
     @Override
