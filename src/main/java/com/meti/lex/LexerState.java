@@ -10,7 +10,7 @@ public interface LexerState {
 
     void advance();
 
-    void skipWhitespace();
+    void skip();
 
     LexerState extend();
 

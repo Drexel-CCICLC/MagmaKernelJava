@@ -16,7 +16,7 @@ public class TokenizerLexer implements Lexer {
         LexerState lexerState = new StringLexerState(value);
         var list = new ArrayList<Token<?>>();
         do {
-            lexerState.skipWhitespace();
+            lexerState.skip();
             var optional = compute(lexerState);
             if (optional.isPresent()) {
                 lexerState.advance();

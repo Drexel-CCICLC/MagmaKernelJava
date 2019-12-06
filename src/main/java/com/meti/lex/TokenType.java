@@ -3,5 +3,5 @@ package com.meti.lex;
 public enum TokenType {
     DECLARE,
 	CONTENT,
-    INT, STRING, END
+    INT, STRING, KEYWORD, PARENTHESIS, BRACKET, END
 }
