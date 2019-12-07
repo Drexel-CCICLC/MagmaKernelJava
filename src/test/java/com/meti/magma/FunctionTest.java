@@ -12,6 +12,6 @@ class FunctionTest extends MagmaTest {
 			}
 		""";
 		String value = compile(content);
-		assertEquals("Function<Object[],Object> a0=(b1)->{};", value);
+		assertEquals("var a0=function(){};", value);
 	}
 }

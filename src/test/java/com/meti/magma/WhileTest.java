@@ -13,6 +13,6 @@ public class WhileTest extends MagmaTest {
 			}
 		""";
 		String result = compile(content);
-		assertEquals("while(true){int a0=10;}", result);
+		assertEquals("while(true){var a0=10;}", result);
 	}
 }

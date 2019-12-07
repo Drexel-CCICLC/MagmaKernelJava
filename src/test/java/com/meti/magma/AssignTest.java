@@ -9,6 +9,6 @@ class AssignTest extends MagmaTest {
     void assign() {
         String content = "val x = 10;x = 20";
         String actual = compile(content);
-        assertEquals("int a0=10;a0=20;", actual);
+        assertEquals("var a0=10;a0=20;", actual);
     }
 }

@@ -7,6 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class StringTest extends MagmaTest {
     @Test
     void string() {
-        assertEquals("String a0=\"Hello World!\";", compile("val x = \"Hello World!\";"));
+        assertEquals("var a0=\"Hello World!\";", compile("var x = \"Hello World!\";"));
     }
 }

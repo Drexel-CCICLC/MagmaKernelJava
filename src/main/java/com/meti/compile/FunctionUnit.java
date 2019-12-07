@@ -24,7 +24,7 @@ public class FunctionUnit implements Unit {
 				System.out.println("test1");
 				return null;
 			};*/
-			return Optional.of("(" + translator.aliaser().alias("$args") + ")->" + contentString);
+			return Optional.of("function(" + parameterString + ")" + contentString);
 		}
 		return Optional.empty();
 	}

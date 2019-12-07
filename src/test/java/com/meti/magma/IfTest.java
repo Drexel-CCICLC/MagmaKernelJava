@@ -15,6 +15,6 @@ class IfTest extends MagmaTest {
 		}
 		""";
 		String result = compile(content);
-		assertEquals("if(true){int a0=10;}else{int b1=10;}", result);
+		assertEquals("if(true){var a0=10;}else{var b1=10;}", result);
 	}
 }
