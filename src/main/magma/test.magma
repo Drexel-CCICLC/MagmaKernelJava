@@ -1,0 +1,3 @@
+val Internal = [] => void :{
+	native val write = [value string] => void;
+}

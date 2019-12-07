@@ -28,7 +28,7 @@ public class FunctionMold extends BucketMold {
 
 	@Override
 	public Optional<Node> set(Assembler assembler) {
-		if (manager.allPresent(0, 2, 3, 4, 5, 6)) {
+		if (manager.allPresent(0, 2, 3, 4, 6)) {
 			Stream<Stream<Token<?>>> parameters = manager.split(1, token -> token.type().equals(CONTENT) &&
 					token.value().equals(","));
 			Map<Object, Object> parameterMap =
