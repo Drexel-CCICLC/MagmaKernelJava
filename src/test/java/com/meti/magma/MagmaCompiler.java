@@ -15,8 +15,8 @@ import com.meti.lex.Token;
 import java.util.List;
 import java.util.stream.Stream;
 
-class MagmaTest {
-    String compile(String value) {
+class MagmaCompiler {
+    static String compile(String value) {
         Lexer lexer = new MagmaLexer();
         Assembler assembler = new MagmaAssembler();
         Interpreter interpreter = new MagmaInterpreter();

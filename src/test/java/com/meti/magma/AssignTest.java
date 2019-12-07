@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class AssignTest extends MagmaTest {
+class AssignTest extends MagmaCompiler {
     @Test
     void assign() {
         String content = "val x = 10;x = 20";

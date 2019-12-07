@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class WhileTest extends MagmaTest {
+public class WhileTest extends MagmaCompiler {
 	@Test
 	void whileTest() {
 		String content = """

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class DeclareTest extends MagmaTest {
+class DeclareTest extends MagmaCompiler {
     @Test
     void immutable() {
         assertEquals("var a0=10;", compile("val x = 10;"));

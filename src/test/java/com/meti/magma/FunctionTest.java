@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class FunctionTest extends MagmaTest {
+class FunctionTest extends MagmaCompiler {
 	@Test
 	void empty() {
 		String content = """

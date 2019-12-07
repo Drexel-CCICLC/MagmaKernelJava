@@ -1,11 +1,10 @@
 package com.meti.magma;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class VariableTest extends MagmaTest {
+class VariableTest extends MagmaCompiler {
 	@Test
 	void variables() {
 		String content = "val test0 = 10; val test1 = test0;";
