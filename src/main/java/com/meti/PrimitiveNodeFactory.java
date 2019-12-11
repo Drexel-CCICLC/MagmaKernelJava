@@ -8,8 +8,12 @@ public class PrimitiveNodeFactory implements NodeFactory {
 		return Optional.of(new PrimitiveNode(PrimitiveStruct.INT, Integer.parseInt(value)));
 	}
 
-	private static class PrimitiveNode extends Node {
-		public PrimitiveNode(PrimitiveStruct struct, int value) {
+	public enum PrimitiveStruct implements Struct {
+		INT
+	}
+
+	public static class PrimitiveNode extends AbstractNode {
+		public PrimitiveNode(Struct struct, int value) {
 			super(struct, value);
 		}
 
