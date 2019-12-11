@@ -1,11 +1,15 @@
 package com.meti;
 
-public class Node {
-	private final NodeStruct struct;
-	private final NodeType type;
+public abstract class Node {
+	protected final Object value;
+	private final Struct struct;
 
-	public Node(NodeStruct struct, NodeType type) {
+	public Node(Struct struct, Object value) {
 		this.struct = struct;
-		this.type = type;
+		this.value = value;
 	}
+
+	public abstract String compile();
+
+	public abstract Node transform();
 }

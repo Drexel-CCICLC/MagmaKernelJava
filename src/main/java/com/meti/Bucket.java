@@ -1,15 +1,13 @@
 package com.meti;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Predicate;
 
 public class Bucket {
-	private final List<Character> content = new ArrayList<>();
+	private final StringBuilder builder = new StringBuilder();
 	private Predicate<Character> predicate = character -> true;
 
-	public List<Character> content() {
-		return content;
+	public String content() {
+		return builder.toString();
 	}
 
 	public Bucket excludeWhitespace() {
@@ -31,11 +29,11 @@ public class Bucket {
 	}
 
 	private void pour(char value) {
-		if (predicate.test(value)) content.add(value);
+		if (predicate.test(value)) builder.append(value);
 	}
 
 	public Bucket truncate(int count) {
-		predicate = predicate.and(character -> content.size() < count);
+		predicate = predicate.and(character -> builder.length() < count);
 		return this;
 	}
 }
