@@ -13,19 +13,18 @@ public interface Bucket {
 
 	Bucket excludeWhitespace();
 
+	Bucket include(char c);
+
 	Bucket pour(String value);
 
 	boolean pour(char value);
 
 	Bucket restrict(int count);
 
-	final class
-	BucketImpl implements Bucket {
+	final class BucketImpl implements Bucket {
 		private final StringBuilder builder = new StringBuilder();
+		private boolean isAlwaysTrue = true;
 		private Predicate<Character> predicate = character -> true;
-
-		private BucketImpl() {
-		}
 
 		@Override
 		public String collect() {
@@ -43,6 +42,14 @@ public interface Bucket {
 			return exclude(' ')
 					.exclude('\t')
 					.exclude('\n');
+		}
+
+		@Override
+		public Bucket include(char c) {
+			Predicate<Character> isChar = character -> character == c;
+			predicate = isAlwaysTrue ? isChar : predicate.or(isChar);
+			if(isAlwaysTrue) isAlwaysTrue = false;
+			return this;
 		}
 
 		@Override

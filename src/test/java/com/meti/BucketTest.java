@@ -18,6 +18,16 @@ class BucketTest {
 	}
 
 	@Test
+	void include() {
+		String actual = Bucket.build()
+				.include('e')
+				.include('s')
+				.pour("test")
+				.collect();
+		assertEquals("es", actual);
+	}
+
+	@Test
 	void exclude() {
 		String actual = Bucket.build()
 				.exclude('s')
