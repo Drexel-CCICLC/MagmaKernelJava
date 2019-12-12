@@ -15,6 +15,8 @@ public interface Bucket {
 
 	Bucket pour(String value);
 
+	boolean pour(char value);
+
 	Bucket restrict(int count);
 
 	final class
@@ -51,8 +53,14 @@ public interface Bucket {
 			return this;
 		}
 
-		private void pour(char value) {
-			if (predicate.test(value)) builder.append(value);
+		@Override
+		public boolean pour(char value) {
+			if (predicate.test(value)) {
+				builder.append(value);
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		@Override
