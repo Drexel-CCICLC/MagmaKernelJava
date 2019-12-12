@@ -9,7 +9,7 @@ public class PrimitiveNodeFactory implements NodeFactory {
 	}
 
 	public enum PrimitiveStruct implements Struct {
-		INT
+		CHAR, INT
 	}
 
 	public static class PrimitiveNode extends AbstractNode {
