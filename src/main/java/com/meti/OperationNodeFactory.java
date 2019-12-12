@@ -34,8 +34,8 @@ public class OperationNodeFactory implements NodeFactory {
 		}
 
 		@Override
-		public String compile() {
-			return value0.compile() + value + value1.compile();
+		public String compile(Aliaser aliaser) {
+			return value0.compile(new IncrementAliaser()) + value + value1.compile(new IncrementAliaser());
 		}
 
 		@Override

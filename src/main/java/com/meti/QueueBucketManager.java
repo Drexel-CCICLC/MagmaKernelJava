@@ -2,12 +2,16 @@ package com.meti;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
-import java.util.Stack;
 
 public class QueueBucketManager implements BucketManager {
 	private final Queue<Bucket> input;
 	private final Queue<Bucket> output;
+
+	public QueueBucketManager(Bucket... buckets) {
+		this(List.of(buckets));
+	}
 
 	public QueueBucketManager(Collection<Bucket> input) {
 		this.input = new LinkedList<>(input);

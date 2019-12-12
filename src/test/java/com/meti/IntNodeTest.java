@@ -15,7 +15,7 @@ class IntNodeTest {
 	void compile() {
 		Node node = factory.parse("10", null)
 				.orElseThrow();
-		assertEquals("10", node.compile());
+		assertEquals("10", node.compile(new IncrementAliaser()));
 	}
 
 	@Test

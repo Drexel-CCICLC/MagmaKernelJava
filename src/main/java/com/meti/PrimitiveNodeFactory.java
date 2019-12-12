@@ -18,7 +18,7 @@ public class PrimitiveNodeFactory implements NodeFactory {
 		}
 
 		@Override
-		public String compile() {
+		public String compile(Aliaser aliaser) {
 			return this.value.toString();
 		}
 
