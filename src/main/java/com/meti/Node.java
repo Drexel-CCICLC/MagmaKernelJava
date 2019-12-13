@@ -5,7 +5,5 @@ public interface Node {
 
 	Struct struct();
 
-	Object value();
-
 	Node transform();
 }

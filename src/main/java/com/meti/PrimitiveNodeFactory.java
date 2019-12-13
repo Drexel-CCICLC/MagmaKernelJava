@@ -9,17 +9,32 @@ public class PrimitiveNodeFactory implements NodeFactory {
 	}
 
 	public enum PrimitiveStruct implements Struct {
-		CHAR, INT
+		CHAR,
+		INT,
+		ANY;
+
+		@Override
+		public boolean isInstance(Struct other) {
+			return this == other;
+		}
+
+		@Override
+		public Optional<Struct> parent() {
+			return Optional.empty();
+		}
 	}
 
 	public static class PrimitiveNode extends AbstractNode {
+		private final int value;
+
 		public PrimitiveNode(Struct struct, int value) {
-			super(struct, value);
+			super(struct);
+			this.value = value;
 		}
 
 		@Override
 		public String compile(Aliaser aliaser) {
-			return this.value.toString();
+			return String.valueOf(value);
 		}
 
 		@Override

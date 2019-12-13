@@ -24,11 +24,13 @@ public class OperationNodeFactory implements NodeFactory {
 	}
 
 	private static class OperationNode extends AbstractNode {
+		private final char value;
 		private final Node value0;
 		private final Node value1;
 
-		protected OperationNode(Struct struct, Object value, Node value0, Node value1) {
-			super(struct, value);
+		protected OperationNode(Struct struct, char value, Node value0, Node value1) {
+			super(struct);
+			this.value = value;
 			this.value0 = value0;
 			this.value1 = value1;
 		}

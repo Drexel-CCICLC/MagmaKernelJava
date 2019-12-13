@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static com.meti.PrimitiveNodeFactory.PrimitiveStruct.INT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -23,8 +22,7 @@ class IntNodeTest {
 		Optional<Node> optional = factory.parse("10", null);
 		assertTrue(optional.isPresent());
 		Node node = optional.get();
-		assertEquals(INT, node.struct());
-		assertEquals(10, node.value());
+		assertEquals("10", node.compile(new IncrementAliaser()));
 	}
 
 	@Test
