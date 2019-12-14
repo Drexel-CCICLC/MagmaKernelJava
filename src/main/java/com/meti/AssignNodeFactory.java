@@ -15,6 +15,7 @@ public class AssignNodeFactory implements NodeFactory {
 				Bucket.build().exclude('='),
 				Bucket.build().include('=').restrict(1),
 				Bucket.build()).pour(value);
+		if (!manager.isValid()) return Optional.empty();
 		String name = manager.next();
 		String equals = manager.next();
 		String content = manager.next();

@@ -13,6 +13,11 @@ public class QueueBucketManager implements BucketManager {
 		this(List.of(buckets));
 	}
 
+	@Override
+	public boolean isValid() {
+		return input.isEmpty();
+	}
+
 	public QueueBucketManager(Collection<Bucket> input) {
 		this.input = new LinkedList<>(input);
 		this.output = new LinkedList<>();

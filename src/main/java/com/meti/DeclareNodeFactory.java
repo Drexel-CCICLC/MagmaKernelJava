@@ -18,6 +18,7 @@ public class DeclareNodeFactory implements NodeFactory {
 				Bucket.build().exclude('='),
 				Bucket.build().include('=').restrict(1),
 				Bucket.build()).pour(value);
+		if (!manager.isValid()) return Optional.empty();
 		String keywordString = manager.next();
 		String equals = manager.next();
 		String content = manager.next();
@@ -34,6 +35,11 @@ public class DeclareNodeFactory implements NodeFactory {
 		if (!equals.equals("=")) {
 			return Optional.empty();
 		}
+
+		if (!keywords.contains(Keyword.VAL) && !keywords.contains(Keyword.VAR)) {
+			return Optional.empty();
+		}
+
 		keywords.remove(Keyword.VAL);
 		keywords.remove(Keyword.VAR);
 

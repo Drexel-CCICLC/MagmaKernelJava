@@ -23,6 +23,16 @@ public class PrimitiveNodeFactory implements NodeFactory {
 		}
 
 		@Override
+		public Struct merge(Struct root) {
+			if (isInstance(root)) {
+				return root;
+			}
+			return root.parent()
+					.map(this::merge)
+					.orElse(ANY);
+		}
+
+		@Override
 		public Optional<Struct> parent() {
 			return Optional.empty();
 		}

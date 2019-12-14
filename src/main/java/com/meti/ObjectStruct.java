@@ -2,6 +2,8 @@ package com.meti;
 
 import java.util.Optional;
 
+import static com.meti.PrimitiveNodeFactory.PrimitiveStruct.ANY;
+
 public class ObjectStruct implements Struct {
 	protected final Struct parent;
 	private final String name;
@@ -13,6 +15,16 @@ public class ObjectStruct implements Struct {
 	public ObjectStruct(String name, Struct parent) {
 		this.parent = parent;
 		this.name = name;
+	}
+
+	@Override
+	public Struct merge(Struct root) {
+		if (isInstance(root)) {
+			return root;
+		}
+		return root.parent()
+				.map(this::merge)
+				.orElse(ANY);
 	}
 
 	@Override
