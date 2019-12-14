@@ -26,12 +26,9 @@ public class ArrayNodeFactory implements NodeFactory {
 		return Optional.empty();
 	}
 
-	private static final class ArrayNode extends AbstractNode {
-		private final List<Node> children;
-
+	private static final class ArrayNode extends AbstractParentNode {
 		public ArrayNode(Struct struct, List<Node> children) {
-			super(struct);
-			this.children = children;
+			super(struct, children);
 		}
 
 		@Override

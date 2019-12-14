@@ -1,16 +1,17 @@
 package com.meti;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public class FactoryParser implements Parser {
-	private final Set<NodeFactory> nodeFactories;
+	private final List<NodeFactory> nodeFactories;
 
 	public FactoryParser(NodeFactory... nodeFactories) {
-		this(Set.of(nodeFactories));
+		this(List.of(nodeFactories));
 	}
 
-	public FactoryParser(Set<NodeFactory> nodeFactories) {
+	public FactoryParser(List<NodeFactory> nodeFactories) {
 		this.nodeFactories = nodeFactories;
 	}
 

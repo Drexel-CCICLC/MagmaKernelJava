@@ -8,7 +8,7 @@ class DeclareNodeFactoryTest {
 
 	@Test
 	void parse() {
-		var root = new DeclareNodeFactory()
+		var root = new DeclareNodeFactory(new ListNodeTree())
 				.parse("val x=10", new FactoryParser(new PrimitiveNodeFactory()))
 				.orElseThrow();
 		String actual = root.compile(new IncrementAliaser());

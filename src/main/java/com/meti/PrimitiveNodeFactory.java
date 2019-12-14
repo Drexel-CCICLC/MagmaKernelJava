@@ -5,7 +5,11 @@ import java.util.Optional;
 public class PrimitiveNodeFactory implements NodeFactory {
 	@Override
 	public Optional<Node> parse(String value, Parser parser) {
-		return Optional.of(new PrimitiveNode(PrimitiveStruct.INT, Integer.parseInt(value)));
+		try {
+			return Optional.of(new PrimitiveNode(PrimitiveStruct.INT, Integer.parseInt(value)));
+		} catch (NumberFormatException e) {
+			return Optional.empty();
+		}
 	}
 
 	public enum PrimitiveStruct implements Struct {

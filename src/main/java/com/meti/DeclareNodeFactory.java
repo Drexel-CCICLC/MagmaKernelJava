@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class DeclareNodeFactory implements NodeFactory {
+	private final NodeTree tree;
+
+	public DeclareNodeFactory(NodeTree tree) {
+		this.tree = tree;
+	}
+
 	@Override
 	public Optional<Node> parse(String value, Parser parser) {
 		BucketManager manager = new QueueBucketManager(
@@ -30,11 +36,18 @@ public class DeclareNodeFactory implements NodeFactory {
 		}
 		keywords.remove(Keyword.VAL);
 		keywords.remove(Keyword.VAR);
-		return Optional.of(new DeclareNode(parser.parse(content), keywords.contains(Keyword.VAR),
-				s1.get(s1.size() - 1), keywords));
+
+		var name = s1.get(s1.size() - 1);
+		if (tree.locateDeclaration(name).isPresent()) {
+			throw new IllegalStateException(name + " is already declared.");
+		}
+		Node node = new DeclareNode(parser.parse(content), keywords.contains(Keyword.VAR),
+				name, keywords);
+		tree.append(node);
+		return Optional.of(node);
 	}
 
-	private static class DeclareNode extends InheritedNode implements MutableNode {
+	private static class DeclareNode extends AbstractInheritedNode implements MutableNode, NamedNode {
 		private final Collection<Keyword> keywords;
 		private final boolean mutable;
 		private final String name;
@@ -49,7 +62,7 @@ public class DeclareNodeFactory implements NodeFactory {
 		@Override
 		public String compile(Aliaser aliaser) {
 			return keywords.contains(Keyword.NATIVE) ? "" :
-					"var " + aliaser.alias(name) + "=" + node.compile(aliaser) + ";";
+					"var " + aliaser.alias(name) + "=" + value.compile(aliaser) + ";";
 		}
 
 		@Override
@@ -60,6 +73,11 @@ public class DeclareNodeFactory implements NodeFactory {
 		@Override
 		public boolean isMutable() {
 			return mutable;
+		}
+
+		@Override
+		public String name() {
+			return name;
 		}
 	}
 

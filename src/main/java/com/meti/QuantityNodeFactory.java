@@ -12,14 +12,14 @@ public class QuantityNodeFactory implements NodeFactory {
 		return Optional.empty();
 	}
 
-	private static class QuantityNode extends InheritedNode {
+	private static class QuantityNode extends AbstractInheritedNode {
 		protected QuantityNode(Node node) {
 			super(node);
 		}
 
 		@Override
 		public String compile(Aliaser aliaser) {
-			return "(" + node.compile(new IncrementAliaser()) + ")";
+			return "(" + value.compile(new IncrementAliaser()) + ")";
 		}
 
 		@Override
