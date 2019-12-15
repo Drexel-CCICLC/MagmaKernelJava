@@ -25,6 +25,11 @@ public class AssignNodeFactory implements NodeFactory {
 		return Optional.of(new AssignMold(parser.parse(name), parser.parse(content)));
 	}
 
+	@Override
+	public Optional<Struct> parse(String value) {
+		return Optional.empty();
+	}
+
 	private class AssignMold extends AbstractInheritedNode {
 		private final Node name;
 

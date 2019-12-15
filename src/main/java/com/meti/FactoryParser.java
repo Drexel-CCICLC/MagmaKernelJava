@@ -2,7 +2,6 @@ package com.meti;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class FactoryParser implements Parser {
 	private final List<NodeFactory> nodeFactories;
@@ -15,14 +14,23 @@ public class FactoryParser implements Parser {
 		this.nodeFactories = nodeFactories;
 	}
 
+	@Override
+	public Node parse(String value) {
+		return nodeFactories.stream()
+				.map(nodeFactory -> nodeFactory.parse(value, this))
+				.flatMap(Optional::stream)
+				.findAny()
+				.orElseThrow(() -> fail(value));
+	}
+
 	private IllegalStateException fail(String s) {
 		return new IllegalStateException(s);
 	}
 
 	@Override
-	public Node parse(String value) {
+	public Struct resolve(String value) {
 		return nodeFactories.stream()
-				.map(nodeFactory -> nodeFactory.parse(value, this))
+				.map(nodeFactory -> nodeFactory.parse(value))
 				.flatMap(Optional::stream)
 				.findAny()
 				.orElseThrow(() -> fail(value));

@@ -12,6 +12,11 @@ public class QuantityNodeFactory implements NodeFactory {
 		return Optional.empty();
 	}
 
+	@Override
+	public Optional<Struct> parse(String value) {
+		return Optional.empty();
+	}
+
 	private static class QuantityNode extends AbstractInheritedNode {
 		protected QuantityNode(Node node) {
 			super(node);

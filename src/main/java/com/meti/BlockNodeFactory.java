@@ -45,6 +45,11 @@ public class BlockNodeFactory implements NodeFactory {
 		return new BlockNode(null, nodes);
 	}
 
+	@Override
+	public Optional<Struct> parse(String value) {
+		return Optional.empty();
+	}
+
 	private static final class BlockNode extends AbstractParentNode {
 		public BlockNode(Struct struct, List<Node> children) {
 			super(struct, children);

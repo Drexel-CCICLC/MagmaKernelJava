@@ -12,6 +12,11 @@ public class ElseNodeFactory implements NodeFactory {
 		return Optional.empty();
 	}
 
+	@Override
+	public Optional<Struct> parse(String value) {
+		return Optional.empty();
+	}
+
 	private static final class ElseNode extends AbstractParentNode {
 		public ElseNode(Node block) {
 			this(null, List.of(block));

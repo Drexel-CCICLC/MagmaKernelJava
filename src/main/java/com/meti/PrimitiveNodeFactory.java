@@ -5,7 +5,7 @@ import java.util.Optional;
 public class PrimitiveNodeFactory implements NodeFactory {
 	@Override
 	public Optional<Node> parse(String value, Parser parser) {
-		if(value.equals("true") || value.equals("false")) {
+		if (value.equals("true") || value.equals("false")) {
 			return Optional.of(new PrimitiveNode(PrimitiveStruct.BOOL, Boolean.parseBoolean(value)));
 		}
 
@@ -14,6 +14,14 @@ public class PrimitiveNodeFactory implements NodeFactory {
 		} catch (NumberFormatException e) {
 			return Optional.empty();
 		}
+	}
+
+	@Override
+	public Optional<Struct> parse(String value) {
+		if (value.equals("int")) {
+			return Optional.of(PrimitiveStruct.INT);
+		}
+		return Optional.empty();
 	}
 
 	public enum PrimitiveStruct implements Struct {

@@ -23,6 +23,11 @@ public class OperationNodeFactory implements NodeFactory {
 		return Optional.empty();
 	}
 
+	@Override
+	public Optional<Struct> parse(String value) {
+		return Optional.empty();
+	}
+
 	private static class OperationNode extends AbstractNode {
 		private final char value;
 		private final Node value0;

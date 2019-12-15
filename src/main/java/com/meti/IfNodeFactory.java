@@ -30,6 +30,11 @@ public class IfNodeFactory implements NodeFactory {
 		return Optional.empty();
 	}
 
+	@Override
+	public Optional<Struct> parse(String value) {
+		return Optional.empty();
+	}
+
 	private static final class IfNode extends AbstractParentNode {
 		public IfNode(Node condition, Node ifBlock) {
 			this(null, List.of(condition, ifBlock));

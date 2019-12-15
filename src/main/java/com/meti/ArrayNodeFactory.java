@@ -26,6 +26,11 @@ public class ArrayNodeFactory implements NodeFactory {
 		return Optional.empty();
 	}
 
+	@Override
+	public Optional<Struct> parse(String value) {
+		return Optional.empty();
+	}
+
 	private static final class ArrayNode extends AbstractParentNode {
 		public ArrayNode(Struct struct, List<Node> children) {
 			super(struct, children);

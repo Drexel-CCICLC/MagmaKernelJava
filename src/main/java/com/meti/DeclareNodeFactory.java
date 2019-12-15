@@ -53,6 +53,11 @@ public class DeclareNodeFactory implements NodeFactory {
 		return Optional.of(node);
 	}
 
+	@Override
+	public Optional<Struct> parse(String value) {
+		return Optional.empty();
+	}
+
 	private static class DeclareNode extends AbstractInheritedNode implements MutableNode, NamedNode {
 		private final Collection<Keyword> keywords;
 		private final boolean mutable;

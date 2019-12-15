@@ -16,6 +16,11 @@ public class VariableNodeFactory implements NodeFactory {
 		return Optional.of(new VariableNode(declaration.struct(), value));
 	}
 
+	@Override
+	public Optional<Struct> parse(String value) {
+		return Optional.empty();
+	}
+
 	private static final class VariableNode extends AbstractNode implements NamedNode {
 		private final String name;
 

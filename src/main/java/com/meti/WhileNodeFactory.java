@@ -30,6 +30,11 @@ public class WhileNodeFactory implements NodeFactory {
 		return Optional.empty();
 	}
 
+	@Override
+	public Optional<Struct> parse(String value) {
+		return Optional.empty();
+	}
+
 	private static final class WhileNode extends AbstractParentNode {
 		public WhileNode(Node condition, Node block) {
 			this(null, List.of(condition, block));
