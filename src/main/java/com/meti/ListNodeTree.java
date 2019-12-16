@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ListNodeTree implements NodeTree {
 	private final List<Node> nodes;
@@ -24,6 +25,13 @@ public class ListNodeTree implements NodeTree {
 	@Override
 	public void appendAll(List<Node> nodes) {
 		this.nodes.addAll(nodes);
+	}
+
+	@Override
+	public String compile(Aliaser aliaser) {
+		return nodes.stream()
+				.map(node -> node.compile(aliaser))
+				.collect(Collectors.joining());
 	}
 
 	@Override
@@ -92,6 +100,11 @@ public class ListNodeTree implements NodeTree {
 	@Override
 	public void removeAll(List<Node> nodes) {
 		this.nodes.removeAll(nodes);
+	}
+
+	@Override
+	public void transform() {
+		nodes.forEach(Node::transform);
 	}
 
 	private Optional<Node> find(String name, List<Node> list) {

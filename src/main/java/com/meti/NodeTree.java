@@ -9,6 +9,8 @@ public interface NodeTree {
 
 	void appendAll(List<Node> nodes);
 
+	String compile(Aliaser aliaser);
+
 	Optional<Node> locate(Predicate<Node> predicate);
 
 	Optional<Node> locate(List<Node> nodes, Predicate<Node> filter);
@@ -18,4 +20,7 @@ public interface NodeTree {
 	Optional<Node> locateDeclaration(String... name);
 
 	void removeAll(List<Node> nodes);
+
+	void transform();
+
 }
