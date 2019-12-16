@@ -2,9 +2,17 @@ package com.meti;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DeclareNodeFactoryTest {
+
+	@Test
+	void noFunction() {
+		var root = new DeclareNodeFactory(new ListNodeTree())
+				.parse("(x int)=>int:{return x;}", new FactoryParser(new PrimitiveNodeFactory()));
+		assertTrue(root.isEmpty());
+	}
 
 	@Test
 	void parse() {

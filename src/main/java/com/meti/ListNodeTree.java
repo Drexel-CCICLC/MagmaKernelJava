@@ -22,6 +22,11 @@ public class ListNodeTree implements NodeTree {
 	}
 
 	@Override
+	public void appendAll(List<Node> nodes) {
+		this.nodes.addAll(nodes);
+	}
+
+	@Override
 	public Optional<Node> locate(Predicate<Node> predicate) {
 		return locate(nodes, predicate);
 	}
@@ -82,6 +87,11 @@ public class ListNodeTree implements NodeTree {
 			}
 		}
 		return current;
+	}
+
+	@Override
+	public void removeAll(List<Node> nodes) {
+		this.nodes.removeAll(nodes);
 	}
 
 	private Optional<Node> find(String name, List<Node> list) {

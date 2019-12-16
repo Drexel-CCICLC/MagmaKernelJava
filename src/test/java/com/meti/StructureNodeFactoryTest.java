@@ -8,7 +8,7 @@ class StructureNodeFactoryTest {
 
 	@Test
 	void parse() {
-		var result = new StructureNodeFactory()
+		var result = new StructureNodeFactory(new ListNodeTree())
 				.parse("(x int,y int)=>int:{}", new FactoryParser(
 						new BlockNodeFactory(),
 						new PrimitiveNodeFactory()

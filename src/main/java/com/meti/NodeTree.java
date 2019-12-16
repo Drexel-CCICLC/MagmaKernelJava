@@ -7,6 +7,8 @@ import java.util.function.Predicate;
 public interface NodeTree {
 	void append(Node node);
 
+	void appendAll(List<Node> nodes);
+
 	Optional<Node> locate(Predicate<Node> predicate);
 
 	Optional<Node> locate(List<Node> nodes, Predicate<Node> filter);
@@ -14,4 +16,6 @@ public interface NodeTree {
 	MutableNode locateDeclaration(Node name);
 
 	Optional<Node> locateDeclaration(String... name);
+
+	void removeAll(List<Node> nodes);
 }

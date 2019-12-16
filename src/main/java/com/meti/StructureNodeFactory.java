@@ -1,15 +1,19 @@
 package com.meti;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.meti.Bucket.build;
 
 public class StructureNodeFactory implements NodeFactory {
+	private final NodeTree tree;
+
+	public StructureNodeFactory(NodeTree tree) {
+		this.tree = tree;
+	}
+
 	@Override
 	public Optional<Node> parse(String value, Parser parser) {
 		//(value string)=>int:{}
@@ -23,6 +27,7 @@ public class StructureNodeFactory implements NodeFactory {
 				build()
 		).pour(value);
 		var hasOpen = manager.next().equals("(");
+		if (!hasOpen) return Optional.empty();
 		var paramString = manager.next();
 		var hasClosed = manager.next().equals(")");
 		var hasReturn = manager.next().equals("=>");
@@ -40,7 +45,13 @@ public class StructureNodeFactory implements NodeFactory {
 			var struct = new FunctionStruct(args.values(), returnType);
 			Node impl = null;
 			if (hasImpl) {
+				var params = args.keySet()
+						.stream()
+						.map((Function<String, Node>) s -> new DeclareNode(args.get(s), s))
+						.collect(Collectors.toList());
+				tree.appendAll(params);
 				impl = parser.parse(implString);
+				tree.removeAll(params);
 			}
 			return Optional.of(new FunctionNode(struct, args, impl));
 		}

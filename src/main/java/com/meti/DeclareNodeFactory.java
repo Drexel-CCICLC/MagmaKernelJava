@@ -1,9 +1,6 @@
 package com.meti;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class DeclareNodeFactory implements NodeFactory {
 	private final NodeTree tree;
@@ -22,6 +19,9 @@ public class DeclareNodeFactory implements NodeFactory {
 		String keywordString = manager.next();
 		String equals = manager.next();
 		String content = manager.next();
+		if (content.startsWith(">")) {
+			return Optional.empty();
+		}
 		List<String> s1 = List.of(keywordString.split(" "));
 		List<String> withoutName = s1.subList(0, s1.size() - 1);
 		Collection<Keyword> keywords = new ArrayList<>();
@@ -56,40 +56,6 @@ public class DeclareNodeFactory implements NodeFactory {
 	@Override
 	public Optional<Struct> parse(String value) {
 		return Optional.empty();
-	}
-
-	private static class DeclareNode extends AbstractInheritedNode implements MutableNode, NamedNode {
-		private final Collection<Keyword> keywords;
-		private final boolean mutable;
-		private final String name;
-
-		public DeclareNode(Node node, boolean mutable, String name, Collection<Keyword> keywords) {
-			super(node);
-			this.mutable = mutable;
-			this.name = name;
-			this.keywords = keywords;
-		}
-
-		@Override
-		public String compile(Aliaser aliaser) {
-			return keywords.contains(Keyword.NATIVE) ? "" :
-					"var " + aliaser.alias(name) + "=" + value.compile(aliaser) + ";";
-		}
-
-		@Override
-		public Node transform() {
-			return this;
-		}
-
-		@Override
-		public boolean isMutable() {
-			return mutable;
-		}
-
-		@Override
-		public String name() {
-			return name;
-		}
 	}
 
 }
