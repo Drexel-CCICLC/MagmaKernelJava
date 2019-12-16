@@ -1,5 +1,6 @@
 {
-	val x = 10;
-	val y = 20;
-	val z = x + y;
+	val add = (x int, y int) => int :{
+		return x + y;
+	};
+	val z = add(3, 4);
 }

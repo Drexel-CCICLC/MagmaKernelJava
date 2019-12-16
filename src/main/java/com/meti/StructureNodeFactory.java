@@ -25,7 +25,7 @@ public class StructureNodeFactory implements NodeFactory {
 				build().exclude(':'),
 				build().include(':'),
 				build()
-		).pour(value);
+		).pour(value.trim());
 		var hasOpen = manager.next().equals("(");
 		if (!hasOpen) return Optional.empty();
 		var paramString = manager.next();
@@ -36,7 +36,7 @@ public class StructureNodeFactory implements NodeFactory {
 		var implString = manager.next();
 		if (hasOpen || hasClosed) {
 			var args = Arrays.stream(paramString.split(","))
-					.map(string -> string.split(" "))
+					.map(string -> string.trim().split(" "))
 					.collect(Collectors.toMap(strings -> strings[0], strings -> parser.resolve(strings[1])));
 			Struct returnType = null;
 			if (hasReturn) {

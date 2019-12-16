@@ -1,8 +1,10 @@
 package com.meti;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -21,7 +23,7 @@ public class InvocationNodeFactory implements NodeFactory {
 				build().exclude('('),
 				build().include('(').restrict(1),
 				build()
-		).pour(value);
+		).pour(value.trim());
 		if (!manager.isValid()) {
 			return Optional.empty();
 		}
@@ -30,8 +32,13 @@ public class InvocationNodeFactory implements NodeFactory {
 		var args = manager.next();
 		var hasClosed = args.endsWith(")");
 		if (hasOpen && hasClosed) {
+			if(caller.length == 0) {
+				throw new IllegalArgumentException("Caller cannot be empty for value: " + value);
+			}
 			var declaration = tree.locateDeclaration(caller)
-					.orElseThrow();
+					.orElseThrow((Supplier<IllegalStateException>) () -> {
+						throw new IllegalStateException(Arrays.toString(caller) + " is not defined.");
+					});
 			if (declaration instanceof InheritedNode) {
 				var decValue = ((InheritedNode) declaration).value();
 				var struct = decValue.struct();
@@ -43,6 +50,7 @@ public class InvocationNodeFactory implements NodeFactory {
 				for (char c : withoutParenthesis.toCharArray()) {
 					if (c == ',' && depth == 0) {
 						split.add(current.toString());
+						current = new StringBuilder();
 					} else if (c == '(') {
 						depth++;
 					} else if (c == ')') {
