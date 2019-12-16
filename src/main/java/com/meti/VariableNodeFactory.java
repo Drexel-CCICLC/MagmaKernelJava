@@ -13,37 +13,16 @@ public class VariableNodeFactory implements NodeFactory {
 	public Optional<Node> parse(String value, Parser parser, Node parent) {
 		if (value.isBlank()) return Optional.empty();
 		var trimmedValue = value.trim();
-		var declaration = tree.locateDeclaration(trimmedValue)
+		var args = trimmedValue.split("\\.");
+		var declaration = tree.locateDeclaration(args)
 				.orElseThrow(() -> new IllegalStateException(trimmedValue + " is not defined."));
-		return Optional.of(new VariableNode(declaration.struct(), trimmedValue));
+		return Optional.of(new VariableNode(declaration.struct(), args));
 	}
 
 	@Override
 	public Optional<Struct> parse(String value) {
-		return Optional.empty();
+		var declaration = tree.locateDeclaration(value.split("\\."));
+		return declaration.map(node -> new ObjectStruct(value, node));
 	}
 
-	private static final class VariableNode extends AbstractNode implements NamedNode {
-		private final String name;
-
-		protected VariableNode(Struct struct, String name) {
-			super(struct);
-			this.name = name;
-		}
-
-		@Override
-		public String compile(Aliaser aliaser) {
-			return aliaser.alias(name);
-		}
-
-		@Override
-		public Node transform() {
-			return this;
-		}
-
-		@Override
-		public String name() {
-			return name;
-		}
-	}
 }

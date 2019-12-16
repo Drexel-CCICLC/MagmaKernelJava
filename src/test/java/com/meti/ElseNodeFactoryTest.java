@@ -11,7 +11,7 @@ class ElseNodeFactoryTest {
 		var result = new ElseNodeFactory()
 				.parse("else{}", new FactoryParser(new BlockNodeFactory()), null)
 				.orElseThrow()
-				.compile(new IncrementAliaser());
+				.compile(new IncrementAliaser(),  new ListNodeTree());
 		assertEquals("else{}", result);
 	}
 }

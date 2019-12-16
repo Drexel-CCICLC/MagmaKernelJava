@@ -15,7 +15,7 @@ class AssignNodeTest {
 		var node = new AssignNodeFactory(tree)
 				.parse("x=20", parser, null)
 				.orElseThrow();
-		var result = node.compile(new IncrementAliaser());
+		var result = node.compile(new IncrementAliaser(), tree);
 		assertEquals("a0=20;", result);
 	}
 }

@@ -23,8 +23,8 @@ public class QuantityNodeFactory implements NodeFactory {
 		}
 
 		@Override
-		public String compile(Aliaser aliaser) {
-			return "(" + value.compile(new IncrementAliaser()) + ")";
+		public String compile(Aliaser aliaser, NodeTree tree) {
+			return "(" + value.compile(new IncrementAliaser(), tree) + ")";
 		}
 
 		@Override

@@ -18,19 +18,4 @@ public class ReturnNodeFactory implements NodeFactory {
 		return Optional.empty();
 	}
 
-	private static final class ReturnNode extends AbstractInheritedNode {
-		public ReturnNode(Node value) {
-			super(value);
-		}
-
-		@Override
-		public String compile(Aliaser aliaser) {
-			return "return " + value.compile(aliaser) + ";";
-		}
-
-		@Override
-		public Node transform() {
-			return this;
-		}
-	}
 }

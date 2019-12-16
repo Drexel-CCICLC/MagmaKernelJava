@@ -11,7 +11,7 @@ class OperationNodeTest {
 		var node = new OperationNodeFactory()
 				.parse("10+20", new FactoryParser(new PrimitiveNodeFactory()), null)
 				.orElseThrow();
-		var actual = node.compile(new IncrementAliaser());
+		var actual = node.compile(new IncrementAliaser(),  new ListNodeTree());
 		assertEquals("10+20", actual);
 	}
 
@@ -25,7 +25,7 @@ class OperationNodeTest {
 				new PrimitiveNodeFactory(),
 				new VariableNodeFactory(tree));
 		var node = parser.parse("{val x=10;val y=20;val z=x+y;}");
-		var actual = node.compile(new IncrementAliaser());
+		var actual = node.compile(new IncrementAliaser(), tree);
 		assertEquals("{var a0=10;var b1=20;var c2=a0+b1;}", actual);
 	}
 }

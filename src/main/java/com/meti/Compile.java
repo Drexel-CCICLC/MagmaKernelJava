@@ -85,6 +85,7 @@ public class Compile {
 					}
 				}
 				divisions.add(current.toString());
+				divisions.removeIf(String::isBlank);
 				divisions.forEach(parser::parse);
 			}
 		} catch (IOException e) {

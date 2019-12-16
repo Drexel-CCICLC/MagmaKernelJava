@@ -19,7 +19,7 @@ class DeclareNodeFactoryTest {
 		var root = new DeclareNodeFactory(new ListNodeTree())
 				.parse("val x=10", new FactoryParser(new PrimitiveNodeFactory()), null)
 				.orElseThrow();
-		String actual = root.compile(new IncrementAliaser());
+		String actual = root.compile(new IncrementAliaser(),  new ListNodeTree());
 		assertEquals("var a0=10;", actual);
 	}
 }

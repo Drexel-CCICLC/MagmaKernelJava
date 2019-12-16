@@ -10,4 +10,6 @@ public interface Struct {
 	String name();
 
 	Optional<Struct> parent();
+
+	Optional<Node> parentNode();
 }

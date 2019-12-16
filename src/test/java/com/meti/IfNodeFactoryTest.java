@@ -15,6 +15,6 @@ class IfNodeFactoryTest {
 						new DeclareNodeFactory(tree),
 						new PrimitiveNodeFactory()
 				), null);
-		assertEquals("if(true){var a0=10;}", node.orElseThrow().compile(new IncrementAliaser()));
+		assertEquals("if(true){var a0=10;}", node.orElseThrow().compile(new IncrementAliaser(), tree));
 	}
 }

@@ -16,7 +16,7 @@ class ParserTest {
 	void parse() {
 		Parser parser = new FactoryParser(new PrimitiveNodeFactory());
 		String actual = parser.parse("10")
-				.compile(new IncrementAliaser());
+				.compile(new IncrementAliaser(),  new ListNodeTree());
 		assertEquals("10", actual);
 	}
 }

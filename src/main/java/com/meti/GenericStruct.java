@@ -1,6 +1,7 @@
 package com.meti;
 
 import java.util.Map;
+import java.util.Optional;
 
 import static com.meti.PrimitiveNodeFactory.PrimitiveStruct.ANY;
 
@@ -15,5 +16,10 @@ public interface GenericStruct extends Struct {
 		return root.parent()
 				.map(this::merge)
 				.orElse(ANY);
+	}
+
+	@Override
+	default Optional<Node> parentNode() {
+		return Optional.empty();
 	}
 }

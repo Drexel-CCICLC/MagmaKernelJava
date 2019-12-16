@@ -5,16 +5,17 @@ import java.util.Optional;
 import static com.meti.PrimitiveNodeFactory.PrimitiveStruct.ANY;
 
 public class ObjectStruct implements Struct {
-	protected final Struct parent;
+	protected final Node parent;
 	private final String name;
 
-	public ObjectStruct(String name) {
-		this(name, null);
+	public ObjectStruct(String name, Node node) {
+		this.name = name;
+		this.parent = node;
 	}
 
-	public ObjectStruct(String name, Struct parent) {
-		this.parent = parent;
-		this.name = name;
+	@Override
+	public boolean isInstance(Struct other) {
+		return this == other || (parent != null && parent.struct().isInstance(other));
 	}
 
 	@Override
@@ -33,12 +34,12 @@ public class ObjectStruct implements Struct {
 	}
 
 	@Override
-	public boolean isInstance(Struct other) {
-		return this == other || (parent != null && parent.isInstance(other));
+	public Optional<Struct> parent() {
+		return Optional.ofNullable(parent.struct());
 	}
 
 	@Override
-	public Optional<Struct> parent() {
-		return Optional.ofNullable(parent);
+	public Optional<Node> parentNode() {
+		return Optional.of(parent);
 	}
 }

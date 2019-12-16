@@ -1,8 +1,6 @@
 package com.meti;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -23,7 +21,6 @@ public class StructureNodeFactory implements NodeFactory {
 				build().include('(').restrict(1),
 				build().exclude(')'),
 				build().include(')').restrict(1),
-				build().restrict(2),
 				build().exclude(':'),
 				build().include(':'),
 				build()
@@ -32,8 +29,7 @@ public class StructureNodeFactory implements NodeFactory {
 		if (!hasOpen) return Optional.empty();
 		var paramString = manager.next();
 		var hasClosed = manager.next().equals(")");
-		var hasReturn = manager.next().equals("=>");
-		var returnString = manager.next();
+		var returnString = manager.next().trim();
 		var hasImpl = manager.next().equals(":");
 		var implString = manager.next();
 		if (hasOpen || hasClosed) {
@@ -42,8 +38,8 @@ public class StructureNodeFactory implements NodeFactory {
 					.map(string -> string.trim().split(" "))
 					.collect(Collectors.toMap(strings -> strings[0], strings -> parser.resolve(strings[1])));
 			Struct returnType = null;
-			if (hasReturn) {
-				returnType = parser.resolve(returnString);
+			if (returnString.startsWith("=>")) {
+				returnType = parser.resolve(returnString.substring(2).trim());
 			}
 			Struct struct = new FunctionStruct(args.values(), returnType);
 			var node = new FunctionNode(struct, args);
@@ -66,76 +62,4 @@ public class StructureNodeFactory implements NodeFactory {
 		return Optional.empty();
 	}
 
-	private static final class FunctionNode extends AbstractNode {
-		private final Map<String, Struct> parameters;
-		private Node content = null;
-
-		protected FunctionNode(Struct struct, Map<String, Struct> parameters) {
-			super(struct);
-			this.parameters = parameters;
-		}
-
-		@Override
-		public String compile(Aliaser aliaser) {
-			if (content == null) {
-				throw new IllegalStateException("Function is abstract.");
-			}
-			var contentString = content.compile(aliaser);
-			if (!(content instanceof ParentNode)) {
-				contentString = "{" + contentString + "}";
-			}
-			return "function(" + parameters.keySet()
-					.stream()
-					.map(aliaser::alias)
-					.collect(Collectors.joining(",")) + ")" + contentString;
-		}
-
-		@Override
-		public Node transform() {
-			return this;
-		}
-
-		public void setContent(Node content) {
-			this.content = content;
-		}
-	}
-
-	private static final class FunctionStruct implements Struct {
-		private final Collection<Struct> parameters;
-		private final Struct returnType;
-
-		private FunctionStruct(Collection<Struct> parameters, Struct returnType) {
-			this.parameters = parameters;
-			this.returnType = returnType;
-		}
-
-		@Override
-		public boolean isInstance(Struct other) {
-			return false;
-		}
-
-		@Override
-		public Struct merge(Struct root) {
-			if (isInstance(root)) {
-				return this;
-			}
-			throw new IllegalArgumentException(root + " is not a struct.");
-		}
-
-		@Override
-		public String name() {
-			return "(" +
-					parameters.stream()
-							.map(Struct::name)
-							.collect(Collectors.joining(",")) +
-					")" +
-					"=>" +
-					(returnType == null ? "void" : returnType.name());
-		}
-
-		@Override
-		public Optional<Struct> parent() {
-			return Optional.empty();
-		}
-	}
 }

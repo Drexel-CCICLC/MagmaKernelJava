@@ -14,7 +14,7 @@ class IntNodeTest {
 	void compile() {
 		Node node = factory.parse("10", null, null)
 				.orElseThrow();
-		assertEquals("10", node.compile(new IncrementAliaser()));
+		assertEquals("10", node.compile(new IncrementAliaser(),  new ListNodeTree()));
 	}
 
 	@Test
@@ -22,7 +22,7 @@ class IntNodeTest {
 		Optional<Node> optional = factory.parse("10", null, null);
 		assertTrue(optional.isPresent());
 		Node node = optional.get();
-		assertEquals("10", node.compile(new IncrementAliaser()));
+		assertEquals("10", node.compile(new IncrementAliaser(),  new ListNodeTree()));
 	}
 
 	@Test

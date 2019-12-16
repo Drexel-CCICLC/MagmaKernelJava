@@ -11,7 +11,7 @@ class QuantityNodeTest {
 		var factory = new QuantityNodeFactory()
 				.parse("(10)", new FactoryParser(new PrimitiveNodeFactory()), null)
 				.orElseThrow();
-		var actual = factory.compile(new IncrementAliaser());
+		var actual = factory.compile(new IncrementAliaser(),  new ListNodeTree());
 		assertEquals("(10)", actual);
 	}
 }

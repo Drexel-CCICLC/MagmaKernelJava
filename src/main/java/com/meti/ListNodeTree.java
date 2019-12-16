@@ -30,7 +30,7 @@ public class ListNodeTree implements NodeTree {
 	@Override
 	public String compile(Aliaser aliaser) {
 		return nodes.stream()
-				.map(node -> node.compile(aliaser))
+				.map(node -> node.compile(aliaser, this))
 				.collect(Collectors.joining());
 	}
 
@@ -83,11 +83,11 @@ public class ListNodeTree implements NodeTree {
 				var node = current.get();
 				if (node instanceof InheritedNode) {
 					var value = ((InheritedNode) node).value();
-					if (value instanceof ParentNode) {
+					if (value instanceof ParentNode && !(value instanceof InvocationNode)) {
 						var children = ((ParentNode) value).children();
 						current = find(s, children);
 					} else {
-						return Optional.empty();
+						return parseObject(s, value);
 					}
 				} else {
 					return Optional.empty();
@@ -120,6 +120,23 @@ public class ListNodeTree implements NodeTree {
 		}
 		current = first;
 		return Optional.of(current);
+	}
+
+	private Optional<Node> parseObject(String s, Node value) {
+		var structValue = value.struct();
+		var isObject = structValue instanceof ObjectStruct;
+		var parent = value.struct().parentNode().orElseThrow();
+		if (isObject && (parent instanceof DeclareNode)) {
+			var declaration = (DeclareNode) parent;
+			FunctionNode function = (FunctionNode) declaration.value();
+			BlockNode block = (BlockNode) function.getContent();
+			return block.children().stream()
+					.filter(node1 -> node1 instanceof NamedNode)
+					.filter(node12 -> ((NamedNode) node12).name().equals(s))
+					.findAny();
+		} else {
+			return Optional.empty();
+		}
 	}
 
 	private boolean hasName(Node node, Node name) {

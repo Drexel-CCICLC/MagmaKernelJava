@@ -14,7 +14,7 @@ public class GenericStructImpl extends ObjectStruct implements GenericStruct {
 		this(name, null, structs);
 	}
 
-	public GenericStructImpl(String name, Struct parent, Map<String, Struct> structs) {
+	public GenericStructImpl(String name, Node parent, Map<String, Struct> structs) {
 		super(name, parent);
 		this.structs = structs;
 	}

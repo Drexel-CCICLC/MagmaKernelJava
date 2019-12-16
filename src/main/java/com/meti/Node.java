@@ -3,7 +3,7 @@ package com.meti;
 import java.util.Optional;
 
 public interface Node {
-	String compile(Aliaser aliaser);
+	String compile(Aliaser aliaser, NodeTree tree);
 
 	Optional<Node> getParent();
 

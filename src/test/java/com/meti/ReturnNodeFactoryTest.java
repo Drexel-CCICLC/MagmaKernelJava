@@ -11,7 +11,7 @@ class ReturnNodeFactoryTest {
 		var result = new ReturnNodeFactory()
 				.parse("return 5", new FactoryParser(new PrimitiveNodeFactory()), null)
 				.orElseThrow()
-				.compile(new IncrementAliaser());
+				.compile(new IncrementAliaser(),  new ListNodeTree());
 		assertEquals("return 5;", result);
 	}
 }

@@ -27,8 +27,8 @@ public class ElseNodeFactory implements NodeFactory {
 		}
 
 		@Override
-		public String compile(Aliaser aliaser) {
-			var block = children.get(0).compile(aliaser);
+		public String compile(Aliaser aliaser, NodeTree tree) {
+			var block = children.get(0).compile(aliaser, tree);
 			return "else" + block;
 		}
 

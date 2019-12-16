@@ -14,6 +14,6 @@ class VariableNodeFactoryTest {
 				.parse("x", null, null)
 				.orElseThrow();
 		assertEquals("x", node.name());
-		assertEquals("a0", node.compile(new IncrementAliaser()));
+		assertEquals("a0", node.compile(new IncrementAliaser(), tree));
 	}
 }

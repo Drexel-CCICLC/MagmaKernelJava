@@ -31,22 +31,4 @@ public class ArrayNodeFactory implements NodeFactory {
 		return Optional.empty();
 	}
 
-	private static final class ArrayNode extends AbstractParentNode {
-		public ArrayNode(Struct struct, List<Node> children) {
-			super(struct, children);
-		}
-
-		@Override
-		public String compile(Aliaser aliaser) {
-			String content = children.stream()
-					.map(node -> node.compile(aliaser))
-					.collect(Collectors.joining(","));
-			return "[" + content + "]";
-		}
-
-		@Override
-		public Node transform() {
-			return this;
-		}
-	}
 }

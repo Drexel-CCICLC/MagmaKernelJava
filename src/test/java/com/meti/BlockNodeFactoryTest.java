@@ -18,7 +18,7 @@ class BlockNodeFactoryTest {
 		var result = new BlockNodeFactory()
 				.parse("{val x=10;x=20;}", parser, null)
 				.orElseThrow()
-				.compile(new IncrementAliaser());
+				.compile(new IncrementAliaser(), tree);
 		assertEquals("{var a0=10;a0=20;}", result);
 	}
 }

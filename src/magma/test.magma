@@ -1,4 +1,10 @@
-val Point = (x int, y int) => int :{
+val Point = (x int, y int) => Point :{
 	val getX = () => int : return x;
 	val getY = () => int : return y;
-}
+	val distance = () => int :{
+		return x + y;
+	}
+};
+
+val a = Point(3, 4);
+val dist = a.distance();

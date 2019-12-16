@@ -19,7 +19,7 @@ class InvocationNodeFactoryTest {
 				new VariableNodeFactory(tree)
 		);
 		var result = parser.parse("{val identity=(x int)=>int:{return x;};val result=identity(10);}")
-				.compile(new IncrementAliaser());
+				.compile(new IncrementAliaser(), tree);
 		assertEquals("{var a0=function(b1){return b1;};var c2=a0(10);}", result);
 	}
 }

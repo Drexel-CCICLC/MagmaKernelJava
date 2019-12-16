@@ -15,7 +15,7 @@ class WhileNodeFactoryTest {
 						new PrimitiveNodeFactory()
 				), null)
 				.orElseThrow()
-				.compile(new IncrementAliaser());
+				.compile(new IncrementAliaser(),  new ListNodeTree());
 		assertEquals("while(true){var a0=10;}", result);
 	}
 }

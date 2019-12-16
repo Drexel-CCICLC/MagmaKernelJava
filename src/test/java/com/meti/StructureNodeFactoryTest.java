@@ -14,7 +14,7 @@ class StructureNodeFactoryTest {
 						new PrimitiveNodeFactory()
 				), null)
 				.orElseThrow()
-				.compile(new IncrementAliaser());
+				.compile(new IncrementAliaser(),  new ListNodeTree());
 		assertEquals("function(a0,b1){}", result);
 	}
 }

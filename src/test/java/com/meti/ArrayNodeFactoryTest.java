@@ -13,7 +13,7 @@ class ArrayNodeFactoryTest {
 		Node node = new ArrayNodeFactory()
 				.parse("[3,2,1]", new FactoryParser(new PrimitiveNodeFactory()), null)
 				.orElseThrow();
-		String actual = node.compile(new IncrementAliaser());
+		String actual = node.compile(new IncrementAliaser(), new ListNodeTree());
 		assertEquals("[3,2,1]", actual);
 		Struct struct = node.struct();
 		assertTrue(struct instanceof GenericStruct);

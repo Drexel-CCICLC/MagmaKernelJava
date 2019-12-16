@@ -39,8 +39,8 @@ public class AssignNodeFactory implements NodeFactory {
 		}
 
 		@Override
-		public String compile(Aliaser aliaser) {
-			return name.compile(aliaser) + "=" + value.compile(aliaser) + ";";
+		public String compile(Aliaser aliaser, NodeTree tree) {
+			return name.compile(aliaser, tree) + "=" + value.compile(aliaser, tree) + ";";
 		}
 
 		@Override

@@ -50,6 +50,11 @@ public class PrimitiveNodeFactory implements NodeFactory {
 		public Optional<Struct> parent() {
 			return Optional.empty();
 		}
+
+		@Override
+		public Optional<Node> parentNode() {
+			return Optional.empty();
+		}
 	}
 
 	public static class PrimitiveNode extends AbstractNode {
@@ -61,7 +66,7 @@ public class PrimitiveNodeFactory implements NodeFactory {
 		}
 
 		@Override
-		public String compile(Aliaser aliaser) {
+		public String compile(Aliaser aliaser, NodeTree tree) {
 			return String.valueOf(value);
 		}
 

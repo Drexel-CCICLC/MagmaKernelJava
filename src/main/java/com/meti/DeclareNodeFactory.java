@@ -1,6 +1,9 @@
 package com.meti;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 public class DeclareNodeFactory implements NodeFactory {
 	private final NodeTree tree;
@@ -47,11 +50,14 @@ public class DeclareNodeFactory implements NodeFactory {
 		if (tree.locateDeclaration(name).isPresent()) {
 			throw new IllegalStateException(name + " is already declared.");
 		}
-		Node node = new DeclareNode(parser.parse(content), keywords.contains(Keyword.VAR),
+		AbstractInheritedNode node = new DeclareNode(keywords.contains(Keyword.VAR),
 				name, keywords);
 		if (parent == null) {
 			tree.append(node);
+		} else {
+			node.setParent(parent);
 		}
+		node.setValue(parser.parse(content));
 		return Optional.of(node);
 	}
 
@@ -59,5 +65,4 @@ public class DeclareNodeFactory implements NodeFactory {
 	public Optional<Struct> parse(String value) {
 		return Optional.empty();
 	}
-
 }

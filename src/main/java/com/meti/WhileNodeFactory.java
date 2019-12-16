@@ -45,9 +45,9 @@ public class WhileNodeFactory implements NodeFactory {
 		}
 
 		@Override
-		public String compile(Aliaser aliaser) {
-			var condition = children.get(0).compile(aliaser);
-			var block = children.get(1).compile(aliaser);
+		public String compile(Aliaser aliaser, NodeTree tree) {
+			var condition = children.get(0).compile(aliaser, tree);
+			var block = children.get(1).compile(aliaser, tree);
 			return "while(" + condition + ")" + block;
 		}
 
