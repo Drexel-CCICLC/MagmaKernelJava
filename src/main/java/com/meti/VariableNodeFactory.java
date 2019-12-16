@@ -11,9 +11,10 @@ public class VariableNodeFactory implements NodeFactory {
 
 	@Override
 	public Optional<Node> parse(String value, Parser parser) {
-		var declaration = tree.locateDeclaration(value)
-				.orElseThrow(() -> new IllegalStateException(value + " is not defined."));
-		return Optional.of(new VariableNode(declaration.struct(), value));
+		var trimmedValue = value.trim();
+		var declaration = tree.locateDeclaration(trimmedValue)
+				.orElseThrow(() -> new IllegalStateException(trimmedValue + " is not defined."));
+		return Optional.of(new VariableNode(declaration.struct(), trimmedValue));
 	}
 
 	@Override

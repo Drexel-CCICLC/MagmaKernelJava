@@ -14,7 +14,7 @@ public class DeclareNodeFactory implements NodeFactory {
 		BucketManager manager = new QueueBucketManager(
 				Bucket.build().exclude('='),
 				Bucket.build().include('=').restrict(1),
-				Bucket.build()).pour(value);
+				Bucket.build()).pour(value.trim());
 		if (!manager.isValid()) return Optional.empty();
 		String keywordString = manager.next();
 		String equals = manager.next();

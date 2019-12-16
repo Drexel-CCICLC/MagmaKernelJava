@@ -17,6 +17,7 @@ public class Compile {
 			new StructureNodeFactory(tree),
 			new ReturnNodeFactory(),
 			new InvocationNodeFactory(tree),
+			new OperationNodeFactory(),
 			new PrimitiveNodeFactory(),
 			new VariableNodeFactory(tree)
 	);

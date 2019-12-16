@@ -1,1 +1,5 @@
-val x = 10
+{
+	val x = 10;
+	val y = 20;
+	val z = x + y;
+}
