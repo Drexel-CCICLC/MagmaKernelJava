@@ -12,14 +12,14 @@ class IntNodeTest {
 
 	@Test
 	void compile() {
-		Node node = factory.parse("10", null)
+		Node node = factory.parse("10", null, null)
 				.orElseThrow();
 		assertEquals("10", node.compile(new IncrementAliaser()));
 	}
 
 	@Test
 	void parse() {
-		Optional<Node> optional = factory.parse("10", null);
+		Optional<Node> optional = factory.parse("10", null, null);
 		assertTrue(optional.isPresent());
 		Node node = optional.get();
 		assertEquals("10", node.compile(new IncrementAliaser()));
@@ -27,7 +27,7 @@ class IntNodeTest {
 
 	@Test
 	void transform() {
-		Node expected = factory.parse("10", null)
+		Node expected = factory.parse("10", null, null)
 				.orElseThrow();
 		Node actual = expected.transform();
 		assertEquals(expected, actual);

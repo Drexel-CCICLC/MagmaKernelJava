@@ -2,8 +2,6 @@ package com.meti;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class IfNodeFactoryTest {
@@ -16,7 +14,7 @@ class IfNodeFactoryTest {
 						new BlockNodeFactory(),
 						new DeclareNodeFactory(tree),
 						new PrimitiveNodeFactory()
-				));
+				), null);
 		assertEquals("if(true){var a0=10;}", node.orElseThrow().compile(new IncrementAliaser()));
 	}
 }

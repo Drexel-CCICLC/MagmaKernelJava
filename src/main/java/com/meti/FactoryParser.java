@@ -16,15 +16,16 @@ public class FactoryParser implements Parser {
 
 	@Override
 	public Node parse(String value) {
+		return parse(value, null);
+	}
+
+	@Override
+	public Node parse(String value, Node parent) {
 		return nodeFactories.stream()
-				.map(nodeFactory -> nodeFactory.parse(value, this))
+				.map(nodeFactory -> nodeFactory.parse(value, this, parent))
 				.flatMap(Optional::stream)
 				.findAny()
 				.orElseThrow(() -> fail(value));
-	}
-
-	private IllegalStateException fail(String s) {
-		return new IllegalStateException(s);
 	}
 
 	@Override
@@ -34,5 +35,9 @@ public class FactoryParser implements Parser {
 				.flatMap(Optional::stream)
 				.findAny()
 				.orElseThrow(() -> fail(value));
+	}
+
+	private IllegalStateException fail(String s) {
+		return new IllegalStateException(s);
 	}
 }

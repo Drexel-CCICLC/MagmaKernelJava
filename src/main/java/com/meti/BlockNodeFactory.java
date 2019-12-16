@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class BlockNodeFactory implements NodeFactory {
 	@Override
-	public Optional<Node> parse(String value, Parser parser) {
+	public Optional<Node> parse(String value, Parser parser, Node parent) {
 		if (value.startsWith("{") && value.endsWith("}")) {
 			return Optional.of(build(value.substring(1, value.length() - 1), parser));
 		}
@@ -24,13 +24,17 @@ public class BlockNodeFactory implements NodeFactory {
 					if (depth == 0) {
 						divisions.add(current.toString());
 						current = new StringBuilder();
+					} else {
+						current.append(c);
 					}
 					break;
 				case '{':
 					depth++;
+					current.append(c);
 					break;
 				case '}':
 					depth--;
+					current.append(c);
 					break;
 				default:
 					current.append(c);
@@ -38,11 +42,13 @@ public class BlockNodeFactory implements NodeFactory {
 			}
 		}
 		divisions.add(current.toString());
-		var nodes = divisions.stream()
-				.filter(string -> !string.isEmpty())
-				.map(parser::parse)
-				.collect(Collectors.toList());
-		return new BlockNode(null, nodes);
+		List<Node> nodes = new ArrayList<>();
+		var blockNode = new BlockNode(null, nodes);
+		divisions.stream()
+				.filter(string -> !string.isBlank())
+				.map(string -> parser.parse(string, blockNode))
+				.forEach(nodes::add);
+		return blockNode;
 	}
 
 	@Override

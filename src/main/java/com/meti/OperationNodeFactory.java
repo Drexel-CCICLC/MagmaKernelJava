@@ -9,7 +9,7 @@ public class OperationNodeFactory implements NodeFactory {
 	private final Set<Character> operation = Set.of('+', '-', '*', '/');
 
 	@Override
-	public Optional<Node> parse(String value, Parser parser) {
+	public Optional<Node> parse(String value, Parser parser, Node parent) {
 		for (char c : value.toCharArray()) {
 			if (operation.contains(c)) {
 				int operationCharIndex = value.indexOf(c);

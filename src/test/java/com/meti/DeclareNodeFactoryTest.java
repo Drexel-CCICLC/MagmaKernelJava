@@ -10,14 +10,14 @@ class DeclareNodeFactoryTest {
 	@Test
 	void noFunction() {
 		var root = new DeclareNodeFactory(new ListNodeTree())
-				.parse("(x int)=>int:{return x;}", new FactoryParser(new PrimitiveNodeFactory()));
+				.parse("(x int)=>int:{return x;}", new FactoryParser(new PrimitiveNodeFactory()), null);
 		assertTrue(root.isEmpty());
 	}
 
 	@Test
 	void parse() {
 		var root = new DeclareNodeFactory(new ListNodeTree())
-				.parse("val x=10", new FactoryParser(new PrimitiveNodeFactory()))
+				.parse("val x=10", new FactoryParser(new PrimitiveNodeFactory()), null)
 				.orElseThrow();
 		String actual = root.compile(new IncrementAliaser());
 		assertEquals("var a0=10;", actual);

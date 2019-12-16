@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public class IfNodeFactory implements NodeFactory {
 	@Override
-	public Optional<Node> parse(String value, Parser parser) {
+	public Optional<Node> parse(String value, Parser parser, Node parent) {
 		if (value.startsWith("if(")) {
 			int index = -1;
 			int depth = 0;

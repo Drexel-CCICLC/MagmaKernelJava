@@ -1,6 +1,4 @@
-{
-	val add = (x int, y int) => int :{
-		return x + y;
-	};
-	val z = add(3, 4);
+val Point = (x int, y int) => int :{
+	val getX = () => int : return x;
+	val getY = () => int : return y;
 }

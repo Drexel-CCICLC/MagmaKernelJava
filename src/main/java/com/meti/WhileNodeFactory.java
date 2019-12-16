@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public class WhileNodeFactory implements NodeFactory {
 	@Override
-	public Optional<Node> parse(String value, Parser parser) {
+	public Optional<Node> parse(String value, Parser parser, Node parent) {
 		if (value.startsWith("while(")) {
 			int index = -1;
 			int depth = 0;

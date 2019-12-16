@@ -12,7 +12,7 @@ class StructureNodeFactoryTest {
 				.parse("(x int,y int)=>int:{}", new FactoryParser(
 						new BlockNodeFactory(),
 						new PrimitiveNodeFactory()
-				))
+				), null)
 				.orElseThrow()
 				.compile(new IncrementAliaser());
 		assertEquals("function(a0,b1){}", result);

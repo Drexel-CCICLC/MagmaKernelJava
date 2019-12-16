@@ -9,7 +9,7 @@ class ElseNodeFactoryTest {
 	@Test
 	void parse() {
 		var result = new ElseNodeFactory()
-				.parse("else{}", new FactoryParser(new BlockNodeFactory()))
+				.parse("else{}", new FactoryParser(new BlockNodeFactory()), null)
 				.orElseThrow()
 				.compile(new IncrementAliaser());
 		assertEquals("else{}", result);

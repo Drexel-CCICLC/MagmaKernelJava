@@ -6,7 +6,9 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Compile {
@@ -56,7 +58,34 @@ public class Compile {
 		try (BufferedReader reader = Files.newBufferedReader(child)) {
 			var content = reader.lines().collect(Collectors.joining());
 			if (!content.isBlank()) {
-				parser.parse(content);
+				List<String> divisions = new ArrayList<>();
+				StringBuilder current = new StringBuilder();
+				int depth = 0;
+				for (char c : content.toCharArray()) {
+					switch (c) {
+						case ';':
+							if (depth == 0) {
+								divisions.add(current.toString());
+								current = new StringBuilder();
+							} else {
+								current.append(c);
+							}
+							break;
+						case '{':
+							depth++;
+							current.append(c);
+							break;
+						case '}':
+							depth--;
+							current.append(c);
+							break;
+						default:
+							current.append(c);
+							break;
+					}
+				}
+				divisions.add(current.toString());
+				divisions.forEach(parser::parse);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

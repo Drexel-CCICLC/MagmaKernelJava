@@ -10,7 +10,7 @@ public class AssignNodeFactory implements NodeFactory {
 	}
 
 	@Override
-	public Optional<Node> parse(String value, Parser parser) {
+	public Optional<Node> parse(String value, Parser parser, Node parent) {
 		BucketManager manager = new QueueBucketManager(
 				Bucket.build().exclude('='),
 				Bucket.build().include('=').restrict(1),

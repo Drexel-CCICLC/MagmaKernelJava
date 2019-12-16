@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public class QuantityNodeFactory implements NodeFactory {
 	@Override
-	public Optional<Node> parse(String value, Parser parser) {
+	public Optional<Node> parse(String value, Parser parser, Node parent) {
 		if (value.startsWith("(") && value.endsWith(")")) {
 			Node node = parser.parse(value.substring(1, value.length() - 1));
 			return Optional.of(new QuantityNode(node));

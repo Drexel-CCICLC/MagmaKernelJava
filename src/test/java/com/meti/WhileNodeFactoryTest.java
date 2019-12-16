@@ -13,7 +13,7 @@ class WhileNodeFactoryTest {
 						new BlockNodeFactory(),
 						new DeclareNodeFactory(new ListNodeTree()),
 						new PrimitiveNodeFactory()
-				))
+				), null)
 				.orElseThrow()
 				.compile(new IncrementAliaser());
 		assertEquals("while(true){var a0=10;}", result);

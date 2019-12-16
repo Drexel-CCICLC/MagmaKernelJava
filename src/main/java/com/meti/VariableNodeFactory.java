@@ -10,7 +10,8 @@ public class VariableNodeFactory implements NodeFactory {
 	}
 
 	@Override
-	public Optional<Node> parse(String value, Parser parser) {
+	public Optional<Node> parse(String value, Parser parser, Node parent) {
+		if (value.isBlank()) return Optional.empty();
 		var trimmedValue = value.trim();
 		var declaration = tree.locateDeclaration(trimmedValue)
 				.orElseThrow(() -> new IllegalStateException(trimmedValue + " is not defined."));

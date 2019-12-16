@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class ArrayNodeFactory implements NodeFactory {
 
 	@Override
-	public Optional<Node> parse(String value, Parser parser) {
+	public Optional<Node> parse(String value, Parser parser, Node parent) {
 		if (value.startsWith("[") && value.endsWith("]")) {
 			String content = value.substring(1, value.length() - 1);
 			List<Node> nodes = Arrays.stream(content.split(","))

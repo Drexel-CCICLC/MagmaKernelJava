@@ -1,7 +1,9 @@
 package com.meti;
 
-import java.util.*;
-import java.util.function.BiConsumer;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -15,7 +17,7 @@ public class StructureNodeFactory implements NodeFactory {
 	}
 
 	@Override
-	public Optional<Node> parse(String value, Parser parser) {
+	public Optional<Node> parse(String value, Parser parser, Node parent) {
 		//(value string)=>int:{}
 		BucketManager manager = new QueueBucketManager(
 				build().include('(').restrict(1),
@@ -36,24 +38,25 @@ public class StructureNodeFactory implements NodeFactory {
 		var implString = manager.next();
 		if (hasOpen || hasClosed) {
 			var args = Arrays.stream(paramString.split(","))
+					.filter(s -> !s.isBlank())
 					.map(string -> string.trim().split(" "))
 					.collect(Collectors.toMap(strings -> strings[0], strings -> parser.resolve(strings[1])));
 			Struct returnType = null;
 			if (hasReturn) {
 				returnType = parser.resolve(returnString);
 			}
-			var struct = new FunctionStruct(args.values(), returnType);
-			Node impl = null;
+			Struct struct = new FunctionStruct(args.values(), returnType);
+			var node = new FunctionNode(struct, args);
 			if (hasImpl) {
 				var params = args.keySet()
 						.stream()
 						.map((Function<String, Node>) s -> new DeclareNode(args.get(s), s))
 						.collect(Collectors.toList());
 				tree.appendAll(params);
-				impl = parser.parse(implString);
+				node.setContent(parser.parse(implString, node));
 				tree.removeAll(params);
 			}
-			return Optional.of(new FunctionNode(struct, args, impl));
+			return Optional.of(node);
 		}
 		return Optional.empty();
 	}
@@ -64,13 +67,12 @@ public class StructureNodeFactory implements NodeFactory {
 	}
 
 	private static final class FunctionNode extends AbstractNode {
-		private final Node content;
 		private final Map<String, Struct> parameters;
+		private Node content = null;
 
-		protected FunctionNode(Struct struct, Map<String, Struct> parameters, Node content) {
+		protected FunctionNode(Struct struct, Map<String, Struct> parameters) {
 			super(struct);
 			this.parameters = parameters;
-			this.content = content;
 		}
 
 		@Override
@@ -91,6 +93,10 @@ public class StructureNodeFactory implements NodeFactory {
 		@Override
 		public Node transform() {
 			return this;
+		}
+
+		public void setContent(Node content) {
+			this.content = content;
 		}
 	}
 

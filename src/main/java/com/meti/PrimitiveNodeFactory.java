@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public class PrimitiveNodeFactory implements NodeFactory {
 	@Override
-	public Optional<Node> parse(String value, Parser parser) {
+	public Optional<Node> parse(String value, Parser parser, Node parent) {
 		var trimmedValue = value.trim();
 		if (trimmedValue.equals("true") || trimmedValue.equals("false")) {
 			return Optional.of(new PrimitiveNode(PrimitiveStruct.BOOL, Boolean.parseBoolean(trimmedValue)));

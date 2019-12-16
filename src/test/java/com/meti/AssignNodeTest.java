@@ -11,9 +11,9 @@ class AssignNodeTest {
 		NodeTree tree = new ListNodeTree();
 		Parser parser = new FactoryParser(new PrimitiveNodeFactory(), new VariableNodeFactory(tree));
 		new DeclareNodeFactory(tree)
-				.parse("val x=10", parser);
+				.parse("val x=10", parser, null);
 		var node = new AssignNodeFactory(tree)
-				.parse("x=20", parser)
+				.parse("x=20", parser, null)
 				.orElseThrow();
 		var result = node.compile(new IncrementAliaser());
 		assertEquals("a0=20;", result);

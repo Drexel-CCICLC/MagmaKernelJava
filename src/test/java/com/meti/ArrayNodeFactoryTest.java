@@ -11,7 +11,7 @@ class ArrayNodeFactoryTest {
 	@Test
 	void parse() {
 		Node node = new ArrayNodeFactory()
-				.parse("[3,2,1]", new FactoryParser(new PrimitiveNodeFactory()))
+				.parse("[3,2,1]", new FactoryParser(new PrimitiveNodeFactory()), null)
 				.orElseThrow();
 		String actual = node.compile(new IncrementAliaser());
 		assertEquals("[3,2,1]", actual);

@@ -9,7 +9,7 @@ class OperationNodeTest {
 	@Test
 	void parse() {
 		var node = new OperationNodeFactory()
-				.parse("10+20", new FactoryParser(new PrimitiveNodeFactory()))
+				.parse("10+20", new FactoryParser(new PrimitiveNodeFactory()), null)
 				.orElseThrow();
 		var actual = node.compile(new IncrementAliaser());
 		assertEquals("10+20", actual);

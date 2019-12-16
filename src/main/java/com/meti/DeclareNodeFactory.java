@@ -10,7 +10,7 @@ public class DeclareNodeFactory implements NodeFactory {
 	}
 
 	@Override
-	public Optional<Node> parse(String value, Parser parser) {
+	public Optional<Node> parse(String value, Parser parser, Node parent) {
 		BucketManager manager = new QueueBucketManager(
 				Bucket.build().exclude('='),
 				Bucket.build().include('=').restrict(1),
@@ -49,7 +49,9 @@ public class DeclareNodeFactory implements NodeFactory {
 		}
 		Node node = new DeclareNode(parser.parse(content), keywords.contains(Keyword.VAR),
 				name, keywords);
-		tree.append(node);
+		if (parent == null) {
+			tree.append(node);
+		}
 		return Optional.of(node);
 	}
 

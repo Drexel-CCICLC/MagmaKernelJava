@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public class ReturnNodeFactory implements NodeFactory {
 	@Override
-	public Optional<Node> parse(String value, Parser parser) {
+	public Optional<Node> parse(String value, Parser parser, Node parent) {
 		var trimmedValue = value.trim();
 		if (trimmedValue.startsWith("return ")) {
 			var valueString = trimmedValue.substring(7);
