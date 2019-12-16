@@ -54,7 +54,9 @@ public class Compile {
 	private static void compile(Path child) {
 		try (BufferedReader reader = Files.newBufferedReader(child)) {
 			var content = reader.lines().collect(Collectors.joining());
-			parser.parse(content);
+			if (!content.isBlank()) {
+				parser.parse(content);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

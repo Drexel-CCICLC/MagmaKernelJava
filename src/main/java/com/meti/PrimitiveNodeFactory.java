@@ -5,12 +5,13 @@ import java.util.Optional;
 public class PrimitiveNodeFactory implements NodeFactory {
 	@Override
 	public Optional<Node> parse(String value, Parser parser) {
-		if (value.equals("true") || value.equals("false")) {
-			return Optional.of(new PrimitiveNode(PrimitiveStruct.BOOL, Boolean.parseBoolean(value)));
+		var trimmedValue = value.trim();
+		if (trimmedValue.equals("true") || trimmedValue.equals("false")) {
+			return Optional.of(new PrimitiveNode(PrimitiveStruct.BOOL, Boolean.parseBoolean(trimmedValue)));
 		}
 
 		try {
-			return Optional.of(new PrimitiveNode(PrimitiveStruct.INT, Integer.parseInt(value)));
+			return Optional.of(new PrimitiveNode(PrimitiveStruct.INT, Integer.parseInt(trimmedValue)));
 		} catch (NumberFormatException e) {
 			return Optional.empty();
 		}
