@@ -11,6 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PrimitiveTest extends CompileTest {
 	@Test
+	void booleans() {
+		String result = compiler.compile("true");
+		assertEquals("true", result);
+	}
+
+	@Test
 	void integer() {
 		assertEquals("10", compiler.compile("10"));
 	}
