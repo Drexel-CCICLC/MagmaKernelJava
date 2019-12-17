@@ -21,7 +21,7 @@ public class UnitCompiler implements Compiler {
 					.map(this::compile)
 					.collect(Collectors.joining());
 		} else {
-			Optional<String> toReturn = root.parse(input, null);
+			Optional<String> toReturn = root.parse(input, this);
 			if (toReturn.isEmpty()) {
 				throw new ParseException("Failed to parse \"" + input + "\".");
 			}

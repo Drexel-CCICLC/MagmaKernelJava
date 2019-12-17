@@ -1,7 +1,9 @@
 package com.meti;
 
 import com.meti.exception.AlreadyExistsException;
+import com.meti.unit.CompoundUnit;
 import com.meti.unit.DeclareUnit;
+import com.meti.unit.PrimitiveUnit;
 import com.meti.unit.UnitCompiler;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +37,10 @@ public class DeclareTest extends CompileTest {
 	@Test
 	void name() {
 		Set<String> declarations = new HashSet<>();
-		Compiler name = new UnitCompiler(new DeclareUnit(new SimpleCounter(), declarations));
+		Compiler name = new UnitCompiler(new CompoundUnit(
+				new DeclareUnit(new SimpleAliaser(), declarations),
+				new PrimitiveUnit()
+		));
 		name.compile("val x = 10;");
 		assertIterableEquals(singleton("x"), declarations);
 	}
