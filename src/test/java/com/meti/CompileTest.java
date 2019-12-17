@@ -11,6 +11,7 @@ public class CompileTest {
 	private final Data data = new Data(declarations, aliaser);
 	protected final Compiler compiler = new UnitCompiler(new CompoundUnit(
 			new IfUnit(),
+			new ElseUnit(),
 			new BlockUnit(),
 			new DeclareUnit(data),
 			new OperationUnit(),

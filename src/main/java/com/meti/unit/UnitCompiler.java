@@ -4,9 +4,9 @@ import com.meti.Compiler;
 import com.meti.exception.ParseException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class UnitCompiler implements Compiler {
@@ -18,7 +18,7 @@ public class UnitCompiler implements Compiler {
 
 	@Override
 	public String compile(String input) {
-		List<String> partitions = new ArrayList<>();
+		Collection<String> partitions = new ArrayList<>();
 		StringBuilder current = new StringBuilder();
 		int depth = 0;
 		for (char c : input.toCharArray()) {
@@ -37,8 +37,10 @@ public class UnitCompiler implements Compiler {
 		partitions.add(current.toString());
 		return partitions.stream()
 				.filter(s -> !s.isBlank())
-				.map(s -> root.parse(s, this))
-				.map(s -> s	.orElseThrow(() -> new ParseException("Failed to parse \"" + input + "\".")))
+				.map(s -> {
+					Optional<String> parse = root.parse(s, this);
+					return parse.orElseThrow(() -> new ParseException("Failed to parse \"" + s + "\"."));
+				})
 				.collect(Collectors.joining());
 	}
 }
