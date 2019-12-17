@@ -4,6 +4,7 @@ import com.meti.Aliaser;
 import com.meti.Compiler;
 import com.meti.exception.AlreadyExistsException;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
 
@@ -20,6 +21,7 @@ public class DeclareUnit implements Unit {
 	public Optional<String> parse(String input, Compiler compiler) {
 		String trimmedInput = input.trim();
 		int equalsIndex = trimmedInput.indexOf('=');
+		Arrays.stream(input.substring(0, equalsIndex).split(" "));
 		return trimmedInput.startsWith("val") && equalsIndex != -1 ?
 				Optional.of(extractDeclaration(trimmedInput, equalsIndex, compiler)) :
 				Optional.empty();
