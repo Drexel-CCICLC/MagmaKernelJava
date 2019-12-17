@@ -8,9 +8,10 @@ import java.util.Set;
 public class CompileTest {
 	private final Set<String> declarations = new HashSet<>();
 	private final Aliaser aliaser = new SimpleAliaser();
+	private final Data data = new Data(declarations, aliaser);
 	protected final Compiler compiler = new UnitCompiler(new CompoundUnit(
-			new DeclareUnit(aliaser, declarations),
+			new DeclareUnit(data),
 			new PrimitiveUnit(),
-			new VariableUnit(declarations, aliaser)
+			new VariableUnit(data)
 	));
 }

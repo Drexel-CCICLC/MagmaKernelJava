@@ -1,7 +1,7 @@
 package com.meti.unit;
 
-import com.meti.Compiler;
 import com.meti.Aliaser;
+import com.meti.Compiler;
 import com.meti.exception.AlreadyExistsException;
 
 import java.util.Optional;
@@ -11,9 +11,9 @@ public class DeclareUnit implements Unit {
 	private final Aliaser aliaser;
 	private final Set<String> declarations;
 
-	public DeclareUnit(Aliaser aliaser, Set<String> declarations) {
-		this.aliaser = aliaser;
-		this.declarations = declarations;
+	public DeclareUnit(Data data) {
+		this.aliaser = data.getAliaser();
+		this.declarations = data.getDeclarations();
 	}
 
 	@Override

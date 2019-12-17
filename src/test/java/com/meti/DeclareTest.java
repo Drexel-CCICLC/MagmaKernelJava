@@ -1,10 +1,7 @@
 package com.meti;
 
 import com.meti.exception.AlreadyExistsException;
-import com.meti.unit.CompoundUnit;
-import com.meti.unit.DeclareUnit;
-import com.meti.unit.PrimitiveUnit;
-import com.meti.unit.UnitCompiler;
+import com.meti.unit.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
@@ -37,8 +34,9 @@ public class DeclareTest extends CompileTest {
 	@Test
 	void name() {
 		Set<String> declarations = new HashSet<>();
+		Aliaser aliaser = new SimpleAliaser();
 		Compiler name = new UnitCompiler(new CompoundUnit(
-				new DeclareUnit(new SimpleAliaser(), declarations),
+				new DeclareUnit(new Data(declarations, aliaser)),
 				new PrimitiveUnit()
 		));
 		name.compile("val x = 10;");
