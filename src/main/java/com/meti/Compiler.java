@@ -1,8 +1,5 @@
 package com.meti;
 
-public class Compiler {
-
-	String compile() {
-		return "10";
-	}
+public interface Compiler {
+	String compile(String input);
 }
