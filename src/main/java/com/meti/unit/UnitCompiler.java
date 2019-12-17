@@ -3,8 +3,10 @@ package com.meti.unit;
 import com.meti.Compiler;
 import com.meti.exception.ParseException;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class UnitCompiler implements Compiler {
@@ -16,16 +18,27 @@ public class UnitCompiler implements Compiler {
 
 	@Override
 	public String compile(String input) {
-		if (input.contains(";")) {
-			return Arrays.stream(input.split(";"))
-					.map(this::compile)
-					.collect(Collectors.joining());
-		} else {
-			Optional<String> toReturn = root.parse(input, this);
-			if (toReturn.isEmpty()) {
-				throw new ParseException("Failed to parse \"" + input + "\".");
+		List<String> partitions = new ArrayList<>();
+		StringBuilder current = new StringBuilder();
+		int depth = 0;
+		for (char c : input.toCharArray()) {
+			if (c == ';' && depth == 0) {
+				partitions.add(current.toString());
+				current = new StringBuilder();
+			} else {
+				if (c == '{') {
+					depth++;
+				} else if (c == '}') {
+					depth--;
+				}
+				current.append(c);
 			}
-			return toReturn.get();
 		}
+		partitions.add(current.toString());
+		return partitions.stream()
+				.filter(s -> !s.isBlank())
+				.map(s -> root.parse(s, this))
+				.map(s -> s	.orElseThrow(() -> new ParseException("Failed to parse \"" + input + "\".")))
+				.collect(Collectors.joining());
 	}
 }
