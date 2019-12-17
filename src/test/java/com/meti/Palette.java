@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Palette {
 	private final Compiler compiler = new UnitCompiler(new CompoundUnit(
-			new DeclareUnit(new Counter(), new HashSet<>()),
+			new DeclareUnit(new SimpleCounter(), new HashSet<>()),
 			new PrimitiveUnit()
 	));
 
@@ -52,7 +52,7 @@ class Palette {
 	@Test
 	void name() {
 		Set<String> declarations = new HashSet<>();
-		Compiler name = new UnitCompiler(new DeclareUnit(new Counter(), declarations));
+		Compiler name = new UnitCompiler(new DeclareUnit(new SimpleCounter(), declarations));
 		name.compile("val x = 10;");
 		assertIterableEquals(singleton("x"), declarations);
 	}
