@@ -10,7 +10,7 @@ public class CompileTest {
 	private final Set<String> declarations = new HashSet<>();
 	private final Data data = new Data(declarations, aliaser);
 	protected final Compiler compiler = new UnitCompiler(new CompoundUnit(
-			new BracketUnit(),
+			new BracketUnit(aliaser),
 			new DeclareUnit(data),
 			new ValueUnit(data)
 	));
