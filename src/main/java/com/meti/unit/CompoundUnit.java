@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class CompoundUnit implements Unit {
-	final List<Unit> units;
+	private final List<Unit> units;
 
 	public CompoundUnit(Unit... units) {
 		this(List.of(units));
