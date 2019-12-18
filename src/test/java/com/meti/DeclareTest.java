@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 import static java.util.Collections.singleton;
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,11 +35,10 @@ public class DeclareTest extends CompileTest {
 
 	@Test
 	void name() {
-		Aliaser aliaser = new SimpleAliaser();
 		Map<String, MapDeclarations.Declaration> map = new HashMap<>();
 		Declarations declarations = new MapDeclarations(map);
 		Compiler name = new UnitCompiler(new CompoundUnit(
-				new DeclareUnit(new SimpleData(aliaser, declarations)),
+				new DeclareUnit(new SimpleData(new SimpleAliaser(), declarations, new Stack<>())),
 				new PrimitiveUnit()
 		));
 		name.compile("val x = 10;");

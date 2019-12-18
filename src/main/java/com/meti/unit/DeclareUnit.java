@@ -6,15 +6,18 @@ import com.meti.Compiler;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class DeclareUnit implements Unit {
 	private final Aliaser aliaser;
 	private final Declarations declarations;
+	private final Stack<String> stack;
 
 	public DeclareUnit(Data data) {
 		this.aliaser = data.getAliaser();
 		this.declarations = data.getDeclarations();
+		this.stack = data.getStack();
 	}
 
 	@Override
@@ -33,8 +36,10 @@ public class DeclareUnit implements Unit {
 	}
 
 	Optional<String> extractDeclaration(Compiler compiler, String name, String value, List<String> flags) {
-		declarations.define(name, flags);
+		stack.push(name);
+		declarations.define(flags, stack.toArray(String[]::new));
 		String compiledValue = compiler.compile(value);
+		stack.pop();
 		return compiledValue.isBlank() ?
 				Optional.of("") :
 				Optional.of("var " + aliaser.alias(name) + "=" + compiledValue + ";");

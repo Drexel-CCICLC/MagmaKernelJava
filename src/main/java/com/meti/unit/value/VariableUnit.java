@@ -28,7 +28,7 @@ public class VariableUnit implements Unit {
 		}
 
 		if (declarations.isDefined(trimmedInput)) {
-			return declarations.hasFlag(trimmedInput, "native") ?
+			return declarations.hasFlag("native", trimmedInput) ?
 					Optional.of(trimmedInput) :
 					Optional.of(aliaser.alias(trimmedInput));
 		}

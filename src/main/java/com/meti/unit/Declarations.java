@@ -3,13 +3,13 @@ package com.meti.unit;
 import java.util.List;
 
 public interface Declarations {
-	void define(String name);
+	void define(String... name);
 
-	void define(String name, List<String> flags);
+	void define(List<String> flags, String... name);
 
-	void delete(String name);
+	void delete(String... name);
 
-	boolean hasFlag(String name, String flag);
+	boolean hasFlag(String flag, String... name);
 
-	boolean isDefined(String name);
+	boolean isDefined(String... name);
 }

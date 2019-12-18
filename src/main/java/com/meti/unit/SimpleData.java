@@ -3,17 +3,26 @@ package com.meti.unit;
 import com.meti.Aliaser;
 import com.meti.SimpleAliaser;
 
+import java.util.Stack;
+
 public class SimpleData implements Data {
 	private final Aliaser aliaser;
 	private final Declarations declarations;
+	private final Stack<String> stack;
 
 	public SimpleData() {
-		this(new SimpleAliaser(), new MapDeclarations());
+		this(new SimpleAliaser(), new MapDeclarations(), new Stack<>());
 	}
 
-	public SimpleData(Aliaser aliaser, Declarations declarations1) {
+	public SimpleData(Aliaser aliaser, Declarations declarations1, Stack<String> stack) {
 		this.declarations = declarations1;
 		this.aliaser = aliaser;
+		this.stack = stack;
+	}
+
+	@Override
+	public Stack<String> getStack() {
+		return stack;
 	}
 
 	@Override
