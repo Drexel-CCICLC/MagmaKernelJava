@@ -10,11 +10,12 @@ import java.util.stream.Collectors;
 public class BlockUnit implements Unit {
 	@Override
 	public Optional<String> parse(String input, Compiler compiler) {
-		if (input.startsWith("{") && input.endsWith("}")) {
+		String trimmedInput = input.trim();
+		if (trimmedInput.startsWith("{") && trimmedInput.endsWith("}")) {
 			List<String> partitions = new ArrayList<>();
 			StringBuilder current = new StringBuilder();
 			int depth = 0;
-			for (char c : input.substring(1, input.length() - 1).toCharArray()) {
+			for (char c : trimmedInput.substring(1, trimmedInput.length() - 1).toCharArray()) {
 				if (c == ';' && depth == 0) {
 					partitions.add(current.toString());
 					current = new StringBuilder();

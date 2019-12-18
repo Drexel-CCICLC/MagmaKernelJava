@@ -4,14 +4,17 @@ import com.meti.Aliaser;
 import com.meti.Compiler;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class StructUnit implements Unit {
 	private final Aliaser aliaser;
+	private Declarations declarations;
 
-	public StructUnit(Aliaser aliaser) {
-		this.aliaser = aliaser;
+	public StructUnit(Data data) {
+		this.aliaser = data.getAliaser();
+		this.declarations = data.getDeclarations();
 	}
 
 	@Override
@@ -21,16 +24,21 @@ public class StructUnit implements Unit {
 			int opening = trimmedInput.indexOf('(');
 			int closing = trimmedInput.indexOf(')', 1);
 			String paramString = trimmedInput.substring(opening + 1, closing);
-			String joinedParams = Arrays.stream(paramString.split(","))
-					.filter(string -> !string.isBlank())
+			List<String> params = Arrays.stream(paramString.split(","))
+					.map(String::trim)
+					.filter(string -> !string.isEmpty())
+					.collect(Collectors.toList());
+			String joinedParams = params.stream()
 					.map(aliaser::alias)
 					.collect(Collectors.joining(","));
-			if (trimmedInput.length() != closing + 1 && trimmedInput.charAt(closing + 1) == ':') {
-				String content = trimmedInput.substring(closing + 2);
+			if (trimmedInput.length() != closing + 1 && trimmedInput.indexOf(':') > closing) {
+				String content = trimmedInput.substring(trimmedInput.indexOf(':') + 1);
+				params.forEach(declarations::define);
 				String compiledContent = compiler.compile(content);
 				if (!compiledContent.startsWith("{")) {
 					compiledContent = "{" + compiledContent + "}";
 				}
+				params.forEach(declarations::delete);
 				return Optional.of("function(" + joinedParams + ")" + compiledContent);
 			}
 			else {

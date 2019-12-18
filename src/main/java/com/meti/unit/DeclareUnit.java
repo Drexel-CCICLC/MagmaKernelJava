@@ -25,7 +25,7 @@ public class DeclareUnit implements Unit {
 		List<String> flags = Arrays.stream(input.substring(0, equalsIndex).split(" "))
 				.filter(value -> !value.isBlank())
 				.collect(Collectors.toList());
-		String name = flags.get(flags.size() - 1);
+		String name = flags.get(flags.size() - 1).trim();
 		String value = trimmedInput.substring(equalsIndex + 1).trim();
 		return (flags.contains("val") || flags.contains("var")) ?
 				extractDeclaration(compiler, name, value, flags) :

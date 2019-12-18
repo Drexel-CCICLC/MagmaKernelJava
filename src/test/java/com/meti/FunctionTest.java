@@ -12,6 +12,12 @@ public class FunctionTest extends CompileTest {
 	}
 
 	@Test
+	void blockWithSpaces() {
+		String result = compiler.compile("val test= () : {val x=20;}");
+		assertEquals("var b1=function(){var a0=20;};", result);
+	}
+
+	@Test
 	void content() {
 		String result = compiler.compile("val test=():val x=10");
 		assertEquals("var b1=function(){var a0=10;};", result);

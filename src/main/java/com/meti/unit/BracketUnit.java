@@ -1,11 +1,9 @@
 package com.meti.unit;
 
-import com.meti.Aliaser;
-
 public class BracketUnit extends CompoundUnit {
-	public BracketUnit(Aliaser aliaser) {
+	public BracketUnit(Data data) {
 		this(
-				new StructUnit(aliaser),
+				new StructUnit(data),
 				new IfUnit(),
 				new ElseUnit(),
 				new BlockUnit()

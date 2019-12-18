@@ -17,17 +17,18 @@ public class VariableUnit implements Unit {
 
 	@Override
 	public Optional<String> parse(String input, Compiler compiler) {
-		for (char c : input.toCharArray()) {
+		String trimmedInput = input.trim();
+		for (char c : trimmedInput.toCharArray()) {
 			if (!Character.isLetter(c) && !Character.isDigit(c)) {
 				return Optional.empty();
 			}
 		}
 
-		if (declarations.isDefined(input)) {
-			return declarations.hasFlag(input, "native") ?
-					Optional.of(input) :
-					Optional.of(aliaser.alias(input));
+		if (declarations.isDefined(trimmedInput)) {
+			return declarations.hasFlag(trimmedInput, "native") ?
+					Optional.of(trimmedInput) :
+					Optional.of(aliaser.alias(trimmedInput));
 		}
-		throw new DoesNotExistException(input + " is not defined.");
+		throw new DoesNotExistException(trimmedInput + " is not defined.");
 	}
 }

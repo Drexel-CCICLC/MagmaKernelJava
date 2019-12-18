@@ -1,7 +1,9 @@
 package com.meti.unit;
 
 import com.meti.exception.AlreadyExistsException;
+import com.meti.exception.DoesNotExistException;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,11 +19,23 @@ public class Declarations {
 		this.declarations = declarations;
 	}
 
+	void define(String name) {
+		define(name, Collections.emptyList());
+	}
+
 	void define(String name, List<String> flags) {
 		if (declarations.containsKey(name)) {
 			throw new AlreadyExistsException("\"" + name + "\" has already been defined.");
 		} else {
 			declarations.put(name, new Declaration(flags));
+		}
+	}
+
+	public void delete(String name) {
+		if (declarations.containsKey(name)) {
+			declarations.remove(name);
+		} else {
+			throw new DoesNotExistException("\"" + name + "\" has not been defined.");
 		}
 	}
 
