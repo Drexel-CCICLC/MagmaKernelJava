@@ -3,19 +3,16 @@ package com.meti.unit;
 import com.meti.Aliaser;
 import com.meti.SimpleAliaser;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Data {
 	private final Aliaser aliaser;
-	private final Set<String> declarations;
+	private final Declarations declarations;
 
 	public Data() {
-		this(new HashSet<>(), new SimpleAliaser());
+		this(new SimpleAliaser(), new Declarations());
 	}
 
-	public Data(Set<String> declarations, Aliaser aliaser) {
-		this.declarations = declarations;
+	public Data(Aliaser aliaser, Declarations declarations1) {
+		this.declarations = declarations1;
 		this.aliaser = aliaser;
 	}
 
@@ -23,7 +20,7 @@ public class Data {
 		return aliaser;
 	}
 
-	public Set<String> getDeclarations() {
+	public Declarations getDeclarations() {
 		return declarations;
 	}
 }

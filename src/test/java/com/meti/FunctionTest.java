@@ -8,13 +8,13 @@ public class FunctionTest extends CompileTest {
 	@Test
 	void block() {
 		String result = compiler.compile("val test=():{val x=20;}");
-		assertEquals("var a0=function(){var b1=20;};", result);
+		assertEquals("var b1=function(){var a0=20;};", result);
 	}
 
 	@Test
 	void content() {
 		String result = compiler.compile("val test=():val x=10");
-		assertEquals("var a0=function(){var b1=10;};", result);
+		assertEquals("var b1=function(){var a0=10;};", result);
 	}
 
 	@Test
@@ -26,12 +26,12 @@ public class FunctionTest extends CompileTest {
 	@Test
 	void param() {
 		String result = compiler.compile("val test=(some):{}");
-		assertEquals("var a0=function(b1){};", result);
+		assertEquals("var b1=function(a0){};", result);
 	}
 
 	@Test
 	void twoParam() {
 		String result = compiler.compile("val test=(some0, some1):{}");
-		assertEquals("var a0=function(b1,c2){};", result);
+		assertEquals("var c2=function(a0,b1){};", result);
 	}
 }

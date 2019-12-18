@@ -4,7 +4,9 @@ import com.meti.exception.AlreadyExistsException;
 import com.meti.unit.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static java.util.Collections.singleton;
@@ -33,13 +35,14 @@ public class DeclareTest extends CompileTest {
 
 	@Test
 	void name() {
-		Set<String> declarations = new HashSet<>();
 		Aliaser aliaser = new SimpleAliaser();
+		Map<String, Declarations.Declaration> map = new HashMap<>();
+		Declarations declarations = new Declarations(map);
 		Compiler name = new UnitCompiler(new CompoundUnit(
-				new DeclareUnit(new Data(declarations, aliaser)),
+				new DeclareUnit(new Data(aliaser, declarations)),
 				new PrimitiveUnit()
 		));
 		name.compile("val x = 10;");
-		assertIterableEquals(singleton("x"), declarations);
+		assertIterableEquals(singleton("x"), map.keySet());
 	}
 }

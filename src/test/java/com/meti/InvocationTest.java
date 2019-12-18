@@ -14,12 +14,12 @@ public class InvocationTest extends CompileTest {
 	@Test
 	void oneParam(){
 		String result = compiler.compile("val one=(param):{};val result = one(10);");
-		assertEquals("var a0=function(b1){};var c2=a0(10);", result);
+		assertEquals("var b1=function(a0){};var c2=b1(10);", result);
 	}
 
 	@Test
 	void twoParam() {
 		String result = compiler.compile("val two=(param0, param1):{};val result = two(10, 20);");
-		assertEquals("var a0=function(b1,c2){};var d3=a0(10,20);", result);
+		assertEquals("var c2=function(a0,b1){};var d3=c2(10,20);", result);
 	}
 }

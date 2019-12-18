@@ -5,11 +5,10 @@ import com.meti.Compiler;
 import com.meti.exception.DoesNotExistException;
 
 import java.util.Optional;
-import java.util.Set;
 
 public class VariableUnit implements Unit {
 	private final Aliaser aliaser;
-	private final Set<String> declarations;
+	private final Declarations declarations;
 
 	public VariableUnit(Data data) {
 		this.declarations = data.getDeclarations();
@@ -24,8 +23,10 @@ public class VariableUnit implements Unit {
 			}
 		}
 
-		if (declarations.contains(input)) {
-			return Optional.of(aliaser.alias(input));
+		if (declarations.isDefined(input)) {
+			return declarations.hasFlag(input, "native") ?
+					Optional.of(input) :
+					Optional.of(aliaser.alias(input));
 		}
 		throw new DoesNotExistException(input + " is not defined.");
 	}

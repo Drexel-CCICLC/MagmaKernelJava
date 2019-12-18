@@ -14,7 +14,7 @@ class Palette extends CompileTest {
 
 	@Test
 	void nativeInvoke() {
-		String result = compiler.compile("native val writeInt = (value); writeInt(10)");
-		assertEquals("a0(10);", result);
+		String result = compiler.compile("native val writeInt = (value); val result = writeInt(10);");
+		assertEquals("var b1=writeInt(10);", result);
 	}
 }

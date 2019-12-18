@@ -10,11 +10,12 @@ import java.util.stream.Collectors;
 public class InvocationUnit implements Unit {
 	@Override
 	public Optional<String> parse(String input, Compiler compiler) {
-		if (input.endsWith(")")) {
-			int open = input.indexOf('(');
-			int close = input.lastIndexOf(')');
-			String caller = input.substring(0, open);
-			String content = input.substring(open + 1, close);
+		String trimmedInput = input.trim();
+		if (trimmedInput.endsWith(")")) {
+			int open = trimmedInput.indexOf('(');
+			int close = trimmedInput.lastIndexOf(')');
+			String caller = trimmedInput.substring(0, open);
+			String content = trimmedInput.substring(open + 1, close);
 			Collection<String> partitions = new ArrayList<>();
 			StringBuilder builder = new StringBuilder();
 			int depth = 0;

@@ -17,7 +17,7 @@ public class StructUnit implements Unit {
 	@Override
 	public Optional<String> parse(String input, Compiler compiler) {
 		String trimmedInput = input.trim();
-		if(trimmedInput.startsWith("(")) {
+		if (trimmedInput.startsWith("(")) {
 			int opening = trimmedInput.indexOf('(');
 			int closing = trimmedInput.indexOf(')', 1);
 			String paramString = trimmedInput.substring(opening + 1, closing);
@@ -25,13 +25,16 @@ public class StructUnit implements Unit {
 					.filter(string -> !string.isBlank())
 					.map(aliaser::alias)
 					.collect(Collectors.joining(","));
-			if(trimmedInput.charAt(closing + 1) == ':') {
+			if (trimmedInput.length() != closing + 1 && trimmedInput.charAt(closing + 1) == ':') {
 				String content = trimmedInput.substring(closing + 2);
 				String compiledContent = compiler.compile(content);
-				if(!compiledContent.startsWith("{")) {
+				if (!compiledContent.startsWith("{")) {
 					compiledContent = "{" + compiledContent + "}";
 				}
 				return Optional.of("function(" + joinedParams + ")" + compiledContent);
+			}
+			else {
+				return Optional.of("");
 			}
 		}
 		return Optional.empty();
