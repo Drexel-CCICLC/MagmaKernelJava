@@ -9,11 +9,16 @@ public class MapDeclarations implements Declarations {
 	private final Map<String, Declaration> declarations;
 
 	public MapDeclarations() {
-		this(new HashMap<>());
+		this(new LinkedHashMap<>());
 	}
 
 	public MapDeclarations(Map<String, Declaration> declarations) {
 		this.declarations = declarations;
+	}
+
+	@Override
+	public Set<String> childrenOf(String... parent) {
+		return findParent(parent).orElseThrow().children.keySet();
 	}
 
 	@Override
@@ -80,6 +85,26 @@ public class MapDeclarations implements Declarations {
 			if (current == null) return Optional.empty();
 		}
 		return Optional.of(current);
+	}
+
+	@Override
+	public int order(String name) {
+		return orderHelper(name, declarations);
+	}
+
+	private int orderHelper(String name, Map<String, Declaration> current) {
+		if (current.containsKey(name)) {
+			return new ArrayList<>(current.keySet()).indexOf(name);
+		} else if (current.isEmpty()) {
+			return -1;
+		} else {
+			for (Declaration declaration : current.values()) {
+				Map<String, Declaration> children = declaration.children;
+				int result = orderHelper(name, children);
+				if(result != -1) return result;
+			}
+			return -1;
+		}
 	}
 
 	public class Declaration {

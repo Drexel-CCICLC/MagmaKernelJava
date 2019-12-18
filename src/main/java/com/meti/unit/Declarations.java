@@ -1,8 +1,11 @@
 package com.meti.unit;
 
 import java.util.List;
+import java.util.Set;
 
 public interface Declarations {
+	Set<String> childrenOf(String... parent);
+
 	void define(String... name);
 
 	void define(List<String> flags, String... name);
@@ -12,4 +15,6 @@ public interface Declarations {
 	boolean hasFlag(String flag, String... name);
 
 	boolean isDefined(String... name);
+
+	int order(String name);
 }

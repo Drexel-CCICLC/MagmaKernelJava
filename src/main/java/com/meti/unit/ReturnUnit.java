@@ -7,8 +7,9 @@ import java.util.Optional;
 public class ReturnUnit implements Unit {
 	@Override
 	public Optional<String> parse(String input, Compiler compiler) {
-		if (input.startsWith("return ")) {
-			String valueString = input.substring(7).trim();
+		String trimmedInput = input.trim();
+		if (trimmedInput.startsWith("return ")) {
+			String valueString = trimmedInput.substring(7).trim();
 			String compiledValue = compiler.compile(valueString);
 			return Optional.of("return " + compiledValue + ";");
 		}

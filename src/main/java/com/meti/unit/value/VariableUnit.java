@@ -21,6 +21,14 @@ public class VariableUnit implements Unit {
 	@Override
 	public Optional<String> parse(String input, Compiler compiler) {
 		String trimmedInput = input.trim();
+
+		if(trimmedInput.indexOf('.') != -1) {
+			int lastIndex = trimmedInput.lastIndexOf('.');
+			String childName = input.substring(lastIndex + 1);
+			String value = input.substring(0, lastIndex);
+			return Optional.of(compiler.compile(value) + "[" + declarations.order(childName) + ']');
+		}
+
 		for (char c : trimmedInput.toCharArray()) {
 			if (!Character.isLetter(c) && !Character.isDigit(c)) {
 				return Optional.empty();
