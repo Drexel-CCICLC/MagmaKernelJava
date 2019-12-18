@@ -2,12 +2,11 @@ package com.meti;
 
 import com.meti.exception.AlreadyExistsException;
 import com.meti.unit.*;
+import com.meti.unit.value.PrimitiveUnit;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import static java.util.Collections.singleton;
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,10 +35,10 @@ public class DeclareTest extends CompileTest {
 	@Test
 	void name() {
 		Aliaser aliaser = new SimpleAliaser();
-		Map<String, Declarations.Declaration> map = new HashMap<>();
-		Declarations declarations = new Declarations(map);
+		Map<String, MapDeclarations.Declaration> map = new HashMap<>();
+		Declarations declarations = new MapDeclarations(map);
 		Compiler name = new UnitCompiler(new CompoundUnit(
-				new DeclareUnit(new Data(aliaser, declarations)),
+				new DeclareUnit(new SimpleData(aliaser, declarations)),
 				new PrimitiveUnit()
 		));
 		name.compile("val x = 10;");

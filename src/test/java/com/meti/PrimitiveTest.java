@@ -1,6 +1,6 @@
 package com.meti;
 
-import com.meti.unit.PrimitiveUnit;
+import com.meti.unit.value.PrimitiveUnit;
 import com.meti.unit.Unit;
 import org.junit.jupiter.api.Test;
 

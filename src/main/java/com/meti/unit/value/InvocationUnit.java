@@ -1,6 +1,7 @@
-package com.meti.unit;
+package com.meti.unit.value;
 
 import com.meti.Compiler;
+import com.meti.unit.Unit;
 
 import java.util.ArrayList;
 import java.util.Collection;

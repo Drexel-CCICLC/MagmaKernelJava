@@ -1,4 +1,8 @@
-package com.meti.unit;
+package com.meti.unit.value;
+
+import com.meti.unit.CompoundUnit;
+import com.meti.unit.Data;
+import com.meti.unit.Unit;
 
 public class ValueUnit extends CompoundUnit {
 	public ValueUnit(Data data) {

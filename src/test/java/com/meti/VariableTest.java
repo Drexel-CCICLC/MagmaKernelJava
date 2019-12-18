@@ -1,7 +1,7 @@
 package com.meti;
 
-import com.meti.unit.Data;
-import com.meti.unit.VariableUnit;
+import com.meti.unit.SimpleData;
+import com.meti.unit.value.VariableUnit;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class VariableTest extends CompileTest {
 	@Test
 	void notAVariable() {
-		assertTrue(new VariableUnit(new Data())
+		assertTrue(new VariableUnit(new SimpleData())
 				.parse("5 + 10", null)
 				.isEmpty());
 	}
