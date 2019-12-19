@@ -1,0 +1,17 @@
+val Point = (x, y) : {
+	val getX = () : return x;
+	val getY = () : return y;
+	val distance = (other) : {
+		val xDelta = x - other.getX();
+		val yDelta = y - other.getY();
+		val xSquared = Math.pow(xDelta, 2);
+		val ySquared = Math.pow(yDelta, 2);
+		return Math.pow(xSquared + ySquared, 0.5);
+	};
+	return new Point;
+};
+
+val a = Point(3, 4);
+val b = Point(0, 0);
+val c = a.distance(b);
+val result = console.log(c);

@@ -6,18 +6,19 @@ import com.meti.unit.Data;
 import com.meti.unit.Declarations;
 import com.meti.unit.Unit;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class StructUnit implements Unit {
 	private final Aliaser aliaser;
-	private Declarations declarations;
+	private final Declarations declarations;
+	private final Stack<String> stack;
 
 	public StructUnit(Data data) {
 		this.aliaser = data.getAliaser();
 		this.declarations = data.getDeclarations();
+		this.stack = data.getStack();
 	}
 
 	@Override
@@ -36,15 +37,23 @@ public class StructUnit implements Unit {
 					.collect(Collectors.joining(","));
 			if (trimmedInput.length() != closing + 1 && trimmedInput.indexOf(':') > closing) {
 				String content = trimmedInput.substring(trimmedInput.indexOf(':') + 1);
-				params.forEach(declarations::define);
+				List<String> subStack = new ArrayList<>(stack.subList(0, stack.size() - 1));
+				params.forEach(s -> {
+					subStack.add(s);
+					declarations.define(subStack.toArray(String[]::new));
+					subStack.remove(s);
+				});
 				String compiledContent = compiler.compile(content);
 				if (!compiledContent.startsWith("{")) {
 					compiledContent = "{" + compiledContent + "}";
 				}
-				params.forEach(declarations::delete);
+				params.forEach(s -> {
+					subStack.add(s);
+					declarations.delete(subStack.toArray(String[]::new));
+					subStack.remove(s);
+				});
 				return Optional.of("function(" + joinedParams + ")" + compiledContent);
-			}
-			else {
+			} else {
 				return Optional.of("");
 			}
 		}

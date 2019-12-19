@@ -25,7 +25,7 @@ public class DeclareUnit implements Unit {
 		String trimmedInput = input.trim();
 		int equalsIndex = trimmedInput.indexOf('=');
 		if (equalsIndex == -1) return Optional.empty();
-		List<String> flags = Arrays.stream(input.substring(0, equalsIndex).split(" "))
+		List<String> flags = Arrays.stream(trimmedInput.substring(0, equalsIndex).split(" "))
 				.filter(value -> !value.isBlank())
 				.collect(Collectors.toList());
 		String name = flags.get(flags.size() - 1).trim();
@@ -38,11 +38,12 @@ public class DeclareUnit implements Unit {
 	Optional<String> extractDeclaration(Compiler compiler, String name, String value, List<String> flags) {
 		stack.push(name);
 		declarations.define(flags, stack.toArray(String[]::new));
-		String compiledValue = compiler.compile(value);
-		stack.pop();
-		return compiledValue.isBlank() ?
+		String result = compiler.compile(value);
+		Optional<String> toReturn = flags.contains("native") ?
 				Optional.of("") :
-				Optional.of("var " + aliaser.alias(name) + "=" + compiledValue + ";");
+				Optional.of("var " + aliaser.alias(name) + "=" + result + ";");
+		stack.pop();
+		return toReturn;
 	}
 
 }

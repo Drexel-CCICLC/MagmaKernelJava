@@ -17,7 +17,12 @@ public class PrimitiveUnit implements Unit {
 			Integer.parseInt(trimmedInput);
 			return Optional.of(trimmedInput);
 		} catch (NumberFormatException e) {
-			return Optional.empty();
+			try {
+				Double.parseDouble(trimmedInput);
+				return Optional.of(trimmedInput);
+			} catch (NumberFormatException e1) {
+				return Optional.empty();
+			}
 		}
 	}
 }

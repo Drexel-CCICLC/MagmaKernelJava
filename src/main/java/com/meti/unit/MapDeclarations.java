@@ -61,8 +61,33 @@ public class MapDeclarations implements Declarations {
 	}
 
 	@Override
+	public boolean hasAnyFlag(String flag, String name) {
+		Optional<Declaration> declaration = find(name, declarations);
+		if(declaration.isEmpty()) return false;
+		return declaration.get().flags.contains(flag);
+	}
+
+	@Override
 	public boolean isDefined(String... name) {
 		return find(name).isPresent();
+	}
+
+	@Override
+	public boolean isInScope(String... name) {
+		Stack<String> stack = new Stack<>();
+		Arrays.stream(name).forEach(stack::push);
+		while (!stack.isEmpty()) {
+			if (isDefined(stack.toArray(String[]::new))) {
+				return true;
+			}
+			stack.pop();
+		}
+		return false;
+	}
+
+	@Override
+	public int order(String name) {
+		return orderHelper(name, declarations);
 	}
 
 	private Optional<Declaration> find(String[] name) {
@@ -87,9 +112,19 @@ public class MapDeclarations implements Declarations {
 		return Optional.of(current);
 	}
 
-	@Override
-	public int order(String name) {
-		return orderHelper(name, declarations);
+	private Optional<Declaration> find(String name, Map<String, Declaration> current) {
+		if (current.containsKey(name)) {
+			return Optional.of(current.get(name));
+		} else if (current.isEmpty()) {
+			return Optional.empty();
+		} else {
+			for (Declaration declaration : current.values()) {
+				Map<String, Declaration> children = declaration.children;
+				Optional<Declaration> result = find(name, children);
+				if (result.isPresent()) return result;
+			}
+			return Optional.empty();
+		}
 	}
 
 	private int orderHelper(String name, Map<String, Declaration> current) {
@@ -101,7 +136,7 @@ public class MapDeclarations implements Declarations {
 			for (Declaration declaration : current.values()) {
 				Map<String, Declaration> children = declaration.children;
 				int result = orderHelper(name, children);
-				if(result != -1) return result;
+				if (result != -1) return result;
 			}
 			return -1;
 		}
@@ -112,7 +147,7 @@ public class MapDeclarations implements Declarations {
 		private final List<String> flags;
 
 		public Declaration(List<String> flags) {
-			this(flags, new HashMap<>());
+			this(flags, new LinkedHashMap<>());
 		}
 
 		public Declaration(List<String> flags, Map<String, Declaration> children) {

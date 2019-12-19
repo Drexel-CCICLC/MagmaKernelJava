@@ -38,7 +38,12 @@ public class UnitCompiler implements Compiler {
 		return partitions.stream()
 				.filter(s -> !s.isBlank())
 				.map(s -> {
-					Optional<String> parse = root.parse(s, this);
+					Optional<String> parse;
+					try {
+						parse = root.parse(s, this);
+					} catch (Exception e) {
+						throw new ParseException("Failed to parse \"" + s + "\".", e);
+					}
 					return parse.orElseThrow(() -> new ParseException("Failed to parse \"" + s + "\"."));
 				})
 				.collect(Collectors.joining());

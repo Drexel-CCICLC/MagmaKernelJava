@@ -14,7 +14,11 @@ public interface Declarations {
 
 	boolean hasFlag(String flag, String... name);
 
+	boolean hasAnyFlag(String flag, String name);
+
 	boolean isDefined(String... name);
+
+	boolean isInScope(String... name);
 
 	int order(String name);
 }
