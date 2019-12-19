@@ -7,32 +7,29 @@ import java.util.Optional;
 import java.util.Set;
 
 public class OperationUnit implements Unit {
-	private final Set<Character> operations = Set.of(
-			'+',
-			'-',
-			'*',
-			'/',
-			'%',
-			'<'
+	private final Set<String> operations = Set.of(
+			"+",
+			"-",
+			"*",
+			"/",
+			"%",
+			"<",
+			"=="
 	);
-
-	private boolean hasChar(Character character, String input) {
-		return input.indexOf(character) != -1;
-	}
 
 	@Override
 	public Optional<String> parse(String input, Compiler compiler) {
-		Optional<Integer> operation = operations.stream()
-				.map(input::indexOf)
-				.filter(integer -> integer != -1)
+		Optional<String> optional = operations.stream()
+				.filter(input::contains)
 				.findAny();
-		if (operation.isPresent()) {
-			int operationIndex = operation.get();
+		if (optional.isPresent()) {
+			String operation = optional.get();
+			int operationIndex = input.indexOf(operation);
 			String value0 = input.substring(0, operationIndex);
-			String value1 = input.substring(operationIndex + 1);
+			String value1 = input.substring(operationIndex + operation.length());
 			String compile0 = compiler.compile(value0);
 			String compile1 = compiler.compile(value1);
-			return Optional.of(compile0 + input.charAt(operationIndex) + compile1);
+			return Optional.of(compile0 + operation + compile1);
 		}
 		return Optional.empty();
 	}
