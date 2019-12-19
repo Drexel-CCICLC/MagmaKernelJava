@@ -21,6 +21,7 @@ public class Compile {
 			new BracketUnit(data),
 			new ReturnUnit(),
 			new DeclareUnit(data),
+			new AssignUnit(data),
 			new NewUnit(data),
 			new ValueUnit(data)
 	));

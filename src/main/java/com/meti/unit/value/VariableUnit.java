@@ -43,12 +43,12 @@ public class VariableUnit implements Unit {
 			return Optional.of(compiler.compile(value) + toAppend);
 		}
 
-		for (char c : trimmedInput.toCharArray()) {
+	/*	for (char c : trimmedInput.toCharArray()) {
 			if (!Character.isLetter(c) && !Character.isDigit(c)) {
 				return Optional.empty();
 			}
 		}
-
+*/
 		List<String> child = new ArrayList<>();
 		if (!stack.isEmpty()) {
 			child.addAll(stack.subList(0, stack.size() - 1));

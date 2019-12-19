@@ -12,7 +12,8 @@ public class OperationUnit implements Unit {
 			'-',
 			'*',
 			'/',
-			'%'
+			'%',
+			'<'
 	);
 
 	private boolean hasChar(Character character, String input) {

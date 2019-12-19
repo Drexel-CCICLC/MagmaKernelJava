@@ -1,2 +1,10 @@
+val leaf = Leaf("<h1>Hello World!</h1>");
+val leaf2 = Leaf("<h2>Test</h2>");
+
+val leafs = Array_size(2);
+Array_set(leafs, 0, leaf);
+Array_set(leafs, 1, leaf2);
+val parent = Parent(leafs);
+
 val content = document.getElementById("render");
-content.innerHTML = "<h1>Hello World!</h1>";
+content.innerHTML = parent.getParentValue();

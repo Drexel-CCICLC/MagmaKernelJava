@@ -1,0 +1,20 @@
+val Leaf = (value) : {
+	val getLeafValue = () : return value;
+	return new Leaf;
+};
+
+val Parent = (leafs) : {
+	var sum = "";
+	var counter = 0;
+
+	val getParentValue = () : {
+		while(counter < Array_length(leafs)) {
+			val leaf = Array_get(leafs, counter);
+			val leafValue = leaf.getLeafValue();
+			sum = sum + leafValue;
+			counter = counter + 1;
+		};
+		return sum;
+	};
+	return new Parent;
+};

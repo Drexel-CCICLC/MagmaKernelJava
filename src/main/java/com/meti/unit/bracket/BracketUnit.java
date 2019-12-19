@@ -10,6 +10,7 @@ public class BracketUnit extends CompoundUnit {
 				new StructUnit(data),
 				new IfUnit(),
 				new ElseUnit(),
+				new WhileUnit(),
 				new BlockUnit()
 		);
 	}
