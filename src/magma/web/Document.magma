@@ -1,0 +1,5 @@
+native val Document = () : {
+	native val getElementById = (value);
+};
+
+native val document = Document();
