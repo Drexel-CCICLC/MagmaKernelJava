@@ -1,5 +1,5 @@
 package com.meti;
 
 public interface Aliaser {
-	String alias(String... names);
+	String alias(String name);
 }
