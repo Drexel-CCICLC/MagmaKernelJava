@@ -1,0 +1,2 @@
+val content = document.getElementById("render");
+content.innerHTML = "<h1>Hello World!</h1>";

@@ -1,5 +1,0 @@
-native val Console = () : {
-	native val log = (message);
-};
-
-native val console = Console();

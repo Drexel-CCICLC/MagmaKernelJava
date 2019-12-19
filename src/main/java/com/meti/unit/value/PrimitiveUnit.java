@@ -12,7 +12,6 @@ public class PrimitiveUnit implements Unit {
 		if (trimmedInput.equals("true") || trimmedInput.equals("false")) {
 			return Optional.of(trimmedInput);
 		}
-
 		try {
 			Integer.parseInt(trimmedInput);
 			return Optional.of(trimmedInput);
