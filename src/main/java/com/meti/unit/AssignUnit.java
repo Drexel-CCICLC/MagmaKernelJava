@@ -6,12 +6,6 @@ import com.meti.Compiler;
 import java.util.Optional;
 
 public class AssignUnit implements Unit {
-	private final Aliaser aliaser;
-
-	public AssignUnit(Data data) {
-		this.aliaser = data.getAliaser();
-	}
-
 	@Override
 	public Optional<String> parse(String input, Compiler compiler) {
 		String trimmedInput = input.trim();

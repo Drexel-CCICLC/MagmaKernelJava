@@ -7,6 +7,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OperationTest extends CompileTest {
+	@Test
+	void individualEquals() {
+		assertEquals("5===5", compiler.compile("5==5"));
+	}
+
 	@ParameterizedTest
 	@ValueSource(strings = {"+", "-", "*", "/", "%"})
 	void add(String c) {
