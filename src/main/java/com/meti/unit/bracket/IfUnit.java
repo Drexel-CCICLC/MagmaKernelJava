@@ -8,10 +8,11 @@ import java.util.Optional;
 public class IfUnit implements Unit {
 	@Override
 	public Optional<String> parse(String input, Compiler compiler) {
-		if (input.startsWith("if(")) {
+		String trimmedInput = input.trim();
+		if (trimmedInput.startsWith("if(")) {
 			int closingParenthesis = -1;
 			int depth = 0;
-			char[] charArray = input.substring(3).toCharArray();
+			char[] charArray = trimmedInput.substring(3).toCharArray();
 			for (int i = 0; i < charArray.length; i++) {
 				char c = charArray[i];
 				if (c == ')') {
@@ -25,8 +26,8 @@ public class IfUnit implements Unit {
 					depth++;
 				}
 			}
-			String condition = compiler.compile(input.substring(3, closingParenthesis + 3));
-			String content = compiler.compile(input.substring(closingParenthesis + 4));
+			String condition = compiler.compile(trimmedInput.substring(3, closingParenthesis + 3));
+			String content = compiler.compile(trimmedInput.substring(closingParenthesis + 4));
 			return Optional.of("if(" + condition + ")" + content);
 		}
 		return Optional.empty();

@@ -6,17 +6,12 @@ import com.meti.Compiler;
 import java.util.Optional;
 
 public class AssignUnit implements Unit {
-	private final Aliaser aliaser;
-
-	public AssignUnit(Data data) {
-		this.aliaser = data.getAliaser();
-	}
-
 	@Override
 	public Optional<String> parse(String input, Compiler compiler) {
 		String trimmedInput = input.trim();
 		int equalsIndex = trimmedInput.indexOf('=');
 		if (equalsIndex == -1) return Optional.empty();
+		if(trimmedInput.charAt(equalsIndex + 1) == '=') return Optional.empty();
 		String name = trimmedInput.substring(0, equalsIndex);
 		String value = trimmedInput.substring(equalsIndex + 1).trim();
 		return extractAssignment(compiler, name, value);

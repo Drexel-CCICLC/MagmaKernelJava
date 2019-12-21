@@ -11,6 +11,7 @@ public class CompileTest {
 			new BracketUnit(data),
 			new ReturnUnit(),
 			new DeclareUnit(data),
+			new AssignUnit(),
 			new NewUnit(data),
 			new ValueUnit(data)
 	));

@@ -15,7 +15,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DeclareTest extends CompileTest {
 	@Test
 	void alreadyDeclared() {
-		assertThrows(AlreadyExistsException.class, () -> compiler.compile("val x = 10; val x = 20;"));
+		try{
+			compiler.compile("val x = 10; val x = 20;");
+			fail();
+		} catch (Exception e) {
+			assertEquals(AlreadyExistsException.class, e.getCause().getClass());
+		}
 	}
 
 	@Test

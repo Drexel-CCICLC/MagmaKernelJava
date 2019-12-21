@@ -20,6 +20,10 @@ public class SimpleData implements Data {
 		this.stack = stack;
 	}
 
+	public SimpleData(Declarations declarations1) {
+		this(new SimpleAliaser(), declarations1, new Stack<>());
+	}
+
 	@Override
 	public Stack<String> getStack() {
 		return stack;
