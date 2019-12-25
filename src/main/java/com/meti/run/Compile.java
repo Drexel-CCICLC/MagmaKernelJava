@@ -10,12 +10,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Compile {
 	public static final Path OUT = Paths.get("out", "compile.js");
 	private static final Compiler compiler = new UnitCompiler(new MagmaUnit());
 
-	public static void main(String[] args) {
+	private static void compile() {
 		try {
 			Path build = Paths.get("build");
 			if (!Files.exists(build)) Files.createFile(build);
@@ -31,6 +32,18 @@ public class Compile {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		do {
+			String line = scanner.nextLine().toLowerCase().trim();
+			if (line.equals("exit")) {
+				break;
+			} else if (line.equals("compile")) {
+				compile();
+			}
+		} while (true);
 	}
 
 	private static String readFromBuild(Path build) throws IOException {
