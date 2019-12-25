@@ -2,8 +2,10 @@ package com.meti.unit;
 
 import com.meti.exception.AlreadyExistsException;
 import com.meti.exception.DoesNotExistException;
+import com.meti.type.Type;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 public class MapDeclarations implements Declarations {
 	private final Map<String, Declaration> declarations;
@@ -18,28 +20,29 @@ public class MapDeclarations implements Declarations {
 
 	@Override
 	public Set<String> childrenOf(String... parent) {
-		return findParent(parent).orElseThrow().children.keySet();
+		return findParent(parent).orElseThrow().getChildren().keySet();
 	}
 
 	@Override
-	public void define(String... name) {
-		define(Collections.emptyList(), name);
+	public void define(Type type, String... name) {
+		define(Collections.emptyList(), type, name);
 	}
 
 	@Override
-	public void define(List<String> flags, String... name) {
+	public void define(List<String> flags, Type type, String... name) {
+		Declaration declaration = new DeclarationImpl(flags, type);
 		if (name.length == 1) {
 			if (declarations.containsKey(name[0])) {
 				throw new AlreadyExistsException("\"" + joinName(name) + "\" has already been defined.");
 			} else {
-				declarations.put(name[0], new Declaration(flags));
+				declarations.put(name[0], declaration);
 			}
 		} else {
 			Declaration parent = findParent(name).orElseThrow();
-			if (parent.children.containsKey(name[name.length - 1])) {
+			if (parent.getChildren().containsKey(name[name.length - 1])) {
 				throw new AlreadyExistsException("\"" + joinName(name) + "\" has already been defined.");
 			} else {
-				parent.children.put(name[name.length - 1], new Declaration(flags));
+				parent.getChildren().put(name[name.length - 1], declaration);
 			}
 		}
 	}
@@ -49,22 +52,33 @@ public class MapDeclarations implements Declarations {
 		if (name.length == 1 && declarations.containsKey(name[0])) {
 			declarations.remove(name[0]);
 		} else if (find(name).isPresent()) {
-			findParent(name).orElseThrow().children.remove(name[name.length - 1]);
+			findParent(name).orElseThrow().getChildren().remove(name[name.length - 1]);
 		} else {
 			throw new DoesNotExistException("\"" + joinName(name) + "\" has not been defined.");
 		}
 	}
 
 	@Override
-	public boolean hasFlag(String flag, String... name) {
-		return isDefined(name) && find(name).orElseThrow().flags.contains(flag);
+	public Declaration get(Stack<String> stack, String name) {
+		String[] alloc = new String[stack.size() + 1];
+		stack.toArray(alloc);
+		alloc[alloc.length - 1] = name;
+		return find(alloc)
+				.orElseThrow((Supplier<DoesNotExistException>) () -> {
+					throw new DoesNotExistException(Arrays.toString(alloc) + " is not defined.");
+				});
 	}
 
 	@Override
 	public boolean hasAnyFlag(String flag, String name) {
 		Optional<Declaration> declaration = find(name, declarations);
-		if(declaration.isEmpty()) return false;
-		return declaration.get().flags.contains(flag);
+		if (declaration.isEmpty()) return false;
+		return declaration.get().getFlags().contains(flag);
+	}
+
+	@Override
+	public boolean hasFlag(String flag, String... name) {
+		return isDefined(name) && find(name).orElseThrow().getFlags().contains(flag);
 	}
 
 	@Override
@@ -106,7 +120,7 @@ public class MapDeclarations implements Declarations {
 		Declaration current = declarations.get(name[0]);
 		if (current == null) return Optional.empty();
 		for (int i = 1; i < extent; i++) {
-			current = current.children.get(name[i]);
+			current = current.getChildren().get(name[i]);
 			if (current == null) return Optional.empty();
 		}
 		return Optional.of(current);
@@ -119,7 +133,7 @@ public class MapDeclarations implements Declarations {
 			return Optional.empty();
 		} else {
 			for (Declaration declaration : current.values()) {
-				Map<String, Declaration> children = declaration.children;
+				Map<String, Declaration> children = declaration.getChildren();
 				Optional<Declaration> result = find(name, children);
 				if (result.isPresent()) return result;
 			}
@@ -134,7 +148,7 @@ public class MapDeclarations implements Declarations {
 			return -1;
 		} else {
 			for (Declaration declaration : current.values()) {
-				Map<String, Declaration> children = declaration.children;
+				Map<String, Declaration> children = declaration.getChildren();
 				int result = orderHelper(name, children);
 				if (result != -1) return result;
 			}
@@ -142,17 +156,34 @@ public class MapDeclarations implements Declarations {
 		}
 	}
 
-	public class Declaration {
+	public class DeclarationImpl implements Declaration {
 		private final Map<String, Declaration> children;
 		private final List<String> flags;
+		private final Type type;
 
-		public Declaration(List<String> flags) {
-			this(flags, new LinkedHashMap<>());
+		public DeclarationImpl(List<String> flags, Type type) {
+			this(flags, new LinkedHashMap<>(), type);
 		}
 
-		public Declaration(List<String> flags, Map<String, Declaration> children) {
+		public DeclarationImpl(List<String> flags, Map<String, Declaration> children, Type type) {
 			this.flags = flags;
 			this.children = children;
+			this.type = type;
+		}
+
+		@Override
+		public Map<String, Declaration> getChildren() {
+			return children;
+		}
+
+		@Override
+		public List<String> getFlags() {
+			return flags;
+		}
+
+		@Override
+		public Type getType() {
+			return type;
 		}
 	}
 }

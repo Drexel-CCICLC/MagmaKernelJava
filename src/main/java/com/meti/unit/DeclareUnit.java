@@ -2,6 +2,7 @@ package com.meti.unit;
 
 import com.meti.Aliaser;
 import com.meti.Compiler;
+import com.meti.type.TypeStack;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,11 +14,13 @@ public class DeclareUnit implements Unit {
 	private final Aliaser aliaser;
 	private final Declarations declarations;
 	private final Stack<String> stack;
+	private final TypeStack typeStack;
 
 	public DeclareUnit(Data data) {
 		this.aliaser = data.getAliaser();
 		this.declarations = data.getDeclarations();
 		this.stack = data.getStack();
+		typeStack = data.getTypeStack();
 	}
 
 	@Override
@@ -37,8 +40,8 @@ public class DeclareUnit implements Unit {
 
 	Optional<String> extractDeclaration(Compiler compiler, String name, String value, List<String> flags) {
 		stack.push(name);
-		declarations.define(flags, stack.toArray(String[]::new));
 		String result = compiler.compile(value);
+		declarations.define(flags, typeStack.poll(), stack.toArray(String[]::new));
 		Optional<String> toReturn = flags.contains("native") ?
 				Optional.of("") :
 				Optional.of("var " + aliaser.alias(name) + "=" + result + ";");

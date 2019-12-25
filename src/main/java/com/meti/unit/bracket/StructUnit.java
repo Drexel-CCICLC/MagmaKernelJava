@@ -7,7 +7,6 @@ import com.meti.unit.Declarations;
 import com.meti.unit.Unit;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class StructUnit implements Unit {
@@ -40,7 +39,8 @@ public class StructUnit implements Unit {
 				List<String> subStack = new ArrayList<>(stack.subList(0, stack.size() - 1));
 				params.forEach(s -> {
 					subStack.add(s);
-					declarations.define(subStack.toArray(String[]::new));
+					//TODO: add typing for parameters
+					declarations.define(null, subStack.toArray(String[]::new));
 					subStack.remove(s);
 				});
 				String compiledContent = compiler.compile(content);

@@ -40,11 +40,11 @@ public class DeclareTest extends CompileTest {
 
 	@Test
 	void name() {
-		Map<String, MapDeclarations.Declaration> map = new HashMap<>();
+		Map<String, Declaration> map = new HashMap<>();
 		Declarations declarations = new MapDeclarations(map);
 		Compiler name = new UnitCompiler(new CompoundUnit(
-				new DeclareUnit(new SimpleData(new SimpleAliaser(), declarations, new Stack<>())),
-				new PrimitiveUnit()
+				new DeclareUnit(new SimpleData(new SimpleAliaser(), declarations, new Stack<>(), new ListTypeStack())),
+				new PrimitiveUnit(new SimpleData())
 		));
 		name.compile("val x = 10;");
 		assertIterableEquals(singleton("x"), map.keySet());

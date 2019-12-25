@@ -1,7 +1,8 @@
 package com.meti;
 
-import com.meti.unit.value.PrimitiveUnit;
+import com.meti.unit.SimpleData;
 import com.meti.unit.Unit;
+import com.meti.unit.value.PrimitiveUnit;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -28,7 +29,7 @@ public class PrimitiveTest extends CompileTest {
 
 	@Test
 	void notAnInteger() {
-		Unit unit = new PrimitiveUnit();
+		Unit unit = new PrimitiveUnit(new SimpleData());
 		Optional<String> optional = unit.parse("x", null);
 		assertTrue(optional.isEmpty());
 	}

@@ -3,6 +3,7 @@ package com.meti.unit.value;
 import com.meti.Aliaser;
 import com.meti.Compiler;
 import com.meti.exception.DoesNotExistException;
+import com.meti.type.TypeStack;
 import com.meti.unit.Data;
 import com.meti.unit.Declarations;
 import com.meti.unit.Unit;
@@ -16,11 +17,13 @@ public class VariableUnit implements Unit {
 	private final Aliaser aliaser;
 	private final Declarations declarations;
 	private final Stack<String> stack;
+	private final TypeStack typeStack;
 
 	public VariableUnit(Data data) {
 		this.declarations = data.getDeclarations();
 		this.aliaser = data.getAliaser();
 		this.stack = data.getStack();
+		typeStack = data.getTypeStack();
 	}
 
 	@Override
@@ -55,6 +58,7 @@ public class VariableUnit implements Unit {
 		}
 		child.add(trimmedInput);
 		if (declarations.isInScope(child.toArray(String[]::new))) {
+			typeStack.add(declarations.get(stack, trimmedInput).getType());
 			return declarations.hasFlag("native", trimmedInput) ?
 					Optional.of(trimmedInput) :
 					Optional.of(aliaser.alias(trimmedInput));

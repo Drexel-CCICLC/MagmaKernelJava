@@ -5,6 +5,7 @@ import com.meti.unit.value.StringUnit;
 import com.meti.unit.value.VariableUnit;
 import org.junit.jupiter.api.Test;
 
+import static com.meti.type.PrimitiveType.ANY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AssignUnitTest {
@@ -12,16 +13,16 @@ class AssignUnitTest {
 	@Test
 	void parse() {
 		Declarations declarations = new MapDeclarations();
-		declarations.define("a");
-		declarations.define("b");
-		declarations.define("error");
+		declarations.define(ANY, "a");
+		declarations.define(ANY, "b");
+		declarations.define(ANY, "error");
 		Data data = new SimpleData(declarations);
 		String result = new AssignUnit(data)
 				.parse("error = a + \" does not equal \" +" +
 						" b;", new UnitCompiler(new CompoundUnit(
 						new VariableUnit(data),
 						new OperationUnit(),
-						new StringUnit()
+						new StringUnit(data)
 				)))
 				.orElseThrow();
 		assertEquals("a0=b1+\" does not equal \"+c2;", result);
