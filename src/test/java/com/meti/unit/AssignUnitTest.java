@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AssignUnitTest {
+
 	@Test
 	void parse() {
 		Declarations declarations = new MapDeclarations();
@@ -15,7 +16,7 @@ class AssignUnitTest {
 		declarations.define("b");
 		declarations.define("error");
 		Data data = new SimpleData(declarations);
-		String result = new AssignUnit()
+		String result = new AssignUnit(data)
 				.parse("error = a + \" does not equal \" +" +
 						" b;", new UnitCompiler(new CompoundUnit(
 						new VariableUnit(data),

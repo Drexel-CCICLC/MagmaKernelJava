@@ -1,45 +1,50 @@
 package com.meti.run;
 
 import com.meti.Compiler;
-import com.meti.unit.*;
-import com.meti.unit.bracket.BracketUnit;
-import com.meti.unit.value.NewUnit;
-import com.meti.unit.value.ValueUnit;
+import com.meti.unit.MagmaUnit;
+import com.meti.unit.UnitCompiler;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Compile {
 	public static final Path OUT = Paths.get("out", "compile.js");
-	private static final Data data = new SimpleData();
-	private static final Compiler compiler = new UnitCompiler(new CompoundUnit(
-			new BracketUnit(data),
-			new ReturnUnit(),
-			new DeclareUnit(data),
-			new AssignUnit(),
-			new NewUnit(data),
-			new ValueUnit(data)
-	));
+	private static final Compiler compiler = new UnitCompiler(new MagmaUnit());
 
-	public static void main(String[] args) {
+	private static void compile() {
 		try {
 			Path build = Paths.get("build");
 			if (!Files.exists(build)) Files.createFile(build);
 			String value = readFromBuild(build);
 			String result = compiler.compile(value);
-			if(!Files.exists(OUT.getParent())) {
+			if (!Files.exists(OUT.getParent())) {
 				Files.createDirectories(OUT.getParent());
 			}
-			if(!Files.exists(OUT)) {
+			if (!Files.exists(OUT)) {
 				Files.createFile(OUT);
 			}
 			Files.writeString(OUT, result);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) {
+		try (Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
+			do {
+				String line = scanner.nextLine().toLowerCase().trim();
+				if (line.equals("exit")) {
+					break;
+				} else if (line.equals("compile")) {
+					compile();
+				}
+			} while (true);
 		}
 	}
 
