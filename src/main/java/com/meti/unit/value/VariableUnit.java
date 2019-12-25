@@ -58,7 +58,13 @@ public class VariableUnit implements Unit {
 		}
 		child.add(trimmedInput);
 		if (declarations.isInScope(child.toArray(String[]::new))) {
-			typeStack.add(declarations.get(stack, trimmedInput).getType());
+			List<String> parentStack;
+			if (!stack.isEmpty()) {
+				parentStack = stack.subList(0, stack.size() - 1);
+			} else {
+				parentStack = new ArrayList<>();
+			}
+			typeStack.add(declarations.get(parentStack, trimmedInput).getType());
 			return declarations.hasFlag("native", trimmedInput) ?
 					Optional.of(trimmedInput) :
 					Optional.of(aliaser.alias(trimmedInput));

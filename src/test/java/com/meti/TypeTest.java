@@ -14,6 +14,7 @@ public class TypeTest extends CompileTest {
 			compiler.compile("var a = 10; a = \"Hello World!\"");
 			fail();
 		} catch (Exception e) {
+			e.printStackTrace();
 			assertSame(TypeClashException.class, e.getCause().getClass());
 		}
 	}

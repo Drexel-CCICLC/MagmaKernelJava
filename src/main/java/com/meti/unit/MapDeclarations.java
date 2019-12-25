@@ -59,7 +59,7 @@ public class MapDeclarations implements Declarations {
 	}
 
 	@Override
-	public Declaration get(Stack<String> stack, String name) {
+	public Declaration get(Collection<String> stack, String name) {
 		String[] alloc = new String[stack.size() + 1];
 		stack.toArray(alloc);
 		alloc[alloc.length - 1] = name;
@@ -70,15 +70,15 @@ public class MapDeclarations implements Declarations {
 	}
 
 	@Override
+	public boolean hasFlag(String flag, String... name) {
+		return isDefined(name) && find(name).orElseThrow().getFlags().contains(flag);
+	}
+
+	@Override
 	public boolean hasAnyFlag(String flag, String name) {
 		Optional<Declaration> declaration = find(name, declarations);
 		if (declaration.isEmpty()) return false;
 		return declaration.get().getFlags().contains(flag);
-	}
-
-	@Override
-	public boolean hasFlag(String flag, String... name) {
-		return isDefined(name) && find(name).orElseThrow().getFlags().contains(flag);
 	}
 
 	@Override
