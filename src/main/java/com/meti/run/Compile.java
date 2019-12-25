@@ -5,6 +5,7 @@ import com.meti.unit.MagmaUnit;
 import com.meti.unit.UnitCompiler;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,15 +36,16 @@ public class Compile {
 	}
 
 	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
-		do {
-			String line = scanner.nextLine().toLowerCase().trim();
-			if (line.equals("exit")) {
-				break;
-			} else if (line.equals("compile")) {
-				compile();
-			}
-		} while (true);
+		try (Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
+			do {
+				String line = scanner.nextLine().toLowerCase().trim();
+				if (line.equals("exit")) {
+					break;
+				} else if (line.equals("compile")) {
+					compile();
+				}
+			} while (true);
+		}
 	}
 
 	private static String readFromBuild(Path build) throws IOException {
