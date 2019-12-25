@@ -6,9 +6,9 @@ import com.meti.unit.Unit;
 
 public class ValueUnit extends CompoundUnit {
 	public ValueUnit(Data data) {
-		this(new StringUnit(),
+		this(new OperationUnit(),
+				new StringUnit(),
 				new InvocationUnit(),
-				new OperationUnit(),
 				new PrimitiveUnit(),
 				new VariableUnit(data));
 	}

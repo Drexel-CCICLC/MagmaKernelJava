@@ -29,7 +29,7 @@ public class OperationUnit implements Unit {
 			String value1 = input.substring(operationIndex + operation.length());
 			String compile0 = compiler.compile(value0);
 			String compile1 = compiler.compile(value1);
-			if(operation == "==") operation = "===";
+			if(operation.equals("==")) operation = "===";
 			return Optional.of(compile0 + operation + compile1);
 		}
 		return Optional.empty();
