@@ -14,7 +14,7 @@ class Palette extends CompileTest {
 			if(a == b) {
 		        error = a + " does not equal " + b;
 		    };
-		""");
+			""");
 		});
 	}
 }
