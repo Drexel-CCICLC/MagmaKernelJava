@@ -6,13 +6,5 @@ import com.meti.unit.value.NewUnit;
 import com.meti.unit.value.ValueUnit;
 
 public class CompileTest {
-	private final Data data = new SimpleData();
-	protected final Compiler compiler = new UnitCompiler(new CompoundUnit(
-			new BracketUnit(data),
-			new ReturnUnit(),
-			new DeclareUnit(data),
-			new AssignUnit(),
-			new NewUnit(data),
-			new ValueUnit(data)
-	));
+	protected final Compiler compiler = new UnitCompiler(new MagmaUnit());
 }

@@ -1,10 +1,8 @@
 package com.meti.run;
 
 import com.meti.Compiler;
-import com.meti.unit.*;
-import com.meti.unit.bracket.BracketUnit;
-import com.meti.unit.value.NewUnit;
-import com.meti.unit.value.ValueUnit;
+import com.meti.unit.MagmaUnit;
+import com.meti.unit.UnitCompiler;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,15 +13,7 @@ import java.util.List;
 
 public class Compile {
 	public static final Path OUT = Paths.get("out", "compile.js");
-	private static final Data data = new SimpleData();
-	private static final Compiler compiler = new UnitCompiler(new CompoundUnit(
-			new BracketUnit(data),
-			new ReturnUnit(),
-			new DeclareUnit(data),
-			new AssignUnit(),
-			new NewUnit(data),
-			new ValueUnit(data)
-	));
+	private static final Compiler compiler = new UnitCompiler(new MagmaUnit());
 
 	public static void main(String[] args) {
 		try {
@@ -31,10 +21,10 @@ public class Compile {
 			if (!Files.exists(build)) Files.createFile(build);
 			String value = readFromBuild(build);
 			String result = compiler.compile(value);
-			if(!Files.exists(OUT.getParent())) {
+			if (!Files.exists(OUT.getParent())) {
 				Files.createDirectories(OUT.getParent());
 			}
-			if(!Files.exists(OUT)) {
+			if (!Files.exists(OUT)) {
 				Files.createFile(OUT);
 			}
 			Files.writeString(OUT, result);
