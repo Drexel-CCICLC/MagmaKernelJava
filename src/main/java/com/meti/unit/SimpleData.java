@@ -1,6 +1,7 @@
 package com.meti.unit;
 
 import com.meti.Aliaser;
+import com.meti.DeclareManager;
 import com.meti.SimpleAliaser;
 import com.meti.type.TypeStack;
 import com.meti.unit.bracket.DeclareStack;
@@ -10,6 +11,7 @@ import java.util.Stack;
 public class SimpleData implements Data {
 	private final Aliaser aliaser;
 	private final Declarations declarations;
+	private final DeclareManager manager = new DeclareManager();
 	private final Stack<String> stack;
 	private final TypeStack typeStack;
 
@@ -51,5 +53,10 @@ public class SimpleData implements Data {
 	@Override
 	public Declarations getDeclarations() {
 		return declarations;
+	}
+
+	@Override
+	public DeclareManager getManager() {
+		return manager;
 	}
 }
