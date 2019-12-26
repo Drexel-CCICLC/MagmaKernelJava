@@ -2,13 +2,20 @@ package com.meti.unit;
 
 import com.meti.type.Type;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 public interface Declaration {
-	Map<String, Declaration> getChildren();
+	Optional<Declaration> child(String name);
 
-	List<String> getFlags();
+	Map<String, Declaration> children();
+
+	void define(String name, Type type, Collection<String> flags);
+
+	void delete(String name);
+
+	Collection<String> getFlags();
 
 	Type getType();
 }

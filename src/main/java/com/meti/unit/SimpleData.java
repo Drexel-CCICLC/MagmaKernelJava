@@ -3,6 +3,7 @@ package com.meti.unit;
 import com.meti.Aliaser;
 import com.meti.SimpleAliaser;
 import com.meti.type.TypeStack;
+import com.meti.unit.bracket.DeclareStack;
 
 import java.util.Stack;
 
@@ -28,8 +29,13 @@ public class SimpleData implements Data {
 	}
 
 	@Override
+	public DeclareStack getDeclareStack() {
+		return null;
+	}
+
+	@Override
 	public Stack<String> getStack() {
-		return stack;
+		return null;
 	}
 
 	@Override
