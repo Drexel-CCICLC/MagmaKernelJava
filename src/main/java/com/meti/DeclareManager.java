@@ -7,8 +7,16 @@ import com.meti.unit.Declaration;
 import java.util.*;
 
 public class DeclareManager {
-	private final Declaration root = new DeclarationImpl(Collections.emptySet(), null);
+	private final Declaration root;
 	private final Stack<String> stack = new Stack<>();
+
+	public DeclareManager() {
+		this(new DeclarationImpl(Collections.emptySet(), null));
+	}
+
+	public DeclareManager(Declaration root) {
+		this.root = root;
+	}
 
 	public void define(String name, Type type, Collection<String> flags) {
 		absolute(stack).define(name, type, flags);
@@ -55,13 +63,18 @@ public class DeclareManager {
 	}
 
 	private static final class DeclarationImpl implements Declaration {
-		private final Map<String, Declaration> children = new LinkedHashMap<>();
+		private final Map<String, Declaration> children;
 		private final Collection<String> flags;
 		private final Type type;
 
 		public DeclarationImpl(Collection<String> flags, Type type) {
+			this(flags, type, new LinkedHashMap<>());
+		}
+
+		public DeclarationImpl(Collection<String> flags, Type type, LinkedHashMap<String, Declaration> children) {
 			this.flags = flags;
 			this.type = type;
+			this.children = children;
 		}
 
 		@Override
