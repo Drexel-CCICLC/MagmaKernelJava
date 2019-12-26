@@ -19,7 +19,11 @@ public class DeclareManager {
 	}
 
 	public void define(String name, Type type, Collection<String> flags) {
-		absolute(stack).define(name, type, flags);
+		current().define(name, type, flags);
+	}
+
+	public Declaration current() {
+		return absolute(stack);
 	}
 
 	public Declaration absolute(Collection<String> splitName) {
@@ -39,16 +43,23 @@ public class DeclareManager {
 	}
 
 	public void delete(String name) {
-		absolute(stack).delete(name);
+		current().delete(name);
 	}
 
 	public Declaration relative(String name) {
+		return relativeOptionally(name)
+				.orElseThrow(() -> new DoesNotExistException(name + " is not defined in scope."));
+	}
+
+	public Optional<Declaration> relativeOptionally(String name) {
 		Queue<String> copy = new PriorityQueue<>(stack);
 		while (!copy.isEmpty()) {
 			Declaration frame = absolute(copy);
 			Optional<Declaration> child = frame.child(name);
 			if (child.isPresent()) {
-				return child.get();
+				return child;
+			} else {
+				copy.poll();
 			}
 		}
 		throw new DoesNotExistException(name + " does not exist in scope.");
@@ -116,6 +127,11 @@ public class DeclareManager {
 		@Override
 		public boolean isMutable() {
 			return hasFlag("val");
+		}
+
+		@Override
+		public boolean isNative() {
+			return hasFlag("native");
 		}
 	}
 }

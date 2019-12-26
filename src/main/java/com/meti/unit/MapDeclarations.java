@@ -225,5 +225,10 @@ public class MapDeclarations implements Declarations {
 		public boolean isMutable() {
 			return hasFlag("val");
 		}
+
+		@Override
+		public boolean isNative() {
+			return hasFlag("native");
+		}
 	}
 }

@@ -5,6 +5,7 @@ import com.meti.type.Type;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 public interface Declaration {
 	Optional<Declaration> child(String name);
@@ -22,4 +23,8 @@ public interface Declaration {
 	boolean hasFlag(String value);
 
 	boolean isMutable();
+
+	boolean isNative();
+
+	OptionalInt order(String child);
 }

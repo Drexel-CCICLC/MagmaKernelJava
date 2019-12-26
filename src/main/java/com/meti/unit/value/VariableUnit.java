@@ -2,20 +2,20 @@ package com.meti.unit.value;
 
 import com.meti.Aliaser;
 import com.meti.Compiler;
+import com.meti.DeclareManager;
 import com.meti.exception.DoesNotExistException;
 import com.meti.type.TypeStack;
 import com.meti.unit.Data;
+import com.meti.unit.Declaration;
 import com.meti.unit.Declarations;
 import com.meti.unit.Unit;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Stack;
+import java.util.*;
 
 public class VariableUnit implements Unit {
 	private final Aliaser aliaser;
 	private final Declarations declarations;
+	private final DeclareManager manager;
 	private final Stack<String> stack;
 	private final TypeStack typeStack;
 
@@ -24,51 +24,31 @@ public class VariableUnit implements Unit {
 		this.aliaser = data.getAliaser();
 		this.stack = data.getStack();
 		typeStack = data.getTypeStack();
+		manager = data.getManager();
 	}
 
 	@Override
 	public Optional<String> parse(String input, Compiler compiler) {
-		String trimmedInput = input.trim();
-
-		if (trimmedInput.indexOf('.') != -1) {
-			int lastIndex = trimmedInput.lastIndexOf('.');
-			String childName = trimmedInput.substring(lastIndex + 1);
-			String value = trimmedInput.substring(0, lastIndex);
-			if (Character.isDigit(childName.charAt(0))) {
-				return Optional.empty();
-			}
-			String toAppend;
-			if (declarations.hasAnyFlag("native", childName)) {
-				toAppend = "." + childName;
-			} else {
-				toAppend = "[" + declarations.order(childName) + ']';
-			}
-			return Optional.of(compiler.compile(value) + toAppend);
-		}
-
-		for (char c : trimmedInput.toCharArray()) {
-			if (c == ' ') {
-				return Optional.empty();
+		String name = input.trim();
+		Optional<Declaration> found = manager.relativeOptionally(name);
+		if (found.isPresent()) {
+			return Optional.ofNullable(aliaser.alias(name));
+		} else {
+			if (input.indexOf('.') != -1) {
+				String[] args = input.split("\\.");
+				Deque<String> list = new LinkedList<>(List.of(args));
+				Declaration value = manager.absolute(list);
+				if (value.isNative()) {
+					return Optional.of(name);
+				} else {
+					String child = list.removeLast();
+					Declaration parent = manager.absolute(list);
+					int order = parent.order(child).orElseThrow(() -> new DoesNotExistException(name + " is not " +
+							"defined" +
+							"."));
+					return Optional.ofNullable(compiler.compile(String.join(".", list)) + "[" + order + "]");
+				}
 			}
 		}
-
-		List<String> child = new ArrayList<>();
-		if (!stack.isEmpty()) {
-			child.addAll(stack.subList(0, stack.size() - 1));
-		}
-		child.add(trimmedInput);
-		if (declarations.isInScope(child.toArray(String[]::new))) {
-			List<String> parentStack;
-			if (!stack.isEmpty()) {
-				parentStack = stack.subList(0, stack.size() - 1);
-			} else {
-				parentStack = new ArrayList<>();
-			}
-			typeStack.add(declarations.get(parentStack, trimmedInput).getType());
-			return declarations.hasFlag("native", trimmedInput) ?
-					Optional.of(trimmedInput) :
-					Optional.of(aliaser.alias(trimmedInput));
-		}
-		throw new DoesNotExistException(trimmedInput + " is not defined.");
 	}
 }

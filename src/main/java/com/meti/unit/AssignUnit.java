@@ -30,7 +30,7 @@ public class AssignUnit implements Unit {
 	}
 
 	Optional<String> extractAssignment(Compiler compiler, String name, String value) {
-		if(manager.relative(name.trim()).isMutable()){
+		if (manager.relative(name.trim()).isMutable()) {
 			throw new ImmutableException(name + " is immutable.");
 		}
 		String compiledName = compiler.compile(name);

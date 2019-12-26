@@ -1,6 +1,7 @@
 package com.meti.unit.value;
 
 import com.meti.Compiler;
+import com.meti.type.TypeStack;
 import com.meti.unit.Data;
 import com.meti.unit.Unit;
 
@@ -10,10 +11,10 @@ import static com.meti.type.PrimitiveType.DOUBLE;
 import static com.meti.type.PrimitiveType.INT;
 
 public class PrimitiveUnit implements Unit {
-	private final Data data;
+	private final TypeStack stack;
 
 	public PrimitiveUnit(Data data) {
-		this.data = data;
+		this.stack = data.getTypeStack();
 	}
 
 	@Override
@@ -24,12 +25,12 @@ public class PrimitiveUnit implements Unit {
 		}
 		try {
 			Integer.parseInt(trimmedInput);
-			data.getTypeStack().add(INT);
+			stack.add(INT);
 			return Optional.of(trimmedInput);
 		} catch (NumberFormatException e) {
 			try {
 				Double.parseDouble(trimmedInput);
-				data.getTypeStack().add(DOUBLE);
+				stack.add(DOUBLE);
 				return Optional.of(trimmedInput);
 			} catch (NumberFormatException e1) {
 				return Optional.empty();
