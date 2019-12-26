@@ -1,17 +1,21 @@
 package com.meti.unit;
 
 import com.meti.Compiler;
+import com.meti.DeclareManager;
 import com.meti.exception.ImmutableException;
 import com.meti.exception.TypeClashException;
 import com.meti.type.Type;
+import com.meti.type.TypeStack;
 
 import java.util.Optional;
 
 public class AssignUnit implements Unit {
-	private final Data data;
+	private final DeclareManager manager;
+	private final TypeStack typeStack;
 
 	public AssignUnit(Data data) {
-		this.data = data;
+		this.manager = data.getManager();
+		this.typeStack = data.getTypeStack();
 	}
 
 	@Override
@@ -26,12 +30,13 @@ public class AssignUnit implements Unit {
 	}
 
 	Optional<String> extractAssignment(Compiler compiler, String name, String value) {
-		if (data.getDeclarations().hasAnyFlag("val", name.trim()))
+		if(manager.relative(name.trim()).isMutable()){
 			throw new ImmutableException(name + " is immutable.");
+		}
 		String compiledName = compiler.compile(name);
 		String compiledValue = compiler.compile(value);
-		Type expected = data.getTypeStack().poll();
-		Type actual = data.getTypeStack().poll();
+		Type expected = typeStack.poll();
+		Type actual = typeStack.poll();
 		if (!(expected.equals(actual))) {
 			throw new TypeClashException(expected, actual);
 		}

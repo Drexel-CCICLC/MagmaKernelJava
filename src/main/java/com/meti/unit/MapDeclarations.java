@@ -215,5 +215,15 @@ public class MapDeclarations implements Declarations {
 		public Type getType() {
 			return type;
 		}
+
+		@Override
+		public boolean hasFlag(String value) {
+			return getFlags().contains(value);
+		}
+
+		@Override
+		public boolean isMutable() {
+			return hasFlag("val");
+		}
 	}
 }

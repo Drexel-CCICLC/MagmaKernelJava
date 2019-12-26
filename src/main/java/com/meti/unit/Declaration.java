@@ -18,4 +18,8 @@ public interface Declaration {
 	Collection<String> getFlags();
 
 	Type getType();
+
+	boolean hasFlag(String value);
+
+	boolean isMutable();
 }
