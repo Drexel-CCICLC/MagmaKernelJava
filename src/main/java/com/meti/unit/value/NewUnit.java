@@ -2,7 +2,8 @@ package com.meti.unit.value;
 
 import com.meti.Aliaser;
 import com.meti.Compiler;
-import com.meti.DeclareManager;
+import com.meti.Declarations;
+import com.meti.type.Type;
 import com.meti.unit.Data;
 import com.meti.unit.Unit;
 
@@ -11,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class NewUnit implements Unit {
 	private final Aliaser aliaser;
-	private final DeclareManager manager;
+	private final Declarations manager;
 
 	public NewUnit(Data data) {
 		this.aliaser = data.getAliaser();
@@ -29,6 +30,11 @@ public class NewUnit implements Unit {
 					.collect(Collectors.joining(","));
 			return Optional.of("[" + functions + "]");
 		}
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Type> resolve(String input, Compiler compiler) {
 		return Optional.empty();
 	}
 }

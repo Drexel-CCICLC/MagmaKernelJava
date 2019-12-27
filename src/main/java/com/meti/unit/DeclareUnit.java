@@ -2,25 +2,25 @@ package com.meti.unit;
 
 import com.meti.Aliaser;
 import com.meti.Compiler;
+import com.meti.Declarations;
+import com.meti.type.Type;
 import com.meti.type.TypeStack;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class DeclareUnit implements Unit {
 	private final Aliaser aliaser;
-	private final Declarations declarations;
-	private final Stack<String> stack;
+	private final Declarations manager;
 	private final TypeStack typeStack;
 
 	public DeclareUnit(Data data) {
+		this.typeStack = data.getTypeStack();
+		this.manager = data.getManager();
 		this.aliaser = data.getAliaser();
-		this.declarations = data.getDeclarations();
-		this.stack = data.getStack();
-		typeStack = data.getTypeStack();
 	}
 
 	@Override
@@ -38,15 +38,23 @@ public class DeclareUnit implements Unit {
 				Optional.empty();
 	}
 
-	Optional<String> extractDeclaration(Compiler compiler, String name, String value, List<String> flags) {
-		stack.push(name);
-		String result = compiler.compile(value);
-		declarations.define(flags, typeStack.poll(), stack.toArray(String[]::new));
-		Optional<String> toReturn = flags.contains("native") ?
+	Optional<String> extractDeclaration(Compiler compiler, String name, String value, Collection<String> flags) {
+		String result = extractValue(compiler, name, value);
+		Declaration declaration = manager.define(name, typeStack.poll(), flags);
+		return declaration.isNative() ?
 				Optional.of("") :
 				Optional.of("var " + aliaser.alias(name) + "=" + result + ";");
-		stack.pop();
-		return toReturn;
 	}
 
+	private String extractValue(Compiler compiler, String name, String value) {
+		manager.sink(name);
+		String result = compiler.compile(value);
+		manager.surface();
+		return result;
+	}
+
+	@Override
+	public Optional<Type> resolve(String input, Compiler compiler) {
+		return Optional.empty();
+	}
 }

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 import static java.util.Collections.singleton;
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DeclareTest extends CompileTest {
 	@Test
 	void alreadyDeclared() {
-		try{
+		try {
 			compiler.compile("val x = 10; val x = 20;");
 			fail();
 		} catch (Exception e) {
@@ -40,11 +39,11 @@ public class DeclareTest extends CompileTest {
 
 	@Test
 	void name() {
-		Map<String, Declaration> map = new HashMap<>();
-		Declarations declarations = new MapDeclarations(map);
+		Map<String, Declarations> map = new HashMap<>();
+		Data data = new SimpleData();
 		Compiler name = new UnitCompiler(new CompoundUnit(
-				new DeclareUnit(new SimpleData(new SimpleAliaser(), declarations, new Stack<>(), new ListTypeStack())),
-				new PrimitiveUnit(new SimpleData())
+				new DeclareUnit(data),
+				new PrimitiveUnit(data)
 		));
 		name.compile("val x = 10;");
 		assertIterableEquals(singleton("x"), map.keySet());

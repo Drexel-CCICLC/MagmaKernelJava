@@ -1,6 +1,7 @@
 package com.meti.unit.value;
 
 import com.meti.Compiler;
+import com.meti.type.Type;
 import com.meti.unit.Unit;
 
 import java.util.Optional;
@@ -32,6 +33,11 @@ public class OperationUnit implements Unit {
 			if(operation.equals("==")) operation = "===";
 			return Optional.of(compile0 + operation + compile1);
 		}
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Type> resolve(String input, Compiler compiler) {
 		return Optional.empty();
 	}
 }

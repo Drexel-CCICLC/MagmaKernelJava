@@ -3,7 +3,7 @@ package com.meti;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SimpleAliaser implements Aliaser {
+public class IncrementAliaser implements Aliaser {
 	public static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 	private final Map<String, String> aliases = new HashMap<>();
 	private int counter = -1;

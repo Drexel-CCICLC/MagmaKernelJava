@@ -7,7 +7,7 @@ import com.meti.unit.Unit;
 public class BracketUnit extends CompoundUnit {
 	public BracketUnit(Data data) {
 		this(
-				new StructUnit(data, data.getDeclareStack()),
+				new StructUnit(data),
 				new IfUnit(),
 				new ElseUnit(),
 				new WhileUnit(),

@@ -12,13 +12,13 @@ public interface Declaration {
 
 	Map<String, Declaration> children();
 
-	void define(String name, Type type, Collection<String> flags);
+	Declaration define(String name, Type type, Collection<String> flags);
 
 	void delete(String name);
 
-	Collection<String> getFlags();
+	Collection<String> flags();
 
-	Type getType();
+	Type type();
 
 	boolean hasFlag(String value);
 

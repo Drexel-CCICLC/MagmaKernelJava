@@ -1,6 +1,7 @@
 package com.meti.unit.bracket;
 
 import com.meti.Compiler;
+import com.meti.type.Type;
 import com.meti.unit.Unit;
 
 import java.util.Optional;
@@ -30,6 +31,11 @@ public class IfUnit implements Unit {
 			String content = compiler.compile(trimmedInput.substring(closingParenthesis + 4));
 			return Optional.of("if(" + condition + ")" + content);
 		}
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Type> resolve(String input, Compiler compiler) {
 		return Optional.empty();
 	}
 }

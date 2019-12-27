@@ -1,6 +1,7 @@
 package com.meti.unit.value;
 
 import com.meti.Compiler;
+import com.meti.type.Type;
 import com.meti.unit.Unit;
 
 import java.util.ArrayList;
@@ -40,6 +41,11 @@ public class InvocationUnit implements Unit {
 					.collect(Collectors.joining(","));
 			return Optional.of(compiler.compile(caller) + "(" + contentString + ")");
 		}
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Type> resolve(String input, Compiler compiler) {
 		return Optional.empty();
 	}
 }

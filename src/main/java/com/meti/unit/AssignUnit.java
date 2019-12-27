@@ -1,7 +1,7 @@
 package com.meti.unit;
 
 import com.meti.Compiler;
-import com.meti.DeclareManager;
+import com.meti.Declarations;
 import com.meti.exception.ImmutableException;
 import com.meti.exception.TypeClashException;
 import com.meti.type.Type;
@@ -10,7 +10,7 @@ import com.meti.type.TypeStack;
 import java.util.Optional;
 
 public class AssignUnit implements Unit {
-	private final DeclareManager manager;
+	private final Declarations manager;
 	private final TypeStack typeStack;
 
 	public AssignUnit(Data data) {
@@ -41,5 +41,10 @@ public class AssignUnit implements Unit {
 			throw new TypeClashException(expected, actual);
 		}
 		return Optional.of(compiledName + "=" + compiledValue + ";");
+	}
+
+	@Override
+	public Optional<Type> resolve(String input, Compiler compiler) {
+		return Optional.empty();
 	}
 }

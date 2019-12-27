@@ -1,5 +1,7 @@
 package com.meti.unit;
 
+import com.meti.Declarations;
+import com.meti.TreeDeclarations;
 import com.meti.unit.value.OperationUnit;
 import com.meti.unit.value.StringUnit;
 import com.meti.unit.value.VariableUnit;
@@ -12,11 +14,11 @@ class AssignUnitTest {
 
 	@Test
 	void parse() {
-		Declarations declarations = new MapDeclarations();
-		declarations.define(ANY, "a");
-		declarations.define(ANY, "b");
-		declarations.define(ANY, "error");
+		Declarations declarations = new TreeDeclarations();
 		Data data = new SimpleData(declarations);
+		declarations.define("a", ANY);
+		declarations.define("b", ANY);
+		declarations.define("error", ANY);
 		String result = new AssignUnit(data)
 				.parse("error = a + \" does not equal \" +" +
 						" b;", new UnitCompiler(new CompoundUnit(

@@ -2,7 +2,7 @@ package com.meti.unit.bracket;
 
 import com.meti.Aliaser;
 import com.meti.Compiler;
-import com.meti.DeclareManager;
+import com.meti.Declarations;
 import com.meti.exception.ParseException;
 import com.meti.type.Type;
 import com.meti.unit.Data;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class StructUnit implements Unit {
 	private final Aliaser aliaser;
-	private final DeclareManager manager;
+	private final Declarations manager;
 
 	public StructUnit(Data data) {
 		this.aliaser = data.getAliaser();
@@ -81,5 +81,10 @@ public class StructUnit implements Unit {
 		return params.stream()
 				.map(aliaser::alias)
 				.collect(Collectors.joining(","));
+	}
+
+	@Override
+	public Optional<Type> resolve(String input, Compiler compiler) {
+		return Optional.empty();
 	}
 }

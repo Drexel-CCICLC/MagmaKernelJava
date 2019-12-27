@@ -1,6 +1,7 @@
 package com.meti.unit;
 
 import com.meti.Compiler;
+import com.meti.type.Type;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,5 +23,10 @@ public class CompoundUnit implements Unit {
 				.map(unit -> unit.parse(input, compiler))
 				.flatMap(Optional::stream)
 				.findAny();
+	}
+
+	@Override
+	public Optional<Type> resolve(String input, Compiler compiler) {
+		return Optional.empty();
 	}
 }

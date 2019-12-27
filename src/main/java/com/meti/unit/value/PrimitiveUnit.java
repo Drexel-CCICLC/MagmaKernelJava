@@ -1,6 +1,7 @@
 package com.meti.unit.value;
 
 import com.meti.Compiler;
+import com.meti.type.Type;
 import com.meti.type.TypeStack;
 import com.meti.unit.Data;
 import com.meti.unit.Unit;
@@ -36,5 +37,10 @@ public class PrimitiveUnit implements Unit {
 				return Optional.empty();
 			}
 		}
+	}
+
+	@Override
+	public Optional<Type> resolve(String input, Compiler compiler) {
+		return Optional.empty();
 	}
 }

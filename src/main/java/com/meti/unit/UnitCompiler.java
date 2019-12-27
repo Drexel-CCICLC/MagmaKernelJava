@@ -2,10 +2,10 @@ package com.meti.unit;
 
 import com.meti.Compiler;
 import com.meti.exception.ParseException;
+import com.meti.type.Type;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -47,5 +47,11 @@ public class UnitCompiler implements Compiler {
 					return parse.orElseThrow(() -> new ParseException("Failed to parse \"" + s + "\"."));
 				})
 				.collect(Collectors.joining());
+	}
+
+	@Override
+	public Type resolve(String value) {
+		return root.resolve(value, this)
+				.orElseThrow(() -> new ParseException("Could not resolve type: " + value));
 	}
 }

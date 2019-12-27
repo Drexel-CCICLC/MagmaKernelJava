@@ -1,6 +1,7 @@
 package com.meti.unit.bracket;
 
 import com.meti.Compiler;
+import com.meti.type.Type;
 import com.meti.unit.Unit;
 
 import java.util.ArrayList;
@@ -34,6 +35,11 @@ public class BlockUnit implements Unit {
 					.map(compiler::compile)
 					.collect(Collectors.joining()) + "}");
 		}
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Type> resolve(String input, Compiler compiler) {
 		return Optional.empty();
 	}
 }
