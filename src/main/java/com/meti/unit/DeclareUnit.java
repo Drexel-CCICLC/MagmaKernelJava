@@ -39,8 +39,9 @@ public class DeclareUnit implements Unit {
 	}
 
 	Optional<String> extractDeclaration(Compiler compiler, String name, String value, Collection<String> flags) {
-		Declaration declaration = manager.define(name, typeStack.poll(), flags);
+		manager.defineTemp(name, flags);
 		String result = extractValue(compiler, name, value);
+		Declaration declaration = manager.define(name, typeStack.poll(), flags);
 		return declaration.isNative() ?
 				Optional.of("") :
 				Optional.of("var " + aliaser.alias(name) + "=" + result + ";");

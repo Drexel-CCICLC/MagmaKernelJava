@@ -22,4 +22,9 @@ public enum PrimitiveType implements Type {
 	public Optional<Type> parent() {
 		return Optional.ofNullable(parent);
 	}
+
+	@Override
+	public Optional<Type> returnType() {
+		return Optional.empty();
+	}
 }

@@ -1,6 +1,7 @@
 package com.meti;
 
 import com.meti.exception.DoesNotExistException;
+import com.meti.type.PrimitiveType;
 import com.meti.type.Type;
 import com.meti.unit.Declaration;
 
@@ -11,6 +12,8 @@ import static java.util.Collections.emptySet;
 public class TreeDeclarations implements Declarations {
 	private final Declaration root;
 	private final Stack<String> stack = new Stack<>();
+	private Collection<String> tempFlags;
+	private String tempName;
 
 	public TreeDeclarations() {
 		this(new TreeDeclaration(emptySet(), null));
@@ -18,6 +21,12 @@ public class TreeDeclarations implements Declarations {
 
 	public TreeDeclarations(Declaration root) {
 		this.root = root;
+	}
+
+	@Override
+	public void defineTemp(String tempName, Collection<String> tempFlags) {
+		this.tempName = tempName;
+		this.tempFlags = tempFlags;
 	}
 
 	@Override
@@ -34,6 +43,9 @@ public class TreeDeclarations implements Declarations {
 	public Declaration absolute(Collection<String> splitName) {
 		Declaration current = root;
 		Collection<String> innerStack = new ArrayList<>();
+		if (tempName != null && splitName.contains(tempName) && splitName.size() == 1) {
+			return new TreeDeclaration(tempFlags, PrimitiveType.ANY);
+		}
 		for (String name : splitName) {
 			Optional<Declaration> optional = current.child(name);
 			if (optional.isPresent()) {

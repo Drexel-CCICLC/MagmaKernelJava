@@ -5,6 +5,7 @@ import com.meti.Compiler;
 import com.meti.Declarations;
 import com.meti.exception.ParseException;
 import com.meti.type.Type;
+import com.meti.type.TypeStack;
 import com.meti.unit.Data;
 import com.meti.unit.Unit;
 
@@ -14,10 +15,12 @@ import java.util.stream.Collectors;
 public class StructUnit implements Unit {
 	private final Aliaser aliaser;
 	private final Declarations manager;
+	private final TypeStack typeStack;
 
 	public StructUnit(Data data) {
 		this.aliaser = data.getAliaser();
 		this.manager = data.getManager();
+		this.typeStack = data.getTypeStack();
 	}
 
 	@Override
@@ -57,6 +60,8 @@ public class StructUnit implements Unit {
 		String compiledContent = compileContent(compiler, trimmedInput);
 		paramList.forEach(manager::delete);
 		String joinedParams = joinParams(paramList);
+		//TODO: put return type
+		typeStack.add(new StructType(null));
 		return Optional.of("function(" + joinedParams + ")" + compiledContent);
 	}
 
@@ -86,5 +91,23 @@ public class StructUnit implements Unit {
 	@Override
 	public Optional<Type> resolve(String input, Compiler compiler) {
 		return Optional.empty();
+	}
+
+	private static class StructType implements Type {
+		private final Type returnType;
+
+		private StructType(Type returnType) {
+			this.returnType = returnType;
+		}
+
+		@Override
+		public Optional<Type> parent() {
+			return Optional.empty();
+		}
+
+		@Override
+		public Optional<Type> returnType() {
+			return Optional.of(returnType);
+		}
 	}
 }

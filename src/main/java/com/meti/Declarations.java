@@ -14,6 +14,8 @@ public interface Declarations {
 
 	Declaration define(String name, Type type);
 
+	void defineTemp(String tempName, Collection<String> tempFlags);
+
 	Declaration define(String name, Type type, Collection<String> flags);
 
 	void delete(String name);
