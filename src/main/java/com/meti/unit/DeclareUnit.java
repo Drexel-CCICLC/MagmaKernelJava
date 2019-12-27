@@ -3,6 +3,10 @@ package com.meti.unit;
 import com.meti.Aliaser;
 import com.meti.Compiler;
 import com.meti.Declarations;
+import com.meti.exception.CompileException;
+import com.meti.exception.TypeException;
+import com.meti.run.Compile;
+import com.meti.type.PrimitiveType;
 import com.meti.type.Type;
 import com.meti.type.TypeStack;
 
@@ -41,7 +45,11 @@ public class DeclareUnit implements Unit {
 	Optional<String> extractDeclaration(Compiler compiler, String name, String value, Collection<String> flags) {
 		manager.defineTemp(name, flags);
 		String result = extractValue(compiler, name, value);
-		Declaration declaration = manager.define(name, typeStack.poll(), flags);
+		Type type = typeStack.poll();
+		if(type.equals(PrimitiveType.VOID)) {
+			throw new TypeException("Cannot declare value as void type.");
+		}
+		Declaration declaration = manager.define(name, type, flags);
 		return declaration.isNative() ?
 				Optional.of("") :
 				Optional.of("var " + aliaser.alias(name) + "=" + result + ";");

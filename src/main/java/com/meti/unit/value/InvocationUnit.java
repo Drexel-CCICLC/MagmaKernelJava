@@ -2,6 +2,7 @@ package com.meti.unit.value;
 
 import com.meti.Compiler;
 import com.meti.exception.TypeClashException;
+import com.meti.type.PrimitiveType;
 import com.meti.type.Type;
 import com.meti.type.TypeStack;
 import com.meti.unit.Data;
@@ -57,8 +58,10 @@ public class InvocationUnit implements Unit {
 					throw new TypeClashException("Parameter type should be " + child + " but was " + other + ".");
 				}
 			}
-			stack.add(callerType.returnType().orElseThrow());
-			return Optional.of(callString + "(" + contentString + ")");
+			Optional<Type> returnType = callerType.returnType();
+			stack.add(returnType.orElseThrow());
+			String ext = returnType.isPresent() && !returnType.get().equals(PrimitiveType.VOID) ? "" : ";";
+			return Optional.of(callString + "(" + contentString + ")" + ext);
 		}
 		return Optional.empty();
 	}
