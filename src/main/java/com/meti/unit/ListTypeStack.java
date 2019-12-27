@@ -5,9 +5,11 @@ import com.meti.type.Type;
 import com.meti.type.TypeStack;
 
 import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 public class ListTypeStack implements TypeStack {
-	private final LinkedList<Type> types = new LinkedList<>();
+	private final Stack<Type> types = new Stack<>();
 
 	@Override
 	public void add(Type type) {
@@ -19,7 +21,7 @@ public class ListTypeStack implements TypeStack {
 		if (types.isEmpty()) {
 			throw new TypeException("Could not resolve type.");
 		} else {
-			return types.poll();
+			return types.pop();
 		}
 	}
 

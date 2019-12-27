@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.OptionalInt;
 
 public interface Declaration {
+	String name();
+
 	Optional<Declaration> child(String name);
 
 	Map<String, Declaration> children();

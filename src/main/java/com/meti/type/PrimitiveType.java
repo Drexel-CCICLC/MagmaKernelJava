@@ -1,12 +1,15 @@
 package com.meti.type;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 public enum PrimitiveType implements Type {
-	ANY(),
+	ANY,
 	INT(ANY),
 	DOUBLE(ANY),
-	STRING(ANY);
+	STRING(ANY),
+	VOID;
 
 	private final Type parent;
 
@@ -16,6 +19,11 @@ public enum PrimitiveType implements Type {
 
 	PrimitiveType(Type parent) {
 		this.parent = parent;
+	}
+
+	@Override
+	public Collection<Type> children(){
+		return Collections.emptySet();
 	}
 
 	@Override

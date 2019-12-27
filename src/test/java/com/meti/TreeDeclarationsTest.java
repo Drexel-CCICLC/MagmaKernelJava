@@ -52,7 +52,7 @@ class TreeDeclarationsTest {
 	@Test
 	void delete() {
 		Map<String, Declaration> children = new HashMap<>();
-		Declaration root = new TreeDeclaration(children);
+		Declaration root = new MutableTreeDeclaration(children, "root");
 		Declarations declarations = new TreeDeclarations(root);
 		declarations.define("test", ANY);
 		declarations.delete("test");
@@ -115,6 +115,11 @@ class TreeDeclarationsTest {
 		@Override
 		public Collection<String> flags() {
 			return Collections.emptySet();
+		}
+
+		@Override
+		public String name() {
+			throw new UnsupportedOperationException();
 		}
 
 		@Override

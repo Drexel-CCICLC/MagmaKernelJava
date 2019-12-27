@@ -1,7 +1,7 @@
 package com.meti;
 
+import com.meti.exception.AlreadyExistsException;
 import com.meti.exception.DoesNotExistException;
-import com.meti.type.PrimitiveType;
 import com.meti.type.Type;
 import com.meti.unit.Declaration;
 
@@ -12,11 +12,10 @@ import static java.util.Collections.emptySet;
 public class TreeDeclarations implements Declarations {
 	private final Declaration root;
 	private final Stack<String> stack = new Stack<>();
-	private Collection<String> tempFlags;
-	private String tempName;
+	private final Map<String, Declaration> temps = new HashMap<>();
 
 	public TreeDeclarations() {
-		this(new TreeDeclaration(emptySet(), null));
+		this(new MutableTreeDeclaration(emptySet(), null, "root"));
 	}
 
 	public TreeDeclarations(Declaration root) {
@@ -25,13 +24,25 @@ public class TreeDeclarations implements Declarations {
 
 	@Override
 	public void defineTemp(String tempName, Collection<String> tempFlags) {
-		this.tempName = tempName;
-		this.tempFlags = tempFlags;
+		Declaration declaration = new MutableTreeDeclaration(tempFlags, tempName);
+		temps.put(tempName, declaration);
 	}
 
 	@Override
 	public Declaration define(String name, Type type, Collection<String> flags) {
-		return current().define(name, type, flags);
+		Declaration declaration = temps.remove(name);
+		Declaration current = current();
+		if (declaration instanceof MutableDeclaration) {
+			((MutableDeclaration) declaration).setType(type);
+			if (current.child(name).isPresent()) {
+				throw new AlreadyExistsException(name + " is already defined.");
+			} else {
+				current.children().put(name, declaration);
+			}
+			return declaration;
+		} else {
+			return current.define(name, type, flags);
+		}
 	}
 
 	@Override
@@ -43,8 +54,11 @@ public class TreeDeclarations implements Declarations {
 	public Declaration absolute(Collection<String> splitName) {
 		Declaration current = root;
 		Collection<String> innerStack = new ArrayList<>();
-		if (tempName != null && splitName.contains(tempName) && splitName.size() == 1) {
-			return new TreeDeclaration(tempFlags, PrimitiveType.ANY);
+		if (!splitName.isEmpty()) {
+			String name = (String) splitName.toArray()[0];
+			if (temps.containsKey(name)) {
+				return temps.get(name);
+			}
 		}
 		for (String name : splitName) {
 			Optional<Declaration> optional = current.child(name);
@@ -53,7 +67,7 @@ public class TreeDeclarations implements Declarations {
 				current = optional.get();
 			} else {
 				innerStack.add(name);
-				String joinedNames = String.join(",", innerStack);
+				String joinedNames = String.join(".", innerStack);
 				throw new DoesNotExistException(joinedNames + " is not defined.");
 			}
 		}

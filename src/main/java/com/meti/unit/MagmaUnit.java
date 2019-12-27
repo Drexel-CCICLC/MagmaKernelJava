@@ -11,7 +11,7 @@ public class MagmaUnit extends CompoundUnit {
 
 	public MagmaUnit(Data data) {
 		this(new BracketUnit(data),
-				new ReturnUnit(),
+				new ReturnUnit(data),
 				new DeclareUnit(data),
 				new AssignUnit(data),
 				new NewUnit(data),

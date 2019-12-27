@@ -1,7 +1,10 @@
 package com.meti.unit.value;
 
 import com.meti.Compiler;
+import com.meti.exception.TypeClashException;
 import com.meti.type.Type;
+import com.meti.type.TypeStack;
+import com.meti.unit.Data;
 import com.meti.unit.Unit;
 
 import java.util.ArrayList;
@@ -10,6 +13,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class InvocationUnit implements Unit {
+	private final TypeStack stack;
+
+	public InvocationUnit(Data data) {
+		this.stack = data.getTypeStack();
+	}
+
 	@Override
 	public Optional<String> parse(String input, Compiler compiler) {
 		String trimmedInput = input.trim();
@@ -39,7 +48,17 @@ public class InvocationUnit implements Unit {
 					.filter(value -> !value.isBlank())
 					.map(compiler::compile)
 					.collect(Collectors.joining(","));
-			return Optional.of(compiler.compile(caller) + "(" + contentString + ")");
+			String callString = compiler.compile(caller);
+			Type callerType = stack.poll();
+			Collection<Type> children = callerType.children();
+			for (Type child : children) {
+				Type other = stack.poll();
+				if (!child.equals(other)) {
+					throw new TypeClashException("Parameter type should be " + child + " but was " + other + ".");
+				}
+			}
+			stack.add(callerType.returnType().orElseThrow());
+			return Optional.of(callString + "(" + contentString + ")");
 		}
 		return Optional.empty();
 	}

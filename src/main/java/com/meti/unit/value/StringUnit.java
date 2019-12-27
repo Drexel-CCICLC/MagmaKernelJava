@@ -28,6 +28,9 @@ public class StringUnit implements Unit {
 
 	@Override
 	public Optional<Type> resolve(String input, Compiler compiler) {
+		if(input.equals("string")) {
+			return Optional.of(PrimitiveType.STRING);
+		}
 		return Optional.empty();
 	}
 }

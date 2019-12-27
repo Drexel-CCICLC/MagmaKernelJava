@@ -1,32 +1,28 @@
 package com.meti;
 
 import com.meti.exception.AlreadyExistsException;
-import com.meti.type.PrimitiveType;
 import com.meti.type.Type;
 import com.meti.unit.Declaration;
 
 import java.util.*;
 
-import static java.util.Collections.emptySet;
 import static java.util.Collections.unmodifiableCollection;
 
-final class TreeDeclaration implements Declaration {
-	private final Map<String, Declaration> children;
-	private final Collection<String> flags;
-	private final Type type;
+public class TreeDeclaration implements Declaration {
+	protected final Map<String, Declaration> children;
+	protected final Collection<String> flags;
+	protected final String name;
+	protected Type type;
 
-	TreeDeclaration(Collection<String> flags, Type type) {
-		this(flags, type, new LinkedHashMap<>());
-	}
-
-	private TreeDeclaration(Collection<String> flags, Type type, Map<String, Declaration> children) {
-		this.flags = flags;
-		this.type = type;
+	public TreeDeclaration(Map<String, Declaration> children, Collection<String> flags, String name, Type type) {
 		this.children = children;
+		this.flags = flags;
+		this.name = name;
+		this.type = type;
 	}
 
-	protected TreeDeclaration(Map<String, Declaration> children) {
-		this(emptySet(), PrimitiveType.ANY, children);
+	public TreeDeclaration(Collection<String> flags, Type type, String name) {
+		this(new LinkedHashMap<>(), flags, name, type);
 	}
 
 	@Override
@@ -41,10 +37,10 @@ final class TreeDeclaration implements Declaration {
 
 	@Override
 	public Declaration define(String name, Type type, Collection<String> flags) {
-		if(children.containsKey(name)) {
+		if (children.containsKey(name)) {
 			throw new AlreadyExistsException(name + " is already defined.");
 		}
-		Declaration declaration = new TreeDeclaration(flags, type);
+		Declaration declaration = new TreeDeclaration(flags, type, name);
 		children.put(name, declaration);
 		return declaration;
 	}
@@ -57,11 +53,6 @@ final class TreeDeclaration implements Declaration {
 	@Override
 	public Collection<String> flags() {
 		return unmodifiableCollection(flags);
-	}
-
-	@Override
-	public Type type() {
-		return type;
 	}
 
 	@Override
@@ -80,6 +71,11 @@ final class TreeDeclaration implements Declaration {
 	}
 
 	@Override
+	public String name() {
+		return name;
+	}
+
+	@Override
 	public OptionalInt order(String child) {
 		String[] array = children.keySet().toArray(String[]::new);
 		int length = array.length;
@@ -87,5 +83,10 @@ final class TreeDeclaration implements Declaration {
 			if (array[i].equals(child)) return OptionalInt.of(i);
 		}
 		return OptionalInt.empty();
+	}
+
+	@Override
+	public Type type() {
+		return type;
 	}
 }

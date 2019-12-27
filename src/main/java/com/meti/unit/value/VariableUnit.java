@@ -3,16 +3,13 @@ package com.meti.unit.value;
 import com.meti.Aliaser;
 import com.meti.Compiler;
 import com.meti.Declarations;
-import com.meti.exception.DoesNotExistException;
+import com.meti.exception.CompileException;
 import com.meti.type.Type;
 import com.meti.type.TypeStack;
 import com.meti.unit.Data;
 import com.meti.unit.Declaration;
 import com.meti.unit.Unit;
 
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 
 public class VariableUnit implements Unit {
@@ -31,31 +28,40 @@ public class VariableUnit implements Unit {
 		String name = input.trim();
 		Optional<Declaration> found = manager.relativeOptionally(name);
 		if (found.isPresent()) {
-			stack.add(found.get().type());
-			return Optional.ofNullable(aliaser.alias(name));
+			Declaration declaration = found.get();
+			stack.add(declaration.type());
+			return declaration.isNative() ?
+					Optional.of(name) :
+					Optional.ofNullable(aliaser.alias(name));
 		} else if (input.indexOf('.') == -1) {
 			return Optional.empty();
 		} else {
-			String[] args = input.split("\\.");
-			Deque<String> list = new LinkedList<>(List.of(args));
-			Declaration value = manager.absolute(list);
-			if (value.isNative()) {
-				return Optional.of(name);
-			} else {
-				String child = list.removeLast();
-				Declaration parent = manager.absolute(list);
-				int order = parent.order(child).orElseThrow(() -> notDefined(name));
-				return Optional.ofNullable(compiler.compile(String.join(".", list)) + "[" + order + "]");
+			int i = input.lastIndexOf('.');
+			String first = input.substring(0, i);
+			String last = input.substring(i + 1);
+			String firstString = compiler.compile(first);
+			Type firstType = stack.poll();
+			if (!(firstType instanceof RecursiveType)) {
+				throw new CompileException(firstType + " is not a type of object.");
 			}
+			Declaration parent = ((RecursiveType) firstType).parentDeclaration();
+			Declaration child = parent
+					.child(last)
+					.orElseThrow();
+			stack.add(child.type());
+			return child.isNative() ?
+					Optional.of(name) :
+					Optional.of(firstString + "[" + parent.order(last).orElseThrow() + "]");
 		}
-	}
-
-	private DoesNotExistException notDefined(String name) {
-		return new DoesNotExistException(name + " is not defined.");
 	}
 
 	@Override
 	public Optional<Type> resolve(String input, Compiler compiler) {
+		Declaration parent = manager.current();
+		if (parent.name().equals(input)) {
+			return Optional.of(new ObjectType(parent));
+		}
 		return Optional.empty();
 	}
+
 }

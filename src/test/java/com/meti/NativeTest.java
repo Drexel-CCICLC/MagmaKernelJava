@@ -8,13 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class NativeTest extends CompileTest {
 	@Test
 	void nativeInvoke() {
-		String result = compiler.compile("native val writeInt = (value); val result = writeInt(10);");
-		assertEquals("var b1=writeInt(10);", result);
+		String result = compiler.compile("native val writeInt = (int value) => void; val result = writeInt(10);");
+		assertEquals("var a0=writeInt(10);", result);
 	}
 
 	@Test
 	void nativeMethod() {
-		String result = compiler.compile("native val writeString = (value)");
+		String result = compiler.compile("native val writeString = (string value) => void");
 		assertTrue(result.isBlank());
 	}
 }

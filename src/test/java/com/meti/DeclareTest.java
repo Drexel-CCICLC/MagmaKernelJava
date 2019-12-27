@@ -18,7 +18,7 @@ public class DeclareTest extends CompileTest {
 			compiler.compile("val x = 10; val x = 20;");
 			fail();
 		} catch (Exception e) {
-			assertEquals(AlreadyExistsException.class, e.getCause().getClass());
+			assertSame(AlreadyExistsException.class, e.getCause().getClass());
 		}
 	}
 
@@ -40,7 +40,7 @@ public class DeclareTest extends CompileTest {
 	@Test
 	void name() {
 		Map<String, Declaration> map = new HashMap<>();
-		Declarations declarations = new TreeDeclarations(new TreeDeclaration(map));
+		Declarations declarations = new TreeDeclarations(new MutableTreeDeclaration(map, "root"));
 		Data data = new SimpleData(declarations);
 		Compiler name = new UnitCompiler(new CompoundUnit(
 				new DeclareUnit(data),

@@ -27,6 +27,9 @@ public class CompoundUnit implements Unit {
 
 	@Override
 	public Optional<Type> resolve(String input, Compiler compiler) {
-		return Optional.empty();
+		return units.stream()
+				.map(unit -> unit.resolve(input, compiler))
+				.flatMap(Optional::stream)
+				.findAny();
 	}
 }

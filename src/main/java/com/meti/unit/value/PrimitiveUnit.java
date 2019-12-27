@@ -8,8 +8,7 @@ import com.meti.unit.Unit;
 
 import java.util.Optional;
 
-import static com.meti.type.PrimitiveType.DOUBLE;
-import static com.meti.type.PrimitiveType.INT;
+import static com.meti.type.PrimitiveType.*;
 
 public class PrimitiveUnit implements Unit {
 	private final TypeStack stack;
@@ -41,6 +40,11 @@ public class PrimitiveUnit implements Unit {
 
 	@Override
 	public Optional<Type> resolve(String input, Compiler compiler) {
+		if (input.equals("void")) {
+			return Optional.of(VOID);
+		} else if (input.equals("int")) {
+			return Optional.of(INT);
+		}
 		return Optional.empty();
 	}
 }

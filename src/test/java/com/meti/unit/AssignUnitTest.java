@@ -8,6 +8,7 @@ import com.meti.unit.value.VariableUnit;
 import org.junit.jupiter.api.Test;
 
 import static com.meti.type.PrimitiveType.ANY;
+import static com.meti.type.PrimitiveType.STRING;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AssignUnitTest {
@@ -16,9 +17,9 @@ class AssignUnitTest {
 	void parse() {
 		Declarations declarations = new TreeDeclarations();
 		Data data = new SimpleData(declarations);
-		declarations.define("a", ANY);
-		declarations.define("b", ANY);
-		declarations.define("error", ANY);
+		declarations.define("a", STRING);
+		declarations.define("b", STRING);
+		declarations.define("error", STRING);
 		String result = new AssignUnit(data)
 				.parse("error = a + \" does not equal \" +" +
 						" b;", new UnitCompiler(new CompoundUnit(

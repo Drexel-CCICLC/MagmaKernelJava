@@ -8,7 +8,7 @@ public class ValueUnit extends CompoundUnit {
 	public ValueUnit(Data data) {
 		this(new OperationUnit(),
 				new StringUnit(data),
-				new InvocationUnit(),
+				new InvocationUnit(data),
 				new PrimitiveUnit(data),
 				new VariableUnit(data));
 	}
