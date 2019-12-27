@@ -7,7 +7,6 @@ import com.meti.unit.Declaration;
 import java.util.*;
 
 import static java.util.Collections.emptySet;
-import static java.util.Collections.singleton;
 
 public class TreeDeclarations implements Declarations {
 	private final Declaration root;
@@ -41,6 +40,7 @@ public class TreeDeclarations implements Declarations {
 				innerStack.add(name);
 				current = optional.get();
 			} else {
+				innerStack.add(name);
 				String joinedNames = String.join(",", innerStack);
 				throw new DoesNotExistException(joinedNames + " is not defined.");
 			}
@@ -74,11 +74,12 @@ public class TreeDeclarations implements Declarations {
 				return child;
 			} else {
 				if (copy.isEmpty()) {
-					return Optional.ofNullable(absolute(singleton(name)));
+					break;
 				}
 				copy.poll();
 			}
 		}
+		return Optional.empty();
 	}
 
 	@Override

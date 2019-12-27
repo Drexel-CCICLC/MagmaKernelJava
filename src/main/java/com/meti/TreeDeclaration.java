@@ -1,5 +1,6 @@
 package com.meti;
 
+import com.meti.exception.AlreadyExistsException;
 import com.meti.type.PrimitiveType;
 import com.meti.type.Type;
 import com.meti.unit.Declaration;
@@ -40,6 +41,9 @@ final class TreeDeclaration implements Declaration {
 
 	@Override
 	public Declaration define(String name, Type type, Collection<String> flags) {
+		if(children.containsKey(name)) {
+			throw new AlreadyExistsException(name + " is already defined.");
+		}
 		Declaration declaration = new TreeDeclaration(flags, type);
 		children.put(name, declaration);
 		return declaration;

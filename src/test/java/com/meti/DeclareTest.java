@@ -39,8 +39,9 @@ public class DeclareTest extends CompileTest {
 
 	@Test
 	void name() {
-		Map<String, Declarations> map = new HashMap<>();
-		Data data = new SimpleData();
+		Map<String, Declaration> map = new HashMap<>();
+		Declarations declarations = new TreeDeclarations(new TreeDeclaration(map));
+		Data data = new SimpleData(declarations);
 		Compiler name = new UnitCompiler(new CompoundUnit(
 				new DeclareUnit(data),
 				new PrimitiveUnit(data)

@@ -10,12 +10,15 @@ import com.meti.unit.Data;
 import com.meti.unit.Declaration;
 import com.meti.unit.Unit;
 
-import java.util.*;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 public class VariableUnit implements Unit {
 	private final Aliaser aliaser;
-	private final TypeStack stack;
 	private final Declarations manager;
+	private final TypeStack stack;
 
 	public VariableUnit(Data data) {
 		this.stack = data.getTypeStack();
@@ -31,7 +34,7 @@ public class VariableUnit implements Unit {
 			stack.add(found.get().type());
 			return Optional.ofNullable(aliaser.alias(name));
 		} else if (input.indexOf('.') == -1) {
-			throw notDefined(name);
+			return Optional.empty();
 		} else {
 			String[] args = input.split("\\.");
 			Deque<String> list = new LinkedList<>(List.of(args));
