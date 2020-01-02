@@ -1,3 +1,0 @@
-native val Element = () : {
-	native val innerHTML = "";
-};
