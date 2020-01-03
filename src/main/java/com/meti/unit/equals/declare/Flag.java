@@ -1,4 +1,4 @@
-package com.meti;
+package com.meti.unit.equals.declare;
 
 public enum Flag {
 	NATIVE,

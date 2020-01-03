@@ -1,12 +1,16 @@
-package com.meti;
+package com.meti.unit;
+
+import com.meti.Compiler;
+import com.meti.Node;
+import com.meti.Type;
 
 import java.util.Arrays;
 import java.util.Optional;
 
-class CompoundUnit implements Unit {
+public class CompoundUnit implements Unit {
 	private final Unit[] children;
 
-	CompoundUnit(Unit... children) {
+	protected CompoundUnit(Unit... children) {
 		this.children = children;
 	}
 

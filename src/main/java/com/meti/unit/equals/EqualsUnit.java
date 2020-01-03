@@ -1,6 +1,9 @@
-package com.meti;
+package com.meti.unit.equals;
 
-import java.util.Map;
+import com.meti.unit.CompoundUnit;
+import com.meti.unit.Unit;
+import com.meti.unit.equals.declare.Declarations;
+import com.meti.unit.equals.declare.DeclareUnit;
 
 public class EqualsUnit extends CompoundUnit {
 	public EqualsUnit(Declarations declarations) {
