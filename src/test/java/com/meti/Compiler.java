@@ -1,10 +1,7 @@
 package com.meti;
 
-public class Compiler {
-	public Compiler() {
-	}
+public interface Compiler {
+	Node compile(String value);
 
-	Node compile(String s) {
-		return new Node(Integer.parseInt(s));
-	}
+	Type resolve(String value);
 }
