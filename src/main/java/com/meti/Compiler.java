@@ -31,9 +31,23 @@ public class Compiler {
 			String name = keys.substring(lastSpace + 1);
 			String value = trim.substring(index + 1);
 			callback = "int " + name + "$=" + compileOnly(value) + ";int *" + name + "=&" + name + "$;";
-		} else {
+		} else if (isInt(trim)) {
 			callback = trim;
+		} else {
+			throw new ParseException("Failed to parse: " + trim);
 		}
 		return callback;
+	}
+
+	private boolean isInt(String value) {
+		boolean isInt;
+		try {
+			Integer.parseInt(value);
+			isInt = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			isInt = false;
+		}
+		return isInt;
 	}
 }
