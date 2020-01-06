@@ -1,5 +1,8 @@
 package com.meti;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class Compiler {
 	String compileAll(String input) {
 		String callback = compileOnly(input);
@@ -10,8 +13,14 @@ public class Compiler {
 		String callback;
 		String trim = input.trim();
 		if (trim.isBlank()) callback = "";
-		else if (trim.contains("+")) {
-			int operation = trim.indexOf("+");
+		else if (trim.startsWith("{")) {
+			String content = trim.substring(1, trim.length() - 1);
+			String collect = Arrays.stream(content.split(";"))
+					.map(this::compileOnly)
+					.collect(Collectors.joining());
+			return "{" + collect + "}";
+		} else if (trim.contains("+")) {
+			int operation = trim.indexOf('+');
 			String first = trim.substring(0, operation);
 			String last = trim.substring(operation + 1);
 			return compileOnly(first) + "+" + compileOnly(last);
