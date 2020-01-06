@@ -2,17 +2,10 @@ package com.meti;
 
 import java.util.Optional;
 
-public class IntUnit implements Unit {
+public class CharUnit implements Unit {
 	@Override
 	public boolean canCompile(String value) {
-		boolean isInt;
-		try {
-			Integer.parseInt(value);
-			isInt = true;
-		} catch (Exception e) {
-			isInt = false;
-		}
-		return isInt;
+		return value.startsWith("'") && value.endsWith("'");
 	}
 
 	@Override
@@ -27,6 +20,6 @@ public class IntUnit implements Unit {
 
 	@Override
 	public Optional<String> resolveValue(String value, Compiler compiler) {
-		return Optional.of("int").filter(s -> canCompile(value.trim()));
+		return Optional.of("char").filter(s -> canCompile(value));
 	}
 }

@@ -15,7 +15,9 @@ public class DeclareUnit implements Unit {
 		int lastSpace = keys.lastIndexOf(' ');
 		String name = keys.substring(lastSpace + 1);
 		String value = trim.substring(index + 1);
-		return "int " + name + "$=" + compiler.compileOnly(value) + ";int *" + name + "=&" + name + "$;";
+		String type = compiler.resolveValue(value);
+		return type + " " + name + "$=" + compiler.compileOnly(value) + ";" +
+				type + " *" + name + "=&" + name + "$;";
 	}
 
 	@Override
