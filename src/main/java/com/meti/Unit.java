@@ -1,7 +1,7 @@
 package com.meti;
 
-import java.util.Optional;
-
 public interface Unit {
-	Optional<String> compile(String value);
+	boolean canCompile(String trim);
+
+	String compile(String trim, Compiler compiler);
 }
