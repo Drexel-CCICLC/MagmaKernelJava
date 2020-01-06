@@ -1,5 +1,7 @@
 package com.meti;
 
+import java.util.Optional;
+
 public class IntUnit implements Unit {
 	@Override
 	public boolean canCompile(String value) {
@@ -14,7 +16,17 @@ public class IntUnit implements Unit {
 	}
 
 	@Override
-	public String compile(String trim, Compiler compiler) {
-		return trim;
+	public String compile(String value, Compiler compiler) {
+		return value;
+	}
+
+	@Override
+	public Optional<String> resolveName(String value, Compiler compiler) {
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<String> resolveValue(String value, Compiler compiler) {
+		return Optional.empty();
 	}
 }

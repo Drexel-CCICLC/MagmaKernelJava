@@ -1,9 +1,11 @@
 package com.meti;
 
+import java.util.Optional;
+
 public class DeclareUnit implements Unit {
 	@Override
-	public boolean canCompile(String trim) {
-		return trim.startsWith("val");
+	public boolean canCompile(String value) {
+		return value.startsWith("val");
 	}
 
 	@Override
@@ -14,5 +16,15 @@ public class DeclareUnit implements Unit {
 		String name = keys.substring(lastSpace + 1);
 		String value = trim.substring(index + 1);
 		return "int " + name + "$=" + compiler.compileOnly(value) + ";int *" + name + "=&" + name + "$;";
+	}
+
+	@Override
+	public Optional<String> resolveName(String value, Compiler compiler) {
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<String> resolveValue(String value, Compiler compiler) {
+		return Optional.empty();
 	}
 }
