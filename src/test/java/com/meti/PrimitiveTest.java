@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PrimitiveTest extends CompileTest {
 	@Test
 	void testEmpty() {
-		assertEquals("int main(){return 0;}", compile(""));
+		assertEquals("int main(){return 0;}", compileAll(""));
 	}
 
 	@Test
 	void testInt() {
-		assertEquals("int main(){5return 0;}", compile("5"));
+		assertEquals("int main(){5return 0;}", compileAll("5"));
 	}
 }
