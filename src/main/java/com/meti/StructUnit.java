@@ -3,9 +3,11 @@ package com.meti;
 import java.util.Optional;
 
 public class StructUnit implements Unit {
+	private final StringBuilder callback;
 	private final Declarations declarations;
 
-	public StructUnit(Declarations declarations) {
+	public StructUnit(StringBuilder callback, Declarations declarations) {
+		this.callback = callback;
 		this.declarations = declarations;
 	}
 
@@ -19,7 +21,9 @@ public class StructUnit implements Unit {
 		String returnType = getReturnType(value, compiler);
 		String last = declarations.stack().lastElement();
 		String returnString = "(" + paramString(value, compiler) + ")";
-		return returnType + " " + last + "$" + returnString + "{}";
+		String result = returnType + " " + last + "$" + returnString + "{}";
+		callback.append(result);
+		return "";
 	}
 
 	private String paramString(String value, Compiler compiler) {

@@ -3,9 +3,11 @@ package com.meti;
 import java.util.Optional;
 
 public class DeclareUnit implements Unit {
+	private final StringBuilder callback;
 	private final Declarations declarations;
 
-	public DeclareUnit(Declarations declarations) {
+	public DeclareUnit(StringBuilder callback, Declarations declarations) {
+		this.callback = callback;
 		this.declarations = declarations;
 	}
 
@@ -27,8 +29,11 @@ public class DeclareUnit implements Unit {
 		String compiledValue = compiler.compileOnly(value);
 		declarations.pop();
 		if (type.endsWith(")")) {
-			return compiledValue +
-					type + "=&" + name + "$;";
+			callback.append(type)
+					.append("=&")
+					.append(name)
+					.append("$;");
+			return "";
 		} else {
 			return type + " " + name + "$=" + compiledValue + ";" +
 					type + " *" + name + "=&" + name + "$;";
