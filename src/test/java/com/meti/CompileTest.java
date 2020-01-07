@@ -16,6 +16,7 @@ public class CompileTest {
 			new DeclareUnit(callback, declarations),
 			new StructUnit(callback, declarations),
 			new IntUnit(),
+			new InvocationUnit(),
 			new VariableUnit(declarations)));
 
 	protected String compileAll(String value) {
