@@ -8,18 +8,20 @@ import java.util.stream.Collectors;
 
 public class InvocationUnit implements Unit {
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
-    private final List<String> primitives = List.of("int");
-    private StringBuilder builder = new StringBuilder();
+    private final StringBuilder callback;
     private int counter = -1;
+
+    public InvocationUnit(StringBuilder callback) {
+        this.callback = callback;
+    }
 
     @Override
     public boolean canCompile(String value) {
-        return value.endsWith(")");
+        return value.trim().endsWith(")");
     }
 
     @Override
     public String compile(String value, Compiler compiler) {
-        builder = new StringBuilder();
         int open = value.indexOf('(');
         String name = value.substring(0, open);
         String parameterString = value.substring(open + 1, value.length() - 1);
@@ -32,7 +34,7 @@ public class InvocationUnit implements Unit {
         String params = join(parameters, args, compiler);
         Type returnType = struct.returnType().orElseThrow();
         String end = (returnType.render().equals("void")) ? ";" : "";
-        return builder.toString() + name + "(" + params + ")" + end;
+        return name + "(" + params + ")" + end;
     }
 
     private String join(List<Type> parameters, List<String> args, Compiler compiler) {
@@ -63,7 +65,7 @@ public class InvocationUnit implements Unit {
                 if (isPrimitive(paramValue)) {
                     counter++;
                     String tempName = ALPHABET.charAt(counter % ALPHABET.length()) + String.valueOf(counter);
-                    builder.append(name)
+                    callback.append(name)
                             .append(" ")
                             .append(tempName)
                             .append("=")
@@ -109,6 +111,13 @@ public class InvocationUnit implements Unit {
 
     @Override
     public Optional<Type> resolveValue(String value, Compiler compiler) {
-        return Optional.empty();
+        if (canCompile(value)) {
+            int parenthesis = value.indexOf('(');
+            String caller = value.substring(0, parenthesis);
+            Type type = compiler.resolveValue(caller);
+            return type.returnType();
+        } else {
+            return Optional.empty();
+        }
     }
 }

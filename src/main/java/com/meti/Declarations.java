@@ -45,7 +45,7 @@ public class Declarations {
 
     public Optional<Declaration> relative(String name) {
         Stack<String> queue = new Stack<>();
-        if (stack.isEmpty()) {
+        if (stack.size() == 1) {
             return root.child(name);
         } else {
             queue.addAll(stack);

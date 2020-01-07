@@ -20,7 +20,7 @@ public class MagmaCompiler {
 			new DeclareUnit(callback, declarations),
 			new StructUnit(callback, declarations),
 			new IntUnit(),
-			new InvocationUnit(),
+			new InvocationUnit(callback),
 			new VariableUnit(declarations)));
 
 	protected String compileAll(String value) {

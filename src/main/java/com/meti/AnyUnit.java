@@ -15,7 +15,7 @@ class AnyUnit implements Unit {
 
     @Override
     public Optional<Type> resolveName(String value, Compiler compiler) {
-        return Optional.of(new Type("void*")).filter(s -> value.equals("Any"));
+        return Optional.of(new Type("void*")).filter(s -> value.trim().equals("Any"));
     }
 
     @Override

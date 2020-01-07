@@ -1,3 +1,4 @@
+native val malloc = (int size) => Any;
 native val printf = (~string format, ~Any... value) => void;
 
 val prints = (string value) => void :{
