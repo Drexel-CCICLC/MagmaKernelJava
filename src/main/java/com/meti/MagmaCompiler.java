@@ -11,6 +11,7 @@ public class MagmaCompiler {
 			new PointerUnit(),
 			new StringUnit(),
 			new ReturnUnit(),
+			new CastUnit(),
 			new VoidUnit(),
 			new EmptyUnit(),
 			new CharUnit(),
