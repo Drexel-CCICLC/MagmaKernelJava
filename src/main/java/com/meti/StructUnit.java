@@ -18,10 +18,13 @@ public class StructUnit implements Unit {
 
 	@Override
 	public String compile(String value, Compiler compiler) {
-		String returnType = getReturnType(value, compiler);
+		String returnType = returnType(value, compiler);
 		String last = declarations.stack().lastElement();
-		String returnString = "(" + paramString(value, compiler) + ")";
-		String result = returnType + " " + last + "$" + returnString + "{}";
+		String paramString = "(" + paramString(value, compiler) + ")";
+		int index = value.indexOf(':');
+		String content = value.substring(index + 1);
+		String compiledContent = compiler.compileOnly(content);
+		String result = returnType + " " + last + "$" + paramString + compiledContent;
 		callback.append(result);
 		return "";
 	}
@@ -69,7 +72,7 @@ public class StructUnit implements Unit {
 	@Override
 	public Optional<String> resolveValue(String value, Compiler compiler) {
 		if (canCompile(value)) {
-			String returnType = getReturnType(value, compiler);
+			String returnType = returnType(value, compiler);
 			String currentName = declarations.stack().lastElement();
 			String paramString = paramTypeString(value, compiler);
 			return Optional.of(returnType + "(*" + currentName + ")(" + paramString + ")");
@@ -77,7 +80,7 @@ public class StructUnit implements Unit {
 		return Optional.empty();
 	}
 
-	private String getReturnType(String value, Compiler compiler) {
+	private String returnType(String value, Compiler compiler) {
 		int index = value.indexOf(':');
 		String header = value.substring(0, index);
 		int returnIndex = header.indexOf("=>");
