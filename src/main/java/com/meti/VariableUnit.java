@@ -33,7 +33,7 @@ public class VariableUnit implements Unit {
 	public Optional<Type> resolveValue(String value, Compiler compiler) {
 		Optional<Declaration> optional = declarations.relative(value);
 		if (optional.isPresent()) {
-			return optional.map(Declaration::type).map(Type::new);
+			return optional.map(Declaration::type);
 		} else {
 			throw new DoesNotExistException(value + " is not defined.");
 		}

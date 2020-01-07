@@ -9,7 +9,7 @@ public class Declarations {
 	private final Stack<String> stack;
 
 	public Declarations() {
-		this(new Stack<>(), new Declaration("root", "void"));
+		this(new Stack<>(), new Declaration("root", new Type("void")));
 	}
 
 	public Declarations(Stack<String> stack, Declaration root) {
@@ -17,12 +17,12 @@ public class Declarations {
 		this.root = root;
 	}
 
-	public void define(String name, String type) {
-		current().define(name, type);
+	public void defineSibling(String name, Type type) {
+		parent().define(name, type);
 	}
 
-	public Declaration current() {
-		return absolute(stack);
+	public Declaration parent() {
+		return absolute(stack.subList(0, stack.size() - 1));
 	}
 
 	public Declaration absolute(Collection<String> names) {

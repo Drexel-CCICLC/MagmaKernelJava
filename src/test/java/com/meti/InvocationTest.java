@@ -15,6 +15,6 @@ public class InvocationTest extends CompileTest {
 	@Test
 	void withParam(){
 		String result = compileOnly("{val some = (int x) => void : {}; val y = 20; some(y);}");
-		assertEquals("void some$(int* x){}void(*some)(int*)=&some$;{int y$=20;int* y=&y$;some(y)}", result);
+		assertEquals("void some$(int* x){}void(*some)(int*)=&some$;{int y$=20;int* y=&y$;some(y);}", result);
 	}
 }

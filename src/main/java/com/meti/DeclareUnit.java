@@ -23,22 +23,23 @@ public class DeclareUnit implements Unit {
 		int lastSpace = keys.lastIndexOf(' ');
 		String name = keys.substring(lastSpace + 1);
 		String value = trim.substring(index + 1);
-		declarations.define(name, value);
 		declarations.push(name);
-		String type = compiler.resolveValue(value).render();
+		Type type = compiler.resolveValue(value);
+		String renderType = type.render();
+		declarations.defineSibling(name, type);
 		String compiledValue = compiler.compileOnly(value);
 		declarations.pop();
 		if (name.equals("main")) {
 			return "";
-		} else if (type.endsWith(")")) {
-			callback.append(type)
+		} else if (renderType.endsWith(")")) {
+			callback.append(renderType)
 					.append("=&")
 					.append(name)
 					.append("$;");
 			return "";
 		} else {
-			return type + " " + name + "$=" + compiledValue + ";" +
-					type + "* " + name + "=&" + name + "$;";
+			return renderType + " " + name + "$=" + compiledValue + ";" +
+					renderType + "* " + name + "=&" + name + "$;";
 		}
 	}
 

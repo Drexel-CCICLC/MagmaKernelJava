@@ -18,7 +18,10 @@ public class InvocationUnit implements Unit {
 		String params = Arrays.stream(parameterString.split(","))
 				.map(compiler::compileOnly)
 				.collect(Collectors.joining(","));
-		return name + "(" + params + ")";
+		Type struct = compiler.resolveValue(name);
+		Type returnType = struct.returnType().orElseThrow();
+		String end = (returnType.render().equals("void")) ? ";" : "";
+		return name + "(" + params + ")" + end;
 	}
 
 	@Override

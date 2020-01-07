@@ -7,9 +7,9 @@ import java.util.Optional;
 public class Declaration {
 	private final Map<String, Declaration> children = new HashMap<>();
 	private final String name;
-	private final String type;
+	private final Type type;
 
-	public Declaration(String name, String type) {
+	public Declaration(String name, Type type) {
 		this.name = name;
 		this.type = type;
 	}
@@ -18,7 +18,7 @@ public class Declaration {
 		return Optional.ofNullable(children.get(name));
 	}
 
-	public void define(String name, String type) {
+	public void define(String name, Type type) {
 		children.put(name, new Declaration(name, type));
 	}
 
@@ -26,7 +26,7 @@ public class Declaration {
 		return name;
 	}
 
-	public String type() {
+	public Type type() {
 		return type;
 	}
 }
