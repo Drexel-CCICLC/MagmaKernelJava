@@ -2,31 +2,24 @@ package com.meti;
 
 import java.util.Optional;
 
-public class IntUnit implements Unit {
+public class VoidUnit implements Unit {
 	@Override
 	public boolean canCompile(String value) {
-		boolean isInt;
-		try {
-			Integer.parseInt(value);
-			isInt = true;
-		} catch (Exception e) {
-			isInt = false;
-		}
-		return isInt;
+		return false;
 	}
 
 	@Override
 	public String compile(String value, Compiler compiler) {
-		return value;
+		return null;
 	}
 
 	@Override
 	public Optional<String> resolveName(String value, Compiler compiler) {
-		return Optional.of("int").filter(s -> value.trim().equals("int"));
+		return Optional.of("void").filter(s -> value.trim().equals("void"));
 	}
 
 	@Override
 	public Optional<String> resolveValue(String value, Compiler compiler) {
-		return Optional.of("int").filter(s -> canCompile(value.trim()));
+		return Optional.empty();
 	}
 }

@@ -3,6 +3,12 @@ package com.meti;
 import java.util.Optional;
 
 public class DeclareUnit implements Unit {
+	private final Declarations declarations;
+
+	public DeclareUnit(Declarations declarations) {
+		this.declarations = declarations;
+	}
+
 	@Override
 	public boolean canCompile(String value) {
 		return value.startsWith("val");
@@ -15,9 +21,18 @@ public class DeclareUnit implements Unit {
 		int lastSpace = keys.lastIndexOf(' ');
 		String name = keys.substring(lastSpace + 1);
 		String value = trim.substring(index + 1);
+		declarations.define(name);
+		declarations.push(name);
 		String type = compiler.resolveValue(value);
-		return type + " " + name + "$=" + compiler.compileOnly(value) + ";" +
-				type + " *" + name + "=&" + name + "$;";
+		String compiledValue = compiler.compileOnly(value);
+		declarations.pop();
+		if (type.endsWith(")")) {
+			return compiledValue +
+					type + "=&" + name + "$;";
+		} else {
+			return type + " " + name + "$=" + compiledValue + ";" +
+					type + " *" + name + "=&" + name + "$;";
+		}
 	}
 
 	@Override

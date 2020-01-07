@@ -5,5 +5,7 @@ public interface Compiler {
 
 	String compileOnly(String input);
 
+	String resolveName(String value);
+
 	String resolveValue(String value);
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class UnitCompiler implements Compiler {
+	private static final String HEADER = "Failed to resolve type: ";
 	private final List<Unit> units;
 
 	public UnitCompiler(List<Unit> units) {
@@ -23,7 +24,16 @@ public class UnitCompiler implements Compiler {
 				.filter(unit -> unit.canCompile(trim))
 				.map(unit -> unit.compile(trim, this))
 				.findAny()
-				.orElseThrow(() -> new ParseException("Failed to parse: " + trim));
+				.orElseThrow(() -> unknownType(trim));
+	}
+
+	@Override
+	public String resolveName(String value) {
+		return units.stream()
+				.map(unit -> unit.resolveName(value, this))
+				.flatMap(Optional::stream)
+				.findAny()
+				.orElseThrow(() -> unknownType(value));
 	}
 
 	@Override
@@ -32,6 +42,10 @@ public class UnitCompiler implements Compiler {
 				.map(unit -> unit.resolveValue(value, this))
 				.flatMap(Optional::stream)
 				.findAny()
-				.orElseThrow(() -> new ParseException("Failed to resolve type: " + value));
+				.orElseThrow(() -> unknownType(value));
+	}
+
+	private ParseException unknownType(String value) {
+		return new ParseException(HEADER + value);
 	}
 }
