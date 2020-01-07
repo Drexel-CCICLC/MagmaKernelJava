@@ -23,7 +23,7 @@ public class DeclareUnit implements Unit {
 		int lastSpace = keys.lastIndexOf(' ');
 		String name = keys.substring(lastSpace + 1);
 		String value = trim.substring(index + 1);
-		declarations.define(name);
+		declarations.define(name, value);
 		declarations.push(name);
 		String type = compiler.resolveValue(value);
 		String compiledValue = compiler.compileOnly(value);

@@ -14,7 +14,8 @@ public class CompileTest {
 			new OperationUnit(),
 			new DeclareUnit(callback, declarations),
 			new StructUnit(callback, declarations),
-			new IntUnit()));
+			new IntUnit(),
+			new VariableUnit(declarations)));
 
 	protected String compileAll(String value) {
 		String result = compiler.compileAll(value);

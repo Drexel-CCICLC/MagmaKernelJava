@@ -1,6 +1,7 @@
 package com.meti;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Stack;
 
 public class Declarations {
@@ -8,7 +9,7 @@ public class Declarations {
 	private final Stack<String> stack;
 
 	public Declarations() {
-		this(new Stack<>(), new Declaration("root"));
+		this(new Stack<>(), new Declaration("root", "void"));
 	}
 
 	public Declarations(Stack<String> stack, Declaration root) {
@@ -16,8 +17,8 @@ public class Declarations {
 		this.root = root;
 	}
 
-	public void define(String name) {
-		current().define(name);
+	public void define(String name, String type) {
+		current().define(name, type);
 	}
 
 	public Declaration current() {
@@ -39,6 +40,23 @@ public class Declarations {
 
 	public void push(String name) {
 		stack.push(name);
+	}
+
+	public Optional<Declaration> relative(String name) {
+		Stack<String> queue = new Stack<>();
+		if (stack.isEmpty()) {
+			return root.child(name);
+		} else {
+			queue.addAll(stack.subList(0, stack.size() - 1));
+			while (!queue.isEmpty()) {
+				Declaration absolute = absolute(queue);
+				Optional<Declaration> child = absolute.child(name);
+				if (child.isPresent()) {
+					return child;
+				}
+			}
+			return Optional.empty();
+		}
 	}
 
 	public Stack<String> stack() {
