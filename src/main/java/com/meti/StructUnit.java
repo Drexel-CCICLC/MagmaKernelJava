@@ -19,12 +19,13 @@ public class StructUnit implements Unit {
 	@Override
 	public String compile(String value, Compiler compiler) {
 		String returnType = returnType(value, compiler);
-		String last = declarations.stack().lastElement();
+		String name = declarations.stack().lastElement();
 		String paramString = "(" + paramString(value, compiler) + ")";
 		int index = value.indexOf(':');
 		String content = value.substring(index + 1);
 		String compiledContent = compiler.compileOnly(content);
-		String result = returnType + " " + last + "$" + paramString + compiledContent;
+		String formattedName = (name.equals("main")) ? "main" : name + "$";
+		String result = returnType + " " + formattedName + paramString + compiledContent;
 		callback.append(result);
 		return "";
 	}

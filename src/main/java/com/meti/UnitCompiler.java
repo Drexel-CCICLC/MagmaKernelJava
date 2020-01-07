@@ -13,8 +13,7 @@ public class UnitCompiler implements Compiler {
 
 	@Override
 	public String compileAll(String input) {
-		String callback = compileOnly(input);
-		return "int main(){" + callback + "return 0;}";
+		return compileOnly("val main = () => int : {" + input + ";return 0}");
 	}
 
 	@Override

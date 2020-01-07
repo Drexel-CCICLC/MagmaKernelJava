@@ -28,7 +28,9 @@ public class DeclareUnit implements Unit {
 		String type = compiler.resolveValue(value);
 		String compiledValue = compiler.compileOnly(value);
 		declarations.pop();
-		if (type.endsWith(")")) {
+		if (name.equals("main")) {
+			return "";
+		} else if (type.endsWith(")")) {
 			callback.append(type)
 					.append("=&")
 					.append(name)

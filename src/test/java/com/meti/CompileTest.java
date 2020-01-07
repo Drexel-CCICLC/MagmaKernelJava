@@ -18,11 +18,11 @@ public class CompileTest {
 
 	protected String compileAll(String value) {
 		String result = compiler.compileAll(value);
-		return callback.toString() + result;
+		return callback + result;
 	}
 
 	protected String compileOnly(String value) {
 		String result = compiler.compileOnly(value);
-		return callback.toString() + result;
+		return callback + result;
 	}
 }
