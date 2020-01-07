@@ -1,6 +1,6 @@
 val other = () => void :{
-};
+  };
 
-val doSomething = () => void :{
-     other();
- }
+  val doSomething = () => void :{
+       other();
+   }
