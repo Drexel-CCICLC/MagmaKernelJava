@@ -6,6 +6,7 @@ public class CompileTest {
 	private final StringBuilder callback = new StringBuilder();
 	private final Declarations declarations = new Declarations();
 	protected final Compiler compiler = new UnitCompiler(List.of(
+			new PointerUnit(),
 			new StringUnit(),
 			new ReturnUnit(),
 			new VoidUnit(),

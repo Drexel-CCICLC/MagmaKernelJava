@@ -1,6 +1,10 @@
 package com.meti;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class StructUnit implements Unit {
 	private final StringBuilder callback;
@@ -13,7 +17,9 @@ public class StructUnit implements Unit {
 
 	@Override
 	public boolean canCompile(String value) {
-		return value.contains(":");
+		int equals = value.indexOf('=');
+		int returnIndex = value.indexOf("=>");
+		return value.contains(":") || (returnIndex != -1 && returnIndex <= equals);
 	}
 
 	@Override
@@ -22,16 +28,19 @@ public class StructUnit implements Unit {
 		String name = declarations.stack().lastElement();
 		String paramString = "(" + paramString(value, compiler) + ")";
 		int index = value.indexOf(':');
-		String content = value.substring(index + 1);
-		String compiledContent = compiler.compileOnly(content);
-		String formattedName = (name.equals("main")) ? "main" : name + "$";
-		String result = returnType + " " + formattedName + paramString + compiledContent;
-		callback.append(result);
+		if (index != -1) {
+			String content = value.substring(index + 1);
+			String compiledContent = compiler.compileOnly(content);
+			String formattedName = (name.equals("main")) ? "main" : name + "$";
+			String result = returnType + " " + formattedName + paramString + compiledContent;
+			callback.append(result);
+		}
 		return "";
 	}
 
 	private String paramString(String value, Compiler compiler) {
 		int start = value.indexOf('(');
+		if (start == -1) return "";
 		int end = value.indexOf(')');
 		String[] params = value.substring(start + 1, end).split(",");
 		StringBuilder builder = new StringBuilder();
@@ -49,20 +58,21 @@ public class StructUnit implements Unit {
 		return builder.toString();
 	}
 
-	private String paramTypeString(String value, Compiler compiler) {
+	private List<Type> paramTypeString(String value, Compiler compiler) {
 		int start = value.indexOf('(');
+		if (start == -1) {
+			return Collections.emptyList();
+		}
 		int end = value.indexOf(')');
 		String[] params = value.substring(start + 1, end).split(",");
-		StringBuilder builder = new StringBuilder();
+		List<Type> types = new ArrayList<>();
 		for (String param : params) {
 			if (!param.isBlank()) {
 				int space = param.lastIndexOf(' ');
-				String paramType = compiler.resolveName(param.substring(0, space)).render();
-				builder.append(paramType)
-						.append("*");
+				types.add(compiler.resolveName(param.substring(0, space)));
 			}
 		}
-		return builder.toString();
+		return types;
 	}
 
 	@Override
@@ -75,15 +85,20 @@ public class StructUnit implements Unit {
 		if (canCompile(value)) {
 			Type returnType = returnType(value, compiler);
 			String currentName = declarations.stack().lastElement();
-			String paramString = paramTypeString(value, compiler);
+			List<Type> params = paramTypeString(value, compiler);
+			String paramString = params.stream()
+					.map(Type::render)
+					.map(s -> s + "*")
+					.collect(Collectors.joining(","));
 			return Optional.of(returnType.render() + "(*" + currentName + ")(" + paramString + ")")
-					.map(s -> new Type(s, returnType));
+					.map(s -> new Type(s, returnType, params));
 		}
 		return Optional.empty();
 	}
 
 	private Type returnType(String value, Compiler compiler) {
 		int index = value.indexOf(':');
+		if (index == -1) index = value.length();
 		String header = value.substring(0, index);
 		int returnIndex = header.indexOf("=>");
 		return compiler.resolveName(header.substring(returnIndex + 2));

@@ -1,6 +1,7 @@
 package com.meti;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
 
@@ -17,8 +18,8 @@ public class Declarations {
 		this.root = root;
 	}
 
-	public void defineSibling(String name, Type type) {
-		parent().define(name, type);
+	public void defineSibling(String name, Type type, List<Flag> flags) {
+		parent().define(name, type, flags);
 	}
 
 	public Declaration parent() {
