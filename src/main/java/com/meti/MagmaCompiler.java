@@ -6,6 +6,8 @@ public class MagmaCompiler {
 	private final StringBuilder callback = new StringBuilder();
 	private final Declarations declarations = new Declarations();
 	protected final Compiler compiler = new UnitCompiler(List.of(
+			new AnyUnit(),
+			new VarArgsUnit(),
 			new PointerUnit(),
 			new StringUnit(),
 			new ReturnUnit(),

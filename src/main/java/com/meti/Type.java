@@ -6,54 +6,58 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class Type {
-	private final Type child;
-	private final String content;
-	private final List<Type> parameters;
-	private final Type returnType;
+    private final Type child;
+    private final String content;
+    private final List<Type> parameters;
+    private final Type returnType;
 
-	public Type(String content) {
-		this(content, null, Collections.emptyList());
+    public Type(String content) {
+        this(content, null, Collections.emptyList());
+    }
+
+    public Type(String content, Type returnType, List<Type> parameters) {
+        this(content, returnType, null, parameters);
+    }
+
+    public Type(String content, Type returnType, Type child, List<Type> parameters) {
+        this.content = content;
+        this.returnType = returnType;
+        this.child = child;
+        this.parameters = parameters;
+    }
+
+    public Type(String content, Type child) {
+        this(content, null, child);
 	}
 
-	public Type(String content, Type returnType, List<Type> parameters) {
-		this(content, returnType, null, parameters);
-	}
+    public Type(String content, Type returnType, Type child) {
+        this(content, returnType, child, Collections.emptyList());
+    }
 
-	public Type(String content, Type returnType, Type child, List<Type> parameters) {
-		this.content = content;
-		this.returnType = returnType;
-		this.child = child;
-		this.parameters = parameters;
-	}
+    public Optional<Type> child() {
+        return Optional.ofNullable(child);
+    }
 
-	public Type(String content, Type returnType, Type child) {
-		this(content, returnType, child, Collections.emptyList());
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Type type = (Type) o;
+        return Objects.equals(child, type.child) &&
+                Objects.equals(content, type.content) &&
+                Objects.equals(parameters, type.parameters) &&
+                Objects.equals(returnType, type.returnType);
+    }
 
-	public Optional<Type> child() {
-		return Optional.ofNullable(child);
-	}
+    public List<Type> parameters() {
+        return parameters;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Type type = (Type) o;
-		return Objects.equals(child, type.child) &&
-				Objects.equals(content, type.content) &&
-				Objects.equals(parameters, type.parameters) &&
-				Objects.equals(returnType, type.returnType);
-	}
+    public String render() {
+        return content;
+    }
 
-	public List<Type> parameters() {
-		return parameters;
-	}
-
-	public String render() {
-		return content;
-	}
-
-	public Optional<Type> returnType() {
-		return Optional.ofNullable(returnType);
-	}
+    public Optional<Type> returnType() {
+        return Optional.ofNullable(returnType);
+    }
 }
