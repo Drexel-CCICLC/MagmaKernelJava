@@ -1,0 +1,3 @@
+val a = "%s";
+val b = "Hello World!";
+printf(a, b);

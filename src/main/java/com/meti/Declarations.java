@@ -35,8 +35,8 @@ public class Declarations {
 		return current;
 	}
 
-	public void pop() {
-		stack.pop();
+	public String pop() {
+		return stack.pop();
 	}
 
 	public void push(String name) {

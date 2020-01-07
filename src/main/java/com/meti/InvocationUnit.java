@@ -1,5 +1,6 @@
 package com.meti;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -29,23 +30,23 @@ public class InvocationUnit implements Unit {
 	}
 
 	private String join(List<Type> parameters, List<String> args, Compiler compiler) {
-		StringBuilder builder = new StringBuilder();
+		List<String> items = new ArrayList<>();
 		for (int i = 0; i < parameters.size(); i++) {
 			Type expectedType = parameters.get(i);
 			String paramValue = args.get(i);
 			Type actualType = compiler.resolveValue(paramValue);
 			if (expectedType.equals(actualType)) {
-				builder.append(compiler.compileOnly(paramValue));
+				items.add(compiler.compileOnly(paramValue));
 			} else {
 				Optional<Type> child = expectedType.child();
 				if (child.isPresent() && child.get().equals(actualType)) {
-					builder.append("*").append(compiler.compileOnly(paramValue));
+					items.add("*" + compiler.compileOnly(paramValue));
 				} else {
 					throw new CompileException("Type mismatch.");
 				}
 			}
 		}
-		return builder.toString();
+		return String.join(",", items);
 	}
 
 	@Override

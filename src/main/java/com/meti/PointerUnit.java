@@ -15,9 +15,10 @@ public class PointerUnit implements Unit {
 
 	@Override
 	public Optional<Type> resolveName(String value, Compiler compiler) {
-		if (value.startsWith("~")) {
-			Type type = compiler.resolveName(value.substring(1));
-			return Optional.of(new Type(value, null, type));
+		String trim = value.trim();
+		if (trim.startsWith("~")) {
+			Type type = compiler.resolveName(trim.substring(1));
+			return Optional.of(new Type(trim, null, type));
 		}
 		return Optional.empty();
 	}

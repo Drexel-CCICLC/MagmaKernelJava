@@ -31,11 +31,12 @@ public class VariableUnit implements Unit {
 
 	@Override
 	public Optional<Type> resolveValue(String value, Compiler compiler) {
-		Optional<Declaration> optional = declarations.relative(value);
+		String trim = value.trim();
+		Optional<Declaration> optional = declarations.relative(trim);
 		if (optional.isPresent()) {
 			return optional.map(Declaration::type);
 		} else {
-			throw new DoesNotExistException(value + " is not defined.");
+			throw new DoesNotExistException(trim + " is not defined.");
 		}
 	}
 }

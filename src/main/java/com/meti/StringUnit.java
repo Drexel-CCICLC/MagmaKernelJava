@@ -16,7 +16,7 @@ public class StringUnit implements Unit {
 
 	@Override
 	public Optional<Type> resolveName(String value, Compiler compiler) {
-		return Optional.of("char*").filter(s -> value.equals("string")).map(Type::new);
+		return Optional.of("char*").filter(s -> value.trim().equals("string")).map(Type::new);
 	}
 
 	@Override
