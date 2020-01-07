@@ -1,3 +1,6 @@
-val a = "%i";
-val b = 5;
-printf(a, b);
+val other = () => void :{
+};
+
+val doSomething = () => void :{
+     other();
+ }
