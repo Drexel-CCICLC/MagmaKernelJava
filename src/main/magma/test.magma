@@ -1,6 +1,1 @@
-val other = () => void :{
-  };
-
-  val doSomething = () => void :{
-       other();
-   }
+printi(10);

@@ -1,6 +1,9 @@
 native val printf = (~string format, ~Any... value) => void;
 
-val prints = (Any... value) => void :{
-    val header = "%s";
-    printf(header, value);
-}
+val prints = (string value) => void :{
+    printf("%s", value);
+};
+
+val printi = (int value) => void :{
+    printf("%i", value);
+};

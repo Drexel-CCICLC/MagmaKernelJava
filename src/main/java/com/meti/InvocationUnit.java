@@ -7,6 +7,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class InvocationUnit implements Unit {
+    private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+    private final List<String> primitives = List.of("int");
+    private StringBuilder builder = new StringBuilder();
+    private int counter = -1;
+
     @Override
     public boolean canCompile(String value) {
         return value.endsWith(")");
@@ -14,6 +19,7 @@ public class InvocationUnit implements Unit {
 
     @Override
     public String compile(String value, Compiler compiler) {
+        builder = new StringBuilder();
         int open = value.indexOf('(');
         String name = value.substring(0, open);
         String parameterString = value.substring(open + 1, value.length() - 1);
@@ -26,7 +32,7 @@ public class InvocationUnit implements Unit {
         String params = join(parameters, args, compiler);
         Type returnType = struct.returnType().orElseThrow();
         String end = (returnType.render().equals("void")) ? ";" : "";
-        return name + "(" + params + ")" + end;
+        return builder.toString() + name + "(" + params + ")" + end;
     }
 
     private String join(List<Type> parameters, List<String> args, Compiler compiler) {
@@ -51,17 +57,49 @@ public class InvocationUnit implements Unit {
                     throw new CompileException("Type mismatch.");
                 }
             } else if (expectedType.equals(actualType)) {
-                items.add(compiler.compileOnly(paramValue));
+                String name = actualType.render();
+                String address;
+                String compiledValue = compiler.compileOnly(paramValue);
+                if (isPrimitive(paramValue)) {
+                    counter++;
+                    String tempName = ALPHABET.charAt(counter % ALPHABET.length()) + String.valueOf(counter);
+                    builder.append(name)
+                            .append(" ")
+                            .append(tempName)
+                            .append("=")
+                            .append(compiledValue)
+                            .append(";");
+                    address = tempName;
+                } else {
+                    address = compiledValue;
+                }
+                items.add("&" + address);
             } else {
                 Optional<Type> child = expectedType.child();
                 if (child.isPresent() && child.get().equals(actualType)) {
-                    items.add("*" + compiler.compileOnly(paramValue));
+                    items.add(compiler.compileOnly(paramValue));
                 } else {
                     throw new CompileException("Type mismatch.");
                 }
             }
         }
         return String.join(",", items);
+    }
+
+    private boolean isPrimitive(String value) {
+        boolean containsLetter = false;
+        for (char c : value.toCharArray()) {
+            if (Character.isLetter(c)) {
+                containsLetter = true;
+            }
+        }
+        if (containsLetter) {
+            boolean isString = value.startsWith("\"") && value.endsWith("\"");
+            boolean isChar = value.startsWith("'") && value.endsWith("'");
+            return isString || isChar;
+        } else {
+            return true;
+        }
     }
 
     @Override

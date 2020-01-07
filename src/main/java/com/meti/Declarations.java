@@ -48,8 +48,10 @@ public class Declarations {
         if (stack.isEmpty()) {
             return root.child(name);
         } else {
-            queue.addAll(stack.subList(0, stack.size() - 1));
+            queue.addAll(stack);
+            queue.add("");
             do {
+                queue.pop();
                 Declaration absolute = absolute(queue);
                 Optional<Declaration> child = absolute.child(name);
                 if (child.isPresent()) {

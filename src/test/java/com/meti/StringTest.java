@@ -8,7 +8,7 @@ public class StringTest extends CompileTest {
 	@Test
 	void declared() {
 		String result = compileOnly("val x = \"Hello World!\"");
-		assertEquals("char* x$=\"Hello World!\";char** x=&x$;", result);
+		assertEquals("char* x=\"Hello World!\";", result);
 	}
 
 	@Test

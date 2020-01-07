@@ -49,14 +49,9 @@ public class DeclareUnit implements Unit {
 		if (name.equals("main") || (compiledValue.isBlank() && flags.contains(Flag.NATIVE))) {
 			return "";
 		} else if (renderType.endsWith(")")) {
-			callback.append(renderType)
-					.append("=&")
-					.append(name)
-					.append("$;");
 			return "";
 		} else {
-			return renderType + " " + name + "$=" + compiledValue + ";" +
-					renderType + "* " + name + "=&" + name + "$;";
+			return renderType + " " + name + "=" + compiledValue + ";";
 		}
 	}
 

@@ -14,6 +14,6 @@ public class ReturnTest extends CompileTest {
 	@Test
 	void returnInFunction() {
 		String result = compileOnly("val empty = () => void : {return 0;}");
-		assertEquals("void empty$(){return 0;}void(*empty)()=&empty$;", result);
+		assertEquals("void empty(){return 0;}", result);
 	}
 }

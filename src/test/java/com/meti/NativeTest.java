@@ -15,6 +15,6 @@ public class NativeTest extends CompileTest {
 	@Test
 	void testPointer() {
 		String result = compileOnly("{native val run = (~int x) => void; val y = 10; run(y);}");
-		assertEquals("{int y$=10;int* y=&y$;run(*y);}", result);
+		assertEquals("{int y=10;run(y);}", result);
 	}
 }

@@ -9,6 +9,6 @@ public class VariableTest extends CompileTest {
 	@Test
 	void test() {
 		String result = compileOnly("{val x = 10;x}");
-		assertEquals("{int x$=10;int* x=&x$;x}", result);
+		assertEquals("{int x=10;x}", result);
 	}
 }

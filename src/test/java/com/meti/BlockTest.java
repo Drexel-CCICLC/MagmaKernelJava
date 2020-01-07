@@ -8,7 +8,7 @@ public class BlockTest extends CompileTest {
 	@Test
 	void content() {
 		String result = compileOnly("{val x = 10;}");
-		assertEquals("{int x$=10;int* x=&x$;}", result);
+		assertEquals("{int x=10;}", result);
 	}
 
 	@Test
@@ -19,11 +19,7 @@ public class BlockTest extends CompileTest {
 				"val doSomething = () => void :{\n" +
 				"     other();\n" +
 				"}");
-		assertEquals("void other$(){}" +
-				"void(*other)()=&other$;" +
-				"void doSomething$(){other();}" +
-				"void(*doSomething)()=&doSomething$;" +
-				"int main(){return 0;}", result);
+		assertEquals("void other(){}void doSomething(){other();}int main(){return 0;}", result);
 	}
 
 	@Test
