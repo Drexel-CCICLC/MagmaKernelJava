@@ -8,7 +8,7 @@ public class BlockTest extends CompileTest {
 	@Test
 	void content() {
 		String result = compileOnly("{val x = 10;}");
-		assertEquals("{int x$=10;int *x=&x$;}", result);
+		assertEquals("{int x$=10;int* x=&x$;}", result);
 	}
 
 	@Test

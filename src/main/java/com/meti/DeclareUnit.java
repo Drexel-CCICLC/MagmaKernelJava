@@ -38,7 +38,7 @@ public class DeclareUnit implements Unit {
 			return "";
 		} else {
 			return type + " " + name + "$=" + compiledValue + ";" +
-					type + " *" + name + "=&" + name + "$;";
+					type + "* " + name + "=&" + name + "$;";
 		}
 	}
 
