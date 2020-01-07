@@ -18,7 +18,7 @@ public class StructUnit implements Unit {
 
 	@Override
 	public String compile(String value, Compiler compiler) {
-		String returnType = returnType(value, compiler);
+		String returnType = returnType(value, compiler).render();
 		String name = declarations.stack().lastElement();
 		String paramString = "(" + paramString(value, compiler) + ")";
 		int index = value.indexOf(':');
@@ -40,7 +40,7 @@ public class StructUnit implements Unit {
 				int last = param.lastIndexOf(' ');
 				String type = param.substring(0, last);
 				String name = param.substring(last + 1);
-				String paramType = compiler.resolveName(type);
+				String paramType = compiler.resolveName(type).render();
 				builder.append(paramType)
 						.append("* ")
 						.append(name);
@@ -57,7 +57,7 @@ public class StructUnit implements Unit {
 		for (String param : params) {
 			if (!param.isBlank()) {
 				int space = param.lastIndexOf(' ');
-				String paramType = compiler.resolveName(param.substring(0, space));
+				String paramType = compiler.resolveName(param.substring(0, space)).render();
 				builder.append(paramType)
 						.append("*");
 			}
@@ -66,22 +66,23 @@ public class StructUnit implements Unit {
 	}
 
 	@Override
-	public Optional<String> resolveName(String value, Compiler compiler) {
+	public Optional<Type> resolveName(String value, Compiler compiler) {
 		return Optional.empty();
 	}
 
 	@Override
-	public Optional<String> resolveValue(String value, Compiler compiler) {
+	public Optional<Type> resolveValue(String value, Compiler compiler) {
 		if (canCompile(value)) {
-			String returnType = returnType(value, compiler);
+			Type returnType = returnType(value, compiler);
 			String currentName = declarations.stack().lastElement();
 			String paramString = paramTypeString(value, compiler);
-			return Optional.of(returnType + "(*" + currentName + ")(" + paramString + ")");
+			return Optional.of(returnType.render() + "(*" + currentName + ")(" + paramString + ")")
+					.map(s -> new Type(s, returnType));
 		}
 		return Optional.empty();
 	}
 
-	private String returnType(String value, Compiler compiler) {
+	private Type returnType(String value, Compiler compiler) {
 		int index = value.indexOf(':');
 		String header = value.substring(0, index);
 		int returnIndex = header.indexOf("=>");

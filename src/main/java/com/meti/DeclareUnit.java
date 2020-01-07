@@ -25,7 +25,7 @@ public class DeclareUnit implements Unit {
 		String value = trim.substring(index + 1);
 		declarations.define(name, value);
 		declarations.push(name);
-		String type = compiler.resolveValue(value);
+		String type = compiler.resolveValue(value).render();
 		String compiledValue = compiler.compileOnly(value);
 		declarations.pop();
 		if (name.equals("main")) {
@@ -43,12 +43,12 @@ public class DeclareUnit implements Unit {
 	}
 
 	@Override
-	public Optional<String> resolveName(String value, Compiler compiler) {
+	public Optional<Type> resolveName(String value, Compiler compiler) {
 		return Optional.empty();
 	}
 
 	@Override
-	public Optional<String> resolveValue(String value, Compiler compiler) {
+	public Optional<Type> resolveValue(String value, Compiler compiler) {
 		return Optional.empty();
 	}
 }

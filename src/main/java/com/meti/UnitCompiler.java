@@ -27,7 +27,7 @@ public class UnitCompiler implements Compiler {
 	}
 
 	@Override
-	public String resolveName(String value) {
+	public Type resolveName(String value) {
 		return units.stream()
 				.map(unit -> unit.resolveName(value, this))
 				.flatMap(Optional::stream)
@@ -36,7 +36,7 @@ public class UnitCompiler implements Compiler {
 	}
 
 	@Override
-	public String resolveValue(String value) {
+	public Type resolveValue(String value) {
 		return units.stream()
 				.map(unit -> unit.resolveValue(value, this))
 				.flatMap(Optional::stream)

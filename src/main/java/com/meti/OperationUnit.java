@@ -17,12 +17,12 @@ public class OperationUnit implements Unit {
 	}
 
 	@Override
-	public Optional<String> resolveName(String value, Compiler compiler) {
+	public Optional<Type> resolveName(String value, Compiler compiler) {
 		return Optional.empty();
 	}
 
 	@Override
-	public Optional<String> resolveValue(String value, Compiler compiler) {
+	public Optional<Type> resolveValue(String value, Compiler compiler) {
 		return Optional.empty();
 	}
 }

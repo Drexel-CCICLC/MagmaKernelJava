@@ -15,12 +15,12 @@ public class StringUnit implements Unit {
 	}
 
 	@Override
-	public Optional<String> resolveName(String value, Compiler compiler) {
-		return Optional.of("char*").filter(s -> value.equals("string"));
+	public Optional<Type> resolveName(String value, Compiler compiler) {
+		return Optional.of("char*").filter(s -> value.equals("string")).map(Type::new);
 	}
 
 	@Override
-	public Optional<String> resolveValue(String value, Compiler compiler) {
-		return Optional.of("char*").filter(s -> canCompile(value));
+	public Optional<Type> resolveValue(String value, Compiler compiler) {
+		return Optional.of("char*").filter(s -> canCompile(value)).map(Type::new);
 	}
 }

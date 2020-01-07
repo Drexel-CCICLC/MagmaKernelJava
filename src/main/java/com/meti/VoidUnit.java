@@ -14,12 +14,12 @@ public class VoidUnit implements Unit {
 	}
 
 	@Override
-	public Optional<String> resolveName(String value, Compiler compiler) {
-		return Optional.of("void").filter(s -> value.trim().equals("void"));
+	public Optional<Type> resolveName(String value, Compiler compiler) {
+		return Optional.of("void").filter(s -> value.trim().equals("void")).map(Type::new);
 	}
 
 	@Override
-	public Optional<String> resolveValue(String value, Compiler compiler) {
+	public Optional<Type> resolveValue(String value, Compiler compiler) {
 		return Optional.empty();
 	}
 }
