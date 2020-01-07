@@ -51,7 +51,7 @@ public class Compile {
 			Path executable = OUT.resolve("a.exe");
 			Files.deleteIfExists(executable);
 
-			runCommand("gcc", "compile.c");
+			runCommand("C:\\MinGW\\bin\\gcc", "compile.c");
 			runCommand(executable.toAbsolutePath().toString());
 		} catch (IOException e) {
 			logger.log(Level.WARNING, "Failed to delete previous executable.", e);
@@ -87,7 +87,7 @@ public class Compile {
 			ProcessBuilder builder = new ProcessBuilder(command);
 			builder.inheritIO();
 			builder.directory(OUT.toFile());
-			builder.start().waitFor();
+			builder.start().waitFor(1000, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException | IOException e) {
 			logger.log(Level.SEVERE, "Failed to compile.", e);
 		}
