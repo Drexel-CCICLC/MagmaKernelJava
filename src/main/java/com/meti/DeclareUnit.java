@@ -42,7 +42,7 @@ public class DeclareUnit implements CompoundUnit {
 		Type type = compiler.resolveValue(value);
 		String renderType = type.render();
 		StringBuilder builder = new StringBuilder();
-		declarations.defineSibling(name, type, flags, builder);
+		declarations.defineSibling(name, type, builder);
 		String compiledValue = compiler.compileOnly(value);
 		declarations.pop();
 		if (isRenderable(flags, name, renderType, compiledValue)) {

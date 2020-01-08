@@ -3,72 +3,61 @@ package com.meti;
 import java.util.*;
 
 public class Declarations {
-	private final Declaration root;
-	private final Stack<String> stack;
+    private final Declaration ROOT = new Declaration("root", new RootType(), new StringBuilder());
+    private final Stack<String> stack = new Stack<>();
 
-	public Declarations() {
-		this(new Stack<>(), new Declaration("root", new BuildableType("void"), Collections.emptyList(),
-				new StringBuilder()));
-	}
+    public Declaration absolute(Collection<String> names) {
+        return names.stream().reduce(ROOT,
+                (declaration, s) -> declaration.child(s).orElseThrow(),
+                (declaration, declaration2) -> declaration2);
+    }
 
-	public Declarations(Stack<String> stack, Declaration root) {
-		this.stack = stack;
-		this.root = root;
-	}
+    public void defineSibling(String name, Type type, StringBuilder callback) {
+        Declaration parent = parent();
+        parent.define(name, type, callback);
+    }
 
-	public Declaration current() {
-		return absolute(stack);
-	}
+    public Declaration parent() {
+        return stack.isEmpty() ? ROOT : absolute(stack.subList(0, stack.size() - 1));
+    }
 
-	public Declaration absolute(Collection<String> names) {
-		Declaration current = root;
-		for (String name : names) {
-			current = current.child(name)
-					.orElseThrow(() -> new DoesNotExistException(String.join(",", names) + " is not defined."));
-		}
-		return current;
-	}
+    public String pop() {
+        return stack.pop();
+    }
 
-	public void defineSibling(String name, Type type, List<Flag> flags, StringBuilder callback) {
-		parent().define(name, type, flags, callback);
-	}
+    public void push(String name) {
+        stack.push(name);
+    }
 
-	public Declaration parent() {
-		return stack.isEmpty() ? root : absolute(stack.subList(0, stack.size() - 1));
-	}
+    public Optional<Declaration> relative(String name) {
+        Deque<String> names = new LinkedList<>(stack);
+        Declaration toReturn = null;
+        do {
+            Optional<Declaration> optional = remove(name, names);
+            if(optional.isPresent()) toReturn = optional.get();
+        } while (!names.isEmpty());
+        return Optional.ofNullable(toReturn);
+    }
 
-	public String pop() {
-		return stack.pop();
-	}
+    private Optional<Declaration> remove(String name, Deque<String> names) {
+        Declaration absolute = absolute(names);
+        Optional<Declaration> child = absolute.child(name);
+        if (child.isEmpty()) names.pollLast();
+        return child;
+    }
 
-	public void push(String name) {
-		stack.push(name);
-	}
+    public Declaration root() {
+        return ROOT;
+    }
 
-	public Optional<Declaration> relative(String name) {
-		Stack<String> queue = new Stack<>();
-		if (stack.size() == 1) {
-			return root.child(name);
-		} else {
-			queue.addAll(stack);
-			queue.add("");
-			do {
-				queue.pop();
-				Declaration absolute = absolute(queue);
-				Optional<Declaration> child = absolute.child(name);
-				if (child.isPresent()) {
-					return child;
-				}
-			} while (!queue.isEmpty());
-			return Optional.empty();
-		}
-	}
+    public Stack<String> stack() {
+        return stack;
+    }
 
-	public Declaration root() {
-		return root;
-	}
-
-	public Stack<String> stack() {
-		return stack;
-	}
+    private static class RootType implements Type {
+        @Override
+        public String render() {
+            throw new UnsupportedOperationException("Is root type.");
+        }
+    }
 }

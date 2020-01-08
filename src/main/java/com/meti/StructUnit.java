@@ -56,7 +56,7 @@ public class StructUnit implements CompoundUnit {
 				String name = param.substring(last + 1);
 				Type typeInstance = compiler.resolveName(type);
 				String paramType = typeInstance.render();
-				declarations.defineSibling(name, typeInstance, new ArrayList<>(), new StringBuilder());
+				declarations.defineSibling(name, typeInstance, new StringBuilder());
 				builder.append(paramType)
 						.append("* ")
 						.append(name);
