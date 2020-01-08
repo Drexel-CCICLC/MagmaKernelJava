@@ -3,7 +3,7 @@ package com.meti;
 import java.util.List;
 
 public class MagmaCompiler {
-	private final Declarations declarations = new Declarations();
+	private final Declarations declarations = new TreeDeclarations();
 	protected final Compiler compiler = new UnitCompiler(List.of(
 			new ArrayUnit(),
 			new AnyResolver(),
