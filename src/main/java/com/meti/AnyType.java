@@ -11,11 +11,6 @@ public class AnyType implements PointerType {
 	}
 
 	@Override
-	public boolean isPointer() {
-		return true;
-	}
-
-	@Override
 	public boolean isVariable() {
 		return render().equals(".");
 	}

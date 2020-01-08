@@ -10,12 +10,25 @@ public class AssignUnit implements CompoundUnit {
 
 	@Override
 	public String compile(String value, Compiler compiler) {
-		int equals = value.indexOf('=');
-		String firstString = value.substring(0, equals);
-		String lastString = value.substring(equals + 1);
-		String first = compiler.compileOnly(firstString);
-		String last = compiler.compileOnly(lastString);
+		String first = parseFirst(value, compiler);
+		String last = parseLast(value, compiler);
 		return first + "=" + last + ";";
+	}
+
+	private String parseFirst(String value, Compiler compiler) {
+		int equalsIndex = index(value);
+		String firstString = value.substring(0, equalsIndex);
+		return compiler.compileOnly(firstString);
+	}
+
+	private int index(String value) {
+		return value.indexOf('=');
+	}
+
+	private String parseLast(String value, Compiler compiler) {
+		int equalsIndex = index(value);
+		String lastString = value.substring(equalsIndex + 1);
+		return compiler.compileOnly(lastString);
 	}
 
 	@Override

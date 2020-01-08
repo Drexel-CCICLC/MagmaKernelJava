@@ -4,6 +4,20 @@ import java.util.Optional;
 
 public class ArrayUnit implements CompoundUnit {
 	@Override
+	public Optional<? extends Type> resolveName(String value, Compiler compiler) {
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Type> resolveValue(String value, Compiler compiler) {
+		return Optional.of(value)
+				.filter(this::canCompile)
+				.map(String::trim)
+				.map(trim -> parseType(trim, compiler))
+				.map(ArrayType::new);
+	}
+
+	@Override
 	public boolean canCompile(String value) {
 		return value.trim().startsWith("Array");
 	}
@@ -11,32 +25,50 @@ public class ArrayUnit implements CompoundUnit {
 	@Override
 	public String compile(String value, Compiler compiler) {
 		String trim = value.trim();
-		Type type = parseType(compiler, trim);
+		String type = parseTypeString(compiler, trim);
+		String size = parseSize(compiler, trim);
+		return "malloc(" + size + "*sizeof(" + type + "))";
+	}
+
+	private String parseTypeString(Compiler compiler, String trim) {
+		Type type = parseType(trim, compiler);
+		return type.render();
+	}
+
+	private String parseSize(Compiler compiler, String trim) {
 		int sizeStart = trim.indexOf('(');
 		int sizeEnd = trim.indexOf(')');
-		String sizeString = trim.substring(sizeStart + 1, sizeEnd);
-		String compiledSize = compiler.compileOnly(sizeString);
-		return "malloc(" + compiledSize + "*sizeof(" + type.render() + "))";
+		String size = trim.substring(sizeStart + 1, sizeEnd);
+		return compiler.compileOnly(size);
 	}
 
-	private Type parseType(Compiler compiler, String trim) {
-		int typeStart = trim.indexOf('<');
-		int typeEnd = trim.indexOf('>');
-		String typeString = trim.substring(typeStart + 1, typeEnd);
-		return compiler.resolveName(typeString);
+	private Type parseType(String trim, Compiler compiler) {
+		int start = trim.indexOf('<');
+		int end = trim.indexOf('>');
+		String name = trim.substring(start + 1, end);
+		return compiler.resolveName(name);
 	}
 
-	@Override
-	public Optional<? extends Type> resolveName(String value, Compiler compiler) {
-		return Optional.empty();
-	}
+	private static final class ArrayType implements PointerType {
+		private final Type child;
 
-	@Override
-	public Optional<Type> resolveValue(String value, Compiler compiler) {
-		if (canCompile(value)) {
-			Type type = parseType(compiler, value.trim());
-			return Optional.of(new BuildableType(type.render() + "*", type));
+		private ArrayType(Type child) {
+			this.child = child;
 		}
-		return Optional.empty();
+
+		@Override
+		public Optional<Type> child() {
+			return Optional.ofNullable(child);
+		}
+
+		@Override
+		public boolean isVariable() {
+			return false;
+		}
+
+		@Override
+		public String render() {
+			return child.render() + "*";
+		}
 	}
 }

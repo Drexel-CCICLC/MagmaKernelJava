@@ -1,42 +1,50 @@
 package com.meti;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static com.meti.FunctionalPartitioner.using;
 
 public class BlockUnit implements CompoundUnit {
+	private final Depth depth = new SimpleDepth();
+
 	@Override
 	public boolean canCompile(String value) {
 		String trim = value.trim();
-		return trim.startsWith("{") && trim.endsWith("}");
+		boolean starts = trim.startsWith("{");
+		boolean ends = trim.endsWith("}");
+		return starts && ends;
 	}
 
 	@Override
 	public String compile(String value, Compiler compiler) {
-		String content = value.substring(1, value.length() - 1);
-		Collection<String> partitions = new ArrayList<>();
-		StringBuilder current = new StringBuilder();
-		int depth = 0;
-		for (char c : content.toCharArray()) {
-			if(c == ';' && depth == 0) {
-				partitions.add(current.toString());
-				current = new StringBuilder();
-			} else {
-				if(c ==  '{'){
-					depth++;
-				} else if(c == '}') {
-					depth--;
-				}
-				current.append(c);
-			}
-		}
-		partitions.add(current.toString());
-		String collect = partitions.stream()
-				.filter(string -> !string.isBlank())
+		String content = cutContent(value);
+		String joinedPartitions = joinPartitions(compiler, content);
+		return "{" + joinedPartitions + "}";
+	}
+
+	private String cutContent(String value) {
+		int length = value.length();
+		return value.substring(1, length - 1);
+	}
+
+	private String joinPartitions(Compiler compiler, String content) {
+		return partition(content)
 				.map(compiler::compileOnly)
 				.collect(Collectors.joining());
-		return "{" + collect + "}";
+	}
+
+	private Stream<String> partition(String content) {
+		depth.level();
+		return using(character -> character == ';', this::acceptCharacter)
+				.partition(content);
+	}
+
+	private Optional<Character> acceptCharacter(Character character) {
+		if (character == '{') depth.sink();
+		if (character == '}') depth.surface();
+		return Optional.of(character);
 	}
 
 	@Override

@@ -10,34 +10,64 @@ public class ArrayIndexUnit implements CompoundUnit {
 
 	@Override
 	public Optional<Type> resolveValue(String value, Compiler compiler) {
-		if (canCompile(value)) {
-			int start = value.indexOf('[');
-			String nameString = value.substring(0, start);
-			Type type = compiler.resolveValue(nameString);
-			if (type instanceof PointerType) {
-				return ((ParentType) type).child();
-			} else {
-				throw new CompileException(type + " is not an array.");
-			}
-		}
-		return Optional.empty();
+		return Optional.of(value)
+				.filter(this::canCompile)
+				.flatMap(s -> parse(s, compiler));
 	}
 
 	@Override
 	public boolean canCompile(String value) {
-		int start = value.indexOf('[');
-		int end = value.indexOf(']');
+		int start = startOfIndex(value);
+		int end = endOfIndex(value);
 		return start != -1 && end != -1 && start < end;
+	}
+
+	private Optional<Type> parse(String value, Compiler compiler) {
+		String name = parseName(value);
+		return resolveType(name, compiler);
+	}
+
+	private int startOfIndex(String value) {
+		return value.indexOf('[');
+	}
+
+	private int endOfIndex(String value) {
+		return value.indexOf(']');
+	}
+
+	private String parseName(String value) {
+		int start = startOfIndex(value);
+		return value.substring(0, start);
+	}
+
+	private Optional<Type> resolveType(String name, Compiler compiler) {
+		Type type = compiler.resolveValue(name);
+		if (type instanceof PointerType) return resolveChild(type);
+		throw new CompileException(type + " is not an array.");
+	}
+
+	private Optional<Type> resolveChild(Type type) {
+		ParentType parent = (ParentType) type;
+		return parent.child();
 	}
 
 	@Override
 	public String compile(String value, Compiler compiler) {
-		int start = value.indexOf('[');
-		int end = value.indexOf(']');
-		String nameString = value.substring(0, start);
-		String name = compiler.compileOnly(nameString);
-		String indexString = value.substring(start + 1, end);
-		String index = compiler.compileOnly(indexString);
+		String name = parseName(value, compiler);
+		String index = parseIndex(value, compiler);
 		return name + "[" + index + "]";
+	}
+
+	private String parseName(String value, Compiler compiler) {
+		int start = startOfIndex(value);
+		String nameString = value.substring(0, start);
+		return compiler.compileOnly(nameString);
+	}
+
+	private String parseIndex(String value, Compiler compiler) {
+		int start = startOfIndex(value);
+		int end = endOfIndex(value);
+		String indexString = value.substring(start + 1, end);
+		return compiler.compileOnly(indexString);
 	}
 }
