@@ -2,7 +2,7 @@ package com.meti;
 
 import java.util.Optional;
 
-public class VariableUnit implements Unit {
+public class VariableUnit implements CompoundUnit {
 	private final Declarations declarations;
 
 	public VariableUnit(Declarations declarations) {

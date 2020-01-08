@@ -2,7 +2,7 @@ package com.meti;
 
 import java.util.Optional;
 
-public class ReturnUnit implements Unit {
+public class ReturnUnit implements CompoundUnit {
 	@Override
 	public boolean canCompile(String value) {
 		return value.startsWith("return");

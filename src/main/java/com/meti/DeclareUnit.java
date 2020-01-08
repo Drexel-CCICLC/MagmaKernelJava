@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class DeclareUnit implements Unit {
+public class DeclareUnit implements CompoundUnit {
 	private final Declarations declarations;
 
 	public DeclareUnit(Declarations declarations) {

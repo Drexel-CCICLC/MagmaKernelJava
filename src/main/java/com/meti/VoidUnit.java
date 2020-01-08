@@ -2,7 +2,7 @@ package com.meti;
 
 import java.util.Optional;
 
-public class VoidUnit implements Unit {
+public class VoidUnit implements CompoundUnit {
 	@Override
 	public boolean canCompile(String value) {
 		return false;

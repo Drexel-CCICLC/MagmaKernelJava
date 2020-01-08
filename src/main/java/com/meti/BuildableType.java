@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class BuildableType implements Type {
+public class BuildableType implements ComplexType {
     private final Type child;
     private final String content;
     private final List<Type> parameters;

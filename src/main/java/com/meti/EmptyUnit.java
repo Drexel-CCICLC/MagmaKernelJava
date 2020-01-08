@@ -2,7 +2,7 @@ package com.meti;
 
 import java.util.Optional;
 
-public class EmptyUnit implements Unit {
+public class EmptyUnit implements CompoundUnit {
 	@Override
 	public boolean canCompile(String value) {
 		return value.isBlank();

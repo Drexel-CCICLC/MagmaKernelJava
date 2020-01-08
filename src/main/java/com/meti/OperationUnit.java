@@ -2,7 +2,7 @@ package com.meti;
 
 import java.util.Optional;
 
-public class OperationUnit implements Unit {
+public class OperationUnit implements CompoundUnit {
 	@Override
 	public boolean canCompile(String value) {
 		return value.contains("+");

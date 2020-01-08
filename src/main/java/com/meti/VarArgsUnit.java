@@ -2,7 +2,7 @@ package com.meti;
 
 import java.util.Optional;
 
-class VarArgsUnit implements Unit {
+class VarArgsUnit implements CompoundUnit {
     @Override
     public boolean canCompile(String value) {
         return false;

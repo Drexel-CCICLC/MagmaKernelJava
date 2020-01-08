@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class BlockUnit implements Unit {
+public class BlockUnit implements CompoundUnit {
 	@Override
 	public boolean canCompile(String value) {
 		String trim = value.trim();

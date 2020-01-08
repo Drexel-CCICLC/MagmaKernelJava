@@ -2,7 +2,7 @@ package com.meti;
 
 import java.util.Optional;
 
-public class StringUnit implements Unit {
+public class StringUnit implements CompoundUnit {
 	@Override
 	public boolean canCompile(String value) {
 		String trim = value.trim();

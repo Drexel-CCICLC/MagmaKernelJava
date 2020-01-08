@@ -2,7 +2,7 @@ package com.meti;
 
 import java.util.Optional;
 
-public class IntUnit implements Unit {
+public class IntUnit implements CompoundUnit {
 	@Override
 	public boolean canCompile(String value) {
 		boolean isInt;

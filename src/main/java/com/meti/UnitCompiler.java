@@ -1,14 +1,19 @@
 package com.meti;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class UnitCompiler implements Compiler {
 	private static final String HEADER = "Failed to resolve type: ";
-	private final List<Unit> units;
+	private final List<Resolver> resolvers = new ArrayList<>();
+	private final List<Unit> units = new ArrayList<>();
 
-	public UnitCompiler(List<Unit> units) {
-		this.units = units;
+	public UnitCompiler(List<Object> objects) {
+		for (Object object : objects) {
+			if (object instanceof Unit) units.add((Unit) object);
+			if (object instanceof Resolver) resolvers.add((Resolver) object);
+		}
 	}
 
 	@Override
@@ -32,8 +37,8 @@ public class UnitCompiler implements Compiler {
 
 	@Override
 	public Type resolveName(String value) {
-		return units.stream()
-				.map(unit -> unit.resolveName(value, this))
+		return resolvers.stream()
+				.map(resolver -> resolver.resolveName(value, this))
 				.flatMap(Optional::stream)
 				.findAny()
 				.orElseThrow(() -> unknownType(value));
@@ -41,14 +46,14 @@ public class UnitCompiler implements Compiler {
 
 	@Override
 	public Type resolveValue(String value) {
-		return units.stream()
-				.map(unit -> unit.resolveValue(value, this))
+		return resolvers.stream()
+				.map(resolver -> resolver.resolveValue(value, this))
 				.flatMap(Optional::stream)
 				.findAny()
 				.orElseThrow(() -> unknownType(value));
 	}
 
-	private ParseException unknownType(String value) {
+	private RuntimeException unknownType(String value) {
 		return new ParseException(HEADER + value);
 	}
 }

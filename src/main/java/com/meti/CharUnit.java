@@ -2,7 +2,7 @@ package com.meti;
 
 import java.util.Optional;
 
-public class CharUnit implements Unit {
+public class CharUnit implements CompoundUnit {
 	@Override
 	public boolean canCompile(String value) {
 		return value.startsWith("'") && value.endsWith("'");

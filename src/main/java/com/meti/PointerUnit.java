@@ -2,7 +2,7 @@ package com.meti;
 
 import java.util.Optional;
 
-public class PointerUnit implements Unit {
+public class PointerUnit implements CompoundUnit {
 	@Override
 	public boolean canCompile(String value) {
 		return false;

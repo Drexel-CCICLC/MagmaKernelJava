@@ -3,11 +3,10 @@ package com.meti;
 import java.util.List;
 
 public class MagmaCompiler {
-	private final StringBuilder callback = new StringBuilder();
 	private final Declarations declarations = new Declarations();
 	protected final Compiler compiler = new UnitCompiler(List.of(
 			new ArrayUnit(),
-			new AnyUnit(),
+			new AnyResolver(),
 			new VarArgsUnit(),
 			new PointerUnit(),
 			new StringUnit(),

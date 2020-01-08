@@ -2,7 +2,7 @@ package com.meti;
 
 import java.util.Optional;
 
-class CastUnit implements Unit {
+class CastUnit implements CompoundUnit {
     @Override
     public boolean canCompile(String value) {
         return value.startsWith("<") && value.contains(">");

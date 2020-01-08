@@ -2,7 +2,7 @@ package com.meti;
 
 import java.util.Optional;
 
-public class ArrayUnit implements Unit {
+public class ArrayUnit implements CompoundUnit {
 	@Override
 	public boolean canCompile(String value) {
 		return value.trim().startsWith("Array");

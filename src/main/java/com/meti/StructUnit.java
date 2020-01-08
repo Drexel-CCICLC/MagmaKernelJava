@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class StructUnit implements Unit {
+public class StructUnit implements CompoundUnit {
 	private final Declarations declarations;
 
 	public StructUnit(Declarations declarations) {
