@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Deprecated
 public class BuildableType implements ComplexType {
 	private final Type child;
 	private final String content;

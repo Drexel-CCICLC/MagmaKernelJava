@@ -10,12 +10,19 @@ class CastUnit implements CompoundUnit {
 
     @Override
     public String compile(String value, Compiler compiler) {
-        int start = value.indexOf('<');
-        int end = value.indexOf('>');
-        String typeString = value.substring(start + 1, end);
-        Type type = compiler.resolveName(typeString);
+        int end = endOfCast(value);
+        Type type = resolveType(value, compiler);
         String valueString = value.substring(end + 1);
-        return "(" + type.render() + ")" + compiler.compileOnly(valueString);
+        return "(" + type.render() + ")" +
+                compiler.compileOnly(valueString);
+    }
+
+    private int endOfCast(String value) {
+        return value.indexOf('>');
+    }
+
+    private int startOfCast(String value) {
+        return value.indexOf('<');
     }
 
     @Override
@@ -25,14 +32,15 @@ class CastUnit implements CompoundUnit {
 
     @Override
     public Optional<Type> resolveValue(String value, Compiler compiler) {
-        if (canCompile(value)) {
-            int start = value.indexOf('<');
-            int end = value.indexOf('>');
-            String typeString = value.substring(start + 1, end);
-            Type type = compiler.resolveName(typeString);
-            return Optional.of(type);
-        } else {
-            return Optional.empty();
-        }
+        return Optional.of(value)
+                .filter(this::canCompile)
+                .map(string -> resolveType(string, compiler));
+    }
+
+    private Type resolveType(String value, Compiler compiler) {
+        int start = startOfCast(value);
+        int end = endOfCast(value);
+        String typeString = value.substring(start + 1, end);
+        return compiler.resolveName(typeString);
     }
 }
