@@ -8,11 +8,12 @@ import java.util.stream.Collectors;
 
 public class InvocationUnit implements Unit {
 	private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
-	private final StringBuilder callback;
 	private int counter = -1;
 
-	public InvocationUnit(StringBuilder callback) {
-		this.callback = callback;
+	private final Declarations declarations;
+
+	public InvocationUnit(Declarations declarations) {
+		this.declarations = declarations;
 	}
 
 	@Override
@@ -65,7 +66,7 @@ public class InvocationUnit implements Unit {
 				if (isPrimitive(paramValue)) {
 					counter++;
 					String tempName = ALPHABET.charAt(counter % ALPHABET.length()) + String.valueOf(counter);
-					callback.append(name)
+					declarations.parent().callback().append(name)
 							.append(" ")
 							.append(tempName)
 							.append("=")

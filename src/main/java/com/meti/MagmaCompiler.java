@@ -18,21 +18,21 @@ public class MagmaCompiler {
 			new CharUnit(),
 			new BlockUnit(),
 			new OperationUnit(),
-			new DeclareUnit(callback, declarations),
-			new StructUnit(callback, declarations),
+			new DeclareUnit(declarations),
+			new StructUnit(declarations),
 			new AssignUnit(),
 			new IntUnit(),
-			new InvocationUnit(callback),
+			new InvocationUnit(declarations),
 			new ArrayIndexUnit(),
 			new VariableUnit(declarations)));
 
 	protected String compileAll(String value) {
 		String result = compiler.compileAll(value);
-		return callback + result;
+		return declarations.root().callback() + result;
 	}
 
 	protected String compileOnly(String value) {
 		String result = compiler.compileOnly(value);
-		return callback + result;
+		return declarations.root().callback() + result;
 	}
 }
