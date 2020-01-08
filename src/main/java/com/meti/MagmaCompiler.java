@@ -13,7 +13,6 @@ public class MagmaCompiler {
 			new ReturnUnit(),
 			new CastUnit(),
 			new VoidUnit(),
-			new EmptyUnit(),
 			new CharUnit(),
 			new BlockUnit(),
 			new OperationUnit(),
