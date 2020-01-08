@@ -1,0 +1,11 @@
+native val malloc = (~int size) => Any;
+native val free = (~Any array) => void;
+native val printf = (~string format, ~Any... value) => void;
+
+val prints = (string value) => void :{
+    printf("%s", value);
+};
+
+val printi = (int value) => void :{
+    printf("%i", value);
+};

@@ -6,14 +6,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BlockTest extends CompileTest {
 	@Test
-	void multiple() {
-		String result = compiler.compile("{val x = 10; val y = 20;}");
-		assertEquals("{var a0=10;var b1=20;}", result);
+	void content() {
+		String result = compileOnly("{val x = 10;}");
+		assertEquals("{int x=10;}", result);
 	}
 
 	@Test
-	void single() {
-		String result = compiler.compile("{val x = 10;}");
-		assertEquals("{var a0=10;}", result);
+	void multiple() {
+		String result = compileAll("val other = () => void :{\n" +
+				"};\n" +
+				"\n" +
+				"val doSomething = () => void :{\n" +
+				"     other();\n" +
+				"}");
+		assertEquals("void other(){}void doSomething(){other();}int main(){return 0;}", result);
+	}
+
+	@Test
+	void test() {
+		String result = compileOnly("{}");
+		assertEquals("{}", result);
 	}
 }

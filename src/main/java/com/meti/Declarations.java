@@ -1,30 +1,68 @@
 package com.meti;
 
-import com.meti.type.Type;
-import com.meti.unit.Declaration;
-
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.Stack;
 
-public interface Declarations {
-	Declaration absolute(Collection<String> splitName);
+public class Declarations {
+    private final Declaration root;
+    private final Stack<String> stack;
 
-	Declaration current();
+    public Declarations() {
+        this(new Stack<>(), new Declaration("root", new BuildableType("void")));
+    }
 
-	Declaration define(String name, Type type);
+    public Declarations(Stack<String> stack, Declaration root) {
+        this.stack = stack;
+        this.root = root;
+    }
 
-	void defineTemp(String tempName, Collection<String> tempFlags);
+    public void defineSibling(String name, Type type, List<Flag> flags) {
+        parent().define(name, type, flags);
+    }
 
-	Declaration define(String name, Type type, Collection<String> flags);
+    public Declaration parent() {
+        return absolute(stack.subList(0, stack.size() - 1));
+    }
 
-	void delete(String name);
+    public Declaration absolute(Collection<String> names) {
+        Declaration current = root;
+        for (String name : names) {
+            current = current.child(name)
+                    .orElseThrow(() -> new DoesNotExistException(String.join(",", names) + " is not defined."));
+        }
+        return current;
+    }
 
-	Declaration relative(String name);
+    public String pop() {
+        return stack.pop();
+    }
 
-	Optional<Declaration> relativeOptionally(String name);
+    public void push(String name) {
+        stack.push(name);
+    }
 
-	void sink(String name);
+    public Optional<Declaration> relative(String name) {
+        Stack<String> queue = new Stack<>();
+        if (stack.size() == 1) {
+            return root.child(name);
+        } else {
+            queue.addAll(stack);
+            queue.add("");
+            do {
+                queue.pop();
+                Declaration absolute = absolute(queue);
+                Optional<Declaration> child = absolute.child(name);
+                if (child.isPresent()) {
+                    return child;
+                }
+			} while (!queue.isEmpty());
+            return Optional.empty();
+        }
+    }
 
-	void surface();
+    public Stack<String> stack() {
+        return stack;
+    }
 }

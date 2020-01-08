@@ -1,36 +1,22 @@
 package com.meti;
 
-import com.meti.unit.SimpleData;
-import com.meti.unit.Unit;
-import com.meti.unit.value.PrimitiveUnit;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PrimitiveTest extends CompileTest {
-	@Test
-	void booleans() {
-		String result = compiler.compile("true");
-		assertEquals("true", result);
-	}
+    @Test
+    void testOnly() {
+		assertEquals("10", compileOnly("10"));
+    }
 
-	@Test
-	void integer() {
-		assertEquals("10", compiler.compile("10"));
-	}
+    @Test
+    void testEmpty() {
+        assertEquals("int main(){return 0;}", compileAll(""));
+    }
 
-	@Test
-	void integerOther() {
-		assertEquals("5", compiler.compile("5"));
-	}
-
-	@Test
-	void notAnInteger() {
-		Unit unit = new PrimitiveUnit(new SimpleData());
-		Optional<String> optional = unit.parse("x", null);
-		assertTrue(optional.isEmpty());
-	}
+    @Test
+    void testInt() {
+        assertEquals("int main(){5return 0;}", compileAll("5"));
+    }
 }

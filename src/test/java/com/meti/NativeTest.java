@@ -1,20 +1,20 @@
 package com.meti;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class NativeTest extends CompileTest {
 	@Test
-	void nativeInvoke() {
-		String result = compiler.compile("native val writeInt = (int value) => void; writeInt(10);");
-		assertEquals("writeInt(10);", result);
+	void test() {
+		String result = compileOnly("{native val foo ==> void;foo();}");
+		assertEquals("{foo();}", result);
 	}
 
 	@Test
-	void nativeMethod() {
-		String result = compiler.compile("native val writeString = (string value) => void");
-		assertTrue(result.isBlank());
+	void testPointer() {
+		String result = compileOnly("{native val run = (~int x) => void; val y = 10; run(y);}");
+		assertEquals("{int y=10;run(y);}", result);
 	}
 }

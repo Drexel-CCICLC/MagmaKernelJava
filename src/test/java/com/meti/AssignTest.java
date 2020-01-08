@@ -1,18 +1,13 @@
 package com.meti;
 
-import com.meti.exception.ImmutableException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AssignTest extends CompileTest {
 	@Test
-	void compile() {
-		try{
-			compiler.compile("val x = 10; x = 20;");
-			fail();
-		} catch (Exception e){
-			assertSame(ImmutableException.class, e.getCause().getClass());
-		}
+	void test() {
+		String result = compileOnly("{var a = 10; a = 20;}");
+		assertEquals("{int a=10;a=20;}", result);
 	}
 }

@@ -1,9 +1,11 @@
 package com.meti;
 
-import com.meti.type.Type;
-
 public interface Compiler {
-	String compile(String input);
+	String compileAll(String input);
 
-	Type resolve(String value);
+	String compileOnly(String input);
+
+	Type resolveName(String value);
+
+	Type resolveValue(String value);
 }
