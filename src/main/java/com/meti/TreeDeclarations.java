@@ -1,37 +1,38 @@
 package com.meti;
 
 import java.util.*;
+import java.util.function.Supplier;
+
+import static com.meti.TreeDeclarationBuilder.create;
 
 public class TreeDeclarations implements Declarations {
-    private final Declaration ROOT = new TreeDeclaration("root", new RootType(), new StringBuilder());
+    private final Declaration ROOT = buildRoot();
     private final Stack<String> stack = new Stack<>();
+
+    private TreeDeclaration buildRoot() {
+        return create().withType(new RootType())
+                .withName("root")
+                .build();
+    }
 
     @Override
     public Declaration absolute(Collection<String> names) {
         return names.stream().reduce(ROOT,
-                (declaration, s) -> declaration.child(s).orElseThrow(),
-                (declaration, declaration2) -> declaration2);
+                (parent, childName) -> parent.child(childName).orElseThrow(),
+                (parent, child) -> child);
     }
 
     @Override
-    public void defineSibling(String name, Type type, StringBuilder callback) {
-        Declaration parent = parent();
-        parent.define(name, type, callback);
+    public Declaration define(DeclarationBuilder builder) {
+        Declaration current = absolute(stack);
+        Declaration declaration = current.define(builder);
+        stack.push(declaration.render());
+        return declaration;
     }
 
     @Override
     public Declaration parent() {
         return stack.isEmpty() ? ROOT : absolute(stack.subList(0, stack.size() - 1));
-    }
-
-    @Override
-    public String pop() {
-        return stack.pop();
-    }
-
-    @Override
-    public void push(String name) {
-        stack.push(name);
     }
 
     @Override
@@ -60,6 +61,21 @@ public class TreeDeclarations implements Declarations {
     @Override
     public Stack<String> stack() {
         return stack;
+    }
+
+    @Override
+    public String complete(Supplier<String> action) {
+        String toReturn = action.get();
+        stack.pop();
+        return toReturn;
+    }
+
+    @Override
+    public String renderInParentScope(Supplier<String> action) {
+        String current = stack.pop();
+        String toReturn = action.get();
+        stack.push(current);
+        return toReturn;
     }
 
     private static class RootType implements Type {

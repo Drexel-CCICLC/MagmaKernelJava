@@ -7,9 +7,17 @@ interface Declaration {
 
     Optional<Declaration> child(String name);
 
-    void define(String name, Type type, StringBuilder callback);
+    Declaration define(DeclarationBuilder builder);
 
-    String name();
+    Type typeOf();
 
-    Type type();
+    boolean isMain();
+
+    boolean isNative();
+
+    String render();
+
+    boolean matches(String name);
+
+    String render(Compiler compiler, String value);
 }
