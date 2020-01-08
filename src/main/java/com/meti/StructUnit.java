@@ -85,7 +85,7 @@ public class StructUnit implements Unit {
     }
 
     @Override
-    public Optional<Type> resolveName(String value, Compiler compiler) {
+    public Optional<? extends Type> resolveName(String value, Compiler compiler) {
         return Optional.empty();
     }
 
@@ -100,7 +100,7 @@ public class StructUnit implements Unit {
                     .map(s -> s + "*")
                     .collect(Collectors.joining(","));
             return Optional.of(returnType.render() + "(*" + currentName + ")(" + paramString + ")")
-                    .map(s -> new Type(s, returnType, params));
+                    .map(s -> new BuildableType(s, returnType, params));
         }
         return Optional.empty();
     }

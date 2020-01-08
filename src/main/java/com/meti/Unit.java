@@ -7,7 +7,7 @@ public interface Unit {
 
 	String compile(String value, Compiler compiler);
 
-	Optional<Type> resolveName(String value, Compiler compiler);
+	Optional<? extends Type> resolveName(String value, Compiler compiler);
 
 	Optional<Type> resolveValue(String value, Compiler compiler);
 }

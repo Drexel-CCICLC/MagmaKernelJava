@@ -14,11 +14,11 @@ class VarArgsUnit implements Unit {
     }
 
     @Override
-    public Optional<Type> resolveName(String value, Compiler compiler) {
+    public Optional<? extends Type> resolveName(String value, Compiler compiler) {
         if (value.endsWith("...")) {
             int index = value.indexOf('.');
             Type child = compiler.resolveName(value.substring(0, index));
-            return Optional.of(new Type(".", child));
+            return Optional.of(new BuildableType(".", child));
         }
         return Optional.empty();
     }

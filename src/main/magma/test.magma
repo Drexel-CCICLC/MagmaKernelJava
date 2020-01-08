@@ -1,1 +1,4 @@
-val array = malloc(3);
+val array = Array<string>(1);
+array[0] = "Hello World!";
+prints(array[0]);
+free(array);

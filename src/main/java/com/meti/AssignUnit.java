@@ -2,15 +2,20 @@ package com.meti;
 
 import java.util.Optional;
 
-public class CharUnit implements Unit {
+public class AssignUnit implements Unit {
 	@Override
 	public boolean canCompile(String value) {
-		return value.startsWith("'") && value.endsWith("'");
+		return value.contains("=");
 	}
 
 	@Override
 	public String compile(String value, Compiler compiler) {
-		return value;
+		int equals = value.indexOf('=');
+		String firstString = value.substring(0, equals);
+		String lastString = value.substring(equals + 1);
+		String first = compiler.compileOnly(firstString);
+		String last = compiler.compileOnly(lastString);
+		return first + "=" + last + ";";
 	}
 
 	@Override
@@ -20,8 +25,6 @@ public class CharUnit implements Unit {
 
 	@Override
 	public Optional<Type> resolveValue(String value, Compiler compiler) {
-		return Optional.of("char")
-				.filter(s -> canCompile(value))
-				.map(BuildableType::new);
+		return Optional.empty();
 	}
 }

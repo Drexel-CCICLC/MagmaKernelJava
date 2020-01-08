@@ -14,8 +14,8 @@ public class VoidUnit implements Unit {
 	}
 
 	@Override
-	public Optional<Type> resolveName(String value, Compiler compiler) {
-		return Optional.of("void").filter(s -> value.trim().equals("void")).map(Type::new);
+	public Optional<? extends Type> resolveName(String value, Compiler compiler) {
+		return Optional.of("void").filter(s -> value.trim().equals("void")).map(BuildableType::new);
 	}
 
 	@Override

@@ -11,10 +11,12 @@ public class InvocationTest extends CompileTest {
         assertEquals("void empty(){}{empty();}", result);
     }
 
+    //TOOD: fix callback system
+
     @Test
     void withParam() {
-        String result = compileAll("val some = (int x) => void : {}; val y = 20; some(y);");
-        assertEquals("void some(int* x){}{int y=20;some(&y);}", result);
+        String result = compileOnly("{val some = (int x) => void : {}; val y = 20; some(y);}");
+        assertEquals("{void some(int* x){}{int y=20;some(&y);}}", result);
     }
 
     @Test

@@ -10,7 +10,7 @@ public class Declarations {
     private final Stack<String> stack;
 
     public Declarations() {
-        this(new Stack<>(), new Declaration("root", new Type("void")));
+        this(new Stack<>(), new Declaration("root", new BuildableType("void")));
     }
 
     public Declarations(Stack<String> stack, Declaration root) {

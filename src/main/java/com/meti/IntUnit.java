@@ -21,12 +21,12 @@ public class IntUnit implements Unit {
 	}
 
 	@Override
-	public Optional<Type> resolveName(String value, Compiler compiler) {
-		return Optional.of("int").filter(s -> value.trim().equals("int")).map(Type::new);
+	public Optional<? extends Type> resolveName(String value, Compiler compiler) {
+		return Optional.of("int").filter(s -> value.trim().equals("int")).map(BuildableType::new);
 	}
 
 	@Override
 	public Optional<Type> resolveValue(String value, Compiler compiler) {
-		return Optional.of("int").filter(s -> canCompile(value.trim())).map(Type::new);
+		return Optional.of("int").filter(s -> canCompile(value.trim())).map(BuildableType::new);
 	}
 }

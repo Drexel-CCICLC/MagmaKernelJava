@@ -6,6 +6,7 @@ public class MagmaCompiler {
 	private final StringBuilder callback = new StringBuilder();
 	private final Declarations declarations = new Declarations();
 	protected final Compiler compiler = new UnitCompiler(List.of(
+			new ArrayUnit(),
 			new AnyUnit(),
 			new VarArgsUnit(),
 			new PointerUnit(),
@@ -19,7 +20,9 @@ public class MagmaCompiler {
 			new OperationUnit(),
 			new DeclareUnit(callback, declarations),
 			new StructUnit(callback, declarations),
+			new AssignUnit(),
 			new IntUnit(),
+			new ArrayIndexUnit(),
 			new InvocationUnit(callback),
 			new VariableUnit(declarations)));
 

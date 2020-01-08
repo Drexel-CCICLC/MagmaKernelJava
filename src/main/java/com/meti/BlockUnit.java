@@ -1,7 +1,6 @@
 package com.meti;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,7 +40,7 @@ public class BlockUnit implements Unit {
 	}
 
 	@Override
-	public Optional<Type> resolveName(String value, Compiler compiler) {
+	public Optional<? extends Type> resolveName(String value, Compiler compiler) {
 		return Optional.empty();
 	}
 
