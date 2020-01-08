@@ -22,8 +22,8 @@ public class MagmaCompiler {
 			new StructUnit(callback, declarations),
 			new AssignUnit(),
 			new IntUnit(),
-			new ArrayIndexUnit(),
 			new InvocationUnit(callback),
+			new ArrayIndexUnit(),
 			new VariableUnit(declarations)));
 
 	protected String compileAll(String value) {

@@ -19,11 +19,15 @@ public class UnitCompiler implements Compiler {
 	@Override
 	public String compileOnly(String input) {
 		String trim = input.trim();
-		return units.stream()
-				.filter(unit -> unit.canCompile(trim))
-				.map(unit -> unit.compile(trim, this))
-				.findAny()
-				.orElseThrow(() -> unknownType(trim));
+		try {
+			return units.stream()
+					.filter(unit -> unit.canCompile(trim))
+					.map(unit -> unit.compile(trim, this))
+					.findAny()
+					.orElseThrow(() -> unknownType(trim));
+		} catch (Exception e) {
+			throw new ParseException("Failed to compile: " + input, e);
+		}
 	}
 
 	@Override
