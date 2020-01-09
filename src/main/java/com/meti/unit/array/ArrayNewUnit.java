@@ -1,19 +1,21 @@
-package com.meti.unit;
+package com.meti.unit.array;
 
 import com.meti.compile.Compiler;
+import com.meti.compile.ComplexCompiler;
 import com.meti.type.ParentType;
 import com.meti.type.Type;
+import com.meti.unit.CompoundUnit;
 
 import java.util.Optional;
 
-public class ArrayUnit implements CompoundUnit {
+public class ArrayNewUnit implements CompoundUnit {
 	@Override
-	public Optional<? extends Type> resolveName(String value, Compiler compiler) {
+	public Optional<? extends Type> resolveName(String value, ComplexCompiler compiler) {
 		return Optional.empty();
 	}
 
 	@Override
-	public Optional<Type> resolveValue(String value, Compiler compiler) {
+	public Optional<Type> resolveValue(String value, ComplexCompiler compiler) {
 		return Optional.of(value)
 				.filter(this::canCompile)
 				.map(String::trim)
@@ -27,14 +29,14 @@ public class ArrayUnit implements CompoundUnit {
 	}
 
 	@Override
-	public String compile(String value, Compiler compiler) {
+	public String compile(String value, ComplexCompiler compiler) {
 		String trim = value.trim();
 		String type = parseTypeString(compiler, trim);
 		String size = parseSize(compiler, trim);
 		return "malloc(" + size + "*sizeof(" + type + "))";
 	}
 
-	private String parseTypeString(Compiler compiler, String trim) {
+	private String parseTypeString(ComplexCompiler compiler, String trim) {
 		Type type = parseType(trim, compiler);
 		return type.render();
 	}
@@ -46,7 +48,7 @@ public class ArrayUnit implements CompoundUnit {
 		return compiler.compileOnly(size);
 	}
 
-	private Type parseType(String trim, Compiler compiler) {
+	private Type parseType(String trim, ComplexCompiler compiler) {
 		int start = trim.indexOf('<');
 		int end = trim.indexOf('>');
 		String name = trim.substring(start + 1, end);

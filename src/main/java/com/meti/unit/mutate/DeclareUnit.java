@@ -1,6 +1,7 @@
-package com.meti.unit;
+package com.meti.unit.mutate;
 
-import com.meti.compile.Compiler;
+import com.meti.compile.ComplexCompiler;
+import com.meti.unit.CompoundUnit;
 import com.meti.util.Flag;
 import com.meti.declare.Declaration;
 import com.meti.declare.DeclarationBuilder;
@@ -52,14 +53,14 @@ public class DeclareUnit implements CompoundUnit {
     }
 
     @Override
-    public String compile(String trim, Compiler compiler) {
+    public String compile(String trim, ComplexCompiler compiler) {
         String value = parseValue(trim);
         DeclarationBuilder builder = build(trim, compiler);
         Declaration declaration = declarations.define(builder);
         return declarations.complete(() -> declaration.render(compiler, value));
     }
 
-    private DeclarationBuilder build(String trim, Compiler compiler) {
+    private DeclarationBuilder build(String trim, ComplexCompiler compiler) {
         String name = parseName(trim);
         List<Flag> flags = parseFlags(trim);
         String value = parseValue(trim);
@@ -82,12 +83,12 @@ public class DeclareUnit implements CompoundUnit {
     }
 
     @Override
-    public Optional<? extends Type> resolveName(String value, Compiler compiler) {
+    public Optional<? extends Type> resolveName(String value, ComplexCompiler compiler) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<Type> resolveValue(String value, Compiler compiler) {
+    public Optional<Type> resolveValue(String value, ComplexCompiler compiler) {
         return Optional.empty();
     }
 }

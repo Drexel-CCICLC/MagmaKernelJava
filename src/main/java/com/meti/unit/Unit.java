@@ -1,9 +1,9 @@
 package com.meti.unit;
 
-import com.meti.compile.Compiler;
+import com.meti.compile.ComplexCompiler;
 
 public interface Unit {
 	boolean canCompile(String value);
 
-	String compile(String value, Compiler compiler);
+	String compile(String value, ComplexCompiler compiler);
 }

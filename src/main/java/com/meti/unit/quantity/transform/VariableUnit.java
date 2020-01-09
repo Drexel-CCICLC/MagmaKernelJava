@@ -1,10 +1,11 @@
-package com.meti.unit;
+package com.meti.unit.quantity.transform;
 
-import com.meti.compile.Compiler;
+import com.meti.compile.ComplexCompiler;
 import com.meti.declare.Declaration;
 import com.meti.declare.Declarations;
 import com.meti.exception.DoesNotExistException;
 import com.meti.type.Type;
+import com.meti.unit.CompoundUnit;
 
 import java.util.Optional;
 
@@ -21,19 +22,19 @@ public class VariableUnit implements CompoundUnit {
     }
 
     @Override
-    public String compile(String value, Compiler compiler) {
+    public String compile(String value, ComplexCompiler compiler) {
         return declarations.relative(value)
                 .map(Declaration::render)
                 .orElseThrow(() -> new DoesNotExistException(value + " is not defined."));
     }
 
     @Override
-    public Optional<? extends Type> resolveName(String value, Compiler compiler) {
+    public Optional<? extends Type> resolveName(String value, ComplexCompiler compiler) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<Type> resolveValue(String value, Compiler compiler) {
+    public Optional<Type> resolveValue(String value, ComplexCompiler compiler) {
         return Optional.of(value)
                 .map(String::trim)
                 .flatMap(declarations::relative)

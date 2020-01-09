@@ -1,20 +1,22 @@
-package com.meti.unit;
+package com.meti.unit.array;
 
 import com.meti.compile.Compiler;
+import com.meti.compile.ComplexCompiler;
 import com.meti.exception.CompileException;
 import com.meti.type.ParentType;
 import com.meti.type.Type;
+import com.meti.unit.CompoundUnit;
 
 import java.util.Optional;
 
 public class ArrayIndexUnit implements CompoundUnit {
 	@Override
-	public Optional<? extends Type> resolveName(String value, Compiler compiler) {
+	public Optional<? extends Type> resolveName(String value, ComplexCompiler compiler) {
 		return Optional.empty();
 	}
 
 	@Override
-	public Optional<Type> resolveValue(String value, Compiler compiler) {
+	public Optional<Type> resolveValue(String value, ComplexCompiler compiler) {
 		return Optional.of(value)
 				.filter(this::canCompile)
 				.flatMap(s -> parse(s, compiler));
@@ -27,7 +29,7 @@ public class ArrayIndexUnit implements CompoundUnit {
 		return start != -1 && end != -1 && start < end;
 	}
 
-	private Optional<Type> parse(String value, Compiler compiler) {
+	private Optional<Type> parse(String value, ComplexCompiler compiler) {
 		String name = parseName(value);
 		return resolveType(name, compiler);
 	}
@@ -45,7 +47,7 @@ public class ArrayIndexUnit implements CompoundUnit {
 		return value.substring(0, start);
 	}
 
-	private Optional<Type> resolveType(String name, Compiler compiler) {
+	private Optional<Type> resolveType(String name, ComplexCompiler compiler) {
 		Type type = compiler.resolveValue(name);
 		if (type instanceof ParentType) return resolveChild(type);
 		throw new CompileException(type + " is not an array.");
@@ -57,7 +59,7 @@ public class ArrayIndexUnit implements CompoundUnit {
 	}
 
 	@Override
-	public String compile(String value, Compiler compiler) {
+	public String compile(String value, ComplexCompiler compiler) {
 		String name = parseName(value, compiler);
 		String index = parseIndex(value, compiler);
 		return name + "[" + index + "]";

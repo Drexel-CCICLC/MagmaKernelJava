@@ -1,10 +1,11 @@
-package com.meti.unit;
+package com.meti.unit.bracket;
 
-import com.meti.compile.Compiler;
+import com.meti.compile.ComplexCompiler;
 import com.meti.exception.CompileException;
 import com.meti.type.StructType;
 import com.meti.type.Type;
 import com.meti.type.VoidType;
+import com.meti.unit.CompoundUnit;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,12 +15,12 @@ import java.util.stream.Collectors;
 
 public class InvocationUnit implements CompoundUnit {
 	@Override
-	public Optional<? extends Type> resolveName(String value, Compiler compiler) {
+	public Optional<? extends Type> resolveName(String value, ComplexCompiler compiler) {
 		return Optional.empty();
 	}
 
 	@Override
-	public Optional<Type> resolveValue(String value, Compiler compiler) {
+	public Optional<Type> resolveValue(String value, ComplexCompiler compiler) {
 		return Optional.of(value)
 				.filter(this::canCompile)
 				.flatMap(invocation -> extractInvocation(invocation, compiler));
@@ -30,7 +31,7 @@ public class InvocationUnit implements CompoundUnit {
 		return value.trim().endsWith(")");
 	}
 
-	private Optional<Type> extractInvocation(String value, Compiler compiler) {
+	private Optional<Type> extractInvocation(String value, ComplexCompiler compiler) {
 		String caller = parseCaller(value);
 		Type type = compiler.resolveValue(caller);
 		if (type instanceof StructType) return ((StructType) type).returnType();
@@ -47,7 +48,7 @@ public class InvocationUnit implements CompoundUnit {
 	}
 
 	@Override
-	public String compile(String value, Compiler compiler) {
+	public String compile(String value, ComplexCompiler compiler) {
 		String callerString = parseCaller(value);
 		String argsString = parseArgs(value);
 		Type callerType = compiler.resolveValue(callerString);

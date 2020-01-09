@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UnitCompiler implements Compiler {
+public class UnitCompiler implements ComplexCompiler {
     private static final String HEADER = "Failed to resolve type: ";
     private final List<Resolver> resolvers = new ArrayList<>();
     private final List<Unit> units = new ArrayList<>();
