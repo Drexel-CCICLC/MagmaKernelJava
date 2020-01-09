@@ -49,7 +49,7 @@ public class ArrayUnit implements CompoundUnit {
 		return compiler.resolveName(name);
 	}
 
-	private static final class ArrayType implements PointerType {
+	private static final class ArrayType implements ParentType {
 		private final Type child;
 
 		private ArrayType(Type child) {
@@ -59,11 +59,6 @@ public class ArrayUnit implements CompoundUnit {
 		@Override
 		public Optional<Type> child() {
 			return Optional.ofNullable(child);
-		}
-
-		@Override
-		public boolean isVariable() {
-			return false;
 		}
 
 		@Override

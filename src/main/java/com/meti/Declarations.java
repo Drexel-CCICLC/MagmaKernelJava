@@ -9,7 +9,9 @@ import java.util.function.Supplier;
 interface Declarations {
     Declaration absolute(Collection<String> names);
 
-    Declaration define(DeclarationBuilder builder);
+	Declaration current();
+
+	Declaration define(DeclarationBuilder builder);
 
     Declaration parent();
 

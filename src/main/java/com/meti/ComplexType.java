@@ -1,9 +1,5 @@
 package com.meti;
 
-public interface ComplexType extends StructType, PointerType {
+public interface ComplexType extends StructType, ParentType {
 
-	@Override
-	default boolean isVariable() {
-		return render().equals(".");
-	}
 }

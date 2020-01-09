@@ -6,7 +6,9 @@ public class StringUnit implements CompoundUnit {
 	@Override
 	public boolean canCompile(String value) {
 		String trim = value.trim();
-		return trim.startsWith("\"") && trim.endsWith("\"");
+		boolean starts = trim.startsWith("\"");
+		boolean ends = trim.endsWith("\"");
+		return starts && ends;
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class MagmaCompiler {
 			new StructUnit(declarations),
 			new AssignUnit(),
 			new IntUnit(),
-			new InvocationUnit(declarations),
+			new InvocationUnit(),
 			new ArrayIndexUnit(),
 			new VariableUnit(declarations)));
 
