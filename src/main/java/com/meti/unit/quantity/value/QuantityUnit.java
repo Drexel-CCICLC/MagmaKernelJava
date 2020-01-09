@@ -9,11 +9,11 @@ import java.util.Collection;
 import java.util.List;
 
 public class QuantityUnit extends ParentUnit {
-	public QuantityUnit(Declarations declarations) {
-		this(List.of(new TransformUnit(declarations), new ValueUnit()));
-	}
+    public QuantityUnit(Declarations declarations) {
+		this(List.of(new ValueUnit(), new TransformUnit(declarations)));
+    }
 
-	public QuantityUnit(Collection<Unit> children) {
-		super(children);
-	}
+    public QuantityUnit(Collection<Unit> children) {
+        super(children);
+    }
 }

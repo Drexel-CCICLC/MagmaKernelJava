@@ -32,7 +32,7 @@ public class UnitCompiler implements ComplexCompiler {
             String trim = prepare(input);
             return compileOnlyExceptionally(trim);
         } catch (Exception e) {
-            throw new ParseException("Failed to compile: " + input, e);
+            throw new ParseException("Failed to compile:\n" + input, e);
         }
     }
 

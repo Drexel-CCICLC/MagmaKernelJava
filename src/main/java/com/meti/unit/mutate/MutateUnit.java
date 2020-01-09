@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MutateUnit extends ParentUnit {
 	public MutateUnit(Declarations declarations) {
-		this(List.of(new AssignUnit(), new DeclareUnit(declarations)));
+		this(List.of(new DeclareUnit(declarations), new AssignUnit()));
 	}
 
 	public MutateUnit(Collection<Unit> children) {
