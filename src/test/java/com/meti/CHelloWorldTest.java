@@ -6,12 +6,12 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class HelloWorldTest {
+class CHelloWorldTest {
 	private final Interpreter interpreter = new CInterpreter();
 
 	@Test
 	void testString() throws IOException, InterruptedException {
-		String result = interpreter.runCleanly("""
+		String result = interpreter.run("""
 						#include <stdio.h>
 						int main() {
 							printf("%s", "Hello World!");
@@ -22,7 +22,7 @@ class HelloWorldTest {
 
 	@Test
 	void testInteger() throws IOException, InterruptedException {
-		String result = interpreter.runCleanly("""
+		String result = interpreter.run("""
 						#include <stdio.h>
 						int main() {
 							printf("%i", 666);

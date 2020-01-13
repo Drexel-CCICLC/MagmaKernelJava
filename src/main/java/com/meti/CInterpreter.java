@@ -9,13 +9,13 @@ class CInterpreter implements Interpreter {
 	private final Path cache = Paths.get("cache.c");
 
 	@Override
-	public String runCleanly(String content) throws IOException, InterruptedException {
-		String result = run(content);
+	public String run(String content) throws IOException, InterruptedException {
+		String result = compile(content);
 		cleanup();
 		return result;
 	}
 
-	private String run(CharSequence content) throws IOException, InterruptedException {
+	private String compile(CharSequence content) throws IOException, InterruptedException {
 		Files.writeString(cache, content);
 		Executable.run("gcc", "cache.c");
 		return Executable.run("a");
