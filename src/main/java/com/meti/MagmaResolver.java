@@ -6,19 +6,21 @@ import com.meti.other.AnyResolver;
 import com.meti.other.VoidResolver;
 import com.meti.string.StringResolver;
 import com.meti.struct.StructResolver;
+import com.meti.variable.VariableResolver;
 
 import java.util.Arrays;
 import java.util.Collection;
 
 class MagmaResolver extends ParentResolver {
-    MagmaResolver() {
+    MagmaResolver(Declarations declarations) {
         this(
                 new StructResolver(),
                 new StringResolver(),
                 new AnyResolver(),
                 new VoidResolver(),
                 new CharResolver(),
-                new IntResolver()
+                new IntResolver(),
+                new VariableResolver(declarations)
         );
     }
 

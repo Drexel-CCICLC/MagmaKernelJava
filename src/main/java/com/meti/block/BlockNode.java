@@ -3,7 +3,6 @@ package com.meti.block;
 import com.meti.Node;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class BlockNode implements Node {
@@ -20,8 +19,8 @@ public class BlockNode implements Node {
 
     @Override
     public String render() {
-        return children.stream()
+        return "{" + children.stream()
                 .map(Node::render)
-                .collect(Collectors.joining());
+                .collect(Collectors.joining()) + "}";
     }
 }

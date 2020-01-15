@@ -2,6 +2,8 @@ package com.meti.other;
 
 import com.meti.Type;
 
+import java.util.Optional;
+
 public class AnyType implements Type {
     @Override
     public boolean isNamed() {
@@ -11,5 +13,10 @@ public class AnyType implements Type {
     @Override
     public String render() {
         return "...";
+    }
+
+    @Override
+    public Optional<Type> returnType() {
+        return Optional.empty();
     }
 }

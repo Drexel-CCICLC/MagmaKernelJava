@@ -11,25 +11,23 @@ import com.meti.operator.OperationParser;
 import com.meti.point.DereferenceParser;
 import com.meti.point.ReferenceParser;
 import com.meti.string.StringParser;
+import com.meti.struct.ReturnParser;
 import com.meti.struct.StructParser;
 import com.meti.variable.VariableParser;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 class MagmaParser extends ParentParser {
-    MagmaParser() {
-        this(new Declarations());
-    }
-
-    MagmaParser(Declarations declarations) {
+    MagmaParser(Declarations declarations, List<Node> functions) {
         this(
+                new ReturnParser(),
                 new BlockParser(),
                 new ArrayContentParser(),
                 new ArraySizeParser(),
                 new CharParser(),
-                new StructParser(declarations, new ArrayList<>()),
+                new StructParser(declarations, functions),
                 new DeclareParser(declarations),
                 new IntParser(),
                 new InvocationParser(),

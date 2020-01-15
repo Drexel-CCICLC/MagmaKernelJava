@@ -18,11 +18,11 @@ class DeclareNode implements Node {
     public String render() {
         String before = (type.isNamed()) ? type.render() : type.render() + " " + name;
         String after = value.render();
-        return before + "=" + after;
+        return after.isBlank() ? "" : before + "=" + after;
     }
 
     @Override
     public boolean isParent() {
-		return false;
+        return false;
     }
 }

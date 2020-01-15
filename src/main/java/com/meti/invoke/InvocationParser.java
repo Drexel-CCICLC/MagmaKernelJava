@@ -3,6 +3,7 @@ package com.meti.invoke;
 import com.meti.Compiler;
 import com.meti.Node;
 import com.meti.Parser;
+import com.meti.Type;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,12 +19,13 @@ public class InvocationParser implements Parser {
             int end = trim.indexOf(')');
             String callerString = trim.substring(0, start);
             String argumentString = trim.substring(start + 1, end);
+            Type callerType = compiler.resolveValue(callerString);
             Node caller = compiler.parse(callerString);
             String[] args = argumentString.split(",");
             List<Node> arguments = Arrays.stream(args)
                     .map(compiler::parse)
                     .collect(Collectors.toList());
-            return Optional.of(new InvocationNode(caller, arguments));
+            return Optional.of(new InvocationNode(callerType, caller, arguments));
         }
         return Optional.empty();
     }

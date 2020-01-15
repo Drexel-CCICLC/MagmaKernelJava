@@ -3,6 +3,7 @@ package com.meti.struct;
 import com.meti.Type;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class StructType implements Type {
@@ -27,5 +28,10 @@ public class StructType implements Type {
                 .map(Type::render)
                 .collect(Collectors.joining(","));
         return returnType.render() + "(*" + name + ")" + "(" + joinedParams + ")";
+    }
+
+    @Override
+    public Optional<Type> returnType() {
+        return Optional.ofNullable(returnType);
     }
 }

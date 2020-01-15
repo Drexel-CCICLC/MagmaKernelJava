@@ -25,4 +25,8 @@ public class Declaration {
     public void define(String name, Type type) {
         children.put(name, new Declaration(name, type));
     }
+
+    public Type type() {
+        return type;
+    }
 }

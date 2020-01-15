@@ -1,5 +1,6 @@
 package com.meti;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -7,14 +8,19 @@ import java.util.stream.Collectors;
 
 public class MagmaInterpreter implements Interpreter {
     private final Collection<String> headers;
-    private final Compiler compiler = new UnitCompiler(new MagmaParser(), new MagmaResolver());
+    private final ArrayList<Node> functions = new ArrayList<>();
+    private final Declarations declarations = new Declarations();
+    private final Parser rootParser = new MagmaParser(declarations, functions);
+    private final Resolver rootResolver = new MagmaResolver(declarations);
+    private final Compiler compiler = new UnitCompiler(rootParser, rootResolver);
+    private final Interpreter parent = new CInterpreter();
 
     MagmaInterpreter(Collection<String> headers) {
         this.headers = headers;
     }
 
     @Override
-    public String run(String content) {
+    public String run(String content) throws IOException, InterruptedException {
         String headerString = headers.stream()
                 .map(header -> "#include <" + header + ">\n")
                 .collect(Collectors.joining());
@@ -37,6 +43,10 @@ public class MagmaInterpreter implements Interpreter {
                 .map(compiler::parse)
                 .map(Node::render)
                 .collect(Collectors.joining());
-        return headerString + compileString;
+        String functionString = functions.stream()
+                .map(Node::render)
+                .collect(Collectors.joining());
+        String output = headerString + functionString + compileString;
+        return parent.run(output);
     }
 }
