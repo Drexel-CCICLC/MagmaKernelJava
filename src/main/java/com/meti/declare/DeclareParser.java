@@ -6,9 +6,17 @@ import com.meti.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class DeclareParser implements Parser {
+    private final Declarations declarations;
+
+    public DeclareParser(Declarations declarations) {
+        this.declarations = declarations;
+    }
+
     @Override
     public Optional<Node> parse(String value, Compiler compiler) {
         String trim = value.trim();
@@ -24,11 +32,13 @@ public class DeclareParser implements Parser {
                     .collect(Collectors.toList());
             String name = first.substring(lastSpace + 1);
             if (flags.contains(Flag.VAL) || flags.contains(Flag.VAR)) {
+                Type type = compiler.resolveValue(last);
                 if (flags.contains(Flag.NATIVE)) {
+                    declarations.define(name, type);
                     return Optional.of(new EmptyNode());
                 } else {
-                    Type type = compiler.resolveValue(last);
-                    Node valueNode = compiler.parse(last);
+                    Node valueNode = declarations.define(name, type, () -> compiler.parse(last));
+
                     return Optional.of(new DeclareNode(type, name, valueNode));
                 }
             }
