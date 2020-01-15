@@ -7,7 +7,7 @@ import com.meti.Type;
 
 import java.util.Optional;
 
-class ArraySizeParser implements Parser {
+public class ArraySizeParser implements Parser {
     @Override
     public Optional<Node> parse(String value, Compiler compiler) {
         String trim = value.trim();
@@ -19,7 +19,7 @@ class ArraySizeParser implements Parser {
             int sizeStart = trim.indexOf('(') + 1;
             int sizeEnd = trim.indexOf(')');
             String sizeString = trim.substring(sizeStart, sizeEnd);
-            Node size = compiler.compile(sizeString);
+            Node size = compiler.parse(sizeString);
             return Optional.of(new ArraySizeNode(type, size));
         }
         return Optional.empty();

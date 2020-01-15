@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-class InvocationParser implements Parser {
+public class InvocationParser implements Parser {
     @Override
     public Optional<Node> parse(String value, Compiler compiler) {
         String trim = value.trim();
@@ -18,10 +18,10 @@ class InvocationParser implements Parser {
             int end = trim.indexOf(')');
             String callerString = trim.substring(0, start);
             String argumentString = trim.substring(start + 1, end);
-            Node caller = compiler.compile(callerString);
+            Node caller = compiler.parse(callerString);
             String[] args = argumentString.split(",");
             List<Node> arguments = Arrays.stream(args)
-                    .map(compiler::compile)
+                    .map(compiler::parse)
                     .collect(Collectors.toList());
             return Optional.of(new InvocationNode(caller, arguments));
         }

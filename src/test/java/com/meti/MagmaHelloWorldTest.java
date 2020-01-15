@@ -14,7 +14,7 @@ class MagmaHelloWorldTest {
 	void test() throws IOException, InterruptedException {
 		String result = interpreter.run("""
 				native val printf = (String format, Any value) => Void;
-				val main = () => int :{
+				val main = () => Int :{
 					printf("%s", "Hello World!");
 					return 0;
 				};

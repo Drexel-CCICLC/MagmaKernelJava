@@ -12,7 +12,7 @@ public class DereferenceParser implements Parser {
 		String trim = value.trim();
 		if (trim.startsWith("*")) {
 			String dereferenceValue = trim.substring(1);
-			Node child = compiler.compile(dereferenceValue);
+			Node child = compiler.parse(dereferenceValue);
 			return Optional.of(new DereferenceNode(child));
 		}
 		return Optional.empty();
