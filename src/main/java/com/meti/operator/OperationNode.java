@@ -17,4 +17,9 @@ public class OperationNode implements Node {
     public String render() {
         return first.render() + operation.value() + last.render();
     }
+
+    @Override
+    public boolean isParent() {
+		return false;
+    }
 }

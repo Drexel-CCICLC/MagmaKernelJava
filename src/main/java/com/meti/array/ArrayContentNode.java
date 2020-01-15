@@ -22,4 +22,9 @@ class ArrayContentNode implements Node {
 
         return null;
     }
+
+    @Override
+    public boolean isParent() {
+		return false;
+    }
 }

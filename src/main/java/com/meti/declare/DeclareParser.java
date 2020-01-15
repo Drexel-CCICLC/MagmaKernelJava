@@ -1,9 +1,7 @@
 package com.meti.declare;
 
 import com.meti.Compiler;
-import com.meti.Node;
-import com.meti.Parser;
-import com.meti.Type;
+import com.meti.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,10 +23,14 @@ public class DeclareParser implements Parser {
                     .map(Flag::valueOf)
                     .collect(Collectors.toList());
             String name = first.substring(lastSpace + 1);
-            if(flags.contains(Flag.VAL) || flags.contains(Flag.VAR)) {
-                Type type = compiler.resolveValue(last);
-                Node valueNode = compiler.parse(last);
-                return Optional.of(new DeclareNode(type, name, valueNode));
+            if (flags.contains(Flag.VAL) || flags.contains(Flag.VAR)) {
+                if (flags.contains(Flag.NATIVE)) {
+                    return Optional.of(new EmptyNode());
+                } else {
+                    Type type = compiler.resolveValue(last);
+                    Node valueNode = compiler.parse(last);
+                    return Optional.of(new DeclareNode(type, name, valueNode));
+                }
             }
         }
         return Optional.empty();

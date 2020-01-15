@@ -20,4 +20,9 @@ class DeclareNode implements Node {
         String after = value.render();
         return before + "=" + after;
     }
+
+    @Override
+    public boolean isParent() {
+		return false;
+    }
 }

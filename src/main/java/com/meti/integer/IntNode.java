@@ -13,4 +13,9 @@ public class IntNode implements Node {
 	public String render() {
 		return String.valueOf(value);
 	}
+
+    @Override
+    public boolean isParent() {
+		return false;
+    }
 }

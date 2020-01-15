@@ -21,4 +21,9 @@ public class InvocationNode implements Node {
                 .collect(Collectors.joining(","));
         return caller.render() + "(" + argsString + ")";
     }
+
+    @Override
+    public boolean isParent() {
+		return false;
+    }
 }

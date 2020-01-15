@@ -7,9 +7,9 @@ import com.meti.other.VoidResolver;
 import com.meti.string.StringResolver;
 import com.meti.struct.StructParser;
 import com.meti.struct.StructResolver;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,7 +18,7 @@ class DeclareParserTest {
 
     @Test
     void bug0() {
-        Compiler compiler = new UnitCompiler(new ParentParser(new StructParser()), new ParentResolver(
+        Compiler compiler = new UnitCompiler(new ParentParser(new StructParser(new Declarations(), new ArrayList<>())), new ParentResolver(
                 new StructResolver(),
                 new StringResolver(),
                 new AnyResolver(),

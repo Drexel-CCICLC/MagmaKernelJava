@@ -5,4 +5,9 @@ public class EmptyNode implements Node {
     public String render() {
         return "";
     }
+
+    @Override
+    public boolean isParent() {
+		return false;
+    }
 }

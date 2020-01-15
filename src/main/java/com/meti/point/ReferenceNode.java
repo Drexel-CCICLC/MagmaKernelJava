@@ -13,4 +13,9 @@ public class ReferenceNode implements Node {
 	public String render() {
 		return "&" + child.render();
 	}
+
+    @Override
+    public boolean isParent() {
+		return false;
+    }
 }

@@ -27,4 +27,9 @@ class ArraySizeNode implements Node {
         Node invocation = new InvocationNode(malloc, Collections.singletonList(operation));
         return invocation.render();
     }
+
+    @Override
+    public boolean isParent() {
+		return false;
+    }
 }

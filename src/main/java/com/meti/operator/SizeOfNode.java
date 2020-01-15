@@ -14,4 +14,9 @@ public class SizeOfNode implements Node {
     public String render() {
         return "sizeof(" + type.render() + ")";
     }
+
+    @Override
+    public boolean isParent() {
+		return false;
+    }
 }

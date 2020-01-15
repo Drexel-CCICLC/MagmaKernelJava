@@ -13,4 +13,9 @@ public class VariableNode implements Node {
     public String render() {
         return value;
     }
+
+    @Override
+    public boolean isParent() {
+		return false;
+    }
 }
