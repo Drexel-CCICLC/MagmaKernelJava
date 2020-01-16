@@ -20,7 +20,7 @@ public class ArrayContentParser implements Parser {
 			int contentStart = data.indexOf('{') + 1;
 			int contentEnd = data.indexOf('}');
 			String contentString = data.substring(contentStart, contentEnd);
-
+			
 		}
 		return Optional.empty();
 	}

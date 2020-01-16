@@ -28,6 +28,6 @@ class DeclareParserTest {
         Parser parser = new DeclareParser(declarations);
         Optional<Node> optional = parser.parse("native val printf = (String format, Any value) => Void", compiler);
         assertTrue(optional.isPresent());
-        assertSame(DeclareNode.class, optional.get().getClass());
+        assertSame(EmptyNode.class, optional.get().getClass());
     }
 }
