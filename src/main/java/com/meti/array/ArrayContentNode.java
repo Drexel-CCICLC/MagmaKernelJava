@@ -4,6 +4,7 @@ import com.meti.Node;
 import com.meti.Type;
 import com.meti.integer.IntNode;
 
+import java.util.LinkedList;
 import java.util.List;
 
 class ArrayContentNode implements Node {
@@ -15,7 +16,12 @@ class ArrayContentNode implements Node {
         this.elements = elements;
     }
 
-    @Override
+	@Override
+	public LinkedList<Node> children() {
+		return new LinkedList<>();
+	}
+
+	@Override
     public String render() {
         Node size = new IntNode(elements.size());
         Node arraySize = new ArraySizeNode(type, size);

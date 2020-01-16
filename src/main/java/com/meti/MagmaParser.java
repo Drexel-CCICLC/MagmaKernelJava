@@ -36,7 +36,7 @@ class MagmaParser extends ParentParser {
 				new DeclareParser(declarations),
 				new AssignParser(),
 				new IntParser(),
-				new InvocationParser(),
+				new InvocationParser(declarations),
 				new OperationParser(),
 				new DereferenceParser(),
 				new ReferenceParser(),

@@ -11,19 +11,25 @@ import com.meti.struct.StructType;
 import com.meti.variable.VariableNode;
 
 import java.util.Collections;
+import java.util.LinkedList;
 
-class ArraySizeNode implements Node {
+public class ArraySizeNode implements Node {
     private static final Node malloc = new VariableNode("malloc");
     private static final Type mallocType = new StructType(new ArrayType(new AnyType()), "malloc", Collections.emptyList());
     private final Type type;
     private final Node size;
 
-    ArraySizeNode(Type type, Node size) {
+    public ArraySizeNode(Type type, Node size) {
         this.type = type;
         this.size = size;
     }
 
-    @Override
+	@Override
+	public LinkedList<Node> children() {
+		return new LinkedList<>();
+	}
+
+	@Override
     public String render() {
         Node sizeOf = new SizeOfNode(type);
         Node operation = new OperationNode(size, sizeOf, Operations.MULTIPLY);

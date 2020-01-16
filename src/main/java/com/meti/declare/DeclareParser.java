@@ -35,7 +35,7 @@ public class DeclareParser implements Parser {
 				if (flags.contains(Flag.VAL) || flags.contains(Flag.VAR)) {
 					Type type = compiler.resolveValue(last);
 					if (flags.contains(Flag.NATIVE)) {
-						declarations.define(name, type);
+						declarations.define(name, type, false);
 						return Optional.of(new EmptyNode());
 					} else {
 						Node valueNode = declarations.define(name, type, () -> compiler.parse(last));

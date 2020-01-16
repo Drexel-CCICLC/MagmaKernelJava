@@ -30,8 +30,7 @@ public class ObjectType implements Type {
 
 	@Override
 	public Optional<Type> childType(String name) {
-		return Optional.ofNullable(children.get(name))
-				.map(PointerType::new);
+		return Optional.ofNullable(children.get(name));
 	}
 
 	@Override

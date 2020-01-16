@@ -3,16 +3,22 @@ package com.meti.block;
 import com.meti.Node;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.stream.Collectors;
 
 public class BlockNode implements Node {
-    private final Collection<Node> children;
+    private final LinkedList<Node> children;
 
     public BlockNode(Collection<Node> children) {
-        this.children = children;
+        this.children = new LinkedList<>(children);
     }
 
-    @Override
+	@Override
+	public LinkedList<Node> children() {
+		return children;
+	}
+
+	@Override
     public boolean isParent() {
         return true;
     }

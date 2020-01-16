@@ -8,6 +8,7 @@ import com.meti.struct.StructType;
 import com.meti.variable.VariableNode;
 
 import java.util.Collections;
+import java.util.LinkedList;
 
 public class ArrayDeleteNode implements Node {
 	private static final Node FREE_NODE = new VariableNode("free");
@@ -16,6 +17,11 @@ public class ArrayDeleteNode implements Node {
 
 	public ArrayDeleteNode(Node array) {
 		this.array = array;
+	}
+
+	@Override
+	public LinkedList<Node> children() {
+		return new LinkedList<>();
 	}
 
 	@Override

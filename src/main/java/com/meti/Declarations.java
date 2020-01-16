@@ -5,19 +5,19 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class Declarations {
-	private final Declaration root = new Declaration("root", null);
+	private final Declaration root = new Declaration("root", null, false, null);
 	private final Stack<String> stack = new Stack<>();
 
 	public Node define(String name, Type type, Supplier<Node> action) {
-		define(name, type);
+		define(name, type, false);
 		stack.push(name);
 		Node result = action.get();
 		stack.pop();
 		return result;
 	}
 
-	public void define(String name, Type type) {
-		current().define(name, type);
+	public void define(String name, Type type, boolean isParameter) {
+		current().define(name, type, isParameter);
 	}
 
 	public Declaration current() {

@@ -4,9 +4,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 class CInterpreter implements Interpreter {
 	private final Path cache = Paths.get("cache.c");
+
+	@Override
+	public Optional<String> parse(String content) {
+		return Optional.empty();
+	}
 
 	@Override
 	public String run(String content) throws IOException, InterruptedException {

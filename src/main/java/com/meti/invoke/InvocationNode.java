@@ -5,6 +5,7 @@ import com.meti.ParseException;
 import com.meti.Type;
 import com.meti.other.VoidType;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,11 @@ public class InvocationNode implements Node {
         this.callerType = callerType;
         this.caller = caller;
         this.args = args;
+    }
+
+    @Override
+    public LinkedList<Node> children() {
+        return new LinkedList<>();
     }
 
     @Override

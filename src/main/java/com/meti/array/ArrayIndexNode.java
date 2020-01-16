@@ -2,6 +2,8 @@ package com.meti.array;
 
 import com.meti.Node;
 
+import java.util.LinkedList;
+
 public class ArrayIndexNode implements Node {
 	private final Node array;
 	private final Node index;
@@ -9,6 +11,11 @@ public class ArrayIndexNode implements Node {
 	public ArrayIndexNode(Node array, Node index) {
 		this.array = array;
 		this.index = index;
+	}
+
+	@Override
+	public LinkedList<Node> children() {
+		return new LinkedList<>();
 	}
 
 	@Override

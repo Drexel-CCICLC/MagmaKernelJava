@@ -26,28 +26,28 @@ public class VariableParser implements Parser {
 			Type type = compiler.resolveValue(parentString);
 			return buildField(type, parent, childString);
 		} else {
-			Optional<String> first = declarations.stackStream()
+			Optional<Declaration> first = declarations.stackStream()
 					.filter(declaration -> declaration.child(trim).isPresent())
-					.map(Declaration::name)
 					.findFirst();
-			if (first.isPresent() && !"root".equals(first.get())) {
-				Map<String, Type> declaration = declarations.relative(first.get())
-						.orElseThrow()
-						.childMap();
-				Type type = new ObjectType(declaration);
-				Node firstNode = new VariableNode(first.get() + "_");
-				return buildField(type, firstNode, trim);
-			} else {
-				return declarations.relative(trim.trim())
-						.map(Declaration::name)
-						.map(VariableNode::new);
+			if (first.isPresent() && !"root".equals(first.get()) && !first.get().equals(declarations.current())) {
+				Optional<Declaration> child = first.get().child(trim);
+				if (child.isPresent() && child.get().isParameter()) {
+					Map<String, Type> declaration = first.orElseThrow()
+							.childMap();
+					Type type = new ObjectType(declaration);
+					Node firstNode = new VariableNode(first.get().name() + "_");
+					return buildField(type, firstNode, trim);
+				}
 			}
+			return declarations.relative(trim.trim())
+					.map(Declaration::name)
+					.map(VariableNode::new);
 		}
 	}
 
 	private Optional<Node> buildField(Type parentType, Node parentNode, String name) {
 		Optional<Type> child = parentType.childType(name.trim());
 		OptionalInt order = parentType.childOrder(name.trim());
-		return Optional.of(new FieldNode(parentNode, order.orElseThrow(), child.orElseThrow()));
+		return Optional.of(new FieldNode(parentNode, order.orElseThrow(), child.orElseThrow(), name));
 	}
 }

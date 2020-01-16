@@ -2,6 +2,8 @@ package com.meti.struct;
 
 import com.meti.Node;
 
+import java.util.LinkedList;
+
 public class ReturnNode implements Node {
     private final Node value;
 
@@ -9,7 +11,12 @@ public class ReturnNode implements Node {
         this.value = value;
     }
 
-    @Override
+	@Override
+	public LinkedList<Node> children() {
+		return new LinkedList<>();
+	}
+
+	@Override
     public boolean isParent() {
         return false;
     }

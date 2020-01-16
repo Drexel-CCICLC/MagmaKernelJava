@@ -2,6 +2,8 @@ package com.meti.declare;
 
 import com.meti.Node;
 
+import java.util.LinkedList;
+
 public class AssignNode implements Node {
 	private final Node from;
 	private final Node to;
@@ -9,6 +11,11 @@ public class AssignNode implements Node {
 	AssignNode(Node to, Node from) {
 		this.from = from;
 		this.to = to;
+	}
+
+	@Override
+	public LinkedList<Node> children() {
+		return new LinkedList<>();
 	}
 
 	@Override

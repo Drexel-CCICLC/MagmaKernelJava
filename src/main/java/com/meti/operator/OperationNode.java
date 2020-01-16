@@ -2,6 +2,8 @@ package com.meti.operator;
 
 import com.meti.Node;
 
+import java.util.LinkedList;
+
 public class OperationNode implements Node {
     private final Node first;
     private final Node last;
@@ -13,7 +15,12 @@ public class OperationNode implements Node {
         this.operation = operation;
     }
 
-    @Override
+	@Override
+	public LinkedList<Node> children() {
+		return new LinkedList<>();
+	}
+
+	@Override
     public String render() {
         return first.render() + operation.value() + last.render();
     }
