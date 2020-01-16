@@ -3,7 +3,6 @@ package com.meti;
 import java.util.Collection;
 
 public interface Compiler {
-	@Deprecated
 	Node parseSingle(String value);
 
 	Collection<Node> parseMultiple(String value);
