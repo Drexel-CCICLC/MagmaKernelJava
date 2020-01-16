@@ -1,11 +1,11 @@
 package com.meti;
 
+import com.meti.array.Functions;
 import com.meti.struct.IncrementedGenerator;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -14,7 +14,8 @@ public class MagmaInterpreter implements Interpreter {
 	private final ArrayList<Node> functions = new ArrayList<>();
 	private final Collection<String> headers;
 	private final Interpreter parent = new CInterpreter();
-	private final Parser rootParser = new MagmaParser(declarations, functions, new IncrementedGenerator());
+	private final Functions functions1 = new Functions(functions);
+	private final Parser rootParser = new MagmaParser(declarations, new IncrementedGenerator(), functions1);
 	private final Resolver rootResolver = new MagmaResolver(declarations);
 	private final Compiler compiler = new UnitCompiler(rootParser, rootResolver);
 
@@ -46,7 +47,7 @@ public class MagmaInterpreter implements Interpreter {
 				.map(compiler::parseSingle)
 				.map(Node::render)
 				.collect(Collectors.joining());
-		String functionString = functions.stream()
+		String functionString = functions1.stream()
 				.map(Node::render)
 				.collect(Collectors.joining());
 		String output = headerString + functionString + compileString;

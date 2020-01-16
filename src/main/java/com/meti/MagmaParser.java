@@ -18,16 +18,15 @@ import com.meti.variable.VariableParser;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 class MagmaParser extends ParentParser {
-	MagmaParser(Declarations declarations, List<Node> functions, Generator generator) {
+	MagmaParser(Declarations declarations, Generator generator, Functions functions) {
 		this(
 				new ArrayDeleteParser(),
                 new ArrayIndexParser(),
 				new ReturnParser(),
 				new BlockParser(),
-				new ArrayContentParser(new Functions(functions), generator),
+				new ArrayContentParser(functions, generator),
 				new ArraySizeParser(),
 				new CharParser(),
 				new StructParser(declarations, functions, generator),
