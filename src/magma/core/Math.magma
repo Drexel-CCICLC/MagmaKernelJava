@@ -1,3 +1,0 @@
-native val Math = () : {
-	native val pow = (a, b);
-};

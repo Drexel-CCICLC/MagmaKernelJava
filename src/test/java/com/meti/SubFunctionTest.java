@@ -2,18 +2,53 @@ package com.meti;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SubFunctionTest extends CompileTest {
+class SubFunctionTest extends InterpretedTest {
 	@Test
-	void innerFunction(){
-		String inner = compiler.compile("val a = 5; val b = 10;val compute = () : {return a + b;};");
-		assertEquals("var a0=5;var b1=10;var c2=function(){return a0+b1;};", inner);
+	void parse() {
+		String result = interpreter.parse("""
+					val a = (Int value) => Int :{
+					val b = () => Int : {
+						return value;
+					};
+					return b();
+				};
+				""").orElseThrow();
+		assertEquals("#include <stdio.h>\n" +
+				"#include <stdlib.h>\n" +
+				"int b(void** a_){return *(int*)a_[0];}int a(int value){void** a_=malloc(1*sizeof(void*));" +
+				"a_[0]=&value;return b(a_);}", result);
 	}
 
 	@Test
-	void subFunction() {
-		String result = compiler.compile("val sum = (a, b) : {val compute = () : {return a + b;};};");
-		assertEquals("var d3=function(a0,b1){var c2=function(){return a0+b1;};};", result);
+	void test() throws IOException, InterruptedException {
+		/*
+		int b(void** a_){
+			return *(int*)(a_[0]);
+		}
+		int a(int value){
+			void** a_=malloc(1*sizeof(void*));
+			a_[0]=&value;
+			free(a_);
+			return b(a_);
+		}
+		 */
+		String result = interpreter.run("""
+				native val printf = (String format, Any value) => Void;
+				val a = (Int value) => Int :{
+					val b = () => Int : {
+						return value;
+					};
+					return b();
+				};
+				val main = () => Int :{
+					val result = a(10);
+					printf("%i", result);
+				}
+				""");
+		assertEquals("10", result);
 	}
 }

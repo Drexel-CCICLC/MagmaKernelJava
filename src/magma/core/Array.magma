@@ -1,4 +1,0 @@
-native val Array_size = (size);
-native val Array_length = (array);
-native val Array_get = (array, index);
-native val Array_set = (array, index, value);
