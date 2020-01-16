@@ -1,6 +1,7 @@
 package com.meti;
 
 import com.meti.array.Functions;
+import com.meti.array.ListedFunctions;
 import com.meti.struct.IncrementedGenerator;
 
 import java.io.IOException;
@@ -11,10 +12,9 @@ import java.util.stream.Collectors;
 
 public class MagmaInterpreter implements Interpreter {
 	private final Declarations declarations = new Declarations();
-	private final ArrayList<Node> functions = new ArrayList<>();
 	private final Collection<String> headers;
 	private final Interpreter parent = new CInterpreter();
-	private final Functions functions1 = new Functions(functions);
+	private final Functions functions1 = new ListedFunctions();
 	private final Parser rootParser = new MagmaParser(declarations, new IncrementedGenerator(), functions1);
 	private final Resolver rootResolver = new MagmaResolver(declarations);
 	private final Compiler compiler = new UnitCompiler(rootParser, rootResolver);

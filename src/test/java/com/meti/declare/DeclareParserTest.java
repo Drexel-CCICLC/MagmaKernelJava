@@ -2,7 +2,7 @@ package com.meti.declare;
 
 import com.meti.Compiler;
 import com.meti.*;
-import com.meti.array.Functions;
+import com.meti.array.ListedFunctions;
 import com.meti.other.AnyResolver;
 import com.meti.other.VoidResolver;
 import com.meti.string.StringResolver;
@@ -21,7 +21,7 @@ class DeclareParserTest {
 
 	@Test
 	void bug0() {
-		Compiler compiler = new UnitCompiler(new ParentParser(new StructParser(declarations, new Functions(), new IncrementedGenerator())),
+		Compiler compiler = new UnitCompiler(new ParentParser(new StructParser(declarations, new ListedFunctions(), new IncrementedGenerator())),
                 new ParentResolver(
 				new StructResolver(),
 				new StringResolver(),
