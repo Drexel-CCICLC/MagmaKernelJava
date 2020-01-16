@@ -4,12 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static java.util.Collections.singleton;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class MagmaHelloWorldTest {
-	private final Interpreter interpreter = new MagmaInterpreter(singleton("stdio.h"));
-
+class MagmaHelloWorldTest extends InterpretedTest {
 	@Test
 	void test() throws IOException, InterruptedException {
 		String result = interpreter.run("""

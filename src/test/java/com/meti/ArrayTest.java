@@ -1,19 +1,12 @@
 package com.meti;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ArrayTest {
-	private final Interpreter interpreter = new MagmaInterpreter(List.of(
-			"stdio.h",
-			"stdlib.h"
-	));
-
+class ArrayTest extends InterpretedTest {
 	@Test
 	void test() throws IOException, InterruptedException {
 		String output = interpreter.run("""
