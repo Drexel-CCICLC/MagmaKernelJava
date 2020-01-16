@@ -3,24 +3,28 @@ package com.meti.array;
 import com.meti.Compiler;
 import com.meti.Node;
 import com.meti.Parser;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Collections;
 
 public class ArrayDeleteParser implements Parser {
-	private Optional<Node> parse(String value, Compiler compiler) {
-		String trim = value.trim();
-		if (trim.startsWith("delete ")) {
-			String valueString = trim.substring(7);
-			Node node = compiler.parseSingle(valueString);
-			return Optional.of(new ArrayDeleteNode(node));
-		}
-		return Optional.empty();
-	}
+    private static final String HEADER = "delete ";
 
-	@Override
-	public Collection<Node> parseMultiple(String value, Compiler compiler) {
-		return parse(value, compiler).stream().collect(Collectors.toSet());
-	}
+    @NotNull
+    private Node buildNode(Compiler compiler, String trim) {
+        String valueString = trim.substring(HEADER.length());
+        Node valueNode = compiler.parseSingle(valueString);
+        return new ArrayDeleteNode(valueNode);
+    }
+
+    @Override
+    public Collection<Node> parseMultiple(String value, Compiler compiler) {
+        String trim = value.trim();
+        if (trim.startsWith(HEADER)) {
+            Node node = buildNode(compiler, trim);
+            return Collections.singleton(node);
+        }
+        return Collections.emptySet();
+    }
 }
