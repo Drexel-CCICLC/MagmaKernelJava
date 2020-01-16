@@ -14,7 +14,7 @@ public class ReferenceParser implements Parser {
 		String trim = value.trim();
 		if (trim.startsWith("&")) {
 			String pointedValue = value.substring(1);
-			Node child = compiler.parse(pointedValue);
+			Node child = compiler.parseSingle(pointedValue);
 			return Optional.of(new ReferenceNode(child));
 		}
 		return Optional.empty();

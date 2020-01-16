@@ -14,7 +14,7 @@ public class ArrayDeleteParser implements Parser {
 		String trim = value.trim();
 		if (trim.startsWith("delete ")) {
 			String valueString = trim.substring(7);
-			Node node = compiler.parse(valueString);
+			Node node = compiler.parseSingle(valueString);
 			return Optional.of(new ArrayDeleteNode(node));
 		}
 		return Optional.empty();

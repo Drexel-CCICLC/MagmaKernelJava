@@ -39,7 +39,7 @@ public class StructParser implements Parser {
 			if (trim.contains(":")) {
 				String blockString = trim.substring(trim.indexOf(':') + 1);
 				int prevSize = functions.size();
-				Node impl = compiler.parse(blockString);
+				Node impl = compiler.parseSingle(blockString);
 				if (impl.isParent()) {
 					block = impl;
 				} else {
@@ -48,11 +48,11 @@ public class StructParser implements Parser {
 				int nowSize = functions.size();
 				if (nowSize > prevSize) {
 					String name = declarations.current().name();
-					Node size = compiler.parse("val " + name + "_=Array<Any*>(" + parameters.size() + ")");
+					Node size = compiler.parseSingle("val " + name + "_=Array<Any*>(" + parameters.size() + ")");
 					List<String> list = new ArrayList<>(parameters.keySet());
 					for (int i = 0; i < list.size(); i++) {
 						String parameter = list.get(i);
-						Node assign = compiler.parse(name + "_[" + i + "]=&" + parameter);
+						Node assign = compiler.parseSingle(name + "_[" + i + "]=&" + parameter);
 						block.children().addFirst(assign);
 					}
 					block.children().addFirst(size);

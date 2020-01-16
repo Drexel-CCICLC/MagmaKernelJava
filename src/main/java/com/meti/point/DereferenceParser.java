@@ -14,7 +14,7 @@ public class DereferenceParser implements Parser {
 		String trim = value.trim();
 		if (trim.startsWith("*")) {
 			String dereferenceValue = trim.substring(1);
-			Node child = compiler.parse(dereferenceValue);
+			Node child = compiler.parseSingle(dereferenceValue);
 			return Optional.of(new DereferenceNode(child));
 		}
 		return Optional.empty();

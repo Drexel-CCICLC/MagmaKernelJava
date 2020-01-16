@@ -16,8 +16,8 @@ public class ArrayIndexParser implements Parser {
 			int start = trim.indexOf('[');
 			String arrayString = trim.substring(0, start);
 			String indexString = trim.substring(start + 1, trim.length() - 1);
-			Node array = compiler.parse(arrayString);
-			Node index = compiler.parse(indexString);
+			Node array = compiler.parseSingle(arrayString);
+			Node index = compiler.parseSingle(indexString);
 			return Optional.of(new ArrayIndexNode(array, index));
 		}
 		return Optional.empty();

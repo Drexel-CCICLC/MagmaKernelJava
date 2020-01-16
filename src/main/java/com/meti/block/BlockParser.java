@@ -37,7 +37,7 @@ public class BlockParser implements Parser {
             List<Node> children = childrenStrings.stream()
                     .map(String::trim)
                     .filter(childString -> !childString.isEmpty())
-                    .map(compiler::parse)
+                    .map(compiler::parseSingle)
                     .collect(Collectors.toList());
             return Optional.of(new BlockNode(children));
         }

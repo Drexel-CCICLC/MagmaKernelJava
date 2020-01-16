@@ -41,7 +41,7 @@ public class MagmaInterpreter implements Interpreter {
 		partitions.add(builder.toString());
 		String compileString = partitions.stream()
 				.filter(partition -> !partition.isBlank())
-				.map(compiler::parse)
+				.map(compiler::parseSingle)
 				.map(Node::render)
 				.collect(Collectors.joining());
 		String functionString = functions.stream()

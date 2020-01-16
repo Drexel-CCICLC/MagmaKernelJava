@@ -17,8 +17,8 @@ public class OperationParser implements Parser {
                 int index = value.indexOf(operationValue);
                 String start = value.substring(0, index);
                 String stop = value.substring(index + 1);
-                Node startNode = compiler.parse(start);
-                Node endNode = compiler.parse(stop);
+                Node startNode = compiler.parseSingle(start);
+                Node endNode = compiler.parseSingle(stop);
                 return Optional.of(new OperationNode(startNode, endNode, operation));
             }
         }

@@ -24,7 +24,7 @@ public class VariableParser implements Parser {
 			int period = trim.indexOf('.');
 			String parentString = trim.substring(0, period);
 			String childString = trim.substring(period + 1);
-			Node parent = compiler.parse(parentString);
+			Node parent = compiler.parseSingle(parentString);
 			Type type = compiler.resolveValue(parentString);
 			return buildField(type, parent, childString);
 		} else {

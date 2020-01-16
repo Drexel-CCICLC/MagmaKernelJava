@@ -1,7 +1,11 @@
 package com.meti;
 
+import java.util.Collection;
+
 public interface Compiler {
-	Node parse(String value);
+	Node parseSingle(String value);
+
+	Collection<Node> parseMultiple(String value);
 
 	Type resolveName(String name);
 

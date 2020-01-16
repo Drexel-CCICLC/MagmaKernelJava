@@ -23,11 +23,11 @@ public class InvocationParser implements Parser {
             String callerString = trim.substring(0, start).trim();
             String argumentString = trim.substring(start + 1, end);
             Type callerType = compiler.resolveValue(callerString);
-            Node caller = compiler.parse(callerString);
+            Node caller = compiler.parseSingle(callerString);
             String[] args = argumentString.split(",");
             List<Node> arguments = new ArrayList<>(Arrays.stream(args)
                     .filter(arg -> !arg.isBlank())
-                    .map(compiler::parse)
+                    .map(compiler::parseSingle)
                     .collect(Collectors.toList()));
             //TODO: pass method as functional parameter using anonymous functions
             Optional<Declaration> declaration = declarations.relative(callerString);

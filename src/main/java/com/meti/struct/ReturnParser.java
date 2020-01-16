@@ -14,7 +14,7 @@ public class ReturnParser implements Parser {
         String trim = value.trim();
         if (trim.startsWith("return ")) {
             String valueString = trim.substring(7);
-            Node node = compiler.parse(valueString);
+            Node node = compiler.parseSingle(valueString);
             return Optional.of(new ReturnNode(node));
         }
         return Optional.empty();

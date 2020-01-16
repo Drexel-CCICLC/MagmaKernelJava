@@ -21,7 +21,7 @@ public class ArraySizeParser implements Parser {
             int sizeStart = trim.indexOf('(') + 1;
             int sizeEnd = trim.indexOf(')');
             String sizeString = trim.substring(sizeStart, sizeEnd);
-            Node size = compiler.parse(sizeString);
+            Node size = compiler.parseSingle(sizeString);
             return Optional.of(new ArraySizeNode(type, size));
         }
         return Optional.empty();

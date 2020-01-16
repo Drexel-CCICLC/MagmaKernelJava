@@ -16,8 +16,8 @@ public class AssignParser implements Parser {
 			int equals = trim.indexOf('=');
 			String value0 = trim.substring(0, equals);
 			String value1 = trim.substring(equals + 1);
-			Node node0 = compiler.parse(value0);
-			Node node1 = compiler.parse(value1);
+			Node node0 = compiler.parseSingle(value0);
+			Node node1 = compiler.parseSingle(value1);
 			return Optional.of(new AssignNode(node0, node1));
 		}
 		return Optional.empty();

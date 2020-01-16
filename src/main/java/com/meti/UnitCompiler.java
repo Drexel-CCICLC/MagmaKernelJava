@@ -1,5 +1,7 @@
 package com.meti;
 
+import java.util.Collection;
+
 public class UnitCompiler implements Compiler {
 	private final Parser rootParser;
 	private final Resolver rootResolver;
@@ -10,16 +12,22 @@ public class UnitCompiler implements Compiler {
 	}
 
 	@Override
-	public Node parse(String value) {
+	public Node parseSingle(String value) {
 		try {
-			return rootParser.parse(value, this).orElseThrow(() -> failParse(value, null));
+			return rootParser.parseMultiple(value, this).stream().findFirst().orElseThrow(() -> failParse(value,
+					null));
 		} catch (Exception e) {
 			throw failParse(value, e);
 		}
 	}
 
-	private RuntimeException failParse(String value, Throwable e) {
-		return new ParseException("Failed to parse value:\n" + value, e);
+	@Override
+	public Collection<Node> parseMultiple(String value) {
+		try {
+			return rootParser.parseMultiple(value, this);
+		} catch (Exception e) {
+			throw failParse(value, e);
+		}
 	}
 
 	@Override
@@ -46,5 +54,9 @@ public class UnitCompiler implements Compiler {
 
 	private RuntimeException failValue(String value, Throwable e) {
 		return new ParseException("Failed to resolve type of value:\n" + value, e);
+	}
+
+	private RuntimeException failParse(String value, Throwable e) {
+		return new ParseException("Failed to parseSingle value:\n" + value, e);
 	}
 }
