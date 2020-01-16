@@ -1,10 +1,12 @@
 package com.meti;
 
 import com.meti.array.ArrayContentParser;
-import com.meti.array.ArrayResolver;
+import com.meti.array.ArrayDeleteParser;
+import com.meti.array.ArrayIndexParser;
 import com.meti.array.ArraySizeParser;
 import com.meti.block.BlockParser;
 import com.meti.character.CharParser;
+import com.meti.declare.AssignParser;
 import com.meti.declare.DeclareParser;
 import com.meti.integer.IntParser;
 import com.meti.invoke.InvocationParser;
@@ -21,31 +23,34 @@ import java.util.Collection;
 import java.util.List;
 
 class MagmaParser extends ParentParser {
-    MagmaParser(Declarations declarations, List<Node> functions) {
-        this(
-                new ReturnParser(),
-                new BlockParser(),
-                new ArrayContentParser(),
-                new ArraySizeParser(),
-                new CharParser(),
-                new StructParser(declarations, functions),
-                new DeclareParser(declarations),
-                new IntParser(),
-                new InvocationParser(),
-                new OperationParser(),
-                new DereferenceParser(),
-                new ReferenceParser(),
-                new StringParser(),
-                new VariableParser(declarations)
-        );
-    }
+	MagmaParser(Declarations declarations, List<Node> functions) {
+		this(
+				new ArrayDeleteParser(),
+                new ArrayIndexParser(),
+				new ReturnParser(),
+				new BlockParser(),
+				new ArrayContentParser(),
+				new ArraySizeParser(),
+				new CharParser(),
+				new StructParser(declarations, functions),
+				new DeclareParser(declarations),
+				new AssignParser(),
+				new IntParser(),
+				new InvocationParser(),
+				new OperationParser(),
+				new DereferenceParser(),
+				new ReferenceParser(),
+				new StringParser(),
+				new VariableParser(declarations)
+		);
+	}
 
-    MagmaParser(Parser... children) {
-        this(Arrays.asList(children));
-    }
+	MagmaParser(Parser... children) {
+		this(Arrays.asList(children));
+	}
 
-    MagmaParser(Collection<Parser> children) {
-        super(children);
-    }
+	MagmaParser(Collection<Parser> children) {
+		super(children);
+	}
 
 }
