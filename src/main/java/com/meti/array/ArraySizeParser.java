@@ -5,7 +5,9 @@ import com.meti.Node;
 import com.meti.Parser;
 import com.meti.Type;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ArraySizeParser implements Parser {
     @Override
@@ -24,4 +26,9 @@ public class ArraySizeParser implements Parser {
         }
         return Optional.empty();
     }
+
+	@Override
+	public Collection<Node> parseMultiple(String value, Compiler compiler) {
+		return parse(value, compiler).stream().collect(Collectors.toSet());
+	}
 }

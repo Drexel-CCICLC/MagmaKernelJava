@@ -3,6 +3,7 @@ package com.meti;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ParentParser implements Parser {
     protected final Collection<Parser> children;
@@ -22,4 +23,9 @@ public class ParentParser implements Parser {
                 .flatMap(Optional::stream)
                 .findFirst();
     }
+
+	@Override
+	public Collection<Node> parseMultiple(String value, Compiler compiler) {
+		return parse(value, compiler).stream().collect(Collectors.toSet());
+	}
 }

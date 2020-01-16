@@ -71,4 +71,9 @@ public class StructParser implements Parser {
 		}
 		return Optional.empty();
 	}
+
+	@Override
+	public Collection<Node> parseMultiple(String value, Compiler compiler) {
+		return parse(value, compiler).stream().collect(Collectors.toSet());
+	}
 }

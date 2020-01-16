@@ -4,9 +4,11 @@ import com.meti.Compiler;
 import com.meti.*;
 import com.meti.struct.ObjectType;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
+import java.util.stream.Collectors;
 
 public class VariableParser implements Parser {
 	private final Declarations declarations;
@@ -49,5 +51,10 @@ public class VariableParser implements Parser {
 		Optional<Type> child = parentType.childType(name.trim());
 		OptionalInt order = parentType.childOrder(name.trim());
 		return Optional.of(new FieldNode(parentNode, order.orElseThrow(), child.orElseThrow(), name));
+	}
+
+	@Override
+	public Collection<Node> parseMultiple(String value, Compiler compiler) {
+		return parse(value, compiler).stream().collect(Collectors.toSet());
 	}
 }

@@ -4,10 +4,7 @@ import com.meti.*;
 import com.meti.Compiler;
 import com.meti.variable.VariableNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class InvocationParser implements Parser {
@@ -53,4 +50,9 @@ public class InvocationParser implements Parser {
         }
         return Optional.empty();
     }
+
+	@Override
+	public Collection<Node> parseMultiple(String value, Compiler compiler) {
+		return parse(value, compiler).stream().collect(Collectors.toSet());
+	}
 }

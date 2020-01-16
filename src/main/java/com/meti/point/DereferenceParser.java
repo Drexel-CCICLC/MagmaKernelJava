@@ -4,7 +4,9 @@ import com.meti.Compiler;
 import com.meti.Node;
 import com.meti.Parser;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class DereferenceParser implements Parser {
 	@Override
@@ -16,5 +18,10 @@ public class DereferenceParser implements Parser {
 			return Optional.of(new DereferenceNode(child));
 		}
 		return Optional.empty();
+	}
+
+	@Override
+	public Collection<Node> parseMultiple(String value, Compiler compiler) {
+		return parse(value, compiler).stream().collect(Collectors.toSet());
 	}
 }
