@@ -14,8 +14,7 @@ public class InvocationParser implements Parser {
         this.declarations = declarations;
     }
 
-    @Override
-    public Optional<Node> parse(String value, Compiler compiler) {
+    private Optional<Node> parse(String value, Compiler compiler) {
         String trim = value.trim();
         if (trim.contains("(") && trim.endsWith(")")) {
             int start = trim.indexOf('(');

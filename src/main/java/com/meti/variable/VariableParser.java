@@ -17,8 +17,7 @@ public class VariableParser implements Parser {
 		this.declarations = declarations;
 	}
 
-	@Override
-	public Optional<Node> parse(String value, Compiler compiler) {
+	private Optional<Node> parse(String value, Compiler compiler) {
 		String trim = value.trim();
 		if (trim.contains(".")) {
 			int period = trim.indexOf('.');

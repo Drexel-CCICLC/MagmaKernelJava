@@ -16,8 +16,7 @@ public class StructParser implements Parser {
 		this.functions = functions;
 	}
 
-	@Override
-	public Optional<Node> parse(String value, Compiler compiler) {
+	private Optional<Node> parse(String value, Compiler compiler) {
 		String trim = value.trim();
 		if (trim.startsWith("(")) {
 			int paramStart = trim.indexOf('(') + 1;

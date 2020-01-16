@@ -2,7 +2,6 @@ package com.meti;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ParentParser implements Parser {
@@ -14,11 +13,6 @@ public class ParentParser implements Parser {
 
 	public ParentParser(Collection<Parser> children) {
 		this.children = children;
-	}
-
-	@Override
-	public Optional<Node> parse(String value, Compiler compiler) {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override

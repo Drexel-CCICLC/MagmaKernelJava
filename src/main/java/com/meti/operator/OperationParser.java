@@ -9,8 +9,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class OperationParser implements Parser {
-    @Override
-    public Optional<Node> parse(String value, Compiler compiler) {
+    private Optional<Node> parse(String value, Compiler compiler) {
         for (Operation operation : Operations.values()) {
             String operationValue = operation.value();
             if (value.contains(operationValue)) {

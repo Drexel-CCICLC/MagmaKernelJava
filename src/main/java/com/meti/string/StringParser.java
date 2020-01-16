@@ -9,8 +9,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class StringParser implements Parser {
-	@Override
-	public Optional<Node> parse(String value, Compiler compiler) {
+	private Optional<Node> parse(String value, Compiler compiler) {
 		String trim = value.trim();
 		if (trim.startsWith("\"") && value.endsWith("\"")) {
 			return Optional.of(new StringNode(trim.substring(1, trim.length() - 1)));
