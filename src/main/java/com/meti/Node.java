@@ -1,11 +1,9 @@
 package com.meti;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.Deque;
 
 public interface Node {
-	LinkedList<Node> children();
+	Deque<Node> children();
 
 	boolean isParent();
 

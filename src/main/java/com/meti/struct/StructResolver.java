@@ -30,7 +30,7 @@ public class StructResolver implements Resolver {
                     .map(compiler::resolveName)
                     .collect(Collectors.toList());
             int returnTypeStart = trim.indexOf("=>") + 2;
-            int returnTypeEnd = (trim.indexOf(':') == -1) ? trim.length() : trim.indexOf(':');
+            int returnTypeEnd = (-1 == trim.indexOf(':')) ? trim.length() : trim.indexOf(':');
             String returnTypeString = trim.substring(returnTypeStart, returnTypeEnd);
             Type returnType = compiler.resolveName(returnTypeString);
             return Optional.of(new StructType(returnType, null, parameters));

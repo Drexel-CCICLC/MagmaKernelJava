@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 public class StructType implements Type {
     private final Type returnType;
     private final String name;
-    private final List<Type> parameters;
+    private final List<? extends Type> parameters;
 
-    public StructType(Type returnType, String name, List<Type> parameters) {
+    public StructType(Type returnType, String name, List<? extends Type> parameters) {
         this.returnType = returnType;
         this.name = name;
         this.parameters = parameters;
@@ -42,7 +42,12 @@ public class StructType implements Type {
         return returnType.render() + "(*" + name + ")" + "(" + joinedParams + ")";
     }
 
-    @Override
+	@Override
+	public String renderWithName(String name) {
+		return (isNamed()) ? render() : render() + " " + name;
+	}
+
+	@Override
     public Optional<Type> returnType() {
         return Optional.ofNullable(returnType);
     }

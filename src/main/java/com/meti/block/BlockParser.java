@@ -15,18 +15,18 @@ public class BlockParser implements Parser {
         String trim = value.trim();
         if (trim.startsWith("{") && trim.endsWith("}")) {
             String childrenString = trim.substring(1, trim.length() - 1);
-            List<String> childrenStrings = new ArrayList<>();
+            Collection<String> childrenStrings = new ArrayList<>();
             StringBuilder buffer = new StringBuilder();
             int depth = 0;
             for (char c : childrenString.toCharArray()) {
-                if (c == ';' && depth == 0) {
+                if (';' == c && 0 == depth) {
                     childrenStrings.add(buffer.toString());
                     buffer = new StringBuilder();
                 } else {
-                    if (c == '{') {
+                    if ('{' == c) {
                         depth++;
                     }
-                    if (c == '}') {
+                    if ('}' == c) {
                         depth--;
                     }
                     buffer.append(c);

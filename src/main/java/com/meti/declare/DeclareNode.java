@@ -28,7 +28,7 @@ public class DeclareNode implements Node {
 
 	@Override
 	public String render() {
-		String before = (type.isNamed()) ? type.render() : type.render() + " " + name;
+		String before = type.renderWithName(name);
 		String after = value.render();
         return after.isBlank() ? "" : before + "=" + after + ";";
 	}

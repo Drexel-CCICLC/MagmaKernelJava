@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 public class StructNode implements Node {
 	private final Node block;
 	private final String name;
-	private final Map<String, Type> parameters;
+	private final Map<String, ? extends Type> parameters;
 	private final Type returnType;
 
-	public StructNode(String name, Map<String, Type> parameters, Type returnType, Node block) {
+	public StructNode(String name, Map<String, ? extends Type> parameters, Type returnType, Node block) {
 		this.returnType = returnType;
 		this.name = name;
 		this.parameters = parameters;

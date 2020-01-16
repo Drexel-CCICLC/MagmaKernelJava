@@ -12,7 +12,6 @@ import com.meti.point.DereferenceParser;
 import com.meti.point.ReferenceParser;
 import com.meti.string.StringParser;
 import com.meti.struct.Generator;
-import com.meti.struct.IncrementedGenerator;
 import com.meti.struct.ReturnParser;
 import com.meti.struct.StructParser;
 import com.meti.variable.VariableParser;
@@ -44,11 +43,11 @@ class MagmaParser extends ParentParser {
 		);
 	}
 
-	MagmaParser(Parser... children) {
+	private MagmaParser(Parser... children) {
 		this(Arrays.asList(children));
 	}
 
-	MagmaParser(Collection<Parser> children) {
+	private MagmaParser(Collection<Parser> children) {
 		super(children);
 	}
 

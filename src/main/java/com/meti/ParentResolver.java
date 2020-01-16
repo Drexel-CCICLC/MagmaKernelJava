@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 public class ParentResolver implements Resolver {
-    protected final Collection<Resolver> children;
+    private final Collection<Resolver> children;
 
     public ParentResolver(Resolver... children) {
         this(Arrays.asList(children));

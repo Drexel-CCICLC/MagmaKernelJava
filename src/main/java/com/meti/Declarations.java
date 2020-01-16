@@ -8,7 +8,7 @@ public class Declarations {
 	private final Declaration root = new Declaration("root", null, false, null);
 	private final Stack<String> stack = new Stack<>();
 
-	public Node define(String name, Type type, Supplier<Node> action) {
+	public Node define(String name, Type type, Supplier<? extends Node> action) {
 		define(name, type, false);
 		stack.push(name);
 		Node result = action.get();
@@ -24,7 +24,7 @@ public class Declarations {
 		return absolute(stack);
 	}
 
-	public Declaration absolute(Collection<String> values) {
+	private Declaration absolute(Iterable<String> values) {
 		Declaration current = root;
 		for (String value : values) {
 			current = current.child(value)

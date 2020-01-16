@@ -21,7 +21,12 @@ public abstract class PrimitiveType implements Type {
 		return false;
 	}
 
-    @Override
+	@Override
+	public String renderWithName(String name) {
+		return (isNamed()) ? render() : render() + " " + name;
+	}
+
+	@Override
     public Optional<Type> returnType() {
         return Optional.empty();
     }

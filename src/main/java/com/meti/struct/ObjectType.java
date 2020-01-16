@@ -11,9 +11,9 @@ import java.util.Optional;
 import java.util.OptionalInt;
 
 public class ObjectType implements Type {
-	private final Map<String, Type> children;
+	private final Map<String, ? extends Type> children;
 
-	public ObjectType(Map<String, Type> children) {
+	public ObjectType(Map<String, ? extends Type> children) {
 		this.children = children;
 	}
 
@@ -45,6 +45,11 @@ public class ObjectType implements Type {
 		Type pointer = new PointerType(any);
 		Type array = new ArrayType(pointer);
 		return array.render();
+	}
+
+	@Override
+	public String renderWithName(String name) {
+		return (isNamed()) ? render() : render() + " " + name;
 	}
 
 	@Override

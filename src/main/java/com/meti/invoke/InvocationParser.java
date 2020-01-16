@@ -24,10 +24,9 @@ public class InvocationParser implements Parser {
             Type callerType = compiler.resolveValue(callerString);
             Node caller = compiler.parseSingle(callerString);
             String[] args = argumentString.split(",");
-            List<Node> arguments = new ArrayList<>(Arrays.stream(args)
+            List<Node> arguments = Arrays.stream(args)
                     .filter(arg -> !arg.isBlank())
-                    .map(compiler::parseSingle)
-                    .collect(Collectors.toList()));
+                    .map(compiler::parseSingle).collect(Collectors.toList());
             //TODO: pass method as functional parameter using anonymous functions
             Optional<Declaration> declaration = declarations.relative(callerString);
             if(declaration.isPresent()) {

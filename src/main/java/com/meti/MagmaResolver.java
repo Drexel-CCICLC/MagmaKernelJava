@@ -30,11 +30,11 @@ class MagmaResolver extends ParentResolver {
         );
     }
 
-    MagmaResolver(Resolver... children) {
+    private MagmaResolver(Resolver... children) {
         this(Arrays.asList(children));
     }
 
-    MagmaResolver(Collection<Resolver> children) {
+    private MagmaResolver(Collection<Resolver> children) {
         super(children);
     }
 

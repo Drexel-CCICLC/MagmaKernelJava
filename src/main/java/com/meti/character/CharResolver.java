@@ -10,7 +10,7 @@ import java.util.Optional;
 public class CharResolver implements Resolver {
 	@Override
 	public Optional<Type> resolveName(String name, Compiler compiler) {
-		if (name.trim().equals("Char")) return Optional.of(new CharType());
+		if ("Char".equals(name.trim())) return Optional.of(new CharType());
 		return Optional.empty();
 	}
 
@@ -19,7 +19,7 @@ public class CharResolver implements Resolver {
 		String trim = value.trim();
 		if (trim.startsWith("'") && trim.endsWith("'")) {
 			String charString = trim.substring(1, trim.length() - 1);
-			if (charString.length() == 1) {
+			if (1 == charString.length()) {
 				return Optional.of(new CharType());
 			} else {
 				throw new ParseException("Too many characters.");

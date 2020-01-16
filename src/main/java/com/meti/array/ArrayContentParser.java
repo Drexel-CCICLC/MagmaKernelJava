@@ -78,7 +78,7 @@ public class ArrayContentParser implements Parser {
 				.withBlock(block));
 	}
 
-	private Node buildInvocation(Map<String, Node> children, Node name) {
+	private Node buildInvocation(Map<String, ? extends Node> children, Node name) {
 		ArrayList<Node> wrappedList = new ArrayList<>(children.values());
 		return new InvocationNode(name, wrappedList, false);
 	}

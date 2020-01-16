@@ -12,6 +12,8 @@ public interface Type {
 
 	String render();
 
+	String renderWithName(String name);
+
 	Optional<Type> returnType();
 
 	boolean doesReturnVoid();

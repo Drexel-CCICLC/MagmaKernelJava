@@ -9,7 +9,7 @@ import java.util.Optional;
 public class IntResolver implements Resolver {
 	@Override
 	public Optional<Type> resolveName(String name, Compiler compiler) {
-		if (name.trim().equals("Int")) return Optional.of(new IntType());
+		if ("Int".equals(name.trim())) return Optional.of(new IntType());
 		return Optional.empty();
 	}
 

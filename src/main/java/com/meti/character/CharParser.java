@@ -14,7 +14,7 @@ public class CharParser implements Parser {
 		String trim = value.trim();
 		if (trim.startsWith("'") && trim.endsWith("'")) {
 			String charString = trim.substring(1, trim.length() - 1);
-			if (charString.length() == 3) {
+			if (3 == charString.length()) {
 				return Optional.of(new CharNode(charString.charAt(1)));
 			} else {
 				throw new ParseException("Too many characters.");

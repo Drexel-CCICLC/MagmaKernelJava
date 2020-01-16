@@ -1,7 +1,6 @@
 package com.meti.invoke;
 
 import com.meti.Compiler;
-import com.meti.Node;
 import com.meti.Resolver;
 import com.meti.Type;
 

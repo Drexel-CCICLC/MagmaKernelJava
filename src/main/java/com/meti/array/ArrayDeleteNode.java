@@ -11,7 +11,7 @@ public class ArrayDeleteNode implements Node {
 	private static final Node FREE_NODE = new VariableNode("free");
 	private final Node array;
 
-	public ArrayDeleteNode(Node array) {
+	ArrayDeleteNode(Node array) {
 		this.array = array;
 	}
 

@@ -17,10 +17,10 @@ class SubFunctionTest extends InterpretedTest {
 					return b();
 				};
 				""").orElseThrow();
-		assertEquals("#include <stdio.h>\n" +
-				"#include <stdlib.h>\n" +
-				"int b(void** a_){return *(int*)a_[0];}int a(int value){void** a_=malloc(1*sizeof(void*));" +
-				"a_[0]=&value;return b(a_);}", result);
+		assertEquals("""
+				#include <stdio.h>
+				#include <stdlib.h>
+				int b(void** a_){return *(int*)a_[0];}int a(int value){void** a_=malloc(1*sizeof(void*));a_[0]=&value;return b(a_);}""", result);
 	}
 
 	@Test

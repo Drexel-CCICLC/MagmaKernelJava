@@ -1,11 +1,11 @@
 package com.meti;
 
-public class CompileException extends RuntimeException {
-	public CompileException(String message, Throwable cause) {
+class CompileException extends RuntimeException {
+	CompileException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public CompileException(String message) {
+	CompileException(String message) {
 		super(message);
 	}
 }

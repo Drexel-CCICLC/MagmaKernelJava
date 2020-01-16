@@ -25,6 +25,11 @@ public class PointerType implements Type {
 	}
 
 	@Override
+	public String renderWithName(String name) {
+		return (isNamed()) ? render() : render() + " " + name;
+	}
+
+	@Override
 	public Optional<Type> returnType() {
 		return Optional.empty();
 	}
@@ -37,11 +42,7 @@ public class PointerType implements Type {
 	@Override
 	public String render() {
 		//TODO: rule changes with functions?
-		if (child instanceof AnyType) {
-			return "void*";
-		} else {
-			return child.render() + "*";
-		}
+		return child instanceof AnyType ? "void*" : child.render() + "*";
 	}
 
 	@Override

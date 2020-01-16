@@ -46,11 +46,7 @@ public class StructParser implements Parser {
 				String blockString = trim.substring(trim.indexOf(':') + 1);
 				int prevSize = functions.size();
 				Node impl = compiler.parseSingle(blockString);
-				if (impl.isParent()) {
-					block = impl;
-				} else {
-					block = new BlockNode(Collections.singleton(impl));
-				}
+				block = impl.isParent() ? impl : new BlockNode(Collections.singleton(impl));
 				int nowSize = functions.size();
 				if (nowSize > prevSize) {
 					String name = declarations.current().name();

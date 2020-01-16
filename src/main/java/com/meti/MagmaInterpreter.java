@@ -27,16 +27,16 @@ public class MagmaInterpreter implements Interpreter {
 		String headerString = headers.stream()
 				.map(header -> "#include <" + header + ">\n")
 				.collect(Collectors.joining());
-		List<String> partitions = new ArrayList<>();
+		Collection<String> partitions = new ArrayList<>();
 		StringBuilder builder = new StringBuilder();
 		int depth = 0;
 		for (char c : content.toCharArray()) {
-			if (c == ';' && depth == 0) {
+			if (';' == c && 0 == depth) {
 				partitions.add(builder.toString());
 				builder = new StringBuilder();
 			} else {
-				if (c == '{') depth++;
-				if (c == '}') depth--;
+				if ('{' == c) depth++;
+				if ('}' == c) depth--;
 				builder.append(c);
 			}
 		}

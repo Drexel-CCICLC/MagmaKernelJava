@@ -6,9 +6,6 @@ import com.meti.invoke.InvocationNode;
 import com.meti.operator.OperationNode;
 import com.meti.operator.Operations;
 import com.meti.operator.SizeOfNode;
-import com.meti.other.AnyType;
-import com.meti.other.VoidType;
-import com.meti.struct.StructType;
 import com.meti.variable.VariableNode;
 
 import java.util.Collections;
