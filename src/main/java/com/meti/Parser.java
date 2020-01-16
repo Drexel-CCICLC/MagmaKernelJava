@@ -1,15 +1,14 @@
 package com.meti;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public interface Parser {
-	default Optional<Node> parse(String value, Compiler compiler) {
-		return parseMultiple(value, compiler).stream().findFirst();
+	default Collection<Node> parseMultiple(String value, Compiler compiler) {
+		return parse(value, compiler).stream().collect(Collectors.toSet());
 	}
 
-	default Collection<Node> parseMultiple(String value, Compiler compiler) {
-		return Collections.emptySet();
-	}
+	@Deprecated
+	Optional<Node> parse(String value, Compiler compiler);
 }
