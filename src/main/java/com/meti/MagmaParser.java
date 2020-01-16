@@ -1,6 +1,7 @@
 package com.meti;
 
 import com.meti.array.ArrayContentParser;
+import com.meti.array.ArrayResolver;
 import com.meti.array.ArraySizeParser;
 import com.meti.block.BlockParser;
 import com.meti.character.CharParser;

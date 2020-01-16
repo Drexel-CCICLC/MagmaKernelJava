@@ -11,7 +11,7 @@ public class ArrayContentParser implements Parser {
 	@Override
 	public Optional<Node> parse(String value, Compiler compiler) {
 		String trim = value.trim();
-		if(trim.startsWith("Array")) {
+		if (trim.startsWith("Array") && trim.contains("{")) {
 			String data = trim.substring(5);
 			int typeStart = data.indexOf('<') + 1;
 			int typeEnd = data.indexOf('>');
@@ -20,7 +20,7 @@ public class ArrayContentParser implements Parser {
 			int contentStart = data.indexOf('{') + 1;
 			int contentEnd = data.indexOf('}');
 			String contentString = data.substring(contentStart, contentEnd);
-			
+
 		}
 		return Optional.empty();
 	}

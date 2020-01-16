@@ -1,5 +1,6 @@
 package com.meti;
 
+import com.meti.array.ArrayResolver;
 import com.meti.character.CharResolver;
 import com.meti.integer.IntResolver;
 import com.meti.other.AnyResolver;
@@ -14,6 +15,7 @@ import java.util.Collection;
 class MagmaResolver extends ParentResolver {
     MagmaResolver(Declarations declarations) {
         this(
+                new ArrayResolver(),
                 new StructResolver(),
                 new StringResolver(),
                 new AnyResolver(),
