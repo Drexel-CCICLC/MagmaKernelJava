@@ -10,24 +10,26 @@ import com.meti.struct.StructResolver;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Optional;
+import java.util.Collection;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DeclareParserTest {
-    private final Declarations declarations = new Declarations();
+	private final Declarations declarations = new Declarations();
 
-    @Test
-    void bug0() {
-        Compiler compiler = new UnitCompiler(new ParentParser(new StructParser(declarations, new ArrayList<>())), new ParentResolver(
-                new StructResolver(),
-                new StringResolver(),
-                new AnyResolver(),
-                new VoidResolver()));
-        Parser parser = new DeclareParser(declarations);
-        Optional<Node> optional = parser.parse("native val printf = (String format, Any value) => Void", compiler);
-        assertTrue(optional.isPresent());
-        assertSame(EmptyNode.class, optional.get().getClass());
-    }
+	@Test
+	void bug0() {
+		Compiler compiler = new UnitCompiler(new ParentParser(new StructParser(declarations, new ArrayList<>())),
+                new ParentResolver(
+				new StructResolver(),
+				new StringResolver(),
+				new AnyResolver(),
+				new VoidResolver()));
+		Parser parser = new DeclareParser(declarations);
+		Collection<Node> collection = parser.parseMultiple("native val printf = (String format, Any value) => Void",
+                compiler);
+		assertFalse(collection.isEmpty());
+		assertSame(EmptyNode.class, collection.toArray()[0].getClass());
+	}
 }
