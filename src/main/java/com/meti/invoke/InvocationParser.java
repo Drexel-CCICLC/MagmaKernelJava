@@ -23,6 +23,7 @@ public class InvocationParser implements Parser {
             Node caller = compiler.parse(callerString);
             String[] args = argumentString.split(",");
             List<Node> arguments = Arrays.stream(args)
+                    .filter(arg -> !arg.isBlank())
                     .map(compiler::parse)
                     .collect(Collectors.toList());
             return Optional.of(new InvocationNode(callerType, caller, arguments));

@@ -4,6 +4,7 @@ import com.meti.Type;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 public class StructType implements Type {
@@ -17,7 +18,17 @@ public class StructType implements Type {
         this.parameters = parameters;
     }
 
-    @Override
+	@Override
+	public OptionalInt childOrder(String name) {
+		return OptionalInt.empty();
+	}
+
+	@Override
+	public Optional<Type> childType(String name) {
+		return Optional.empty();
+	}
+
+	@Override
     public boolean isNamed() {
         return true;
     }

@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class InvocationNode implements Node {
     private final Node caller;
     private final List<? extends Node> args;
-    private Type callerType;
+    private final Type callerType;
 
     public InvocationNode(Type callerType, Node caller, List<? extends Node> args) {
         this.callerType = callerType;
