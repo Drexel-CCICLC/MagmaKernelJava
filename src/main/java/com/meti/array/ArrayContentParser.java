@@ -14,104 +14,97 @@ import com.meti.struct.StructNodeBuilder;
 import com.meti.variable.VariableNode;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
+//TODO: resolve coupling
 public class ArrayContentParser implements Parser {
-	private static final String ARRAY_NAME = "array";
-	private static final Node ARRAY_VARIABLE = new VariableNode("array");
-	private final Functions functions;
-	private final Generator generator;
+    private static final String ARRAY_NAME = "array";
+    private static final Node ARRAY_VARIABLE = new VariableNode("array");
+    private final Functions functions;
+    private final Generator generator;
 
-	public ArrayContentParser(Functions functions, Generator generator) {
-		this.functions = functions;
-		this.generator = generator;
-	}
+    public ArrayContentParser(Functions functions, Generator generator) {
+        this.functions = functions;
+        this.generator = generator;
+    }
 
-	@Override
-	public Collection<Node> parseMultiple(String value, Compiler compiler) {
-		Collection<Node> toReturn = new ArrayList<>();
-		String trim = value.trim();
-		if (trim.startsWith("Array") && trim.contains("{")) {
-			toReturn.add(buildNode(compiler, trim));
-		}
-		return toReturn;
-	}
+    @Override
+    public Collection<Node> parseMultiple(String value, Compiler compiler) {
+        Collection<Node> toReturn = new ArrayList<>();
+        String trim = value.trim();
+        if (trim.startsWith("Array") && trim.contains("{")) {
+            toReturn.add(buildNode(compiler, trim.substring(5)));
+        }
+        return toReturn;
+    }
 
-	private Node buildNode(Compiler compiler, String trim) {
-		String data = trim.substring(5);
-		Type type = parseType(compiler, data);
-		Map<String, Node> children = parseChildren(compiler, data);
-		String[] childNames = children.keySet().toArray(String[]::new);
-		Node name = buildFunction(type, childNames);
-		return buildInvocation(children, name);
-	}
+    private Node buildNode(Compiler compiler, String data) {
+        Type type = parseType(compiler, data);
+        Map<String, Node> children = parseChildren(compiler, data);
+        return buildFunction(type, children);
+    }
 
-	private Type parseType(Compiler compiler, String data) {
-		int typeStart = data.indexOf('<') + 1;
-		int typeEnd = data.indexOf('>');
-		String typeString = data.substring(typeStart, typeEnd);
-		return compiler.resolveName(typeString);
-	}
+    private Type parseType(Compiler compiler, String data) {
+        int typeStart = data.indexOf('<') + 1;
+        int typeEnd = data.indexOf('>');
+        String typeString = data.substring(typeStart, typeEnd);
+        return compiler.resolveName(typeString);
+    }
 
-	private Map<String, Node> parseChildren(Compiler compiler, String data) {
-		int contentStart = data.indexOf('{') + 1;
-		int contentEnd = data.indexOf('}');
-		String contentString = data.substring(contentStart, contentEnd);
-		Map<String, Node> children = new LinkedHashMap<>();
-		Arrays.stream(contentString.split(","))
-				.map(compiler::parseSingle)
-				.forEach(node -> children.put(generator.next(), node));
-		return children;
-	}
+    private Map<String, Node> parseChildren(Compiler compiler, String data) {
+        int contentStart = data.indexOf('{') + 1;
+        int contentEnd = data.indexOf('}');
+        String contentString = data.substring(contentStart, contentEnd);
+        return Arrays.stream(contentString.split(","))
+                .map(compiler::parseSingle)
+                .collect(Collectors.toMap(node -> generator.next(), Function.identity()));
+    }
 
-	private Node buildFunction(Type type, String[] keys) {
-		String name = generator.next();
-		Node block = buildBlock(type, keys);
-		StructNodeBuilder builder = createBuilder(type, keys);
-		registerFunction(builder, name, block);
-		return new VariableNode(name);
-	}
+    private Node buildFunction(Type type, Map<String, ? extends Node> children) {
+        String name = generator.next();
+        functions.add(createBuilder(type, children.keySet(), name));
+        Node varNode = new VariableNode(name);
+        return new InvocationNode(varNode, children.values(), false);
+    }
 
-	private void registerFunction(StructNodeBuilder builder, String name, Node block) {
-		functions.add(builder.withName(name)
-				.withBlock(block));
-	}
+    private StructNodeBuilder createBuilder(Type type, Collection<String> keys, String name) {
+        Node block = buildBlock(type, keys);
+        return createBuilder(type, keys)
+                .withName(name)
+                .withBlock(block);
+    }
 
-	private Node buildInvocation(Map<String, ? extends Node> children, Node name) {
-		ArrayList<Node> wrappedList = new ArrayList<>(children.values());
-		return new InvocationNode(name, wrappedList, false);
-	}
+    private Node buildBlock(Type arrayType, Collection<String> keys) {
+        List<Node> content = new ArrayList<>();
+        content.add(buildDeclaration(arrayType, keys.size()));
+        content.addAll(buildAssignments(keys));
+        return new BlockNode(content);
+    }
 
-	private Node buildBlock(Type arrayType, String[] keys) {
-		List<Node> content = new ArrayList<>();
-		content.add(buildDeclaration(arrayType, keys.length));
-		content.addAll(buildAssignments(keys));
-		return new BlockNode(content);
-	}
+    private StructNodeBuilder createBuilder(Type arrayType, Collection<String> keys) {
+        return keys.stream().reduce(StructNodeBuilder.create(),
+                (structNodeBuilder, s) -> structNodeBuilder.withParameter(s, arrayType),
+                (structNodeBuilder, structNodeBuilder2) -> structNodeBuilder);
+    }
 
-	private StructNodeBuilder createBuilder(Type arrayType, String[] keys) {
-		StructNodeBuilder builder = StructNodeBuilder.create();
-		Arrays.stream(keys).forEach(key -> builder.withParameter(key, arrayType));
-		return builder;
-	}
+    private Node buildDeclaration(Type type, int size) {
+        Type arrayType = new ArrayType(type);
+        Node sizeNode = new IntNode(size);
+        Node arraySizeNode = new ArraySizeNode(type, sizeNode);
+        return new DeclareNode(arrayType, ARRAY_NAME, arraySizeNode);
+    }
 
-	private Node buildDeclaration(Type type, int size) {
-		Type arrayType = new ArrayType(type);
-		Node sizeNode = new IntNode(size);
-		Node arraySizeNode = new ArraySizeNode(type, sizeNode);
-		return new DeclareNode(arrayType, ARRAY_NAME, arraySizeNode);
-	}
+    private Collection<Node> buildAssignments(Collection<String> keys) {
+        Counter counter = Counter.create();
+        return keys.stream()
+                .map(key -> buildAssignment(key, counter.poll()))
+                .collect(Collectors.toList());
+    }
 
-	private Collection<Node> buildAssignments(String[] keys) {
-		return IntStream.range(0, keys.length)
-				.mapToObj(i -> buildAssignment(keys[i], i))
-				.collect(Collectors.toList());
-	}
-
-	private Node buildAssignment(String key, int index) {
-		Node indexNode = new ArrayIndexNode(ARRAY_VARIABLE, new IntNode(index));
-		Node varNode = new VariableNode(key);
-		return new AssignNode(indexNode, varNode);
-	}
+    private Node buildAssignment(String key, int index) {
+        Node indexNode = new ArrayIndexNode(ARRAY_VARIABLE, new IntNode(index));
+        Node varNode = new VariableNode(key);
+        return new AssignNode(indexNode, varNode);
+    }
 }

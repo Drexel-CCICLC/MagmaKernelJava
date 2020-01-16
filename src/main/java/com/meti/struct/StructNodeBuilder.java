@@ -18,7 +18,7 @@ public interface StructNodeBuilder {
 
 	StructNodeBuilder withName(String name);
 
-	void withParameter(String name, Type type);
+	StructNodeBuilder withParameter(String name, Type type);
 
 	StructNodeBuilder withReturnType(Type returnType);
 
@@ -65,9 +65,10 @@ public interface StructNodeBuilder {
 		}
 
 		@Override
-		public void withParameter(String name, Type type) {
+		public StructNodeBuilder withParameter(String name, Type type) {
 			parameters.put(name, type);
-		}
+            return this;
+        }
 
 		@Override
 		public StructNodeBuilder withReturnType(Type returnType) {
