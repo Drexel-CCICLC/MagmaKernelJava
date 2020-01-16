@@ -8,7 +8,7 @@ public class AssignNode implements Node {
 	private final Node from;
 	private final Node to;
 
-	AssignNode(Node to, Node from) {
+	public AssignNode(Node to, Node from) {
 		this.from = from;
 		this.to = to;
 	}

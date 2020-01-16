@@ -3,6 +3,7 @@ package com.meti.struct;
 import com.meti.Type;
 import com.meti.array.ArrayType;
 import com.meti.other.AnyType;
+import com.meti.other.VoidType;
 import com.meti.point.PointerType;
 
 import java.util.Map;
@@ -49,5 +50,10 @@ public class ObjectType implements Type {
 	@Override
 	public Optional<Type> returnType() {
 		return Optional.empty();
+	}
+
+	@Override
+	public boolean doesReturnVoid() {
+		return returnType().isPresent() && returnType().get() instanceof VoidType;
 	}
 }

@@ -9,11 +9,18 @@ import java.util.stream.Collectors;
 
 public class StructParser implements Parser {
 	private final Declarations declarations;
-	private final List<Node> functions;
+	private final List<? super Node> functions;
+	private final Generator generator;
 
-	public StructParser(Declarations declarations, List<Node> functions) {
+	public StructParser(Declarations declarations, List<? super Node> functions, Generator generator) {
 		this.declarations = declarations;
 		this.functions = functions;
+		this.generator = generator;
+	}
+
+	@Override
+	public Collection<Node> parseMultiple(String value, Compiler compiler) {
+		return parse(value, compiler).stream().collect(Collectors.toSet());
 	}
 
 	private Optional<Node> parse(String value, Compiler compiler) {
@@ -65,14 +72,14 @@ public class StructParser implements Parser {
 				String name = declaration.name();
 				parameters.put(name + "_", new ObjectType(declaration.childMap()));
 			}
-			functions.add(new StructNode(returnType, declarations.current().name(), parameters, block));
+			StructNodeBuilder builder = StructNodeBuilder.create();
+			parameters.forEach(builder::withParameter);
+			functions.add(builder.withReturnType(returnType)
+					.withName(declarations.current().name())
+					.withBlock(block)
+					.create(generator));
 			return Optional.of(new EmptyNode());
 		}
 		return Optional.empty();
-	}
-
-	@Override
-	public Collection<Node> parseMultiple(String value, Compiler compiler) {
-		return parse(value, compiler).stream().collect(Collectors.toSet());
 	}
 }

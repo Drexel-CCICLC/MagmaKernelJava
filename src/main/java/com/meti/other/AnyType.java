@@ -30,4 +30,9 @@ public class AnyType implements Type {
     public Optional<Type> returnType() {
         return Optional.empty();
     }
+
+	@Override
+	public boolean doesReturnVoid() {
+		return returnType().isPresent() && returnType().get() instanceof VoidType;
+	}
 }

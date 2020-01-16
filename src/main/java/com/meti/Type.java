@@ -13,4 +13,6 @@ public interface Type {
 	String render();
 
 	Optional<Type> returnType();
+
+	boolean doesReturnVoid();
 }

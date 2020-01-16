@@ -7,6 +7,7 @@ import com.meti.operator.OperationNode;
 import com.meti.operator.Operations;
 import com.meti.operator.SizeOfNode;
 import com.meti.other.AnyType;
+import com.meti.other.VoidType;
 import com.meti.struct.StructType;
 import com.meti.variable.VariableNode;
 
@@ -15,7 +16,6 @@ import java.util.LinkedList;
 
 public class ArraySizeNode implements Node {
     private static final Node malloc = new VariableNode("malloc");
-    private static final Type mallocType = new StructType(new ArrayType(new AnyType()), "malloc", Collections.emptyList());
     private final Type type;
     private final Node size;
 
@@ -33,7 +33,7 @@ public class ArraySizeNode implements Node {
     public String render() {
         Node sizeOf = new SizeOfNode(type);
         Node operation = new OperationNode(size, sizeOf, Operations.MULTIPLY);
-        Node invocation = new InvocationNode(mallocType, malloc, Collections.singletonList(operation));
+        Node invocation = new InvocationNode(malloc, Collections.singletonList(operation), false);
         return invocation.render();
     }
 

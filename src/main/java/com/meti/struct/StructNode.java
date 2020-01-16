@@ -13,7 +13,7 @@ public class StructNode implements Node {
 	private final Map<String, Type> parameters;
 	private final Type returnType;
 
-	public StructNode(Type returnType, String name, Map<String, Type> parameters, Node block) {
+	public StructNode(String name, Map<String, Type> parameters, Type returnType, Node block) {
 		this.returnType = returnType;
 		this.name = name;
 		this.parameters = parameters;

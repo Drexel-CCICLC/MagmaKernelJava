@@ -1,9 +1,6 @@
 package com.meti;
 
-import com.meti.array.ArrayContentParser;
-import com.meti.array.ArrayDeleteParser;
-import com.meti.array.ArrayIndexParser;
-import com.meti.array.ArraySizeParser;
+import com.meti.array.*;
 import com.meti.block.BlockParser;
 import com.meti.character.CharParser;
 import com.meti.declare.AssignParser;
@@ -14,6 +11,8 @@ import com.meti.operator.OperationParser;
 import com.meti.point.DereferenceParser;
 import com.meti.point.ReferenceParser;
 import com.meti.string.StringParser;
+import com.meti.struct.Generator;
+import com.meti.struct.IncrementedGenerator;
 import com.meti.struct.ReturnParser;
 import com.meti.struct.StructParser;
 import com.meti.variable.VariableParser;
@@ -23,16 +22,16 @@ import java.util.Collection;
 import java.util.List;
 
 class MagmaParser extends ParentParser {
-	MagmaParser(Declarations declarations, List<Node> functions) {
+	MagmaParser(Declarations declarations, List<Node> functions, Generator generator) {
 		this(
 				new ArrayDeleteParser(),
                 new ArrayIndexParser(),
 				new ReturnParser(),
 				new BlockParser(),
-				new ArrayContentParser(),
+				new ArrayContentParser(new Functions(functions), generator),
 				new ArraySizeParser(),
 				new CharParser(),
-				new StructParser(declarations, functions),
+				new StructParser(declarations, functions, generator),
 				new DeclareParser(declarations),
 				new AssignParser(),
 				new IntParser(),

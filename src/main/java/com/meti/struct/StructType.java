@@ -1,6 +1,7 @@
 package com.meti.struct;
 
 import com.meti.Type;
+import com.meti.other.VoidType;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,4 +46,9 @@ public class StructType implements Type {
     public Optional<Type> returnType() {
         return Optional.ofNullable(returnType);
     }
+
+	@Override
+	public boolean doesReturnVoid() {
+		return returnType().isPresent() && returnType().get() instanceof VoidType;
+	}
 }

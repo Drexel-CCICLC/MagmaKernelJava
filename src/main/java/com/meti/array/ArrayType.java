@@ -1,6 +1,7 @@
 package com.meti.array;
 
 import com.meti.Type;
+import com.meti.other.VoidType;
 
 import java.util.Optional;
 import java.util.OptionalInt;
@@ -36,4 +37,9 @@ public class ArrayType implements Type {
     public String render() {
         return elementType.render() + "*";
     }
+
+	@Override
+	public boolean doesReturnVoid() {
+		return returnType().isPresent() && returnType().get() instanceof VoidType;
+	}
 }

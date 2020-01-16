@@ -45,12 +45,12 @@ public class InvocationParser implements Parser {
                         .map(VariableNode::new)
                         .forEach(arguments::add);
             }
-            return Optional.of(new InvocationNode(callerType, caller, arguments));
+            return Optional.of(new InvocationNode(caller, arguments, callerType.doesReturnVoid()));
         }
         return Optional.empty();
     }
 
-	@Override
+    @Override
 	public Collection<Node> parseMultiple(String value, Compiler compiler) {
 		return parse(value, compiler).stream().collect(Collectors.toSet());
 	}
