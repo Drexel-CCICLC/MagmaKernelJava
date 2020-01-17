@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MagmaInterpreter implements Interpreter {
-	private final Declarations declarations = new Declarations();
+	private final Declarations declarations = new TreeDeclarations();
 	private final Collection<String> headers;
 	private final Interpreter parent = new CInterpreter();
 	private final Functions functions1 = new ListedFunctions();
