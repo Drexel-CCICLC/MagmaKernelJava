@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.OptionalInt;
 
 public class VoidType implements Type {
-	private static final Type INSTANCE = new VoidType();
+	public static final Type INSTANCE = new VoidType();
 
 	public static Type INSTANCE() {
 		return INSTANCE;

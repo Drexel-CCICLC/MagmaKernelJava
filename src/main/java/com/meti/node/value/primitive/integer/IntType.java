@@ -7,6 +7,16 @@ import java.util.Optional;
 import java.util.OptionalInt;
 
 public class IntType implements Type {
+
+	public static final IntType INSTANCE = new IntType();
+
+	private IntType() {
+	}
+
+	public static IntType INSTANCE() {
+		return INSTANCE;
+	}
+
 	@Override
 	public OptionalInt childOrder(String name) {
 		return OptionalInt.empty();

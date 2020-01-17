@@ -33,7 +33,7 @@ public class StructResolver implements Resolver {
             int returnTypeEnd = (-1 == trim.indexOf(':')) ? trim.length() : trim.indexOf(':');
             String returnTypeString = trim.substring(returnTypeStart, returnTypeEnd);
             Type returnType = compiler.resolveName(returnTypeString);
-            return Optional.of(new StructType(returnType, null, parameters));
+            return Optional.of(StructTypeBuilder.create().withReturnType(returnType).withName(null).withParameters(parameters).build());
         }
         return Optional.empty();
     }
