@@ -27,7 +27,7 @@ public class TreeDeclarations implements Declarations {
 
     @Override
     public void define(String name, DeclarationBuilder builder) {
-        current().define(name, builder);
+        current().define(builder);
     }
 
     @Override

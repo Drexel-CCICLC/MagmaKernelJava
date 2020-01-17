@@ -27,7 +27,7 @@ public abstract class TreeDeclaration implements Declaration {
     }
 
     @Override
-    public Declaration define(String name, DeclarationBuilder builder) {
+    public Declaration define(DeclarationBuilder builder) {
         Declaration declaration = builder.build(this);
         children.add(declaration);
         return declaration;

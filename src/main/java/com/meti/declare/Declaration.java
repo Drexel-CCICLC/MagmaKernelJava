@@ -10,7 +10,7 @@ public interface Declaration {
 
 	Map<String, Type> childMap();
 
-	Declaration define(String name, DeclarationBuilder builder);
+	Declaration define(DeclarationBuilder builder);
 
 	boolean hasParameter(String childName);
 
