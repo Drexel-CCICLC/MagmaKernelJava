@@ -1,5 +1,7 @@
 package com.meti;
 
+import com.meti.interpret.CInterpreter;
+import com.meti.interpret.Interpreter;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

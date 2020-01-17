@@ -1,5 +1,8 @@
 package com.meti;
 
+import com.meti.interpret.Interpreter;
+import com.meti.interpret.MagmaInterpreter;
+
 import java.util.List;
 
 class InterpretedTest {
