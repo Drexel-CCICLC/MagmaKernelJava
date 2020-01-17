@@ -61,4 +61,9 @@ public abstract class TreeDeclaration implements Declaration {
     public Type type() {
         return type;
     }
+
+    @Override
+    public boolean isNamedAs(String name) {
+        return this.name.equals(name);
+    }
 }

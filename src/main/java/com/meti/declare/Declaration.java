@@ -22,7 +22,5 @@ public interface Declaration {
 
 	Type type();
 
-	default boolean isNamedAs(String name) {
-		return name().equals(name);
-	}
+	boolean isNamedAs(String name);
 }
