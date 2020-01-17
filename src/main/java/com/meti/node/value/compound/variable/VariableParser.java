@@ -59,13 +59,13 @@ public class VariableParser implements Parser {
 	}
 
 	private Optional<Declaration> findParentWithChild(String childName) {
-		return declarations.stackStream()
+		return declarations.stream()
 				.filter(declaration -> declaration.child(childName).isPresent())
 				.findFirst();
 	}
 
 	private boolean isRoot(Declaration obj) {
-		return declarations.getRoot().equals(obj);
+		return declarations.root().equals(obj);
 	}
 
 	private boolean isCurrent(Declaration obj) {

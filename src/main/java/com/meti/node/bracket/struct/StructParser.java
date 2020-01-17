@@ -68,7 +68,7 @@ public class StructParser implements Parser {
             } else {
                 throw new UnsupportedOperationException("Abstract methods are not supported yet.");
             }
-            List<Declaration> list = declarations.stackStream().collect(Collectors.toList());
+            List<Declaration> list = declarations.stream().collect(Collectors.toList());
             for (int i = 1; i < list.size() - 1; i++) {
                 Declaration declaration = list.get(i);
                 String name = declaration.name();

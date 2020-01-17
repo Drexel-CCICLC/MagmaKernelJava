@@ -12,7 +12,7 @@ public class TreeDeclarations implements Declarations {
     private final Stack<String> stack = new Stack<>();
 
     @Override
-    public Declaration getRoot() {
+    public Declaration root() {
         return root;
     }
 
@@ -59,7 +59,7 @@ public class TreeDeclarations implements Declarations {
     }
 
     @Override
-    public Stream<Declaration> stackStream() {
+    public Stream<Declaration> stream() {
         Collection<Declaration> declarations = new ArrayList<>();
         Deque<String> reverseStack = new LinkedList<>(stack);
         while (!reverseStack.isEmpty()) {

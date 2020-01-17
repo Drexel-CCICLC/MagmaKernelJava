@@ -14,15 +14,11 @@ public interface Declarations {
 
     void define(String name, Type type, boolean isParameter);
 
-    Declaration getRoot();
+    Declaration root();
 
     Optional<Declaration> relative(String value);
 
-    Stream<Declaration> stackStream();
+    Stream<Declaration> stream();
 
-    default void define(String name, Type type) {
-        define(name, type, false);
-    }
-
-	void define(String name, Type type, Runnable action);
+    void define(String name, Type type, Runnable action);
 }
