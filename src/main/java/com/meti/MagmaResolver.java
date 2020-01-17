@@ -8,6 +8,7 @@ import com.meti.other.AnyResolver;
 import com.meti.other.VoidResolver;
 import com.meti.point.PointerResolver;
 import com.meti.string.StringResolver;
+import com.meti.struct.ObjectResolver;
 import com.meti.struct.StructResolver;
 import com.meti.variable.VariableResolver;
 
@@ -26,7 +27,8 @@ class MagmaResolver extends ParentResolver {
                 new VoidResolver(),
                 new CharResolver(),
                 new IntResolver(),
-                new VariableResolver(declarations)
+                new VariableResolver(declarations),
+                new ObjectResolver(declarations)
         );
     }
 

@@ -1,5 +1,6 @@
 package com.meti.struct;
 
+import com.meti.Declarations;
 import com.meti.Type;
 import com.meti.array.ArrayType;
 import com.meti.other.AnyType;
@@ -13,6 +14,11 @@ import java.util.OptionalInt;
 public class ObjectType implements Type {
 	private final Map<String, ? extends Type> children;
 
+	public ObjectType(Declarations declarations, String name){
+		this.children = declarations.relative(name).orElseThrow().childMap();
+	}
+
+	@Deprecated
 	public ObjectType(Map<String, ? extends Type> children) {
 		this.children = children;
 	}
