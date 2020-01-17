@@ -21,4 +21,8 @@ public interface Declaration {
 	Optional<Declaration> parent();
 
 	Type type();
+
+	default boolean isNamedAs(String name) {
+		return name().equals(name);
+	}
 }

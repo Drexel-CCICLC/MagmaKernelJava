@@ -2,19 +2,19 @@ package com.meti.declare;
 
 import com.meti.node.Type;
 
-import java.util.LinkedHashMap;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public abstract class TreeDeclaration implements Declaration {
-    protected final String name;
-    protected final Declaration parent;
-    protected final Type type;
-    private final Map<String, Declaration> children = new LinkedHashMap<>();
+    private final String name;
+    private final Declaration parent;
+    private final Type type;
+    private final Collection<Declaration> children = new HashSet<>();
 
-    public TreeDeclaration(String name, Declaration parent, Type type) {
+    protected TreeDeclaration(String name, Declaration parent, Type type) {
         this.name = name;
         this.parent = parent;
         this.type = type;
@@ -22,16 +22,14 @@ public abstract class TreeDeclaration implements Declaration {
 
     @Override
     public Map<String, Type> childMap() {
-        return children.keySet()
-                .stream()
-                .collect(Collectors.toMap(Function.identity(),
-                        ((Function<String, Declaration>) children::get).andThen(Declaration::type)));
+        return children.stream()
+                .collect(Collectors.toMap(Declaration::name, Declaration::type));
     }
 
     @Override
     public Declaration define(String name, DeclarationBuilder builder) {
         Declaration declaration = builder.build(this);
-        children.put(name, declaration);
+        children.add(declaration);
         return declaration;
     }
 
@@ -44,7 +42,9 @@ public abstract class TreeDeclaration implements Declaration {
 
     @Override
     public Optional<Declaration> child(String name) {
-        return Optional.ofNullable(children.get(name));
+        return children.stream()
+                .filter(declaration -> declaration.isNamedAs(name))
+                .findFirst();
     }
 
     @Override
