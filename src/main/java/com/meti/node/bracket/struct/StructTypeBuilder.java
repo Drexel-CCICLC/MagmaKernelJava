@@ -22,7 +22,7 @@ public interface StructTypeBuilder {
 
     Type build();
 
-    class StructTypeBuilderImpl implements StructTypeBuilder {
+    final class StructTypeBuilderImpl implements StructTypeBuilder {
         private final Type returnType;
         private final String name;
         private final List<Type> parameters;
