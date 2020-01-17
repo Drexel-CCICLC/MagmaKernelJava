@@ -32,10 +32,14 @@ public class StructNode implements Node {
 
 	@Override
 	public String render() {
-		String paramString = parameters.keySet()
+		String paramString = joinParams();
+		return returnType.render() + " " + name + "(" + paramString + ")" + block.render();
+	}
+
+	private String joinParams() {
+		return parameters.keySet()
 				.stream()
                 .map(s -> parameters.get(s).render() + " " + s)
 				.collect(Collectors.joining(","));
-		return returnType.render() + " " + name + "(" + paramString + ")" + block.render();
 	}
 }
