@@ -18,11 +18,6 @@ public class ObjectType implements Type {
 		this.children = declarations.relative(name).orElseThrow().childMap();
 	}
 
-	@Deprecated
-	public ObjectType(Map<String, ? extends Type> children) {
-		this.children = children;
-	}
-
 	@Override
 	public OptionalInt childOrder(String name) {
 		String[] childArray = children.keySet().toArray(String[]::new);

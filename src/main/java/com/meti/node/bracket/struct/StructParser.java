@@ -7,8 +7,8 @@ import com.meti.node.EmptyNode;
 import com.meti.node.Node;
 import com.meti.node.Parser;
 import com.meti.node.Type;
-import com.meti.node.value.primitive.array.Functions;
 import com.meti.node.bracket.block.BlockNode;
+import com.meti.node.value.primitive.array.Functions;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -72,13 +72,13 @@ public class StructParser implements Parser {
             for (int i = 1; i < list.size() - 1; i++) {
                 Declaration declaration = list.get(i);
                 String name = declaration.name();
-                parameters.put(name + "_", new ObjectType(declaration.childMap()));
+                parameters.put(name + "_", new ObjectType(declarations, name));
             }
             StructNodeBuilder builder = StructNodeBuilder.create();
             parameters.forEach(builder::withParameter);
             functions.add(builder.withReturnType(returnType)
                     .withName(declarations.current().name())
-					.withBlock(block), generator);
+                    .withBlock(block), generator);
             return Optional.of(new EmptyNode());
         }
         return Optional.empty();
