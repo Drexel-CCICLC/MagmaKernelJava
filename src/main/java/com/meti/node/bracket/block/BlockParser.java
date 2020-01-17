@@ -13,22 +13,35 @@ import java.util.stream.Collectors;
 public class BlockParser implements Parser {
 	@Override
 	public Collection<Node> parseMultiple(String value, Compiler compiler) {
-		return parse(value, compiler).stream().collect(Collectors.toSet());
+		return parse(value, compiler)
+				.stream()
+				.collect(Collectors.toSet());
 	}
 
 	private Optional<Node> parse(String value, Compiler compiler) {
-		String trim = value.trim();
-		if (trim.startsWith("{") && trim.endsWith("}")) {
-			String childrenString = trim.substring(1, trim.length() - 1);
-            Collection<String> childrenStrings = BracketPartitioner.create().partition(childrenString);
-			List<Node> children = childrenStrings.stream()
-					.map(String::trim)
-					.filter(childString -> !childString.isEmpty())
-					.map(compiler::parseMultiple)
-					.flatMap(Collection::stream)
-					.collect(Collectors.toList());
-			return Optional.of(new BlockNode(children));
-		}
-		return Optional.empty();
+		return Optional.of(value)
+				.map(String::trim)
+				.filter(trim -> trim.startsWith("{") && trim.endsWith("}"))
+				.map(trim -> build(trim, compiler));
+	}
+
+	private Node build(String trim, Compiler compiler) {
+		String childrenString = trim.substring(1, trim.length() - 1);
+		Collection<String> partitions = partition(childrenString);
+		List<Node> children = compilePartitions(compiler, partitions);
+		return new BlockNode(children);
+	}
+
+	private Collection<String> partition(String childrenString) {
+		return BracketPartitioner.create().partition(childrenString);
+	}
+
+	private List<Node> compilePartitions(Compiler compiler, Collection<String> partitions) {
+		return partitions.stream()
+				.map(String::trim)
+				.filter(childString -> !childString.isEmpty())
+				.map(compiler::parseMultiple)
+				.flatMap(Collection::stream)
+				.collect(Collectors.toList());
 	}
 }
