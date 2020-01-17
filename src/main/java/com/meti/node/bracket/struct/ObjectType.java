@@ -21,11 +21,12 @@ public class ObjectType implements Type {
     }
 
     @Override
-    public OptionalInt childOrder(String name) {
+    public OptionalInt childOrder(String childName) {
+        declarations.relative(this.name);
         String[] childArray = children().keySet().toArray(String[]::new);
         int length = childArray.length;
         for (int i = 0; i < length; i++) {
-            if (childArray[i].equals(name)) {
+            if (childArray[i].equals(childName)) {
                 return OptionalInt.of(i);
             }
         }
@@ -37,8 +38,8 @@ public class ObjectType implements Type {
     }
 
     @Override
-    public Optional<Type> childType(String name) {
-        return Optional.ofNullable(children().get(name));
+    public Optional<Type> childType(String childName) {
+        return Optional.ofNullable(children().get(childName));
     }
 
     @Override

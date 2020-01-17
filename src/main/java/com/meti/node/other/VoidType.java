@@ -13,12 +13,12 @@ public class VoidType implements Type {
 	}
 
 	@Override
-	public OptionalInt childOrder(String name) {
+	public OptionalInt childOrder(String childName) {
 		return OptionalInt.empty();
 	}
 
 	@Override
-	public Optional<Type> childType(String name) {
+	public Optional<Type> childType(String childName) {
 		return Optional.empty();
 	}
 

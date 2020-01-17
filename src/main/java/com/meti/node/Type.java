@@ -4,9 +4,9 @@ import java.util.Optional;
 import java.util.OptionalInt;
 
 public interface Type {
-	OptionalInt childOrder(String name);
+	OptionalInt childOrder(String childName);
 
-	Optional<Type> childType(String name);
+	Optional<Type> childType(String childName);
 
 	boolean isNamed();
 
