@@ -18,7 +18,7 @@ class ArrayContentTest extends InterpretedTest{
 					printf("%i", array[1]);
 					delete array;
 					return 0;
-				}
+				};
 				""");
 		assertEquals("34", result);
 	}
