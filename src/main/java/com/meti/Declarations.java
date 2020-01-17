@@ -5,8 +5,12 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class Declarations {
-	private final Declaration root = new Declaration("root", null, false, null);
+	public final Declaration root = new Declaration("root", null, false, null);
 	private final Stack<String> stack = new Stack<>();
+
+	public Declaration getRoot() {
+		return root;
+	}
 
 	public Node define(String name, Type type, Supplier<? extends Node> action) {
 		define(name, type, false);

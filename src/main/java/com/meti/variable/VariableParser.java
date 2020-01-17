@@ -5,7 +5,6 @@ import com.meti.*;
 import com.meti.struct.ObjectType;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.stream.Collectors;
@@ -17,33 +16,36 @@ public class VariableParser implements Parser {
 		this.declarations = declarations;
 	}
 
+	@Override
+	public Collection<Node> parseMultiple(String value, Compiler compiler) {
+		return parse(value, compiler).stream().collect(Collectors.toSet());
+	}
+
 	private Optional<Node> parse(String value, Compiler compiler) {
 		String trim = value.trim();
-		if (trim.contains(".")) {
-			int period = trim.indexOf('.');
-			String parentString = trim.substring(0, period);
-			String childString = trim.substring(period + 1);
-			Node parent = compiler.parseSingle(parentString);
-			Type type = compiler.resolveValue(parentString);
-			return buildField(type, parent, childString);
-		} else {
-			Optional<Declaration> first = declarations.stackStream()
-					.filter(declaration -> declaration.child(trim).isPresent())
-					.findFirst();
-			if (first.isPresent() && !"root".equals(first.get()) && !first.get().equals(declarations.current())) {
-				Optional<Declaration> child = first.get().child(trim);
-				if (child.isPresent() && child.get().isParameter()) {
-					Map<String, Type> declaration = first.orElseThrow()
-							.childMap();
-					Type type = new ObjectType(declaration);
-					Node firstNode = new VariableNode(first.get().name() + "_");
-					return buildField(type, firstNode, trim);
-				}
+		return trim.contains(".") ? parseAccesor(compiler, trim) : parseSimple(trim);
+	}
+
+	private Optional<Node> parseAccesor(Compiler compiler, String trim) {
+		int period = trim.indexOf('.');
+		String parentString = trim.substring(0, period);
+		String childString = trim.substring(period + 1);
+		Node parent = compiler.parseSingle(parentString);
+		Type type = compiler.resolveValue(parentString);
+		return buildField(type, parent, childString.trim());
+	}
+
+	private Optional<Node> parseSimple(String childName) {
+		Optional<Declaration> parentOptional = findParentWithChild(childName);
+		if (parentOptional.isPresent()) {
+			Declaration parent = parentOptional.get();
+			if (!isRoot(parent) && !isCurrent(parent) && parent.hasChildAsParameter(childName)) {
+				Type type = new ObjectType(declarations, childName);
+				Node firstNode = new VariableNode(parent.name() + "_");
+				return buildField(type, firstNode, childName);
 			}
-			return declarations.relative(trim.trim())
-					.map(Declaration::name)
-					.map(VariableNode::new);
 		}
+		return buildInScope(childName);
 	}
 
 	private Optional<Node> buildField(Type parentType, Node parentNode, String name) {
@@ -52,8 +54,23 @@ public class VariableParser implements Parser {
 		return Optional.of(new FieldNode(parentNode, order.orElseThrow(), child.orElseThrow(), name));
 	}
 
-	@Override
-	public Collection<Node> parseMultiple(String value, Compiler compiler) {
-		return parse(value, compiler).stream().collect(Collectors.toSet());
+	private Optional<Declaration> findParentWithChild(String childName) {
+		return declarations.stackStream()
+				.filter(declaration -> declaration.child(childName).isPresent())
+				.findFirst();
+	}
+
+	private boolean isRoot(Declaration obj) {
+		return declarations.getRoot().equals(obj);
+	}
+
+	private boolean isCurrent(Declaration obj) {
+		return declarations.current().equals(obj);
+	}
+
+	private Optional<Node> buildInScope(String childName) {
+		return declarations.relative(childName)
+				.map(Declaration::name)
+				.map(VariableNode::new);
 	}
 }
