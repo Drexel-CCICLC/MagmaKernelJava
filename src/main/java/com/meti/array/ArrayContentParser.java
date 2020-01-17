@@ -73,7 +73,8 @@ public class ArrayContentParser implements Parser {
 		Node block = buildBlock(type, keys);
 		return createBuilder(type, keys)
 				.withName(name)
-				.withBlock(block);
+				.withBlock(block)
+				.withReturnType(new ArrayType(type));
 	}
 
 	private Node buildBlock(Type arrayType, Collection<String> keys) {
@@ -105,7 +106,7 @@ public class ArrayContentParser implements Parser {
 	}
 
 	private Node buildReturn() {
-        return new ReturnNode(ARRAY_VARIABLE);
+		return new ReturnNode(ARRAY_VARIABLE);
 	}
 
 	private Node buildAssignment(String key, int index) {

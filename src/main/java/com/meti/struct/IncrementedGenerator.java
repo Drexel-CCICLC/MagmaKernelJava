@@ -7,7 +7,7 @@ public class IncrementedGenerator implements Generator {
 	@Override
 	public String next() {
 		counter++;
-		String index = String.valueOf(ALPHABET.indexOf(counter % ALPHABET.length()));
+		String index = String.valueOf(ALPHABET.charAt(counter % ALPHABET.length()));
 		String value = String.valueOf(counter);
 		return index + value;
 	}
