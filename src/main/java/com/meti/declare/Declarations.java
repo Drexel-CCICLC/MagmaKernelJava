@@ -10,9 +10,9 @@ import java.util.stream.Stream;
 public interface Declarations {
     Declaration current();
 
-    Node define(String name, Type type, Supplier<? extends Node> action);
+    Node define(String name, Supplier<? extends Node> action, DeclarationBuilder builder);
 
-    void define(String name, Type type, boolean isParameter);
+    void define(String name, DeclarationBuilder builder);
 
     Declaration root();
 
@@ -21,4 +21,12 @@ public interface Declarations {
     Stream<Declaration> stream();
 
     void define(String name, Type type, Runnable action);
+
+    default boolean isCurrent(Declaration obj) {
+        return current().equals(obj);
+    }
+
+    default boolean isRoot(Declaration obj) {
+        return root().equals(obj);
+    }
 }

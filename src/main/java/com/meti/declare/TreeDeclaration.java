@@ -5,61 +5,60 @@ import com.meti.node.Type;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-public class TreeDeclaration implements Declaration {
-	private final Map<String, Declaration> children = new LinkedHashMap<>();
-	private final boolean isParameter;
-	private final String name;
-	private final Declaration parent;
-	private final Type type;
+public abstract class TreeDeclaration implements Declaration {
+    protected final String name;
+    protected final Declaration parent;
+    protected final Type type;
+    private final Map<String, Declaration> children = new LinkedHashMap<>();
 
-	TreeDeclaration(String name, Type type, boolean isParameter, Declaration parent) {
-		this.name = name;
-		this.type = type;
-		this.isParameter = isParameter;
-		this.parent = parent;
-	}
+    public TreeDeclaration(String name, Declaration parent, Type type) {
+        this.name = name;
+        this.parent = parent;
+        this.type = type;
+    }
 
-	@Override
-	public Map<String, Type> childMap() {
-		Map<String, Type> toReturn = new LinkedHashMap<>();
-		children.forEach((s, declaration) -> toReturn.put(s, declaration.type()));
-		return toReturn;
-	}
+    @Override
+    public Map<String, Type> childMap() {
+        return children.keySet()
+                .stream()
+                .collect(Collectors.toMap(Function.identity(),
+                        ((Function<String, Declaration>) children::get).andThen(Declaration::type)));
+    }
 
-	@Override
-	public void define(String name, Type type, boolean isParameter) {
-		children.put(name, new TreeDeclaration(name, type, isParameter, this));
-	}
+    @Override
+    public Declaration define(String name, DeclarationBuilder builder) {
+        Declaration declaration = builder.build(this);
+        children.put(name, declaration);
+        return declaration;
+    }
 
-	@Override
-	public boolean hasChildAsParameter(String childName) {
-		Optional<Declaration> child = child(childName);
-		return child.isPresent() && child.get().isParameter();
-	}
+    @Override
+    public boolean hasParameter(String childName) {
+        return child(childName)
+                .map(Declaration::isParameter)
+                .orElse(false);
+    }
 
-	@Override
-	public Optional<Declaration> child(String name) {
-		return Optional.ofNullable(children.get(name));
-	}
+    @Override
+    public Optional<Declaration> child(String name) {
+        return Optional.ofNullable(children.get(name));
+    }
 
-	@Override
-	public boolean isParameter() {
-		return isParameter;
-	}
+    @Override
+    public String name() {
+        return name;
+    }
 
-	@Override
-	public String name() {
-		return name;
-	}
+    @Override
+    public Optional<Declaration> parent() {
+        return Optional.ofNullable(parent);
+    }
 
-	@Override
-	public Optional<Declaration> parent() {
-		return Optional.ofNullable(parent);
-	}
-
-	@Override
-	public Type type() {
-		return type;
-	}
+    @Override
+    public Type type() {
+        return type;
+    }
 }

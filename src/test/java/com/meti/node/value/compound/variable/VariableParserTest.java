@@ -1,11 +1,11 @@
 package com.meti.node.value.compound.variable;
 
+import com.meti.declare.DeclarationBuilder;
 import com.meti.declare.Declarations;
 import com.meti.declare.TreeDeclarations;
 import com.meti.node.Node;
 import com.meti.node.Parser;
 import com.meti.node.value.primitive.integer.IntType;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
@@ -22,7 +22,10 @@ class VariableParserTest {
                 .withReturnType(IntType.INSTANCE)
                 .withParameter(IntType.INSTANCE)
                 .build(),
-                () -> declarations.define("value", IntType.INSTANCE, true));
+                () -> declarations.define("value", DeclarationBuilder.create()
+                        .withName("value")
+                        .withType(IntType.INSTANCE)
+                        .flagAsParameter()));
         Parser parser = new VariableParser(declarations);
         Collection<Node> nodes = parser.parseMultiple("value", null);
         assertFalse(nodes.isEmpty());

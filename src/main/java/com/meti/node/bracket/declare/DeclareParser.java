@@ -1,6 +1,7 @@
 package com.meti.node.bracket.declare;
 
 import com.meti.compile.Compiler;
+import com.meti.declare.DeclarationBuilder;
 import com.meti.declare.Declarations;
 import com.meti.node.EmptyNode;
 import com.meti.node.Node;
@@ -39,10 +40,16 @@ public class DeclareParser implements Parser {
 				if (flags.contains(Flag.VAL) || flags.contains(Flag.VAR)) {
 					Type type = compiler.resolveValue(last);
 					if (flags.contains(Flag.NATIVE)) {
-						declarations.define(name, type, false);
+						declarations.define(name, DeclarationBuilder.create()
+                                .withName(name)
+                                .withType(type)
+                                .flagAsParameter());
 						return Optional.of(new EmptyNode());
 					} else {
-						Node valueNode = declarations.define(name, type, () -> compiler.parseSingle(last));
+						Node valueNode = declarations.define(name, () -> compiler.parseSingle(last), DeclarationBuilder.create()
+								.withName(name)
+								.withType(type)
+								.flagAsParameter());
 						return Optional.of(new DeclareNode(type, name, valueNode));
 					}
 				}

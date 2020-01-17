@@ -10,9 +10,9 @@ public interface Declaration {
 
 	Map<String, Type> childMap();
 
-	void define(String name, Type type, boolean isParameter);
+	Declaration define(String name, DeclarationBuilder builder);
 
-	boolean hasChildAsParameter(String childName);
+	boolean hasParameter(String childName);
 
 	boolean isParameter();
 

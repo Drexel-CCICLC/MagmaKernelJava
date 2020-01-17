@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class TreeDeclarations implements Declarations {
-    private final Declaration root = new TreeDeclaration("root", null, false, null);
+    private final Declaration root = new SimpleTreeDeclaration("root", null, null);
     private final Stack<String> stack = new Stack<>();
 
     @Override
@@ -17,8 +17,8 @@ public class TreeDeclarations implements Declarations {
     }
 
     @Override
-    public Node define(String name, Type type, Supplier<? extends Node> action) {
-        define(name, type, false);
+    public Node define(String name, Supplier<? extends Node> action, DeclarationBuilder builder) {
+        define(name, builder);
         stack.push(name);
         Node result = action.get();
         stack.pop();
@@ -26,8 +26,8 @@ public class TreeDeclarations implements Declarations {
     }
 
     @Override
-    public void define(String name, Type type, boolean isParameter) {
-        current().define(name, type, isParameter);
+    public void define(String name, DeclarationBuilder builder) {
+        current().define(name, builder);
     }
 
     @Override
@@ -72,7 +72,10 @@ public class TreeDeclarations implements Declarations {
 
     @Override
     public void define(String name, Type type, Runnable action) {
-        define(name, type, false);
+        define(name, DeclarationBuilder.create()
+                .withName(name)
+                .withType(type)
+                .flagAsParameter());
         stack.push(name);
         action.run();
         stack.pop();

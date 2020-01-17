@@ -2,6 +2,7 @@ package com.meti.node.bracket.struct;
 
 import com.meti.compile.Compiler;
 import com.meti.declare.Declaration;
+import com.meti.declare.DeclarationBuilder;
 import com.meti.declare.Declarations;
 import com.meti.node.EmptyNode;
 import com.meti.node.Node;
@@ -42,7 +43,10 @@ public class StructParser implements Parser {
                     .collect(Collectors.toMap(
                             strings -> strings[1],
                             strings -> compiler.resolveName(strings[0]))));
-            parameters.forEach((name1, type) -> declarations.define(name1, type, true));
+            parameters.forEach((name1, type) -> declarations.define(name1, DeclarationBuilder.create()
+                    .withName(name1)
+                    .withType(type)
+                    .flagAsParameter()));
             int returnTypeStart = trim.indexOf("=>") + 2;
             int returnTypeEnd = trim.contains(":") ? trim.indexOf(':') : trim.length();
             String returnTypeString = trim.substring(returnTypeStart, returnTypeEnd);
