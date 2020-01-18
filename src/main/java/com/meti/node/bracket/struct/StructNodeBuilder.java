@@ -18,6 +18,11 @@ public interface StructNodeBuilder {
 
 	StructNodeBuilder withName(String name);
 
+	default StructNodeBuilder withParameters(Map<String, Type> parameters) {
+		parameters.forEach(this::withParameter);
+		return this;
+	}
+
 	StructNodeBuilder withParameter(String name, Type type);
 
 	StructNodeBuilder withReturnType(Type returnType);
@@ -67,8 +72,8 @@ public interface StructNodeBuilder {
 		@Override
 		public StructNodeBuilder withParameter(String name, Type type) {
 			parameters.put(name, type);
-            return this;
-        }
+			return this;
+		}
 
 		@Override
 		public StructNodeBuilder withReturnType(Type returnType) {

@@ -14,74 +14,124 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class StructParser implements Parser {
-    private final Declarations declarations;
-    private final Generator generator;
-    private final Functions functions;
+	private final Declarations declarations;
+	private final Functions functions;
+	private final Generator generator;
 
-    public StructParser(Declarations declarations, Functions functions, Generator generator) {
-        this.declarations = declarations;
-        this.generator = generator;
-        this.functions = functions;
-    }
+	public StructParser(Declarations declarations, Functions functions, Generator generator) {
+		this.declarations = declarations;
+		this.generator = generator;
+		this.functions = functions;
+	}
 
-    @Override
-    public Collection<Node> parseMultiple(String value, Compiler compiler) {
-        return parse(value, compiler).stream().collect(Collectors.toSet());
-    }
+	@Override
+	public Collection<Node> parseMultiple(String value, Compiler compiler) {
+		return parse(value, compiler).stream().collect(Collectors.toSet());
+	}
 
-    private Optional<Node> parse(String value, Compiler compiler) {
-        String trim = value.trim();
-        if (trim.startsWith("(")) {
-            int paramStart = trim.indexOf('(') + 1;
-            int paramEnd = trim.indexOf(')');
-            String paramsString = trim.substring(paramStart, paramEnd);
-            Map<String, Type> parameters = new HashMap<>(Arrays.stream(paramsString.split(","))
-                    .map(String::trim)
-                    .filter(paramString -> !paramString.isBlank())
-                    .map(paramString -> paramString.split(" "))
-                    .collect(Collectors.toMap(
-                            strings -> strings[1],
-                            strings -> compiler.resolveName(strings[0]))));
-            parameters.forEach((name1, type) -> declarations.define(name1, type, true));
-            int returnTypeStart = trim.indexOf("=>") + 2;
-            int returnTypeEnd = trim.contains(":") ? trim.indexOf(':') : trim.length();
-            String returnTypeString = trim.substring(returnTypeStart, returnTypeEnd);
-            Type returnType = compiler.resolveName(returnTypeString);
-            Node block;
-            if (trim.contains(":")) {
-                String blockString = trim.substring(trim.indexOf(':') + 1);
-                int prevSize = functions.size();
-                Node impl = compiler.parseSingle(blockString);
-                block = impl.isParent() ? impl : new BlockNode(Collections.singleton(impl));
-                int nowSize = functions.size();
-                if (nowSize > prevSize) {
-                    String name = declarations.current().name();
-                    Node size = compiler.parseSingle("val " + name + "_=Array<Any*>(" + parameters.size() + ")");
-                    List<String> list = new ArrayList<>(parameters.keySet());
-                    for (int i = 0; i < list.size(); i++) {
-                        String parameter = list.get(i);
-                        Node assign = compiler.parseSingle(name + "_[" + i + "]=&" + parameter);
-                        block.children().addFirst(assign);
-                    }
-                    block.children().addFirst(size);
-                }
-            } else {
-                throw new UnsupportedOperationException("Abstract methods are not supported yet.");
-            }
-            List<Declaration> list = declarations.stream().collect(Collectors.toList());
-            for (int i = 1; i < list.size() - 1; i++) {
-                Declaration declaration = list.get(i);
-                String name = declaration.name();
-                parameters.put(name + "_", new ObjectType(declarations, name));
-            }
-            StructNodeBuilder builder = StructNodeBuilder.create();
-            parameters.forEach(builder::withParameter);
-            functions.add(builder.withReturnType(returnType)
-                    .withName(declarations.current().name())
-                    .withBlock(block), generator);
-            return Optional.of(new EmptyNode());
-        }
-        return Optional.empty();
-    }
+	private Optional<Node> parse(String value, Compiler compiler) {
+		String content = value.trim();
+		if (content.startsWith("(")) {
+			Node node = build(compiler, content);
+			return Optional.of(node);
+		}
+		return Optional.empty();
+	}
+
+	private Node build(Compiler compiler, String content) {
+		Map<String, Type> parameters = parseAllParameters(compiler, content);
+		Type returnType = resolveReturnType(compiler, content);
+		Node block = buildConcreteBlock(compiler, content, parameters);
+		functions.add(StructNodeBuilder.create()
+				.withParameters(parameters)
+				.withReturnType(returnType)
+				.withName(declarations.current().name())
+				.withBlock(block), generator);
+		return new EmptyNode();
+	}
+
+	private Map<String, Type> parseAllParameters(Compiler compiler, String content) {
+		Map<String, Type> parameters = new HashMap<>();
+		parameters.putAll(parseParameters(compiler, content));
+		parameters.putAll(buildParentParameters());
+		parameters.forEach((name1, type) -> declarations.define(name1, type, true));
+		return parameters;
+	}
+
+	private Type resolveReturnType(Compiler compiler, String content) {
+		int returnTypeStart = content.indexOf("=>") + 2;
+		int returnTypeEnd = hasImplementation(content) ? content.indexOf(':') : content.length();
+		String returnTypeString = content.substring(returnTypeStart, returnTypeEnd);
+		return compiler.resolveName(returnTypeString);
+	}
+
+	private Node buildConcreteBlock(Compiler compiler, String content, Map<String, Type> parameters) {
+		if (hasImplementation(content)) {
+			return buildBlock(compiler, content, parameters);
+		} else {
+			throw new UnsupportedOperationException("Abstract methods are not supported yet.");
+		}
+	}
+
+	private Map<String, Type> parseParameters(Compiler compiler, String content) {
+		int paramStart = content.indexOf('(') + 1;
+		int paramEnd = content.indexOf(')');
+		String paramsString = content.substring(paramStart, paramEnd);
+		return Arrays.stream(paramsString.split(","))
+				.map(String::trim)
+				.filter(paramString -> !paramString.isBlank())
+				.map(paramString -> paramString.split(" "))
+				.collect(Collectors.toMap(
+						strings -> strings[1],
+						strings -> compiler.resolveName(strings[0])));
+	}
+
+	private Map<String, Type> buildParentParameters() {
+		Map<String, Type> paramClone = new HashMap<>();
+		List<Declaration> list = declarations.stream().collect(Collectors.toList());
+		for (int i = 1; i < list.size() - 1; i++) {
+			Declaration declaration = list.get(i);
+			String name = declaration.name();
+			paramClone.put(name + "_", new ObjectType(declarations, name));
+		}
+		return paramClone;
+	}
+
+	private boolean hasImplementation(String content) {
+		return content.contains(":");
+	}
+
+	private Node buildBlock(Compiler compiler, String content, Map<String, Type> parameters) {
+		Node block = parseBlock(compiler, content);
+		String name = declarations.current().name();
+		buildInstance(compiler, parameters, block, name);
+		return block;
+	}
+
+	private Node parseBlock(Compiler compiler, String content) {
+		String blockString = content.substring(content.indexOf(':') + 1);
+		Node impl = compiler.parseSingle(blockString);
+		return impl.isParent() ? impl : new BlockNode(Collections.singleton(impl));
+	}
+
+	private void buildInstance(Compiler compiler, Map<String, Type> parameters, Node block, String name) {
+		Node size = compiler.parseSingle("val " + name + "_=Array<Any*>(" + parameters.size() + ")");
+		Collection<Node> nodes = buildSuperConstructors(compiler, parameters, name, size);
+		Deque<Node> children = block.children();
+		nodes.forEach(children::addFirst);
+	}
+
+	private Collection<Node> buildSuperConstructors(Compiler compiler, Map<String, Type> parameters, String name,
+	                                                Node size) {
+		Collection<Node> nodes = new ArrayList<>();
+		List<String> list = new ArrayList<>(parameters.keySet());
+		for (int i = 0; i < list.size(); i++) {
+			String parameter = list.get(i);
+			Node assign = compiler.parseSingle(name + "_[" + i + "]=&" + parameter);
+			nodes.add(assign);
+		}
+		nodes.add(size);
+		return nodes;
+	}
 
 }
