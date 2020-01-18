@@ -17,7 +17,6 @@ public interface StructTypeBuilder {
 
     StructTypeBuilder withParameter(Type parameter);
 
-    @Deprecated
     StructTypeBuilder withParameters(List<Type> parameters);
 
     Type build();
