@@ -45,7 +45,7 @@ public class VariableParser implements Parser {
 			Declaration parent = parentOptional.get();
 			if (!isRoot(parent) && !isCurrent(parent) && parent.hasChildAsParameter(childName)) {
 				Type type = new ObjectType(declarations, childName);
-				Node firstNode = new VariableNode(parent.name() + "_");
+				Node firstNode = parent.toSuperVariable();
 				return buildField(type, firstNode, childName);
 			}
 		}
@@ -73,8 +73,12 @@ public class VariableParser implements Parser {
 	}
 
 	private Optional<Node> buildInScope(String childName) {
-		return declarations.relative(childName)
-				.map(Declaration::name)
-				.map(VariableNode::new);
+		Optional<Declaration> optional = declarations.relative(childName);
+		if (optional.isPresent()) {
+			return Optional.of(optional.get().toInstance());
+		} else {
+			return Optional.empty();
+		}
 	}
+
 }

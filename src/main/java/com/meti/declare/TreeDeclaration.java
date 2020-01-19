@@ -1,11 +1,14 @@
 package com.meti.declare;
 
+import com.meti.compile.Compiler;
+import com.meti.node.Node;
 import com.meti.node.Type;
+import com.meti.node.bracket.struct.ObjectType;
+import com.meti.node.bracket.struct.StructNodeBuilder;
+import com.meti.node.value.compound.variable.VariableNode;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalInt;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class TreeDeclaration implements Declaration {
@@ -20,6 +23,22 @@ public class TreeDeclaration implements Declaration {
 		this.type = type;
 		this.isParameter = isParameter;
 		this.parent = parent;
+	}
+
+	@Override
+	public Node buildSuperAssignment(Compiler compiler, int index, String paramName) {
+		return compiler.parseSingle(name + "_[" + index + "]=&" + paramName);
+	}
+
+	@Override
+	public Collection<Node> buildSuperConstructors(Compiler compiler, Map<String, Type> parameters,
+	                                               Node size) {
+		List<String> list = new ArrayList<>(parameters.keySet());
+		Collection<Node> nodes = IntStream.range(0, list.size())
+				.mapToObj(index -> buildSuperAssignment(compiler, index, list.get(index)))
+				.collect(Collectors.toList());
+		nodes.add(size);
+		return nodes;
 	}
 
 	@Override
@@ -40,6 +59,17 @@ public class TreeDeclaration implements Declaration {
 	@Override
 	public Type childType(String childType) {
 		return childMap().get(childType);
+	}
+
+	@Override
+	public StructNodeBuilder createStructBuilder() {
+		return StructNodeBuilder.create()
+				.withName(name);
+	}
+
+	@Override
+	public Node declareInstance(Compiler compiler, Map<String, Type> parameters) {
+		return compiler.parseSingle("val " + name + "_=Array<Any*>(" + parameters.size() + ")");
 	}
 
 	@Override
@@ -64,13 +94,26 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	@Override
-	public String name() {
-		return name;
+	public Optional<Declaration> parent() {
+		return Optional.ofNullable(parent);
 	}
 
 	@Override
-	public Optional<Declaration> parent() {
-		return Optional.ofNullable(parent);
+	public Map<String, Type> toInstance(Declarations source) {
+		Map<String, Type> temp = new HashMap<>();
+		temp.put(name + "_", new ObjectType(source, name));
+		return temp;
+	}
+
+	@Override
+	public Node toInstance() {
+		return new VariableNode(name);
+	}
+
+	@Override
+	public Node toSuperVariable() {
+		String s = name + "_";
+		return new VariableNode(s);
 	}
 
 	@Override

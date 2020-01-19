@@ -42,10 +42,9 @@ public class StructParser implements Parser {
 		Map<String, Type> parameters = parseAllParameters(compiler, content);
 		Type returnType = resolveReturnType(compiler, content);
 		Node block = buildConcreteBlock(compiler, content, parameters);
-		functions.add(StructNodeBuilder.create()
+		functions.add(declarations.current().createStructBuilder()
 				.withParameters(parameters)
 				.withReturnType(returnType)
-				.withName(declarations.current().name())
 				.withBlock(block), generator);
 		return new EmptyNode();
 	}
@@ -90,9 +89,8 @@ public class StructParser implements Parser {
 		Map<String, Type> paramClone = new HashMap<>();
 		List<Declaration> list = declarations.stream().collect(Collectors.toList());
 		for (int i = 1; i < list.size() - 1; i++) {
-			Declaration declaration = list.get(i);
-			String name = declaration.name();
-			paramClone.put(name + "_", new ObjectType(declarations, name));
+			Map<String, Type> temp = list.get(i).toInstance(this.declarations);
+			paramClone.putAll(temp);
 		}
 		return paramClone;
 	}
@@ -103,8 +101,8 @@ public class StructParser implements Parser {
 
 	private Node buildBlock(Compiler compiler, String content, Map<String, Type> parameters) {
 		Node block = parseBlock(compiler, content);
-		String name = declarations.current().name();
-		buildInstance(compiler, parameters, block, name);
+		Declaration current = declarations.current();
+		buildInstance(compiler, parameters, block, current.declareInstance(compiler, parameters), current);
 		return block;
 	}
 
@@ -114,24 +112,10 @@ public class StructParser implements Parser {
 		return impl.isParent() ? impl : new BlockNode(Collections.singleton(impl));
 	}
 
-	private void buildInstance(Compiler compiler, Map<String, Type> parameters, Node block, String name) {
-		Node size = compiler.parseSingle("val " + name + "_=Array<Any*>(" + parameters.size() + ")");
-		Collection<Node> nodes = buildSuperConstructors(compiler, parameters, name, size);
+	private void buildInstance(Compiler compiler, Map<String, Type> parameters, Node block,
+	                           Node instanceDeclaration, Declaration current) {
+		Collection<Node> nodes = current.buildSuperConstructors(compiler, parameters, instanceDeclaration);
 		Deque<Node> children = block.children();
 		nodes.forEach(children::addFirst);
 	}
-
-	private Collection<Node> buildSuperConstructors(Compiler compiler, Map<String, Type> parameters, String name,
-	                                                Node size) {
-		Collection<Node> nodes = new ArrayList<>();
-		List<String> list = new ArrayList<>(parameters.keySet());
-		for (int i = 0; i < list.size(); i++) {
-			String parameter = list.get(i);
-			Node assign = compiler.parseSingle(name + "_[" + i + "]=&" + parameter);
-			nodes.add(assign);
-		}
-		nodes.add(size);
-		return nodes;
-	}
-
 }
