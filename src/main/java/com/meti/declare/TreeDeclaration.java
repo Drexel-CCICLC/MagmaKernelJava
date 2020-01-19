@@ -5,6 +5,8 @@ import com.meti.node.Type;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
 
 public class TreeDeclaration implements Declaration {
 	private final Map<String, Declaration> children = new LinkedHashMap<>();
@@ -25,6 +27,19 @@ public class TreeDeclaration implements Declaration {
 		Map<String, Type> toReturn = new LinkedHashMap<>();
 		children.forEach((s, declaration) -> toReturn.put(s, declaration.type()));
 		return toReturn;
+	}
+
+	@Override
+	public OptionalInt childOrder(String name) {
+		String[] childArray = childMap().keySet().toArray(String[]::new);
+		return IntStream.range(0, childArray.length)
+				.filter(i -> childArray[i].equals(name))
+				.findFirst();
+	}
+
+	@Override
+	public Type childType(String childType) {
+		return childMap().get(childType);
 	}
 
 	@Override

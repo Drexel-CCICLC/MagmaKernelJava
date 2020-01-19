@@ -26,7 +26,7 @@ public class ObjectType implements Type {
 
 	@Override
 	public Optional<Type> childType(String childType) {
-		return Optional.ofNullable(declarations.relative(childType).orElseThrow().childMap().get(childType));
+		return Optional.ofNullable(declarations.relative(this.name).orElseThrow().childType(childType));
 	}
 
 	@Override
