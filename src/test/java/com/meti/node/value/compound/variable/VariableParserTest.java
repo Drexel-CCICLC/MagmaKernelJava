@@ -24,7 +24,7 @@ class VariableParserTest {
 						.withReturnType(IntType.INSTANCE)
 						.withParameter(IntType.INSTANCE)
 						.build(),
-                () -> declarations.define(Parameter.create("value", AnyType.INSTANCE)));
+                () -> declarations.define(Parameter.of("value", AnyType.INSTANCE)));
 		Parser parser = new VariableParser(declarations);
 		Collection<Node> nodes = parser.parseMultiple("value", null);
 		assertFalse(nodes.isEmpty());

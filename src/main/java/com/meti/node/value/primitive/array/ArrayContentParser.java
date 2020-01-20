@@ -88,7 +88,7 @@ public class ArrayContentParser implements Parser {
 
 	private StructNodeBuilder createBuilder(Type arrayType, Collection<String> keys) {
 		return keys.stream().reduce(StructNodeBuilder.create(),
-				(structNodeBuilder, s) -> structNodeBuilder.withParameter(Parameter.create(s, arrayType)),
+				(structNodeBuilder, s) -> structNodeBuilder.withParameter(Parameter.of(s, arrayType)),
 				(structNodeBuilder, structNodeBuilder2) -> structNodeBuilder);
 	}
 

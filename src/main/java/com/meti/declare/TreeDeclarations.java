@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 public class TreeDeclarations implements Declarations {
 	private final Stack<String> stack = new Stack<>();
-	private final Declaration root = new TreeDeclaration(null, false, this, stack);
+	private final Declaration root = TreeDeclarationBuilder.create().withType(null).withParameter(false).withDeclarations(this).withStack(stack).build();
 
 	@Override
 	public boolean isCurrent(Declaration obj) {

@@ -32,7 +32,7 @@ public class ObjectType implements Type {
 	}
 
 	private FieldNodeBuilder lookupFieldType(FieldNodeBuilder builder, String name) {
-		return declaration().map(declaration -> declaration.lookupFieldType(builder, name))
+		return declaration().map(declaration -> declaration.lookupFieldType(name, builder))
 				.orElseThrow();
 	}
 

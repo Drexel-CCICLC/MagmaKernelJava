@@ -6,15 +6,15 @@ import com.meti.node.Type;
 import com.meti.node.value.compound.variable.VariableNode;
 
 public interface Parameter {
-	static Parameter create(String content, Compiler compiler) {
+	static Parameter of(String content, Compiler compiler) {
 		int lastIndex = content.lastIndexOf(' ');
 		String typeString = content.substring(0, lastIndex);
 		String name = content.substring(lastIndex + 1);
 		Type type = compiler.resolveName(typeString);
-		return create(name, type);
+		return of(name, type);
 	}
 
-	static Parameter create(String name, Type type) {
+	static Parameter of(String name, Type type) {
 		return new ParameterImpl(type, name);
 	}
 

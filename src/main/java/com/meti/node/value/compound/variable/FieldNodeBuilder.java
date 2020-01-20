@@ -16,7 +16,7 @@ public interface FieldNodeBuilder {
 
 	FieldNodeBuilder withOrder(int order);
 
-	FieldNodeBuilder withType(Type childType);
+	FieldNodeBuilder withType(Type type);
 
 	final class FieldNodeBuilderImpl implements FieldNodeBuilder {
 		private final Type childType;
@@ -56,8 +56,8 @@ public interface FieldNodeBuilder {
 		}
 
 		@Override
-		public FieldNodeBuilder withType(Type childType) {
-			return new FieldNodeBuilderImpl(childType, instanceArray, name, order);
+		public FieldNodeBuilder withType(Type type) {
+			return new FieldNodeBuilderImpl(type, instanceArray, name, order);
 		}
 	}
 }
