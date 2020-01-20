@@ -77,8 +77,14 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	@Override
-	public void define(String name, Type type, boolean isParameter) {
-		Declaration child = new TreeDeclaration(type, isParameter, declarations, stack);
+	public void define(String name, Type type) {
+		Declaration child = new TreeDeclaration(type, false, declarations, stack);
+		children.add(child);
+	}
+
+	@Override
+	public void defineParameter(String name, Type type) {
+		Declaration child = new TreeDeclaration(type, true, declarations, stack);
 		children.add(child);
 	}
 
@@ -130,6 +136,11 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	@Override
+	public Node toInstanceParameter() {
+		return new VariableNode(instanceName());
+	}
+
+	@Override
 	public Node toParameter() {
 		return new VariableNode(name());
 	}
@@ -141,11 +152,6 @@ public class TreeDeclaration implements Declaration {
 				.withReturnType(returnType)
 				.withBlock(block)
 				.withName(name());
-	}
-
-	@Override
-	public Node toInstanceParameter() {
-		return new VariableNode(instanceName());
 	}
 
 	@Override

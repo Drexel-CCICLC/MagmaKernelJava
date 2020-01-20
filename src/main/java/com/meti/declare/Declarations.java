@@ -9,19 +9,21 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public interface Declarations {
-    Declaration current();
+	Declaration absolute(Collection<String> values);
 
-    Node define(String name, Type type, Supplier<? extends Node> action);
+	Declaration current();
 
-    void define(String name, Type type, boolean isParameter);
+	Node define(String name, Type type, Supplier<? extends Node> action);
 
-    Declaration root();
+	void define(String name, Type type);
 
-    Declaration absolute(Collection<String> values);
+	void define(String name, Type type, Runnable action);
 
-    Optional<Declaration> relative(String value);
+	void defineParameter(String name, Type type);
 
-    Stream<Declaration> stream();
+	Optional<Declaration> relative(String value);
 
-    void define(String name, Type type, Runnable action);
+	Declaration root();
+
+	Stream<Declaration> stream();
 }

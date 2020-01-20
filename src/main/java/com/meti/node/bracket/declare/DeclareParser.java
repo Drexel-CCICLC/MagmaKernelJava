@@ -73,7 +73,7 @@ public class DeclareParser implements Parser {
 	}
 
 	private Node buildNative(String name, Type type) {
-		declarations.define(name, type, false);
+		declarations.define(name, type);
 		return new EmptyNode();
 	}
 

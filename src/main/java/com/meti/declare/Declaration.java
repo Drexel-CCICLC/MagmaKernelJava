@@ -14,7 +14,9 @@ public interface Declaration {
 
 	Node declareInstance(int paramSize);
 
-	void define(String name, Type type, boolean isParameter);
+	void define(String name, Type type);
+
+	void defineParameter(String name, Type type);
 
 	boolean hasChildAsParameter(String childName);
 
@@ -32,11 +34,11 @@ public interface Declaration {
 
 	Map<String, Type> toInstancePair();
 
+	Node toInstanceParameter();
+
 	Node toParameter();
 
 	StructNodeBuilder toStruct(Map<String, Type> parameters, Type returnType, Node block);
-
-	Node toInstanceParameter();
 
 	Type type();
 }

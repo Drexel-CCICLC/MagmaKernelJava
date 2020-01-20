@@ -50,7 +50,7 @@ public class StructParser implements Parser {
 		Map<String, Type> parameters = new HashMap<>();
 		parameters.putAll(parseParameters(compiler, content));
 		parameters.putAll(buildParentParameters());
-		parameters.forEach((name1, type) -> declarations.define(name1, type, true));
+		parameters.forEach(declarations::defineParameter);
 		return parameters;
 	}
 
