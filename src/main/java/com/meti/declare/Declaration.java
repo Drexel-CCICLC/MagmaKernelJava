@@ -1,9 +1,9 @@
 package com.meti.declare;
 
-import com.meti.compile.Compiler;
 import com.meti.node.Node;
 import com.meti.node.Type;
 import com.meti.node.bracket.struct.StructNodeBuilder;
+import com.meti.node.value.compound.variable.FieldNodeBuilder;
 
 import java.util.*;
 
@@ -11,10 +11,6 @@ public interface Declaration {
 	Collection<Node> buildAssignments(List<String> parameters);
 
 	Optional<Declaration> child(String name);
-
-	OptionalInt childOrder(String name);
-
-	Type childType(String childType);
 
 	Node declareInstance(int paramSize);
 
@@ -24,7 +20,13 @@ public interface Declaration {
 
 	boolean isParameter();
 
+	FieldNodeBuilder lookupFieldOrder(String name, FieldNodeBuilder builder);
+
+	FieldNodeBuilder lookupFieldType(FieldNodeBuilder builder, String childName);
+
 	boolean matches(String name);
+
+	OptionalInt orderOf(String name);
 
 	Optional<Declaration> parent();
 

@@ -2,8 +2,8 @@ package com.meti.node.value.compound.variable;
 
 import com.meti.node.Node;
 import com.meti.node.Type;
-import com.meti.node.value.primitive.array.ArrayIndexNode;
 import com.meti.node.value.compound.cast.CastNode;
+import com.meti.node.value.primitive.array.ArrayIndexNode;
 import com.meti.node.value.primitive.integer.IntNode;
 import com.meti.node.value.primitive.point.DereferenceNode;
 import com.meti.node.value.primitive.point.PointerType;
@@ -12,12 +12,12 @@ import java.util.LinkedList;
 
 public class FieldNode implements Node {
 	private final Type childType;
+	private final Node instanceArray;
 	private final String name;
 	private final int order;
-	private final Node parent;
 
-	public FieldNode(Node parent, int order, Type childType, String name) {
-		this.parent = parent;
+	FieldNode(Node instanceArray, int order, Type childType, String name) {
+		this.instanceArray = instanceArray;
 		this.order = order;
 		this.childType = childType;
 		this.name = name;
@@ -40,7 +40,7 @@ public class FieldNode implements Node {
 		} else {
 			Type pointerType = PointerType.pointerOf(childType);
 			Node orderNode = new IntNode(order);
-			Node arrayIndexNode = new ArrayIndexNode(parent, orderNode);
+			Node arrayIndexNode = new ArrayIndexNode(instanceArray, orderNode);
 			Node castNode = new CastNode(pointerType, arrayIndexNode);
 			Node dereferenceNode = new DereferenceNode(castNode);
 			return dereferenceNode.render();

@@ -1,12 +1,11 @@
 package com.meti.node;
 
 import java.util.Optional;
-import java.util.OptionalInt;
 
 public interface Type {
-	OptionalInt childOrder(String childName);
+	Optional<Node> toField(Node instance, String name);
 
-	Optional<Type> childType(String childName);
+	boolean doesReturnVoid();
 
 	boolean isNamed();
 
@@ -15,6 +14,4 @@ public interface Type {
 	String renderWithName(String name);
 
 	Optional<Type> returnType();
-
-	boolean doesReturnVoid();
 }

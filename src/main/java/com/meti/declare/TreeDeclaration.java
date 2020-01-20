@@ -1,6 +1,5 @@
 package com.meti.declare;
 
-import com.meti.compile.Compiler;
 import com.meti.node.Node;
 import com.meti.node.Type;
 import com.meti.node.bracket.declare.AssignNode;
@@ -8,6 +7,7 @@ import com.meti.node.bracket.declare.DeclareNode;
 import com.meti.node.bracket.struct.ObjectType;
 import com.meti.node.bracket.struct.StructNodeBuilder;
 import com.meti.node.other.AnyType;
+import com.meti.node.value.compound.variable.FieldNodeBuilder;
 import com.meti.node.value.compound.variable.VariableNode;
 import com.meti.node.value.primitive.array.ArrayIndexNode;
 import com.meti.node.value.primitive.array.ArraySizeNode;
@@ -61,25 +61,6 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	@Override
-	public OptionalInt childOrder(String name) {
-		return IntStream.range(0, children.size())
-				.filter(value -> children.get(value).matches(name))
-				.findFirst();
-	}
-
-	@Override
-	public Type childType(String childType) {
-		return get(childType).type();
-	}
-
-	private Declaration get(String name) {
-		return children.stream()
-				.filter(child -> child.matches(name))
-				.findFirst()
-				.orElseThrow();
-	}
-
-	@Override
 	public Node declareInstance(int paramSize) {
 		Type pointerType = pointerOf(AnyType.INSTANCE);
 		Type arrayType = arrayOf(pointerType);
@@ -106,8 +87,27 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	@Override
+	public FieldNodeBuilder lookupFieldOrder(String name, FieldNodeBuilder builder) {
+		int order = orderOf(name).orElseThrow();
+		return builder.withOrder(order);
+	}
+
+	@Override
+	public FieldNodeBuilder lookupFieldType(FieldNodeBuilder builder, String childName) {
+		Type type = child(childName).orElseThrow().type();
+		return builder.withType(type);
+	}
+
+	@Override
 	public boolean matches(String name) {
 		return this.name.equals(name);
+	}
+
+	@Override
+	public OptionalInt orderOf(String name) {
+		return IntStream.range(0, children.size())
+				.filter(value -> children.get(value).matches(name))
+				.findFirst();
 	}
 
 	@Override
@@ -143,5 +143,12 @@ public class TreeDeclaration implements Declaration {
 	@Override
 	public Type type() {
 		return type;
+	}
+
+	private Declaration get(String name) {
+		return children.stream()
+				.filter(child -> child.matches(name))
+				.findFirst()
+				.orElseThrow();
 	}
 }

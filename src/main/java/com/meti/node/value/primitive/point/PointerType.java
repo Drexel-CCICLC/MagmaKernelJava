@@ -1,8 +1,10 @@
 package com.meti.node.value.primitive.point;
 
+import com.meti.node.Node;
 import com.meti.node.Type;
 import com.meti.node.other.AnyType;
 import com.meti.node.other.VoidType;
+import com.meti.node.value.compound.variable.FieldNodeBuilder;
 
 import java.util.Optional;
 import java.util.OptionalInt;
@@ -19,12 +21,19 @@ public class PointerType implements Type {
 	}
 
 	@Override
-	public OptionalInt childOrder(String childName) {
+	public Optional<Node> toField(Node instance, String name) {
+		Optional<Type> child = childType(name.trim());
+		OptionalInt order = childOrder(name.trim());
+		Node field =
+				new FieldNodeBuilder().withInstanceArray(instance).withOrder(order.orElseThrow()).withType(child.orElseThrow()).withName(name).build();
+		return Optional.of(field);
+	}
+
+	private OptionalInt childOrder(String childName) {
 		return OptionalInt.empty();
 	}
 
-	@Override
-	public Optional<Type> childType(String childName) {
+	private Optional<Type> childType(String childName) {
 		return Optional.empty();
 	}
 
