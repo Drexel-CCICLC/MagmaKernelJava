@@ -43,7 +43,7 @@ public class UnitCompiler implements Compiler {
 	}
 
 	private RuntimeException failName(String name, Throwable e) {
-		return new ParseException("Failed to resolve name pointerTo value:\n" + name, e);
+		return new ParseException("Failed to resolve name of value:\n" + name, e);
 	}
 
 	@Override
@@ -56,10 +56,10 @@ public class UnitCompiler implements Compiler {
 	}
 
 	private RuntimeException failValue(String value, Throwable e) {
-		return new ParseException("Failed to resolve type pointerTo value:\n" + value, e);
+		return new ParseException("Failed to resolve type of value:\n" + value, e);
 	}
 
 	private RuntimeException failParse(String value, Throwable e) {
-		return new ParseException("Failed to parseSingle value:\n" + value, e);
+		return new ParseException("Failed to parse value:\n" + value, e);
 	}
 }
