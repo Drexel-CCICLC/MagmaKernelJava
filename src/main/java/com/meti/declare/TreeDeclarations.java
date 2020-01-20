@@ -22,7 +22,7 @@ public class TreeDeclarations implements Declarations {
 				.withStack(new Stack<>()));
 	}
 
-	protected TreeDeclarations(Stack<String> stack, TreeDeclarationBuilder root) {
+	TreeDeclarations(Stack<String> stack, TreeDeclarationBuilder root) {
 		this.stack = stack;
 		this.root = root.withDeclarations(this)
 				.build();
