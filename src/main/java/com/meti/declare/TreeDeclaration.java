@@ -22,7 +22,7 @@ import static com.meti.node.value.primitive.array.ArrayType.arrayOf;
 import static com.meti.node.value.primitive.point.PointerType.pointerOf;
 
 public class TreeDeclaration implements Declaration {
-	private final Map<String, Declaration> children = new LinkedHashMap<>();
+	private final List<Declaration> children = new ArrayList<>();
 	private final int index;
 	private final boolean isParameter;
 	private final String name;
@@ -61,22 +61,26 @@ public class TreeDeclaration implements Declaration {
 
 	@Override
 	public Optional<Declaration> child(String name) {
-		return Optional.ofNullable(children.get(name));
+		return Optional.ofNullable(get(name));
 	}
 
 	@Override
 	public OptionalInt childOrder(String name) {
-		return children.keySet()
-				.stream()
-				.filter(child -> child.equals(name))
-				.map(children::get)
-				.mapToInt(Declaration::index)
+		return IntStream.range(0, children.size())
+				.filter(value -> children.get(value).matches(name))
 				.findFirst();
 	}
 
 	@Override
 	public Type childType(String childType) {
-		return children.get(childType).type();
+		return get(childType).type();
+	}
+
+	private Declaration get(String name) {
+		return children.stream()
+				.filter(child -> child.matches(name))
+				.findFirst()
+				.orElseThrow();
 	}
 
 	@Override
@@ -98,7 +102,7 @@ public class TreeDeclaration implements Declaration {
 	public void define(String name, Type type, boolean isParameter) {
 		int childrenSize = children.size();
 		Declaration child = new TreeDeclaration(name, type, isParameter, this, childrenSize);
-		children.put(name, child);
+		children.add(child);
 	}
 
 	@Override
