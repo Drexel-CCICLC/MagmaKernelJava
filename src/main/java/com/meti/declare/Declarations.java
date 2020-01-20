@@ -21,6 +21,12 @@ public interface Declarations {
 
 	void define(Parameter parameter);
 
+	boolean isCurrent(Declaration obj);
+
+	boolean isRoot(Declaration obj);
+
+	Optional<Declaration> parentOf(String name);
+
 	Optional<Declaration> relative(String value);
 
 	Declaration root();

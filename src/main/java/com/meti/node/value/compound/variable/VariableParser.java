@@ -39,30 +39,16 @@ public class VariableParser implements Parser {
 	}
 
 	private Node parseSimple(String childName) {
-		Optional<Declaration> parentOptional = findParentWithChild(childName);
+		Optional<Declaration> parentOptional = declarations.parentOf(childName);
 		if (parentOptional.isPresent()) {
 			Declaration parent = parentOptional.get();
-			if (!isRoot(parent) && !isCurrent(parent) && parent.hasChildAsParameter(childName)) {
+			if (!declarations.isRoot(parent) && !declarations.isCurrent(parent) && parent.hasChildAsParameter(childName)) {
 				Type type = new ObjectType(declarations, childName);
-				Node firstNode = parent.toInstanceParameter();
-				return type.toField(firstNode, childName.trim()).orElseThrow();
+				Node instance = parent.toInstance();
+				return type.toField(instance, childName.trim()).orElseThrow();
 			}
 		}
 		return buildInScope(childName);
-	}
-
-	private Optional<Declaration> findParentWithChild(String childName) {
-		return declarations.stream()
-				.filter(declaration -> declaration.child(childName).isPresent())
-				.findFirst();
-	}
-
-	private boolean isRoot(Declaration obj) {
-		return declarations.root().equals(obj);
-	}
-
-	private boolean isCurrent(Declaration obj) {
-		return declarations.current().equals(obj);
 	}
 
 	private Node buildInScope(String childName) {

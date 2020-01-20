@@ -46,7 +46,7 @@ public class InvocationParser implements Parser {
 					current = actual.parent();
 				}
 				for (Declaration declaration1 : ancestors.subList(1, ancestors.size() - 1)) {
-                    Node variableNode = declaration1.toInstanceParameter();
+                    Node variableNode = declaration1.toInstance();
 					arguments.add(variableNode);
 				}
 			}

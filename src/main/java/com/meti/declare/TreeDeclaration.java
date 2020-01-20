@@ -136,7 +136,7 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	@Override
-	public Node toInstanceParameter() {
+	public Node toInstance() {
 		return new VariableNode(instanceName());
 	}
 

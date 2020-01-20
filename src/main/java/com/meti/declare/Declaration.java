@@ -34,7 +34,7 @@ public interface Declaration {
 
 	Parameter toInstancePair();
 
-	Node toInstanceParameter();
+	Node toInstance();
 
 	Node toParameter();
 

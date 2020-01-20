@@ -12,6 +12,23 @@ public class TreeDeclarations implements Declarations {
 	private final Declaration root = new TreeDeclaration(null, false, this, stack);
 
 	@Override
+	public boolean isCurrent(Declaration obj) {
+		return current().equals(obj);
+	}
+
+	@Override
+	public boolean isRoot(Declaration obj) {
+		return root().equals(obj);
+	}
+
+	@Override
+	public Optional<Declaration> parentOf(String name) {
+		return stream()
+				.filter(declaration -> declaration.child(name).isPresent())
+				.findFirst();
+	}
+
+	@Override
 	public Declaration root() {
 		return root;
 	}
