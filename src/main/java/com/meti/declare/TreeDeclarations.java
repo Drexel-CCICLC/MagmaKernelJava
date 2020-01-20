@@ -47,8 +47,8 @@ public class TreeDeclarations implements Declarations {
 
 	@Override
 	public <T> T define(String name, Type type, Supplier<? extends T> action) {
-		stack.push(name);
 		define(name, type);
+		stack.push(name);
 		T result = action.get();
 		stack.pop();
 		return result;

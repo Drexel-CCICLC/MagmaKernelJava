@@ -1,15 +1,12 @@
 package com.meti.declare;
 
+import com.meti.node.other.AnyType;
 import com.meti.node.value.primitive.integer.IntType;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TreeDeclarationsTest {
 
@@ -45,7 +42,11 @@ class TreeDeclarationsTest {
 	@Test
 	void defineWithAction() {
 		Declarations declarations = new TreeDeclarations();
-
+		Declaration child = declarations.define("parent", AnyType.INSTANCE,
+				() -> declarations.define("child", AnyType.INSTANCE));
+		Optional<Declaration> optional = declarations.absolute(Collections.singleton("parent")).child("child");
+		assertTrue(optional.isPresent());
+		assertSame(child, optional.get());
 	}
 
 	@Test
