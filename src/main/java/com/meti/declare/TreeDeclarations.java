@@ -8,9 +8,25 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class TreeDeclarations implements Declarations {
-	private final Stack<String> stack = new Stack<>();
-	private final Declaration root =
-			TreeDeclarationBuilder.create().withType(null).withParameter(false).withDeclarations(this).withStack(stack).build();
+	private final Declaration root;
+	private final Stack<String> stack;
+
+	public TreeDeclarations() {
+		this(new Stack<>());
+	}
+
+	private TreeDeclarations(Stack<String> stack) {
+		this(stack, TreeDeclarationBuilder.create()
+				.withType(null)
+				.withParameter(false)
+				.withStack(new Stack<>()));
+	}
+
+	protected TreeDeclarations(Stack<String> stack, TreeDeclarationBuilder root) {
+		this.stack = stack;
+		this.root = root.withDeclarations(this)
+				.build();
+	}
 
 	@Override
 	public boolean isCurrent(Declaration obj) {

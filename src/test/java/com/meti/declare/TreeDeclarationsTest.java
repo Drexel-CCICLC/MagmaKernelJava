@@ -3,8 +3,12 @@ package com.meti.declare;
 import com.meti.node.value.primitive.integer.IntType;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Stack;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 class TreeDeclarationsTest {
@@ -25,6 +29,17 @@ class TreeDeclarationsTest {
 
 	@Test
 	void define() {
+		Stack<String> stack = new Stack<>();
+		List<Declaration> children = new ArrayList<>();
+		TreeDeclarationBuilder builder = TreeDeclarationBuilder.create()
+				.withChildren(children)
+				.withParameter(false)
+				.withStack(stack)
+				.withType(null);
+		Declarations declarations = new TreeDeclarations(stack, builder);
+		Declaration expected = declarations.define("test", IntType.INSTANCE);
+		assertEquals(1, children.size());
+		assertEquals(expected, children.get(0));
 	}
 
 	@Test
