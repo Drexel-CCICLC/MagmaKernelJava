@@ -43,6 +43,12 @@ class TreeDeclarationsTest {
 	}
 
 	@Test
+	void defineWithAction() {
+		Declarations declarations = new TreeDeclarations();
+
+	}
+
+	@Test
 	void isCurrent() {
 	}
 
@@ -60,10 +66,6 @@ class TreeDeclarationsTest {
 
 	@Test
 	void stream() {
-	}
-
-	@Test
-	void testDefine() {
 	}
 
 	@Test

@@ -46,10 +46,10 @@ public class TreeDeclarations implements Declarations {
 	}
 
 	@Override
-	public Node define(String name, Type type, Supplier<? extends Node> action) {
+	public <T> T define(String name, Type type, Supplier<? extends T> action) {
 		stack.push(name);
 		define(name, type);
-		Node result = action.get();
+		T result = action.get();
 		stack.pop();
 		return result;
 	}

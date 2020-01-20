@@ -13,7 +13,7 @@ public interface Declarations {
 
 	Declaration current();
 
-	Node define(String name, Type type, Supplier<? extends Node> action);
+	<T> T define(String name, Type type, Supplier<? extends T> action);
 
 	Declaration define(String name, Type type);
 
