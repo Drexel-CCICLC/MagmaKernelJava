@@ -86,7 +86,7 @@ public class StructParser implements Parser {
 		Map<String, Type> paramClone = new HashMap<>();
 		List<Declaration> list = declarations.stream().collect(Collectors.toList());
 		for (int i = 1; i < list.size() - 1; i++) {
-			Map<String, Type> temp = list.get(i).toInstance(this.declarations);
+			Map<String, Type> temp = list.get(i).toInstancePair();
 			paramClone.putAll(temp);
 		}
 		return paramClone;

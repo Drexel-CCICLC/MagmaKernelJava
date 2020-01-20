@@ -8,8 +8,8 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class TreeDeclarations implements Declarations {
-	private final Declaration root = new TreeDeclaration("root", null, false, null);
 	private final Stack<String> stack = new Stack<>();
+	private final Declaration root = new TreeDeclaration(null, false, this, stack);
 
 	@Override
 	public Declaration root() {
@@ -35,8 +35,9 @@ public class TreeDeclarations implements Declarations {
 		return absolute(stack);
 	}
 
-	private Declaration absolute(Collection<String> values) {
-        return values.stream().reduce(root,
+	@Override
+	public Declaration absolute(Collection<String> values) {
+		return values.stream().reduce(root,
 				(declaration, s) -> declaration.child(s).orElseThrow(),
 				(declaration, declaration2) -> declaration2);
 	}

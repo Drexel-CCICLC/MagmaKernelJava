@@ -3,6 +3,7 @@ package com.meti.declare;
 import com.meti.node.Node;
 import com.meti.node.Type;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -15,6 +16,8 @@ public interface Declarations {
     void define(String name, Type type, boolean isParameter);
 
     Declaration root();
+
+    Declaration absolute(Collection<String> values);
 
     Optional<Declaration> relative(String value);
 

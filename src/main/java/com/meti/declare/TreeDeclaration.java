@@ -23,16 +23,17 @@ import static com.meti.node.value.primitive.point.PointerType.pointerOf;
 
 public class TreeDeclaration implements Declaration {
 	private final List<Declaration> children = new ArrayList<>();
+	private final Declarations declarations;
 	private final boolean isParameter;
-	private final String name;
-	private final Declaration parent;
+	private final List<String> stack;
 	private final Type type;
 
-	TreeDeclaration(String name, Type type, boolean isParameter, Declaration parent) {
-		this.name = name;
+	TreeDeclaration(Type type, boolean isParameter, Declarations declarations,
+	                List<String> stack) {
 		this.type = type;
 		this.isParameter = isParameter;
-		this.parent = parent;
+		this.declarations = declarations;
+		this.stack = stack;
 	}
 
 	@Override
@@ -52,7 +53,11 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	private String instanceName() {
-		return name + "_";
+		return name() + "_";
+	}
+
+	private String name() {
+		return stack.get(stack.size() - 1);
 	}
 
 	@Override
@@ -68,12 +73,12 @@ public class TreeDeclaration implements Declaration {
 		Type arrayType = arrayOf(pointerType);
 		Node sizeNode = new IntNode(paramSize);
 		Node arraySizeNode = new ArraySizeNode(pointerType, sizeNode);
-		return new DeclareNode(arrayType, name, arraySizeNode);
+		return new DeclareNode(arrayType, name(), arraySizeNode);
 	}
 
 	@Override
 	public void define(String name, Type type, boolean isParameter) {
-		Declaration child = new TreeDeclaration(name, type, isParameter, this);
+		Declaration child = new TreeDeclaration(type, isParameter, declarations, stack);
 		children.add(child);
 	}
 
@@ -102,7 +107,7 @@ public class TreeDeclaration implements Declaration {
 
 	@Override
 	public boolean matches(String name) {
-		return this.name.equals(name);
+		return name().equals(name);
 	}
 
 	@Override
@@ -114,18 +119,19 @@ public class TreeDeclaration implements Declaration {
 
 	@Override
 	public Optional<Declaration> parent() {
-		return Optional.ofNullable(parent);
+		List<String> parentStack = stack.subList(0, stack.size() - 1);
+		return Optional.ofNullable(declarations.absolute(parentStack));
 	}
 
 	@Override
-	public Map<String, Type> toInstance(Declarations source) {
-		Type type = new ObjectType(source, name);
+	public Map<String, Type> toInstancePair() {
+		Type type = new ObjectType(declarations, name());
 		return Map.of(instanceName(), type);
 	}
 
 	@Override
-	public Node toInstance() {
-		return new VariableNode(name);
+	public Node toParameter() {
+		return new VariableNode(name());
 	}
 
 	@Override
@@ -134,11 +140,11 @@ public class TreeDeclaration implements Declaration {
 				.withParameters(parameters)
 				.withReturnType(returnType)
 				.withBlock(block)
-				.withName(name);
+				.withName(name());
 	}
 
 	@Override
-	public Node toSuperVariable() {
+	public Node toInstanceParameter() {
 		return new VariableNode(instanceName());
 	}
 

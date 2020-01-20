@@ -30,13 +30,13 @@ public interface Declaration {
 
 	Optional<Declaration> parent();
 
-	Map<String, Type> toInstance(Declarations source);
+	Map<String, Type> toInstancePair();
 
-	Node toInstance();
+	Node toParameter();
 
 	StructNodeBuilder toStruct(Map<String, Type> parameters, Type returnType, Node block);
 
-	Node toSuperVariable();
+	Node toInstanceParameter();
 
 	Type type();
 }
