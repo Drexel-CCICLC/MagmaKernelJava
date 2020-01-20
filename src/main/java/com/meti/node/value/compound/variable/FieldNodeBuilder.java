@@ -3,33 +3,61 @@ package com.meti.node.value.compound.variable;
 import com.meti.node.Node;
 import com.meti.node.Type;
 
-public class FieldNodeBuilder {
-	private Type childType = null;
-	private Node instanceArray = null;
-	private String name = null;
-	private int order = -1;
-
-	public Node build() {
-		return new FieldNode(instanceArray, order, childType, name);
+public interface FieldNodeBuilder {
+	static FieldNodeBuilder create() {
+		return new FieldNodeBuilderImpl();
 	}
 
-	public FieldNodeBuilder withInstanceArray(Node instanceArray) {
-		this.instanceArray = instanceArray;
-		return this;
-	}
+	Node build();
 
-	public FieldNodeBuilder withName(String name) {
-		this.name = name;
-		return this;
-	}
+	FieldNodeBuilder withInstanceArray(Node instanceArray);
 
-	public FieldNodeBuilder withOrder(int order) {
-		this.order = order;
-		return this;
-	}
+	FieldNodeBuilder withName(String name);
 
-	public FieldNodeBuilder withType(Type childType) {
-		this.childType = childType;
-		return this;
+	FieldNodeBuilder withOrder(int order);
+
+	FieldNodeBuilder withType(Type childType);
+
+	final class FieldNodeBuilderImpl implements FieldNodeBuilder {
+		private final Type childType;
+		private final Node instanceArray;
+		private final String name;
+		private final int order;
+
+		private FieldNodeBuilderImpl() {
+			this(null, null, null, -1);
+		}
+
+		private FieldNodeBuilderImpl(Type childType, Node instanceArray, String name, int order) {
+			this.childType = childType;
+			this.instanceArray = instanceArray;
+			this.name = name;
+			this.order = order;
+		}
+
+		@Override
+		public Node build() {
+			return new FieldNode(instanceArray, order, childType, name);
+		}
+
+		@Override
+		public FieldNodeBuilder withInstanceArray(Node instanceArray) {
+			return new FieldNodeBuilderImpl(childType, instanceArray, name, order);
+		}
+
+		@Override
+		public FieldNodeBuilder withName(String name) {
+			return new FieldNodeBuilderImpl(childType, instanceArray, name, order);
+		}
+
+		@Override
+		public FieldNodeBuilder withOrder(int order) {
+			return new FieldNodeBuilderImpl(childType, instanceArray, name, order);
+		}
+
+		@Override
+		public FieldNodeBuilder withType(Type childType) {
+			return new FieldNodeBuilderImpl(childType, instanceArray, name, order);
+		}
 	}
 }

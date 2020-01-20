@@ -23,7 +23,7 @@ public class ObjectType implements Type {
 
 	@Override
 	public Optional<Node> toField(Node instance, String name) {
-		FieldNodeBuilder builder = new FieldNodeBuilder()
+		FieldNodeBuilder builder = FieldNodeBuilder.create()
 				.withName(name)
 				.withInstanceArray(instance);
 		builder = lookupFieldType(builder, name);

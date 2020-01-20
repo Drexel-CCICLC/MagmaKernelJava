@@ -19,7 +19,7 @@ public class AnyType implements Type {
 		Optional<Type> child = childType(name.trim());
 		OptionalInt order = childOrder(name.trim());
 		Node field =
-				new FieldNodeBuilder().withInstanceArray(instance).withOrder(order.orElseThrow()).withType(child.orElseThrow()).withName(name).build();
+				FieldNodeBuilder.create().withInstanceArray(instance).withOrder(order.orElseThrow()).withType(child.orElseThrow()).withName(name).build();
 		return Optional.of(field);
 	}
 
