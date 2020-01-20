@@ -15,7 +15,7 @@ public interface Declarations {
 
 	Node define(String name, Type type, Supplier<? extends Node> action);
 
-	void define(String name, Type type);
+	Declaration define(String name, Type type);
 
 	void define(String name, Type type, Runnable action);
 
