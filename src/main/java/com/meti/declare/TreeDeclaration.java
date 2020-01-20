@@ -23,27 +23,23 @@ import static com.meti.node.value.primitive.point.PointerType.pointerOf;
 
 public class TreeDeclaration implements Declaration {
 	private final List<Declaration> children = new ArrayList<>();
-	private final int index;
 	private final boolean isParameter;
 	private final String name;
 	private final Declaration parent;
 	private final Type type;
 
-	TreeDeclaration(String name, Type type, boolean isParameter, Declaration parent, int index) {
+	TreeDeclaration(String name, Type type, boolean isParameter, Declaration parent) {
 		this.name = name;
 		this.type = type;
 		this.isParameter = isParameter;
 		this.parent = parent;
-		this.index = index;
 	}
 
 	@Override
-	public Collection<Node> buildSuperConstructors(Node size, List<String> copy) {
-		Collection<Node> nodes = IntStream.range(0, copy.size())
-				.mapToObj(index -> buildSuperAssignment(index, copy.get(index)))
+	public Collection<Node> buildAssignments(List<String> parameters) {
+		return IntStream.range(0, parameters.size())
+				.mapToObj(index -> buildSuperAssignment(index, parameters.get(index)))
 				.collect(Collectors.toList());
-		nodes.add(size);
-		return nodes;
 	}
 
 	private Node buildSuperAssignment(int index, String paramName) {
@@ -100,8 +96,7 @@ public class TreeDeclaration implements Declaration {
 
 	@Override
 	public void define(String name, Type type, boolean isParameter) {
-		int childrenSize = children.size();
-		Declaration child = new TreeDeclaration(name, type, isParameter, this, childrenSize);
+		Declaration child = new TreeDeclaration(name, type, isParameter, this);
 		children.add(child);
 	}
 
@@ -109,11 +104,6 @@ public class TreeDeclaration implements Declaration {
 	public boolean hasChildAsParameter(String childName) {
 		Optional<Declaration> child = child(childName);
 		return child.isPresent() && child.get().isParameter();
-	}
-
-	@Override
-	public int index() {
-		return index;
 	}
 
 	@Override

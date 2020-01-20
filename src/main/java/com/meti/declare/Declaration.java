@@ -8,7 +8,7 @@ import com.meti.node.bracket.struct.StructNodeBuilder;
 import java.util.*;
 
 public interface Declaration {
-	Collection<Node> buildSuperConstructors(Node size, List<String> copy);
+	Collection<Node> buildAssignments(List<String> parameters);
 
 	Optional<Declaration> child(String name);
 
@@ -23,8 +23,6 @@ public interface Declaration {
 	void define(String name, Type type, boolean isParameter);
 
 	boolean hasChildAsParameter(String childName);
-
-	int index();
 
 	boolean isParameter();
 

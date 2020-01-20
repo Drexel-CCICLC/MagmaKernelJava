@@ -114,7 +114,9 @@ public class StructParser implements Parser {
 
 	private void buildInstance(Map<String, Type> parameters, Node block,
 	                           Node instanceDeclaration, Declaration current) {
-		Collection<Node> nodes = current.buildSuperConstructors(instanceDeclaration, new ArrayList<>(parameters.keySet()));
+		Collection<Node> nodes = current.buildAssignments(
+				new ArrayList<>(parameters.keySet()));
+		nodes.add(instanceDeclaration);
 		Deque<Node> children = block.children();
 		nodes.forEach(children::addFirst);
 	}
