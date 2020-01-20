@@ -24,7 +24,7 @@ public class PointerType implements Type {
 	}
 
 	@Override
-	public Optional<Type> childType(String childType) {
+	public Optional<Type> childType(String childName) {
 		return Optional.empty();
 	}
 

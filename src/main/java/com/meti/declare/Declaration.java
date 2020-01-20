@@ -16,9 +16,7 @@ public interface Declaration {
 
 	Type childType(String childType);
 
-	StructNodeBuilder createStructBuilder();
-
-	Node declareInstance(Compiler compiler, int paramSize);
+	Node declareInstance(int paramSize);
 
 	void define(String name, Type type, boolean isParameter);
 
@@ -33,6 +31,8 @@ public interface Declaration {
 	Map<String, Type> toInstance(Declarations source);
 
 	Node toInstance();
+
+	StructNodeBuilder toStruct(Map<String, Type> parameters, Type returnType, Node block);
 
 	Node toSuperVariable();
 

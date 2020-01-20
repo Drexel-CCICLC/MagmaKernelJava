@@ -42,10 +42,7 @@ public class StructParser implements Parser {
 		Map<String, Type> parameters = parseAllParameters(compiler, content);
 		Type returnType = resolveReturnType(compiler, content);
 		Node block = buildConcreteBlock(compiler, content, parameters);
-		functions.add(declarations.current().createStructBuilder()
-				.withParameters(parameters)
-				.withReturnType(returnType)
-				.withBlock(block), generator);
+		functions.add(declarations.current().toStruct(parameters, returnType, block), generator);
 		return new EmptyNode();
 	}
 
@@ -102,7 +99,7 @@ public class StructParser implements Parser {
 	private Node buildBlock(Compiler compiler, String content, Map<String, Type> parameters) {
 		Node block = parseBlock(compiler, content);
 		Declaration current = declarations.current();
-		buildInstance(parameters, block, current.declareInstance(compiler, parameters.size()), current);
+		buildInstance(parameters, block, current.declareInstance(parameters.size()), current);
 		return block;
 	}
 

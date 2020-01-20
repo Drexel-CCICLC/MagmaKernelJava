@@ -6,7 +6,7 @@ import java.util.OptionalInt;
 public interface Type {
 	OptionalInt childOrder(String childName);
 
-	Optional<Type> childType(String childType);
+	Optional<Type> childType(String childName);
 
 	boolean isNamed();
 

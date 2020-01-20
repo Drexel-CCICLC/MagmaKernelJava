@@ -80,13 +80,7 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	@Override
-	public StructNodeBuilder createStructBuilder() {
-		return StructNodeBuilder.create()
-				.withName(name);
-	}
-
-	@Override
-	public Node declareInstance(Compiler compiler, int paramSize) {
+	public Node declareInstance(int paramSize) {
 		Type pointerType = pointerOf(AnyType.INSTANCE);
 		Type arrayType = arrayOf(pointerType);
 		Node sizeNode = new IntNode(paramSize);
@@ -130,6 +124,15 @@ public class TreeDeclaration implements Declaration {
 	@Override
 	public Node toInstance() {
 		return new VariableNode(name);
+	}
+
+	@Override
+	public StructNodeBuilder toStruct(Map<String, Type> parameters, Type returnType, Node block) {
+		return StructNodeBuilder.create()
+				.withParameters(parameters)
+				.withReturnType(returnType)
+				.withBlock(block)
+				.withName(name);
 	}
 
 	@Override
