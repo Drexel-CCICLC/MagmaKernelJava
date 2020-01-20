@@ -1,19 +1,20 @@
 package com.meti.node.bracket.struct;
 
+import com.meti.declare.Parameter;
 import com.meti.node.Node;
 import com.meti.node.Type;
 
 import java.util.LinkedList;
-import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class StructNode implements Node {
 	private final Node block;
 	private final String name;
-	private final Map<String, ? extends Type> parameters;
+	private final Set<? extends Parameter> parameters;
 	private final Type returnType;
 
-	public StructNode(String name, Map<String, ? extends Type> parameters, Type returnType, Node block) {
+	StructNode(String name, Set<? extends Parameter> parameters, Type returnType, Node block) {
 		this.returnType = returnType;
 		this.name = name;
 		this.parameters = parameters;
@@ -37,9 +38,9 @@ public class StructNode implements Node {
 	}
 
 	private String joinParams() {
-		return parameters.keySet()
-				.stream()
-                .map(s -> parameters.get(s).render() + " " + s)
+		return parameters.stream()
+				.map(Parameter::render)
 				.collect(Collectors.joining(","));
 	}
+
 }

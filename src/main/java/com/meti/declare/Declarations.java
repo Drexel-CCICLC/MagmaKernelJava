@@ -19,7 +19,7 @@ public interface Declarations {
 
 	void define(String name, Type type, Runnable action);
 
-	void defineParameter(String name, Type type);
+	void define(Parameter parameter);
 
 	Optional<Declaration> relative(String value);
 

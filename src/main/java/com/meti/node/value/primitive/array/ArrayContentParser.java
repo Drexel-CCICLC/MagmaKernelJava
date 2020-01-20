@@ -1,18 +1,19 @@
 package com.meti.node.value.primitive.array;
 
 import com.meti.compile.Compiler;
+import com.meti.declare.Parameter;
 import com.meti.node.Node;
 import com.meti.node.Parser;
 import com.meti.node.Type;
 import com.meti.node.bracket.block.BlockNode;
 import com.meti.node.bracket.declare.AssignNode;
 import com.meti.node.bracket.declare.DeclareNode;
-import com.meti.node.value.primitive.integer.IntNode;
-import com.meti.node.value.compound.invoke.InvocationNode;
 import com.meti.node.bracket.struct.Generator;
 import com.meti.node.bracket.struct.ReturnNode;
 import com.meti.node.bracket.struct.StructNodeBuilder;
+import com.meti.node.value.compound.invoke.InvocationNode;
 import com.meti.node.value.compound.variable.VariableNode;
+import com.meti.node.value.primitive.integer.IntNode;
 
 import java.util.*;
 import java.util.function.Function;
@@ -87,7 +88,7 @@ public class ArrayContentParser implements Parser {
 
 	private StructNodeBuilder createBuilder(Type arrayType, Collection<String> keys) {
 		return keys.stream().reduce(StructNodeBuilder.create(),
-				(structNodeBuilder, s) -> structNodeBuilder.withParameter(s, arrayType),
+				(structNodeBuilder, s) -> structNodeBuilder.withParameter(Parameter.create(s, arrayType)),
 				(structNodeBuilder, structNodeBuilder2) -> structNodeBuilder);
 	}
 

@@ -37,14 +37,14 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	@Override
-	public Collection<Node> buildAssignments(List<String> parameters) {
+	public Collection<Node> buildAssignments(List<Parameter> parameters) {
 		return IntStream.range(0, parameters.size())
 				.mapToObj(index -> buildSuperAssignment(index, parameters.get(index)))
 				.collect(Collectors.toList());
 	}
 
-	private Node buildSuperAssignment(int index, String paramName) {
-		Node paramNode = new VariableNode(paramName);
+	private Node buildSuperAssignment(int index, Parameter paramName) {
+		Node paramNode = paramName.toNode();
 		Node pointerNode = new ReferenceNode(paramNode);
 		Node arrayNode = new VariableNode(instanceName());
 		Node indexNode = new IntNode(index);
@@ -83,8 +83,8 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	@Override
-	public void defineParameter(String name, Type type) {
-		Declaration child = new TreeDeclaration(type, true, declarations, stack);
+	public void define(Parameter parameter) {
+		Declaration child = new TreeDeclaration(parameter.type(), true, declarations, stack);
 		children.add(child);
 	}
 
@@ -130,9 +130,9 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	@Override
-	public Map<String, Type> toInstancePair() {
+	public Parameter toInstancePair() {
 		Type type = new ObjectType(declarations, name());
-		return Map.of(instanceName(), type);
+		return Parameter.create(instanceName(), type);
 	}
 
 	@Override
@@ -146,7 +146,7 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	@Override
-	public StructNodeBuilder toStruct(Map<String, Type> parameters, Type returnType, Node block) {
+	public StructNodeBuilder toStruct(Set<? extends Parameter> parameters, Type returnType, Node block) {
 		return StructNodeBuilder.create()
 				.withParameters(parameters)
 				.withReturnType(returnType)

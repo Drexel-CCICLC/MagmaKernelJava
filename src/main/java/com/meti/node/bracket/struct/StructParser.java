@@ -3,6 +3,7 @@ package com.meti.node.bracket.struct;
 import com.meti.compile.Compiler;
 import com.meti.declare.Declaration;
 import com.meti.declare.Declarations;
+import com.meti.declare.Parameter;
 import com.meti.node.EmptyNode;
 import com.meti.node.Node;
 import com.meti.node.Parser;
@@ -39,18 +40,18 @@ public class StructParser implements Parser {
 	}
 
 	private Node build(Compiler compiler, String content) {
-		Map<String, Type> parameters = parseAllParameters(compiler, content);
+		Set<Parameter> parameters = parseAllParameters(compiler, content);
 		Type returnType = resolveReturnType(compiler, content);
 		Node block = buildConcreteBlock(compiler, content, parameters);
 		functions.add(declarations.current().toStruct(parameters, returnType, block), generator);
 		return new EmptyNode();
 	}
 
-	private Map<String, Type> parseAllParameters(Compiler compiler, String content) {
-		Map<String, Type> parameters = new HashMap<>();
-		parameters.putAll(parseParameters(compiler, content));
-		parameters.putAll(buildParentParameters());
-		parameters.forEach(declarations::defineParameter);
+	private Set<Parameter> parseAllParameters(Compiler compiler, String content) {
+		Set<Parameter> parameters = new HashSet<>();
+		parameters.addAll(parseParameters(compiler, content));
+		parameters.addAll(buildParentParameters());
+		parameters.forEach(declarations::define);
 		return parameters;
 	}
 
@@ -61,7 +62,7 @@ public class StructParser implements Parser {
 		return compiler.resolveName(returnTypeString);
 	}
 
-	private Node buildConcreteBlock(Compiler compiler, String content, Map<String, Type> parameters) {
+	private Node buildConcreteBlock(Compiler compiler, String content, Set<Parameter> parameters) {
 		if (hasImplementation(content)) {
 			return buildBlock(compiler, content, parameters);
 		} else {
@@ -69,34 +70,30 @@ public class StructParser implements Parser {
 		}
 	}
 
-	private Map<String, Type> parseParameters(Compiler compiler, String content) {
+	private Collection<? extends Parameter> parseParameters(Compiler compiler, String content) {
 		int paramStart = content.indexOf('(') + 1;
 		int paramEnd = content.indexOf(')');
 		String paramsString = content.substring(paramStart, paramEnd);
 		return Arrays.stream(paramsString.split(","))
 				.map(String::trim)
 				.filter(paramString -> !paramString.isBlank())
-				.map(paramString -> paramString.split(" "))
-				.collect(Collectors.toMap(
-						strings -> strings[1],
-						strings -> compiler.resolveName(strings[0])));
+				.map(value -> Parameter.create(value, compiler))
+				.collect(Collectors.toSet());
 	}
 
-	private Map<String, Type> buildParentParameters() {
-		Map<String, Type> paramClone = new HashMap<>();
-		List<Declaration> list = declarations.stream().collect(Collectors.toList());
-		for (int i = 1; i < list.size() - 1; i++) {
-			Map<String, Type> temp = list.get(i).toInstancePair();
-			paramClone.putAll(temp);
-		}
-		return paramClone;
+	private Set<Parameter> buildParentParameters() {
+		return declarations.stream()
+				.filter(declaration -> !declarations.root().equals(declaration) &&
+						!declarations.current().equals(declaration))
+				.map(Declaration::toInstancePair)
+				.collect(Collectors.toSet());
 	}
 
 	private boolean hasImplementation(String content) {
 		return content.contains(":");
 	}
 
-	private Node buildBlock(Compiler compiler, String content, Map<String, Type> parameters) {
+	private Node buildBlock(Compiler compiler, String content, Set<Parameter> parameters) {
 		Node block = parseBlock(compiler, content);
 		Declaration current = declarations.current();
 		buildInstance(parameters, block, current.declareInstance(parameters.size()), current);
@@ -109,10 +106,9 @@ public class StructParser implements Parser {
 		return impl.isParent() ? impl : new BlockNode(Collections.singleton(impl));
 	}
 
-	private void buildInstance(Map<String, Type> parameters, Node block,
+	private void buildInstance(Set<? extends Parameter> parameters, Node block,
 	                           Node instanceDeclaration, Declaration current) {
-		Collection<Node> nodes = current.buildAssignments(
-				new ArrayList<>(parameters.keySet()));
+		Collection<Node> nodes = current.buildAssignments(new ArrayList<>(parameters));
 		nodes.add(instanceDeclaration);
 		Deque<Node> children = block.children();
 		nodes.forEach(children::addFirst);

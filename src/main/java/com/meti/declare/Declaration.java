@@ -8,7 +8,7 @@ import com.meti.node.value.compound.variable.FieldNodeBuilder;
 import java.util.*;
 
 public interface Declaration {
-	Collection<Node> buildAssignments(List<String> parameters);
+	Collection<Node> buildAssignments(List<Parameter> parameters);
 
 	Optional<Declaration> child(String name);
 
@@ -16,7 +16,7 @@ public interface Declaration {
 
 	void define(String name, Type type);
 
-	void defineParameter(String name, Type type);
+	void define(Parameter parameter);
 
 	boolean hasChildAsParameter(String childName);
 
@@ -32,13 +32,13 @@ public interface Declaration {
 
 	Optional<Declaration> parent();
 
-	Map<String, Type> toInstancePair();
+	Parameter toInstancePair();
 
 	Node toInstanceParameter();
 
 	Node toParameter();
 
-	StructNodeBuilder toStruct(Map<String, Type> parameters, Type returnType, Node block);
+	StructNodeBuilder toStruct(Set<? extends Parameter> parameters, Type returnType, Node block);
 
 	Type type();
 }

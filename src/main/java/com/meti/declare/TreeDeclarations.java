@@ -18,8 +18,8 @@ public class TreeDeclarations implements Declarations {
 
 	@Override
 	public Node define(String name, Type type, Supplier<? extends Node> action) {
-		define(name, type);
 		stack.push(name);
+		define(name, type);
 		Node result = action.get();
 		stack.pop();
 		return result;
@@ -67,14 +67,14 @@ public class TreeDeclarations implements Declarations {
 
 	@Override
 	public void define(String name, Type type, Runnable action) {
-		define(name, type);
 		stack.push(name);
+		define(name, type);
 		action.run();
 		stack.pop();
 	}
 
 	@Override
-	public void defineParameter(String name, Type type) {
-		current().defineParameter(name, type);
+	public void define(Parameter parameter) {
+		current().define(parameter);
 	}
 }
