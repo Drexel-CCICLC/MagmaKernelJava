@@ -57,7 +57,9 @@ public class TreeDeclaration implements Declaration {
 
 	@Override
 	public Optional<Declaration> child(String name) {
-		return Optional.ofNullable(get(name));
+		return children.stream()
+				.filter(child -> child.matches(name))
+				.findFirst();
 	}
 
 	@Override
@@ -143,12 +145,5 @@ public class TreeDeclaration implements Declaration {
 	@Override
 	public Type type() {
 		return type;
-	}
-
-	private Declaration get(String name) {
-		return children.stream()
-				.filter(child -> child.matches(name))
-				.findFirst()
-				.orElseThrow();
 	}
 }
