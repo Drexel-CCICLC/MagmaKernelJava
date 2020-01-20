@@ -18,7 +18,7 @@ public class TreeDeclarations implements Declarations {
 
 	@Override
 	public boolean isRoot(Declaration obj) {
-		return root().equals(obj);
+		return root.equals(obj);
 	}
 
 	@Override
@@ -26,11 +26,6 @@ public class TreeDeclarations implements Declarations {
 		return stream()
 				.filter(declaration -> declaration.child(name).isPresent())
 				.findFirst();
-	}
-
-	@Override
-	public Declaration root() {
-		return root;
 	}
 
 	@Override

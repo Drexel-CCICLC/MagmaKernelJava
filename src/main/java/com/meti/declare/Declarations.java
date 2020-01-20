@@ -29,7 +29,5 @@ public interface Declarations {
 
 	Optional<Declaration> relative(String value);
 
-	Declaration root();
-
 	Stream<Declaration> stream();
 }
