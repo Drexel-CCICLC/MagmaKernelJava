@@ -7,7 +7,10 @@ import com.meti.node.Node;
 import com.meti.node.Parser;
 import com.meti.node.Type;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class InvocationParser implements Parser {
@@ -35,21 +38,10 @@ public class InvocationParser implements Parser {
 			List<Node> arguments = Arrays.stream(args)
 					.filter(arg -> !arg.isBlank())
 					.map(compiler::parseSingle).collect(Collectors.toList());
-			//TODO: pass method as functional parameter using anonymous functions
-			Optional<Declaration> declaration = declarations.relative(callerString);
-			if (declaration.isPresent()) {
-				List<Declaration> ancestors = new ArrayList<>();
-				Optional<Declaration> current = declaration;
-				while (current.isPresent()) {
-					Declaration actual = current.get();
-					ancestors.add(actual);
-					current = actual.parent();
-				}
-				for (Declaration declaration1 : ancestors.subList(1, ancestors.size() - 1)) {
-                    Node variableNode = declaration1.toInstance();
-					arguments.add(variableNode);
-				}
-			}
+			declarations.relative(callerString).ifPresent(declaration -> declaration.ancestors()
+					.stream()
+					.map(Declaration::toInstance)
+					.forEach(arguments::add));
 			return Optional.of(new InvocationNode(caller, arguments, callerType.doesReturnVoid()));
 		}
 		return Optional.empty();

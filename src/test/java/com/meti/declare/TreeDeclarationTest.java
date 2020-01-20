@@ -2,7 +2,6 @@ package com.meti.declare;
 
 import com.meti.node.Node;
 import com.meti.node.Type;
-import com.meti.node.other.AnyType;
 import com.meti.node.value.compound.variable.FieldNodeBuilder;
 import com.meti.node.value.primitive.integer.IntType;
 import com.meti.util.Binding;
@@ -13,10 +12,26 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.meti.declare.TreeDeclarationBuilder.create;
+import static com.meti.node.other.AnyType.INSTANCE;
+import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TreeDeclarationTest {
+
+	@Test
+	void ancestors() {
+		Declarations declarations = new TreeDeclarations();
+		Declaration child = declarations.define("grandparent", INSTANCE,
+				() -> declarations.define("parent", INSTANCE,
+						() -> declarations.define("child", INSTANCE)));
+		Declaration parent = declarations.absolute(List.of("grandparent", "parent"));
+		Declaration grandparent = declarations.absolute(singleton("grandparent"));
+		List<Declaration> ancestors = child.ancestors();
+		assertEquals(2, ancestors.size());
+		assertSame(grandparent, ancestors.get(0));
+		assertSame(parent, ancestors.get(1));
+	}
 
 	@Test
 	void buildAssignments() {
@@ -92,7 +107,7 @@ class TreeDeclarationTest {
 	@Test
 	void lookupFieldType() {
 		Declaration parent = create().build();
-		parent.define("var0", AnyType.INSTANCE);
+		parent.define("var0", INSTANCE);
 		parent.define("var1", IntType.INSTANCE);
 		Binding<Type> type = Binding.empty();
 		FieldNodeBuilder expected = new TestFieldNodeBuilder(Binding.empty(), type);

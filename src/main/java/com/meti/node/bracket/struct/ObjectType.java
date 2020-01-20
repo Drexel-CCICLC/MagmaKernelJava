@@ -57,8 +57,7 @@ public class ObjectType implements Type {
 
 	@Override
 	public String render() {
-		Type any = AnyType.INSTANCE();
-		Type pointer = PointerType.pointerOf(any);
+		Type pointer = PointerType.pointerOf(AnyType.INSTANCE);
 		Type array = ArrayType.arrayOf(pointer);
 		return array.render();
 	}

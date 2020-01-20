@@ -38,6 +38,16 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	@Override
+	public List<Declaration> ancestors() {
+		List<String> buffer = new ArrayList<>();
+		return IntStream.range(0, stack.size() - 1)
+				.mapToObj(stack::get)
+				.peek(buffer::add)
+				.map(s -> declarations.absolute(buffer))
+				.collect(Collectors.toList());
+	}
+
+	@Override
 	public Collection<Node> buildAssignments(List<? extends Parameter> parameters) {
 		return IntStream.range(0, parameters.size())
 				.mapToObj(index -> buildAssignment(index, parameters.get(index)))

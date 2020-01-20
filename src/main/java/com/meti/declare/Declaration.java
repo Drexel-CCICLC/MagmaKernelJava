@@ -5,9 +5,14 @@ import com.meti.node.Type;
 import com.meti.node.bracket.struct.StructNodeBuilder;
 import com.meti.node.value.compound.variable.FieldNodeBuilder;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 public interface Declaration {
+	List<Declaration> ancestors();
+
 	Collection<Node> buildAssignments(List<? extends Parameter> parameters);
 
 	Optional<Declaration> child(String name);
@@ -28,6 +33,7 @@ public interface Declaration {
 
 	boolean matches(String name);
 
+	@Deprecated
 	Optional<Declaration> parent();
 
 	Node toInstance();

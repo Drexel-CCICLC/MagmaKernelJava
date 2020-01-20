@@ -10,10 +10,6 @@ import java.util.OptionalInt;
 public class AnyType implements Type {
 	public static final Type INSTANCE = new AnyType();
 
-	public static Type INSTANCE() {
-		return INSTANCE;
-	}
-
 	@Override
 	public Optional<Node> toField(Node instance, String name) {
 		Optional<Type> child = childType(name.trim());
@@ -23,12 +19,17 @@ public class AnyType implements Type {
 		return Optional.of(field);
 	}
 
+	private Optional<Type> childType(String childName) {
+		return Optional.empty();
+	}
+
 	private OptionalInt childOrder(String childName) {
 		return OptionalInt.empty();
 	}
 
-	private Optional<Type> childType(String childName) {
-		return Optional.empty();
+	@Override
+	public boolean doesReturnVoid() {
+		return returnType().isPresent() && returnType().get() instanceof VoidType;
 	}
 
 	@Override
@@ -49,10 +50,5 @@ public class AnyType implements Type {
 	@Override
 	public Optional<Type> returnType() {
 		return Optional.empty();
-	}
-
-	@Override
-	public boolean doesReturnVoid() {
-		return returnType().isPresent() && returnType().get() instanceof VoidType;
 	}
 }
