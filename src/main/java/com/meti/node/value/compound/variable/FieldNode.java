@@ -38,7 +38,7 @@ public class FieldNode implements Node {
 		if (childType.returnType().isPresent()) {
 			return name;
 		} else {
-			Type pointerType = new PointerType(childType);
+			Type pointerType = PointerType.pointerOf(childType);
 			Node orderNode = new IntNode(order);
 			Node arrayIndexNode = new ArrayIndexNode(parent, orderNode);
 			Node castNode = new CastNode(pointerType, arrayIndexNode);

@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class TreeDeclarations implements Declarations {
-	private final Declaration root = new TreeDeclaration("root", null, false, null);
+	private final Declaration root = new TreeDeclaration("root", null, false, null, children.size());
 	private final Stack<String> stack = new Stack<>();
 
 	@Override

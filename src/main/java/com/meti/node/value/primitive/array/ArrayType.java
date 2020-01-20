@@ -6,12 +6,16 @@ import com.meti.node.other.VoidType;
 import java.util.Optional;
 import java.util.OptionalInt;
 
-public class ArrayType implements Type {
-    private final Type elementType;
+public final class ArrayType implements Type {
+	private final Type elementType;
 
-    public ArrayType(Type elementType) {
-        this.elementType = elementType;
-    }
+	private ArrayType(Type elementType) {
+		this.elementType = elementType;
+	}
+
+	public static Type arrayOf(Type elementType) {
+		return new ArrayType(elementType);
+	}
 
 	@Override
 	public OptionalInt childOrder(String childName) {
@@ -24,24 +28,24 @@ public class ArrayType implements Type {
 	}
 
 	@Override
+	public boolean isNamed() {
+		return false;
+	}
+
+	@Override
+	public String render() {
+		return elementType.render() + "*";
+	}
+
+	@Override
 	public String renderWithName(String name) {
 		return (isNamed()) ? render() : render() + " " + name;
 	}
 
 	@Override
-    public Optional<Type> returnType() {
-        return Optional.empty();
-    }
-
-    @Override
-    public boolean isNamed() {
-        return false;
-    }
-
-    @Override
-    public String render() {
-        return elementType.render() + "*";
-    }
+	public Optional<Type> returnType() {
+		return Optional.empty();
+	}
 
 	@Override
 	public boolean doesReturnVoid() {

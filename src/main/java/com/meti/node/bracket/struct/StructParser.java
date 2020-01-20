@@ -102,7 +102,7 @@ public class StructParser implements Parser {
 	private Node buildBlock(Compiler compiler, String content, Map<String, Type> parameters) {
 		Node block = parseBlock(compiler, content);
 		Declaration current = declarations.current();
-		buildInstance(compiler, parameters, block, current.declareInstance(compiler, parameters), current);
+		buildInstance(parameters, block, current.declareInstance(compiler, parameters.size()), current);
 		return block;
 	}
 
@@ -112,9 +112,9 @@ public class StructParser implements Parser {
 		return impl.isParent() ? impl : new BlockNode(Collections.singleton(impl));
 	}
 
-	private void buildInstance(Compiler compiler, Map<String, Type> parameters, Node block,
+	private void buildInstance(Map<String, Type> parameters, Node block,
 	                           Node instanceDeclaration, Declaration current) {
-		Collection<Node> nodes = current.buildSuperConstructors(compiler, parameters, instanceDeclaration);
+		Collection<Node> nodes = current.buildSuperConstructors(instanceDeclaration, new ArrayList<>(parameters.keySet()));
 		Deque<Node> children = block.children();
 		nodes.forEach(children::addFirst);
 	}

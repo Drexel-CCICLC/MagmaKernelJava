@@ -20,7 +20,7 @@ public class ArrayResolver implements Resolver {
 			int typeEnd = trim.indexOf('>');
 			String typeString = trim.substring(typeStart, typeEnd);
 			Type type = compiler.resolveName(typeString);
-			return Optional.of(new ArrayType(type));
+			return Optional.of(ArrayType.arrayOf(type));
 		}
 		return Optional.empty();
 	}

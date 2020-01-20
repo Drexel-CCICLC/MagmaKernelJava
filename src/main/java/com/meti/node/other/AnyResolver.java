@@ -10,7 +10,7 @@ public class AnyResolver implements Resolver {
     @Override
     public Optional<Type> resolveName(String name, Compiler compiler) {
         String trim = name.trim();
-        if("Any".equals(trim)) return Optional.of(new AnyType());
+        if("Any".equals(trim)) return Optional.of(AnyType.INSTANCE());
         return Optional.empty();
     }
 

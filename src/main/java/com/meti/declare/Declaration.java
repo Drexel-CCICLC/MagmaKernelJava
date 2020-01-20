@@ -5,19 +5,12 @@ import com.meti.node.Node;
 import com.meti.node.Type;
 import com.meti.node.bracket.struct.StructNodeBuilder;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalInt;
+import java.util.*;
 
 public interface Declaration {
-	Node buildSuperAssignment(Compiler compiler, int index, String paramName);
-
-	Collection<Node> buildSuperConstructors(Compiler compiler, Map<String, Type> parameters, Node size);
+	Collection<Node> buildSuperConstructors(Node size, List<String> copy);
 
 	Optional<Declaration> child(String name);
-
-	Map<String, Type> childMap();
 
 	OptionalInt childOrder(String name);
 
@@ -25,13 +18,17 @@ public interface Declaration {
 
 	StructNodeBuilder createStructBuilder();
 
-	Node declareInstance(Compiler compiler, Map<String, Type> parameters);
+	Node declareInstance(Compiler compiler, int paramSize);
 
 	void define(String name, Type type, boolean isParameter);
 
 	boolean hasChildAsParameter(String childName);
 
+	int index();
+
 	boolean isParameter();
+
+	boolean matches(String name);
 
 	Optional<Declaration> parent();
 

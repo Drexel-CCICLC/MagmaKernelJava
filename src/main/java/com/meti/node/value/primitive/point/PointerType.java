@@ -10,8 +10,12 @@ import java.util.OptionalInt;
 public class PointerType implements Type {
 	private final Type child;
 
-	public PointerType(Type child) {
+	private PointerType(Type child) {
 		this.child = child;
+	}
+
+	public static Type pointerOf(Type child) {
+		return new PointerType(child);
 	}
 
 	@Override
@@ -25,16 +29,6 @@ public class PointerType implements Type {
 	}
 
 	@Override
-	public String renderWithName(String name) {
-		return (isNamed()) ? render() : render() + " " + name;
-	}
-
-	@Override
-	public Optional<Type> returnType() {
-		return Optional.empty();
-	}
-
-	@Override
 	public boolean isNamed() {
 		return child.isNamed();
 	}
@@ -43,6 +37,16 @@ public class PointerType implements Type {
 	public String render() {
 		//TODO: rule changes with functions?
 		return child instanceof AnyType ? "void*" : child.render() + "*";
+	}
+
+	@Override
+	public String renderWithName(String name) {
+		return (isNamed()) ? render() : render() + " " + name;
+	}
+
+	@Override
+	public Optional<Type> returnType() {
+		return Optional.empty();
 	}
 
 	@Override

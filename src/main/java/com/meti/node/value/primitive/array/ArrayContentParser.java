@@ -74,7 +74,7 @@ public class ArrayContentParser implements Parser {
 		return createBuilder(type, keys)
 				.withName(name)
 				.withBlock(block)
-				.withReturnType(new ArrayType(type));
+				.withReturnType(ArrayType.arrayOf(type));
 	}
 
 	private Node buildBlock(Type arrayType, Collection<String> keys) {
@@ -92,7 +92,7 @@ public class ArrayContentParser implements Parser {
 	}
 
 	private Node buildDeclaration(Type type, int size) {
-		Type arrayType = new ArrayType(type);
+		Type arrayType = ArrayType.arrayOf(type);
 		Node sizeNode = new IntNode(size);
 		Node arraySizeNode = new ArraySizeNode(type, sizeNode);
 		return new DeclareNode(arrayType, ARRAY_NAME, arraySizeNode);
