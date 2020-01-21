@@ -1,12 +1,12 @@
 package com.meti.declare;
 
-import com.meti.node.other.AnyType;
 import com.meti.node.value.primitive.integer.IntType;
 import com.meti.util.Binding;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
+import static com.meti.node.other.AnyType.INSTANCE;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TreeDeclarationsTest {
@@ -44,8 +44,8 @@ class TreeDeclarationsTest {
 	void defineWithRunnable() {
 		Declarations declarations = new TreeDeclarations();
 		Binding<Declaration> child = Binding.empty();
-		declarations.define("parent", AnyType.INSTANCE,
-				() -> child.set(declarations.define("child", AnyType.INSTANCE)));
+		declarations.define("parent", INSTANCE,
+				() -> child.set(declarations.define("child", INSTANCE)));
 		Optional<Declaration> optional = declarations.absolute(Collections.singleton("parent")).child("child");
 		assertTrue(optional.isPresent());
 		assertSame(child.get(), optional.get());
@@ -54,8 +54,8 @@ class TreeDeclarationsTest {
 	@Test
 	void defineWithSupplier() {
 		Declarations declarations = new TreeDeclarations();
-		Declaration child = declarations.define("parent", AnyType.INSTANCE,
-				() -> declarations.define("child", AnyType.INSTANCE));
+		Declaration child = declarations.define("parent", INSTANCE,
+				() -> declarations.define("child", INSTANCE));
 		Optional<Declaration> optional = declarations.absolute(Collections.singleton("parent")).child("child");
 		assertTrue(optional.isPresent());
 		assertSame(child, optional.get());
@@ -75,6 +75,15 @@ class TreeDeclarationsTest {
 
 	@Test
 	void relative() {
+		Declarations declarations = new TreeDeclarations();
+		declarations.define("parent", INSTANCE, () -> {
+			Declaration expected = declarations.define("child0", INSTANCE);
+			declarations.define("child1", INSTANCE, () -> {
+				Optional<Declaration> optional = declarations.relative("child0");
+				assertTrue(optional.isPresent());
+				assertSame(expected, optional.get());
+			});
+		});
 	}
 
 	@Test

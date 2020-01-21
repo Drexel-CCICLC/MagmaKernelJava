@@ -1,6 +1,5 @@
 package com.meti.declare;
 
-import com.meti.node.Node;
 import com.meti.node.Type;
 
 import java.util.*;
@@ -26,6 +25,13 @@ public class TreeDeclarations implements Declarations {
 		this.stack = stack;
 		this.root = root.withDeclarations(this)
 				.build();
+	}
+
+	@Override
+	public String toString() {
+		return "TreeDeclarations{" +
+				"stack=" + stack +
+				'}';
 	}
 
 	@Override
@@ -67,9 +73,11 @@ public class TreeDeclarations implements Declarations {
 	@Override
 	public Declaration absolute(Collection<String> values) {
 		return values.stream().reduce(root,
-				(declaration, s) -> declaration.child(s).orElseThrow(() -> new IllegalArgumentException("Child of stack " + values + " was not found.")),
+				(declaration, s) -> declaration.child(s).orElseThrow(() -> new IllegalArgumentException("Child of " +
+						"stack " + values + " was not found.")),
 				(declaration, declaration2) -> declaration2);
 	}
+
 
 	@Override
 	public Optional<Declaration> relative(String value) {

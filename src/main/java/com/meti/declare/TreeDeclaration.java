@@ -183,4 +183,11 @@ public class TreeDeclaration implements Declaration {
 	public Type type() {
 		return type;
 	}
+
+	@Override
+	public String toString() {
+		return "TreeDeclaration{" +
+				"stack=" + stack +
+				'}';
+	}
 }
