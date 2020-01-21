@@ -11,11 +11,11 @@ class SubFunctionTest extends InterpretedTest {
 	void parse() {
 		String result = interpreter.parse("""
 					val a = (Int value) => Int :{
-					val b = () => Int : {
-						return value;
+						val b = () => Int : {
+							return value;
+						};
+						return b();
 					};
-					return b();
-				};
 				""").orElseThrow();
 		assertEquals("""
 				#include <stdio.h>
