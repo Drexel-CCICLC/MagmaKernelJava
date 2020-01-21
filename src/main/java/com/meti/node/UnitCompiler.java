@@ -41,7 +41,7 @@ public class UnitCompiler implements Compiler {
 	public Type resolveValue(String value) {
 		try {
 			return rootResolver.resolveValue(value, this).orElseThrow(() -> failValue(value, null));
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			throw failValue(value, e);
 		}
 	}
