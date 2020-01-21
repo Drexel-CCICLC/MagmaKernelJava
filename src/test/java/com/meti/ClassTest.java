@@ -21,7 +21,9 @@ class ClassTest extends InterpretedTest {
 					return this;
 				};
 				val main = () => Int :{
-					val point = Point(3, 4);
+					val a = 3;
+					val b = 4;
+					val point = Point(a, b);
 					val x = point.getX();
 					val y = point.getY();
 					printf("%i", x);
