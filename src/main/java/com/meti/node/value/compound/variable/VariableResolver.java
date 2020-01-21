@@ -22,7 +22,34 @@ public class VariableResolver implements Resolver {
 
     @Override
     public Optional<Type> resolveValue(String value, Compiler compiler) {
-        return declarations.relative(value.trim())
-                .map(Declaration::type);
+        String trim = value.trim();
+        return Optional.of(trim.contains(".") ? parseAccesor(compiler, trim) : parseSimple(trim));
+    }
+
+    private Type parseAccesor(Compiler compiler, String trim) {
+        int period = trim.indexOf('.');
+        String parentString = trim.substring(0, period);
+        String childString = trim.substring(period + 1);
+        Type type = compiler.resolveValue(parentString);
+        return type.childType(childString).orElseThrow();
+    }
+
+    private Type parseSimple(String childName) {
+        Optional<Declaration> parentOptional = declarations.parentOf(childName);
+        if (parentOptional.isPresent()) {
+            Declaration parent = parentOptional.get();
+            if (!declarations.isRoot(parent) && !declarations.isCurrent(parent) && parent.hasChildAsParameter(childName)) {
+                return parent.child(childName)
+                        .map(Declaration::type)
+                        .orElseThrow();
+            }
+        }
+        return buildInScope(childName);
+    }
+
+    private Type buildInScope(String childName) {
+        return declarations.relative(childName)
+                .map(Declaration::type)
+                .orElseThrow();
     }
 }

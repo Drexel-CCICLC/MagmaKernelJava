@@ -38,4 +38,9 @@ public class IntType implements Type {
 	public Optional<Type> returnType() {
 		return Optional.empty();
 	}
+
+    @Override
+    public Optional<Type> childType(String childName) {
+		return Optional.empty();
+    }
 }

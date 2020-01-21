@@ -33,7 +33,8 @@ public class PointerType implements Type {
 		return OptionalInt.empty();
 	}
 
-	private Optional<Type> childType(String childName) {
+	@Override
+	public Optional<Type> childType(String childName) {
 		return Optional.empty();
 	}
 
