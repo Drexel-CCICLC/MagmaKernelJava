@@ -25,15 +25,6 @@ public class UnitCompiler implements Compiler {
 	}
 
 	@Override
-	public Collection<Node> parseMultiple(String value) {
-		try {
-			return rootParser.parseMultiple(value, this);
-		} catch (Exception e) {
-			throw failParse(value, e);
-		}
-	}
-
-	@Override
 	public Type resolveName(String name) {
 		try {
 			return rootResolver.resolveName(name, this).orElseThrow(() -> failName(name, null));
