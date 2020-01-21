@@ -1,77 +1,88 @@
 package com.meti.declare;
 
 import com.meti.node.Type;
+import com.meti.node.bracket.declare.Flag;
 import com.meti.node.other.AnyType;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public interface TreeDeclarationBuilder {
-	static TreeDeclarationBuilder create() {
-		return new TreeDeclarationBuilderImpl();
-	}
+    static TreeDeclarationBuilder create() {
+        return new TreeDeclarationBuilderImpl();
+    }
 
-	Declaration build();
+    Declaration build();
 
-	TreeDeclarationBuilder withChildren(List<Declaration> children);
+    TreeDeclarationBuilder withFlags(Set<Flag> flags);
 
-	TreeDeclarationBuilder withDeclarations(Declarations declarations);
+    TreeDeclarationBuilder withChildren(List<Declaration> children);
 
-	TreeDeclarationBuilder withParameter(boolean parameter);
+    TreeDeclarationBuilder withDeclarations(Declarations declarations);
 
-	TreeDeclarationBuilder withStack(List<String> stack);
+    TreeDeclarationBuilder withParameter(boolean parameter);
 
-	TreeDeclarationBuilder withType(Type type);
+    TreeDeclarationBuilder withStack(List<String> stack);
 
-	final class TreeDeclarationBuilderImpl implements TreeDeclarationBuilder {
-		private final List<Declaration> children;
-		private final Declarations declarations;
-		private final boolean parameter;
-		private final List<String> stack;
-		private final Type type;
+    TreeDeclarationBuilder withType(Type type);
 
-		private TreeDeclarationBuilderImpl() {
-			this(null, false, Collections.emptyList(), AnyType.INSTANCE, new ArrayList<Declaration>());
-		}
+    final class TreeDeclarationBuilderImpl implements TreeDeclarationBuilder {
+        private final List<Declaration> children;
+        private final Declarations declarations;
+        private final boolean parameter;
+        private final List<String> stack;
+        private final Type type;
+        private final Set<Flag> flags;
 
-		private TreeDeclarationBuilderImpl(Declarations declarations, boolean parameter, List<String> stack,
-		                                   Type type, List<Declaration> children) {
-			this.declarations = declarations;
-			this.parameter = parameter;
-			this.stack = stack;
-			this.type = type;
-			this.children = children;
-		}
+        private TreeDeclarationBuilderImpl() {
+            this(null, false, Collections.emptyList(), AnyType.INSTANCE, new ArrayList<>(), Collections.emptySet());
+        }
 
-		@Override
-		public TreeDeclarationBuilder withChildren(List<Declaration> children) {
-			return new TreeDeclarationBuilderImpl(declarations, parameter, stack, type, children);
-		}
+        private TreeDeclarationBuilderImpl(Declarations declarations, boolean parameter, List<String> stack,
+                                           Type type, List<Declaration> children, Set<Flag> flags) {
+            this.declarations = declarations;
+            this.parameter = parameter;
+            this.stack = stack;
+            this.type = type;
+            this.children = children;
+            this.flags = flags;
+        }
 
-		@Override
-		public Declaration build() {
-			return new TreeDeclaration(type, parameter, declarations, stack, children);
-		}
+        @Override
+        public TreeDeclarationBuilder withFlags(Set<Flag> flags) {
+            return new TreeDeclarationBuilderImpl(declarations, parameter, stack, type, children, flags);
+        }
 
-		@Override
-		public TreeDeclarationBuilder withDeclarations(Declarations declarations) {
-			return new TreeDeclarationBuilderImpl(declarations, parameter, stack, type, children);
-		}
+        @Override
+        public TreeDeclarationBuilder withChildren(List<Declaration> children) {
+            return new TreeDeclarationBuilderImpl(declarations, parameter, stack, type, children, flags);
+        }
 
-		@Override
-		public TreeDeclarationBuilder withParameter(boolean parameter) {
-			return new TreeDeclarationBuilderImpl(declarations, parameter, stack, type, children);
-		}
+        @Override
+        public Declaration build() {
+            return new TreeDeclaration(type, parameter, declarations, stack, children, flags);
+        }
 
-		@Override
-		public TreeDeclarationBuilder withStack(List<String> stack) {
-			return new TreeDeclarationBuilderImpl(declarations, parameter, stack, type, children);
-		}
+        @Override
+        public TreeDeclarationBuilder withDeclarations(Declarations declarations) {
+            return new TreeDeclarationBuilderImpl(declarations, parameter, stack, type, children, flags);
+        }
 
-		@Override
-		public TreeDeclarationBuilder withType(Type type) {
-			return new TreeDeclarationBuilderImpl(declarations, parameter, stack, type, children);
-		}
-	}
+        @Override
+        public TreeDeclarationBuilder withParameter(boolean parameter) {
+            return new TreeDeclarationBuilderImpl(declarations, parameter, stack, type, children, flags);
+        }
+
+        @Override
+        public TreeDeclarationBuilder withStack(List<String> stack) {
+            return new TreeDeclarationBuilderImpl(declarations, parameter, stack, type, children, flags);
+        }
+
+        @Override
+        public TreeDeclarationBuilder withType(Type type) {
+            return new TreeDeclarationBuilderImpl(declarations, parameter, stack, type, children, flags);
+        }
+    }
 }

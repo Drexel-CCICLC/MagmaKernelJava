@@ -14,7 +14,7 @@ class TreeDeclarationsTest {
 	@Test
 	void absolute() {
 		Declarations declarations = new TreeDeclarations();
-		Declaration expected = declarations.define("main", IntType.INSTANCE);
+		Declaration expected = declarations.define("main", IntType.INSTANCE, Collections.emptySet());
 		Declaration actual = declarations.absolute(Collections.singleton("main"));
 		assertSame(expected, actual);
 	}
@@ -35,7 +35,7 @@ class TreeDeclarationsTest {
 				.withStack(stack)
 				.withType(null);
 		Declarations declarations = new TreeDeclarations(stack, builder);
-		Declaration expected = declarations.define("test", IntType.INSTANCE);
+		Declaration expected = declarations.define("test", IntType.INSTANCE, Collections.emptySet());
 		assertEquals(1, children.size());
 		assertEquals(expected, children.get(0));
 	}
@@ -45,7 +45,7 @@ class TreeDeclarationsTest {
 		Declarations declarations = new TreeDeclarations();
 		Binding<Declaration> child = Binding.empty();
 		declarations.define("parent", INSTANCE,
-				() -> child.set(declarations.define("child", INSTANCE)));
+				() -> child.set(declarations.define("child", INSTANCE, Collections.emptySet())));
 		Optional<Declaration> optional = declarations.absolute(Collections.singleton("parent")).child("child");
 		assertTrue(optional.isPresent());
 		assertSame(child.get(), optional.get());
@@ -55,7 +55,7 @@ class TreeDeclarationsTest {
 	void defineWithSupplier() {
 		Declarations declarations = new TreeDeclarations();
 		Declaration child = declarations.define("parent", INSTANCE,
-				() -> declarations.define("child", INSTANCE));
+				() -> declarations.define("child", INSTANCE, Collections.emptySet()));
 		Optional<Declaration> optional = declarations.absolute(Collections.singleton("parent")).child("child");
 		assertTrue(optional.isPresent());
 		assertSame(child, optional.get());
@@ -77,7 +77,7 @@ class TreeDeclarationsTest {
 	void relative() {
 		Declarations declarations = new TreeDeclarations();
 		declarations.define("parent", INSTANCE, () -> {
-			Declaration expected = declarations.define("child0", INSTANCE);
+			Declaration expected = declarations.define("child0", INSTANCE, Collections.emptySet());
 			declarations.define("child1", INSTANCE, () -> {
 				Optional<Declaration> optional = declarations.relative("child0");
 				assertTrue(optional.isPresent());

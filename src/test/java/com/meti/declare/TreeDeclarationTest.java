@@ -8,6 +8,7 @@ import com.meti.util.Binding;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ class TreeDeclarationTest {
 		Declarations declarations = new TreeDeclarations();
 		Declaration child = declarations.define("grandparent", INSTANCE,
 				() -> declarations.define("parent", INSTANCE,
-						() -> declarations.define("child", INSTANCE)));
+						() -> declarations.define("child", INSTANCE, Collections.emptySet())));
 		Declaration parent = declarations.absolute(List.of("grandparent", "parent"));
 		Declaration grandparent = declarations.absolute(singleton("grandparent"));
 		List<Declaration> ancestors = child.ancestors();
@@ -61,7 +62,7 @@ class TreeDeclarationTest {
 		Declaration root = create()
 				.withChildren(children)
 				.build();
-		Declaration child = root.define("test", IntType.INSTANCE);
+		Declaration child = root.define("test", IntType.INSTANCE, Collections.emptySet());
 		assertEquals(1, children.size());
 		assertTrue(children.contains(child));
 	}
@@ -95,8 +96,8 @@ class TreeDeclarationTest {
 	@Test
 	void lookupFieldOrder() {
 		Declaration parent = create().build();
-		parent.define("var0", IntType.INSTANCE);
-		parent.define("var1", IntType.INSTANCE);
+		parent.define("var0", IntType.INSTANCE, Collections.emptySet());
+		parent.define("var1", IntType.INSTANCE, Collections.emptySet());
 		Binding<Integer> order = Binding.empty();
 		FieldNodeBuilder expected = new TestFieldNodeBuilder(order, Binding.empty());
 		FieldNodeBuilder actual = parent.lookupFieldOrder("var1", expected);
@@ -107,8 +108,8 @@ class TreeDeclarationTest {
 	@Test
 	void lookupFieldType() {
 		Declaration parent = create().build();
-		parent.define("var0", INSTANCE);
-		parent.define("var1", IntType.INSTANCE);
+		parent.define("var0", INSTANCE, Collections.emptySet());
+		parent.define("var1", IntType.INSTANCE, Collections.emptySet());
 		Binding<Type> type = Binding.empty();
 		FieldNodeBuilder expected = new TestFieldNodeBuilder(Binding.empty(), type);
 		FieldNodeBuilder actual = parent.lookupFieldType("var1", expected);

@@ -10,6 +10,7 @@ import com.meti.node.bracket.struct.ObjectType;
 import com.meti.node.value.primitive.integer.IntType;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import static com.meti.node.bracket.struct.StructTypeBuilder.create;
@@ -21,9 +22,9 @@ class VariableParserTest {
 	void field() {
 		Declarations declarations = new TreeDeclarations();
 		declarations.define("Point", create().build(), () -> {
-			declarations.define("x", IntType.INSTANCE);
+			declarations.define("x", IntType.INSTANCE, Collections.emptySet());
 		});
-		declarations.define("a", new ObjectType(declarations, "Point"));
+		declarations.define("a", new ObjectType(declarations, "Point"), Collections.emptySet());
 		Compiler compiler = new UnitCompiler(new VariableParser(declarations), new VariableResolver(declarations));
 		Node node = compiler.parseSingle("a.x");
 		assertEquals("*(int*)a[0]", node.render());
@@ -32,7 +33,7 @@ class VariableParserTest {
 	@Test
 	void simple() {
 		Declarations declarations = new TreeDeclarations();
-		declarations.define("test", IntType.INSTANCE);
+		declarations.define("test", IntType.INSTANCE, Collections.emptySet());
 		Parser parser = new VariableParser(declarations);
 		Optional<Node> node = parser.parse("test", null);
 		assertTrue(node.isPresent());

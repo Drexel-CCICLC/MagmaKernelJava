@@ -1,6 +1,6 @@
 package com.meti.node.bracket.declare;
 
-enum Flag {
+public enum Flag {
     NATIVE,
     VAL,
     VAR

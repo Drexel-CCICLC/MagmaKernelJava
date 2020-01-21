@@ -2,9 +2,11 @@ package com.meti.declare;
 
 import com.meti.node.Node;
 import com.meti.node.Type;
+import com.meti.node.bracket.declare.Flag;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -15,7 +17,7 @@ public interface Declarations {
 
 	<T> T define(String name, Type type, Supplier<? extends T> action);
 
-	Declaration define(String name, Type type);
+	Declaration define(String name, Type type, Set<Flag> flags);
 
 	void define(String name, Type type, Runnable action);
 
