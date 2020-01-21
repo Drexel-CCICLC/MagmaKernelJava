@@ -22,8 +22,10 @@ class ClassTest extends InterpretedTest {
 				};
 				val main = () => Int :{
 					val point = Point(3, 4);
-					printf("%i", point.getX());
-					printf("%i", point.getY());
+					val x = point.getX();
+					val y = point.getY();
+					printf("%i", x);
+					printf("%i", y);
 				};
 				   """);
 		assertEquals("34", result);
