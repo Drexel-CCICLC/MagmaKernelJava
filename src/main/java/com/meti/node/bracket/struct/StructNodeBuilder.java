@@ -1,11 +1,12 @@
 package com.meti.node.bracket.struct;
 
+import com.meti.declare.Parameter;
 import com.meti.node.Node;
 import com.meti.node.Type;
 import com.meti.node.other.VoidType;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 public interface StructNodeBuilder {
 	static StructNodeBuilder create() {
@@ -18,21 +19,26 @@ public interface StructNodeBuilder {
 
 	StructNodeBuilder withName(String name);
 
-	StructNodeBuilder withParameter(String name, Type type);
+	default StructNodeBuilder withParameters(Set<? extends Parameter> parameters) {
+		parameters.forEach(this::withParameter);
+		return this;
+	}
+
+	StructNodeBuilder withParameter(Parameter parameter);
 
 	StructNodeBuilder withReturnType(Type returnType);
 
 	final class StructNodeBuilderImpl implements StructNodeBuilder {
 		private final Node block;
 		private final String name;
-		private final Map<String, Type> parameters;
+		private final Set<Parameter> parameters;
 		private final Type returnType;
 
 		private StructNodeBuilderImpl() {
-			this(null, null, new HashMap<>(), null);
+			this(null, null, new HashSet<>(), null);
 		}
 
-		private StructNodeBuilderImpl(Node block, String name, Map<String, Type> parameters, Type returnType) {
+		private StructNodeBuilderImpl(Node block, String name, Set<Parameter> parameters, Type returnType) {
 			this.block = block;
 			this.name = name;
 			this.parameters = parameters;
@@ -65,10 +71,10 @@ public interface StructNodeBuilder {
 		}
 
 		@Override
-		public StructNodeBuilder withParameter(String name, Type type) {
-			parameters.put(name, type);
-            return this;
-        }
+		public StructNodeBuilder withParameter(Parameter parameter) {
+			parameters.add(parameter);
+			return this;
+		}
 
 		@Override
 		public StructNodeBuilder withReturnType(Type returnType) {

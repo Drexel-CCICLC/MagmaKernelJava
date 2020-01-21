@@ -18,6 +18,7 @@ import com.meti.node.bracket.struct.StructResolver;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -34,9 +35,9 @@ class DeclareParserTest {
 				new AnyResolver(),
 				new VoidResolver()));
 		Parser parser = new DeclareParser(declarations);
-		Collection<Node> collection = parser.parseMultiple("native val printf = (String format, Any value) => Void",
+		Optional<Node> collection = parser.parse("native val printf = (String format, Any value) => Void",
                 compiler);
 		assertFalse(collection.isEmpty());
-		assertSame(EmptyNode.class, collection.toArray()[0].getClass());
+		assertSame(EmptyNode.class, collection.get().getClass());
 	}
 }

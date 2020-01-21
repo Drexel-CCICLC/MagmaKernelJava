@@ -1,30 +1,22 @@
 package com.meti.node.value.primitive.integer;
 
+import com.meti.node.Node;
 import com.meti.node.Type;
 import com.meti.node.other.VoidType;
 
 import java.util.Optional;
-import java.util.OptionalInt;
 
 public class IntType implements Type {
-
-	public static final IntType INSTANCE = new IntType();
-
-	private IntType() {
-	}
-
-	public static IntType INSTANCE() {
-		return INSTANCE;
-	}
+	public static final Type INSTANCE = new IntType();
 
 	@Override
-	public OptionalInt childOrder(String childName) {
-		return OptionalInt.empty();
-	}
-
-	@Override
-	public Optional<Type> childType(String childName) {
+	public Optional<Node> toField(Node instance, String name) {
 		return Optional.empty();
+	}
+
+	@Override
+	public boolean doesReturnVoid() {
+		return returnType().isPresent() && returnType().get() instanceof VoidType;
 	}
 
 	@Override
@@ -43,12 +35,7 @@ public class IntType implements Type {
 	}
 
 	@Override
-    public Optional<Type> returnType() {
-        return Optional.empty();
-    }
-
-	@Override
-	public boolean doesReturnVoid() {
-		return returnType().isPresent() && returnType().get() instanceof VoidType;
+	public Optional<Type> returnType() {
+		return Optional.empty();
 	}
 }

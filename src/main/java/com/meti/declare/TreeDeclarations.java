@@ -1,6 +1,5 @@
 package com.meti.declare;
 
-import com.meti.node.Node;
 import com.meti.node.Type;
 
 import java.util.*;
@@ -8,76 +7,111 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class TreeDeclarations implements Declarations {
-    private final Declaration root = new SimpleTreeDeclaration("root", null, null);
-    private final Stack<String> stack = new Stack<>();
+	private final Declaration root;
+	private final Stack<String> stack;
 
-    @Override
-    public Declaration root() {
-        return root;
-    }
+	public TreeDeclarations() {
+		this(new Stack<>());
+	}
 
-    @Override
-    public Node define(String name, Supplier<? extends Node> action, DeclarationBuilder builder) {
-        define(name, builder);
-        stack.push(name);
-        Node result = action.get();
-        stack.pop();
-        return result;
-    }
+	private TreeDeclarations(Stack<String> stack) {
+		this(stack, TreeDeclarationBuilder.create()
+				.withType(null)
+				.withParameter(false)
+				.withStack(new Stack<>()));
+	}
 
-    @Override
-    public void define(String name, DeclarationBuilder builder) {
-        current().define(builder);
-    }
+	TreeDeclarations(Stack<String> stack, TreeDeclarationBuilder root) {
+		this.stack = stack;
+		this.root = root.withDeclarations(this)
+				.build();
+	}
 
-    @Override
-    public Declaration current() {
-        return absolute(stack);
-    }
+	@Override
+	public String toString() {
+		return "TreeDeclarations{" +
+				"stack=" + stack +
+				'}';
+	}
 
-    private Declaration absolute(Iterable<String> values) {
-        Declaration current = root;
-        for (String value : values) {
-            current = current.child(value)
-                    .orElseThrow();
-        }
-        return current;
-    }
+	@Override
+	public boolean isCurrent(Declaration obj) {
+		return current().equals(obj);
+	}
 
-    @Override
-    public Optional<Declaration> relative(String value) {
-        Deque<String> reverseStack = new LinkedList<>(stack);
-        while (!reverseStack.isEmpty()) {
-            Optional<Declaration> optional = absolute(reverseStack).child(value);
-            if (optional.isPresent()) {
-                return optional;
-            } else {
-                reverseStack.pollLast();
-            }
-        }
-        return root.child(value);
-    }
+	@Override
+	public boolean isRoot(Declaration obj) {
+		return root.equals(obj);
+	}
 
-    @Override
-    public Stream<Declaration> stream() {
-        Collection<Declaration> declarations = new ArrayList<>();
-        Deque<String> reverseStack = new LinkedList<>(stack);
-        while (!reverseStack.isEmpty()) {
-            declarations.add(absolute(reverseStack));
-            reverseStack.pollLast();
-        }
-        declarations.add(root);
-        return declarations.stream();
-    }
+	@Override
+	public Optional<Declaration> parentOf(String name) {
+		return stream()
+				.filter(declaration -> declaration.child(name).isPresent())
+				.findFirst();
+	}
 
-    @Override
-    public void define(String name, Type type, Runnable action) {
-        define(name, DeclarationBuilder.create()
-                .withName(name)
-                .withType(type)
-                .flagAsParameter());
-        stack.push(name);
-        action.run();
-        stack.pop();
-    }
+	@Override
+	public <T> T define(String name, Type type, Supplier<? extends T> action) {
+		define(name, type);
+		stack.push(name);
+		T result = action.get();
+		stack.pop();
+		return result;
+	}
+
+	@Override
+	public Declaration define(String name, Type type) {
+		return current().define(name, type);
+	}
+
+	@Override
+	public Declaration current() {
+		return absolute(stack);
+	}
+
+	@Override
+	public Declaration absolute(Collection<String> values) {
+		return values.stream().reduce(root,
+				(declaration, s) -> declaration.child(s).orElseThrow(() -> new IllegalArgumentException("Child of " +
+						"stack " + values + " was not found.")),
+				(declaration, declaration2) -> declaration2);
+	}
+
+
+	@Override
+	public Optional<Declaration> relative(String value) {
+		Deque<String> reverseStack = new LinkedList<>(stack);
+		while (!reverseStack.isEmpty()) {
+			Optional<Declaration> optional = absolute(reverseStack).child(value);
+			if (optional.isPresent()) return optional;
+			reverseStack.pollLast();
+		}
+		return root.child(value);
+	}
+
+	@Override
+	public Stream<Declaration> stream() {
+		Collection<Declaration> declarations = new ArrayList<>();
+		Deque<String> reverseStack = new LinkedList<>(stack);
+		while (!reverseStack.isEmpty()) {
+			declarations.add(absolute(reverseStack));
+			reverseStack.pollLast();
+		}
+		declarations.add(root);
+		return declarations.stream();
+	}
+
+	@Override
+	public void define(String name, Type type, Runnable action) {
+		define(name, type);
+		stack.push(name);
+		action.run();
+		stack.pop();
+	}
+
+	@Override
+	public void define(Parameter parameter) {
+		current().define(parameter);
+	}
 }

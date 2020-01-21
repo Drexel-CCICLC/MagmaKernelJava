@@ -8,67 +8,46 @@ import com.meti.node.Parser;
 import com.meti.node.Type;
 import com.meti.node.bracket.struct.ObjectType;
 
-import java.util.Collection;
 import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.stream.Collectors;
 
 public class VariableParser implements Parser {
-    private final Declarations declarations;
+	private final Declarations declarations;
 
-    public VariableParser(Declarations declarations) {
-        this.declarations = declarations;
-    }
+	public VariableParser(Declarations declarations) {
+		this.declarations = declarations;
+	}
 
-    @Override
-    public Collection<Node> parseMultiple(String value, Compiler compiler) {
-        return parse(value, compiler).stream().collect(Collectors.toSet());
-    }
+	@Override
+	public Optional<Node> parse(String value, Compiler compiler) {
+		String trim = value.trim();
+		return Optional.of(trim.contains(".") ? parseAccesor(compiler, trim) : parseSimple(trim));
+	}
 
-    private Optional<Node> parse(String value, Compiler compiler) {
-        String trim = value.trim();
-        return trim.contains(".") ? parseAccesor(compiler, trim) : parseSimple(trim);
-    }
+	private Node parseAccesor(Compiler compiler, String trim) {
+		int period = trim.indexOf('.');
+		String parentString = trim.substring(0, period);
+		String childString = trim.substring(period + 1);
+		Node parent = compiler.parseSingle(parentString);
+		Type type = compiler.resolveValue(parentString);
+		return type.toField(parent, childString.trim().trim()).orElseThrow();
+	}
 
-    private Optional<Node> parseAccesor(Compiler compiler, String trim) {
-        int period = trim.indexOf('.');
-        String parentString = trim.substring(0, period);
-        String childString = trim.substring(period + 1);
-        Node parent = compiler.parseSingle(parentString);
-        Type type = compiler.resolveValue(parentString);
-        return buildField(type, parent, childString.trim());
-    }
+	private Node parseSimple(String childName) {
+		Optional<Declaration> parentOptional = declarations.parentOf(childName);
+		if (parentOptional.isPresent()) {
+			Declaration parent = parentOptional.get();
+			if (!declarations.isRoot(parent) && !declarations.isCurrent(parent) && parent.hasChildAsParameter(childName)) {
+				Type type = parent.toObject();
+				Node instance = parent.toInstance();
+				return type.toField(instance, childName.trim()).orElseThrow();
+			}
+		}
+		return buildInScope(childName);
+	}
 
-    private Optional<Node> parseSimple(String childName) {
-        Optional<Declaration> parentOptional = findParentWithChild(childName);
-        if (parentOptional.isPresent()) {
-            Declaration parent = parentOptional.get();
-            if (!declarations.isRoot(parent) &&
-                    !declarations.isCurrent(parent) &&
-					parent.hasParameter(childName)) {
-                Type type = new ObjectType(declarations, childName);
-                Node firstNode = new VariableNode(parent.name() + "_");
-                return buildField(type, firstNode, childName);
-            }
-        }
-        return buildInScope(childName);
-    }
-
-    private Optional<Node> buildField(Type parentType, Node parentNode, String name) {
-        Optional<Type> child = parentType.childType(name.trim());
-        OptionalInt order = parentType.childOrder(name.trim());
-        return Optional.of(new FieldNode(parentNode, order.orElseThrow(), child.orElseThrow(), name));
-    }
-
-    private Optional<Declaration> findParentWithChild(String childName) {
-        return declarations.stream()
-                .filter(declaration -> declaration.child(childName).isPresent())
-                .findFirst();
-    }
-
-    private Optional<Node> buildInScope(String childName) {
-        return declarations.relative(childName)
-                .map(Declaration::name)
-                .map(VariableNode::new);
-    }
+	private Node buildInScope(String childName) {
+		return declarations.relative(childName)
+				.map(Declaration::toParameter)
+				.orElseThrow();
+	}
 }

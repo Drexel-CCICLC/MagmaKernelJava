@@ -4,12 +4,11 @@ import com.meti.compile.Compiler;
 import com.meti.node.Node;
 import com.meti.node.Parser;
 
-import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class OperationParser implements Parser {
-    private Optional<Node> parse(String value, Compiler compiler) {
+	@Override
+	public Optional<Node> parse(String value, Compiler compiler) {
         for (Operation operation : Operations.values()) {
             String operationValue = operation.value();
             if (value.contains(operationValue)) {
@@ -24,8 +23,4 @@ public class OperationParser implements Parser {
         return Optional.empty();
     }
 
-	@Override
-	public Collection<Node> parseMultiple(String value, Compiler compiler) {
-		return parse(value, compiler).stream().collect(Collectors.toSet());
-	}
 }

@@ -3,30 +3,31 @@ package com.meti.declare;
 import com.meti.node.Node;
 import com.meti.node.Type;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public interface Declarations {
-    Declaration current();
+	Declaration absolute(Collection<String> values);
 
-    Node define(String name, Supplier<? extends Node> action, DeclarationBuilder builder);
+	Declaration current();
 
-    void define(String name, DeclarationBuilder builder);
+	<T> T define(String name, Type type, Supplier<? extends T> action);
 
-    Declaration root();
+	Declaration define(String name, Type type);
 
-    Optional<Declaration> relative(String value);
+	void define(String name, Type type, Runnable action);
 
-    Stream<Declaration> stream();
+	void define(Parameter parameter);
 
-    void define(String name, Type type, Runnable action);
+	boolean isCurrent(Declaration obj);
 
-    default boolean isCurrent(Declaration obj) {
-        return current().equals(obj);
-    }
+	boolean isRoot(Declaration obj);
 
-    default boolean isRoot(Declaration obj) {
-        return root().equals(obj);
-    }
+	Optional<Declaration> parentOf(String name);
+
+	Optional<Declaration> relative(String value);
+
+	Stream<Declaration> stream();
 }

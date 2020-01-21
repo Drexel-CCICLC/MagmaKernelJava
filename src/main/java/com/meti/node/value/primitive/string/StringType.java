@@ -7,6 +7,6 @@ import com.meti.node.value.primitive.point.PointerType;
 public class StringType extends PrimitiveType {
     @Override
     public String render() {
-		return new PointerType(new CharType()).render();
+		return PointerType.pointerOf(new CharType()).render();
     }
 }

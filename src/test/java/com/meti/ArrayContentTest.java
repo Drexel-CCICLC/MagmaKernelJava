@@ -1,13 +1,14 @@
 package com.meti;
 
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ArrayContentTest extends InterpretedTest{
-	@Test
+class ArrayContentTest extends InterpretedTest {
+	@RepeatedTest(3)
 	void test() throws IOException, InterruptedException {
 		String result = interpreter.run("""
 				native val printf = (String format, Any value) => Void;

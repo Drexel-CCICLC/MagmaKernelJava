@@ -17,12 +17,11 @@ public interface StructTypeBuilder {
 
     StructTypeBuilder withParameter(Type parameter);
 
-    @Deprecated
     StructTypeBuilder withParameters(List<Type> parameters);
 
     Type build();
 
-    class StructTypeBuilderImpl implements StructTypeBuilder {
+    final class StructTypeBuilderImpl implements StructTypeBuilder {
         private final Type returnType;
         private final String name;
         private final List<Type> parameters;

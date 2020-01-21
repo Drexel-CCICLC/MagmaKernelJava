@@ -13,7 +13,7 @@ public class PointerResolver implements Resolver {
 		if (trim.endsWith("*")) {
 			String value = name.substring(0, name.length() - 1);
 			Type child = compiler.resolveName(value);
-			return Optional.of(new PointerType(child));
+			return Optional.of(PointerType.pointerOf(child));
 		}
 		return Optional.empty();
 	}
