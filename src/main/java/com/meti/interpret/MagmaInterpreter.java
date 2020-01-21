@@ -70,6 +70,7 @@ public class MagmaInterpreter implements Interpreter {
 
 	@Override
 	public String run(String content) throws IOException, InterruptedException {
-		return parent.run(parse(content).orElseThrow());
+		String code = parse(content).orElseThrow();
+		return parent.run(code);
 	}
 }
