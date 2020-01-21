@@ -18,6 +18,8 @@ public interface Parameter {
 		return new ParameterImpl(type, name);
 	}
 
+	String name();
+
 	String render();
 
 	Node toNode();
@@ -31,6 +33,11 @@ public interface Parameter {
 		private ParameterImpl(Type type, String name) {
 			this.type = type;
 			this.name = name;
+		}
+
+		@Override
+		public String name() {
+			return name;
 		}
 
 		@Override

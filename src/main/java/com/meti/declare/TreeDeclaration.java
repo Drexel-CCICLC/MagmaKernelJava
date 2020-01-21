@@ -105,11 +105,13 @@ public class TreeDeclaration implements Declaration {
 
 	@Override
 	public Declaration define(Parameter parameter) {
+		List<String> stackCopy = new ArrayList<>(stack);
+		stackCopy.add(parameter.name());
 		Declaration child = TreeDeclarationBuilder.create()
 				.withDeclarations(declarations)
 				.withType(parameter.type())
 				.withParameter(true)
-				.withStack(stack)
+				.withStack(stackCopy)
 				.build();
 		children.add(child);
 		return child;
