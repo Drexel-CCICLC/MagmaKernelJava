@@ -166,6 +166,11 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	@Override
+	public Type toObject() {
+		return new ObjectType(declarations, name());
+	}
+
+	@Override
 	public Node toParameter() {
 		return new VariableNode(name());
 	}

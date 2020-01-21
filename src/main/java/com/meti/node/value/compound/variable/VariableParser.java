@@ -37,7 +37,7 @@ public class VariableParser implements Parser {
 		if (parentOptional.isPresent()) {
 			Declaration parent = parentOptional.get();
 			if (!declarations.isRoot(parent) && !declarations.isCurrent(parent) && parent.hasChildAsParameter(childName)) {
-				Type type = new ObjectType(declarations, childName);
+				Type type = parent.toObject();
 				Node instance = parent.toInstance();
 				return type.toField(instance, childName.trim()).orElseThrow();
 			}

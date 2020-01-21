@@ -40,6 +40,8 @@ public interface Declaration {
 
 	Parameter toInstancePair();
 
+	Type toObject();
+
 	Node toParameter();
 
 	StructNodeBuilder toStruct(Set<? extends Parameter> parameters, Type returnType, Node block);
