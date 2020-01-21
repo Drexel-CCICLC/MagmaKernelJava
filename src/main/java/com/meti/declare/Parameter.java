@@ -42,12 +42,12 @@ public interface Parameter {
 
 		@Override
 		public String render() {
-			return type().render() + " " + name;
+			return type().render() + "* " + name;
 		}
 
 		@Override
 		public Node toNode() {
-			return new VariableNode(name);
+			return new VariableNode(name, false);
 		}
 
 		@Override

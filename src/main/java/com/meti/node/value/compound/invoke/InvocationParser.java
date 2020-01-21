@@ -38,7 +38,7 @@ public class InvocationParser implements Parser {
             int periodIndex = callerString.lastIndexOf('.');
             if (periodIndex != -1) {
                 String parentString = callerString.substring(0, periodIndex);
-                arguments.add(new VariableNode(parentString));
+                arguments.add(new VariableNode(parentString, false));
             }
 
             return Optional.of(new InvocationNode(caller, arguments, callerType.doesReturnVoid()));

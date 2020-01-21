@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 public class ArraySizeNode implements Node {
-    private static final Node malloc = new VariableNode("malloc");
+    private static final Node malloc = new VariableNode("malloc", false);
     private final Type type;
     private final Node size;
 

@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 public class ArrayDeleteNode implements Node {
-	private static final Node FREE_NODE = new VariableNode("free");
+	private static final Node FREE_NODE = new VariableNode("free", false);
 	private final Node array;
 
 	ArrayDeleteNode(Node array) {

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 //TODO: resolve coupling
 public class ArrayContentParser implements Parser {
 	private static final String ARRAY_NAME = "array";
-	private static final Node ARRAY_VARIABLE = new VariableNode("array");
+	private static final Node ARRAY_VARIABLE = new VariableNode("array", false);
 	private final Functions functions;
 	private final Generator generator;
 
@@ -64,7 +64,7 @@ public class ArrayContentParser implements Parser {
 	private Node buildFunction(Type type, Map<String, ? extends Node> children) {
 		String name = generator.next();
 		functions.add(createBuilder(type, children.keySet(), name));
-		Node varNode = new VariableNode(name);
+		Node varNode = new VariableNode(name, false);
 		return new InvocationNode(varNode, children.values(), false);
 	}
 
@@ -110,7 +110,7 @@ public class ArrayContentParser implements Parser {
 
 	private Node buildAssignment(String key, int index) {
 		Node indexNode = new ArrayIndexNode(ARRAY_VARIABLE, new IntNode(index));
-		Node varNode = new VariableNode(key);
+		Node varNode = new VariableNode(key, false);
 		return new AssignNode(indexNode, varNode);
 	}
 }

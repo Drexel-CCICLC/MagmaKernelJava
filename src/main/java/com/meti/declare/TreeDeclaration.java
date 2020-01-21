@@ -13,7 +13,7 @@ import com.meti.node.value.compound.variable.VariableNode;
 import com.meti.node.value.primitive.array.ArrayIndexNode;
 import com.meti.node.value.primitive.array.ArraySizeNode;
 import com.meti.node.value.primitive.integer.IntNode;
-import com.meti.node.value.primitive.point.ReferenceNode;
+import com.meti.node.value.primitive.point.DereferenceNode;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -59,11 +59,10 @@ public class TreeDeclaration implements Declaration {
 
     private Node buildAssignment(int index, Parameter paramName) {
         Node paramNode = paramName.toNode();
-        Node pointerNode = new ReferenceNode(paramNode);
-        Node arrayNode = new VariableNode(instanceName());
+        Node arrayNode = new VariableNode(instanceName(), false);
         Node indexNode = new IntNode(index);
         Node arrayIndexNode = new ArrayIndexNode(arrayNode, indexNode);
-        return new AssignNode(arrayIndexNode, pointerNode);
+        return new AssignNode(arrayIndexNode, new DereferenceNode(paramNode));
     }
 
     private String instanceName() {
@@ -160,7 +159,7 @@ public class TreeDeclaration implements Declaration {
 
     @Override
     public Node toInstance() {
-        return new VariableNode(instanceName());
+        return new VariableNode(instanceName(), false);
     }
 
     @Override
@@ -176,7 +175,7 @@ public class TreeDeclaration implements Declaration {
 
     @Override
     public Node toParameter() {
-        return new VariableNode(name());
+        return new VariableNode(name(), true);
     }
 
     @Override
