@@ -2,6 +2,7 @@ package com.meti.declare;
 
 import com.meti.node.other.AnyType;
 import com.meti.node.value.primitive.integer.IntType;
+import com.meti.util.Binding;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -40,7 +41,18 @@ class TreeDeclarationsTest {
 	}
 
 	@Test
-	void defineWithAction() {
+	void defineWithRunnable() {
+		Declarations declarations = new TreeDeclarations();
+		Binding<Declaration> child = Binding.empty();
+		declarations.define("parent", AnyType.INSTANCE,
+				() -> child.set(declarations.define("child", AnyType.INSTANCE)));
+		Optional<Declaration> optional = declarations.absolute(Collections.singleton("parent")).child("child");
+		assertTrue(optional.isPresent());
+		assertSame(child.get(), optional.get());
+	}
+
+	@Test
+	void defineWithSupplier() {
 		Declarations declarations = new TreeDeclarations();
 		Declaration child = declarations.define("parent", AnyType.INSTANCE,
 				() -> declarations.define("child", AnyType.INSTANCE));
@@ -67,10 +79,6 @@ class TreeDeclarationsTest {
 
 	@Test
 	void stream() {
-	}
-
-	@Test
-	void testDefine1() {
 	}
 
 	@Test

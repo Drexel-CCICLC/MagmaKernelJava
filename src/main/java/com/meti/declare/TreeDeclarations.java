@@ -67,7 +67,7 @@ public class TreeDeclarations implements Declarations {
 	@Override
 	public Declaration absolute(Collection<String> values) {
 		return values.stream().reduce(root,
-				(declaration, s) -> declaration.child(s).orElseThrow(),
+				(declaration, s) -> declaration.child(s).orElseThrow(() -> new IllegalArgumentException("Child of stack " + values + " was not found.")),
 				(declaration, declaration2) -> declaration2);
 	}
 
@@ -96,8 +96,8 @@ public class TreeDeclarations implements Declarations {
 
 	@Override
 	public void define(String name, Type type, Runnable action) {
-		stack.push(name);
 		define(name, type);
+		stack.push(name);
 		action.run();
 		stack.pop();
 	}
