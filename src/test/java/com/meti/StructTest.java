@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class SubFunctionTest extends InterpretedTest {
+class StructTest extends InterpretedTest {
 	@Test
 	void parse() {
 		String result = interpreter.parse("""
@@ -21,6 +21,21 @@ class SubFunctionTest extends InterpretedTest {
 				#include <stdio.h>
 				#include <stdlib.h>
 				int b(void** a_){return *(int*)a_[0];}int a(int value){void** a_=malloc(1*sizeof(void*));a_[0]=&value;return b(a_);}""", result);
+	}
+
+	@Test
+	void simple() throws IOException, InterruptedException {
+		String result = interpreter.run("""
+				            native val printf = (String format, Any value) => Void;
+				val test = (Int value) => Int :{
+					return value;
+				};
+				val main = () => Int: {
+					printf("%i", test(10));
+					return 0;
+				};
+				""");
+		assertEquals("10", result);
 	}
 
 	@Test
