@@ -8,7 +8,6 @@ import com.meti.node.Parser;
 import com.meti.node.Type;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,11 +17,6 @@ public class InvocationParser implements Parser {
 
 	public InvocationParser(Declarations declarations) {
 		this.declarations = declarations;
-	}
-
-	@Override
-	public Collection<Node> parseMultiple(String value, Compiler compiler) {
-		return parse(value, compiler).stream().collect(Collectors.toSet());
 	}
 
 	@Override

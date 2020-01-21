@@ -5,9 +5,7 @@ import com.meti.node.Node;
 import com.meti.exception.ParseException;
 import com.meti.node.Parser;
 
-import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class CharParser implements Parser {
 	@Override
@@ -24,8 +22,4 @@ public class CharParser implements Parser {
 		return Optional.empty();
 	}
 
-	@Override
-	public Collection<Node> parseMultiple(String value, Compiler compiler) {
-		return parse(value, compiler).stream().collect(Collectors.toSet());
-	}
 }

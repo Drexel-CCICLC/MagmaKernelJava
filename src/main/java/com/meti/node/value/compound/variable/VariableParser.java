@@ -8,8 +8,6 @@ import com.meti.node.Parser;
 import com.meti.node.Type;
 import com.meti.node.bracket.struct.ObjectType;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Optional;
 
 public class VariableParser implements Parser {
@@ -17,12 +15,6 @@ public class VariableParser implements Parser {
 
 	public VariableParser(Declarations declarations) {
 		this.declarations = declarations;
-	}
-
-	@Override
-	public Collection<Node> parseMultiple(String value, Compiler compiler) {
-		Optional<Node> node = parse(value, compiler);
-		return node.isEmpty() ? Collections.emptySet() : Collections.singleton(node.get());
 	}
 
 	@Override

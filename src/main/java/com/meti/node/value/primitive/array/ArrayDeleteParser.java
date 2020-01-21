@@ -4,8 +4,6 @@ import com.meti.compile.Compiler;
 import com.meti.node.Node;
 import com.meti.node.Parser;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Optional;
 
 public class ArrayDeleteParser implements Parser {
@@ -13,21 +11,10 @@ public class ArrayDeleteParser implements Parser {
 
 	@Override
 	public Optional<Node> parse(String value, Compiler compiler) {
-		Collection<Node> nodes = parseMultiple(value, compiler);
-		Object[] array = nodes.toArray();
-		return 1 == array.length ?
-				Optional.of((Node) array[0]) :
-				Optional.empty();
-	}
-
-	@Override
-	public Collection<Node> parseMultiple(String value, Compiler compiler) {
 		String trim = value.trim();
-		if (trim.startsWith(HEADER)) {
-			Node node = buildNode(compiler, trim);
-			return Collections.singleton(node);
-		}
-		return Collections.emptySet();
+		return trim.startsWith(HEADER) ?
+				Optional.of(buildNode(compiler, trim)) :
+				Optional.empty();
 	}
 
 	private Node buildNode(Compiler compiler, String trim) {

@@ -21,11 +21,6 @@ public class DeclareParser implements Parser {
 	}
 
 	@Override
-	public Collection<Node> parseMultiple(String value, Compiler compiler) {
-		return parse(value, compiler).stream().collect(Collectors.toSet());
-	}
-
-	@Override
 	public Optional<Node> parse(String value, Compiler compiler) {
 		return Optional.of(value)
 				.map(String::trim)
