@@ -87,7 +87,7 @@ public class TreeDeclaration implements Declaration {
 		Type arrayType = arrayOf(pointerType);
 		Node sizeNode = new IntNode(paramSize);
 		Node arraySizeNode = new ArraySizeNode(pointerType, sizeNode);
-		return new DeclareNode(arrayType, name(), arraySizeNode);
+		return new DeclareNode(arrayType, instanceName(), arraySizeNode);
 	}
 
 	@Override

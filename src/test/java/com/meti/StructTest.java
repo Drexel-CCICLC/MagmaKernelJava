@@ -31,7 +31,8 @@ class StructTest extends InterpretedTest {
 					return value;
 				};
 				val main = () => Int: {
-					printf("%i", test(10));
+					val temp = test(10);
+					printf("%i", temp);
 					return 0;
 				};
 				""");
