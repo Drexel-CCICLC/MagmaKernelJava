@@ -9,7 +9,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class IntParser implements Parser {
-	private Optional<Node> parse(String value, Compiler compiler) {
+	@Override
+	public Optional<Node> parse(String value, Compiler compiler) {
 		try {
 			int integer = Integer.parseInt(value.trim());
 			return Optional.of(new IntNode(integer));

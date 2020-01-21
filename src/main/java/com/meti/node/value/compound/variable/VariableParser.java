@@ -21,12 +21,14 @@ public class VariableParser implements Parser {
 
 	@Override
 	public Collection<Node> parseMultiple(String value, Compiler compiler) {
-		return Collections.singleton(parse(value, compiler));
+		Optional<Node> node = parse(value, compiler);
+		return node.isEmpty() ? Collections.emptySet() : Collections.singleton(node.get());
 	}
 
-	private Node parse(String value, Compiler compiler) {
+	@Override
+	public Optional<Node> parse(String value, Compiler compiler) {
 		String trim = value.trim();
-		return trim.contains(".") ? parseAccesor(compiler, trim) : parseSimple(trim);
+		return Optional.of(trim.contains(".") ? parseAccesor(compiler, trim) : parseSimple(trim));
 	}
 
 	private Node parseAccesor(Compiler compiler, String trim) {

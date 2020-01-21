@@ -18,7 +18,8 @@ public class BlockParser implements Parser {
 				.collect(Collectors.toSet());
 	}
 
-	private Optional<Node> parse(String value, Compiler compiler) {
+	@Override
+	public Optional<Node> parse(String value, Compiler compiler) {
 		return Optional.of(value)
 				.map(String::trim)
 				.filter(trim -> trim.startsWith("{") && trim.endsWith("}"))
@@ -40,8 +41,7 @@ public class BlockParser implements Parser {
 		return partitions.stream()
 				.map(String::trim)
 				.filter(childString -> !childString.isEmpty())
-				.map(compiler::parseMultiple)
-				.flatMap(Collection::stream)
+				.map(compiler::parseSingle)
 				.collect(Collectors.toList());
 	}
 }

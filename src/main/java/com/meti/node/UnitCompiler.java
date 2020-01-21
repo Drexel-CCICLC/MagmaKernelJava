@@ -17,7 +17,7 @@ public class UnitCompiler implements Compiler {
 	@Override
 	public Node parseSingle(String value) {
 		try {
-			return rootParser.parseMultiple(value, this).stream().findFirst().orElseThrow(() -> failParse(value,
+			return rootParser.parse(value, this).orElseThrow(() -> failParse(value,
 					null));
 		} catch (Exception e) {
 			throw failParse(value, e);

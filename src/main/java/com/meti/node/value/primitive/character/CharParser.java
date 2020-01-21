@@ -10,7 +10,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CharParser implements Parser {
-	private Optional<Node> parse(String value, Compiler compiler) {
+	@Override
+	public Optional<Node> parse(String value, Compiler compiler) {
 		String trim = value.trim();
 		if (trim.startsWith("'") && trim.endsWith("'")) {
 			String charString = trim.substring(1, trim.length() - 1);

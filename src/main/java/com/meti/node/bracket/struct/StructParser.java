@@ -30,7 +30,8 @@ public class StructParser implements Parser {
 		return parse(value, compiler).stream().collect(Collectors.toSet());
 	}
 
-	private Optional<Node> parse(String value, Compiler compiler) {
+	@Override
+	public Optional<Node> parse(String value, Compiler compiler) {
 		String content = value.trim();
 		if (content.startsWith("(")) {
 			Node node = build(compiler, content);
