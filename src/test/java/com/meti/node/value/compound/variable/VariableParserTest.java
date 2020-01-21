@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class VariableParserTest {
 
 	@Test
-	void parseMultiple() {
+	void parse() {
 		Declarations declarations = new TreeDeclarations();
 		declarations.define("a", create()
 						.withReturnType(IntType.INSTANCE)
