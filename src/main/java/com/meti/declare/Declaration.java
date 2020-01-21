@@ -8,7 +8,6 @@ import com.meti.node.value.compound.variable.FieldNodeBuilder;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface Declaration {
 	List<Declaration> ancestors();
@@ -44,7 +43,7 @@ public interface Declaration {
 
 	Node toParameter();
 
-	StructNodeBuilder toStruct(Set<? extends Parameter> parameters, Type returnType, Node block);
+	StructNodeBuilder toStruct(List<Parameter> parameters, Type returnType, Node block);
 
 	Type type();
 }

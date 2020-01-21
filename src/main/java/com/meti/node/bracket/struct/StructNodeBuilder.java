@@ -6,6 +6,7 @@ import com.meti.node.Type;
 import com.meti.node.other.VoidType;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public interface StructNodeBuilder {
@@ -19,7 +20,7 @@ public interface StructNodeBuilder {
 
 	StructNodeBuilder withName(String name);
 
-	default StructNodeBuilder withParameters(Set<? extends Parameter> parameters) {
+	default StructNodeBuilder withParameters(List<? extends Parameter> parameters) {
 		parameters.forEach(this::withParameter);
 		return this;
 	}

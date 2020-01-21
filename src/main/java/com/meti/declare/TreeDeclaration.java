@@ -176,7 +176,7 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	@Override
-	public StructNodeBuilder toStruct(Set<? extends Parameter> parameters, Type returnType, Node block) {
+	public StructNodeBuilder toStruct(List<Parameter> parameters, Type returnType, Node block) {
 		return StructNodeBuilder.create()
 				.withParameters(parameters)
 				.withReturnType(returnType)
