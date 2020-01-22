@@ -20,7 +20,7 @@ public interface Declaration {
 
     Node declareInstance(int paramSize);
 
-	Declaration define(String name, Type type, Set<Flag> flags);
+    Declaration define(String name, Type type, Set<Flag> flags);
 
     Declaration define(Parameter parameter);
 
@@ -48,4 +48,8 @@ public interface Declaration {
     GeneratedNodeBuilder asStructBuilder(List<? extends Parameter> parameters, Type returnType, Node block);
 
     Type type();
+
+    Node toStruct(List<? extends Parameter> parameters);
+
+    Node toStructDeclaration(List<? extends Parameter> parameters);
 }

@@ -40,14 +40,8 @@ public class MagmaInterpreter implements Interpreter {
 	private String buildOutput(Collection<String> partitions) {
 		String compileString = compilePartitions(partitions);
 		String headerString = joinHeaders();
-		String functionString = joinFunctions();
+		String functionString = cache.render();
 		return headerString + functionString + compileString;
-	}
-
-	private String joinFunctions() {
-		return cache.stream()
-				.map(Node::render)
-				.collect(Collectors.joining());
 	}
 
 	private String joinHeaders() {

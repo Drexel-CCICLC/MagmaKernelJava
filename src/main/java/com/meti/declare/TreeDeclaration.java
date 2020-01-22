@@ -2,12 +2,14 @@ package com.meti.declare;
 
 import com.meti.node.Node;
 import com.meti.node.Type;
+import com.meti.node.bracket.block.BlockNode;
 import com.meti.node.bracket.declare.AssignNode;
 import com.meti.node.bracket.declare.DeclareNode;
 import com.meti.node.bracket.declare.Flag;
+import com.meti.node.bracket.struct.CStructType;
+import com.meti.node.bracket.struct.FunctionNodeBuilder;
 import com.meti.node.bracket.struct.GeneratedNodeBuilder;
 import com.meti.node.bracket.struct.ObjectType;
-import com.meti.node.bracket.struct.FunctionNodeBuilder;
 import com.meti.node.other.AnyType;
 import com.meti.node.value.compound.variable.FieldNodeBuilder;
 import com.meti.node.value.compound.variable.VariableNode;
@@ -17,6 +19,7 @@ import com.meti.node.value.primitive.integer.IntNode;
 import com.meti.node.value.primitive.point.DereferenceNode;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -191,6 +194,21 @@ public class TreeDeclaration implements Declaration {
     @Override
     public Type type() {
         return type;
+    }
+
+    @Override
+    public Node toStruct(List<? extends Parameter> parameters) {
+        return null;
+    }
+
+    @Override
+    public Node toStructDeclaration(List<? extends Parameter> parameters) {
+        List<Node> items = parameters.stream()
+                .map((Function<Parameter, String>) Parameter::name)
+                .map(VariableNode::new)
+                .collect(Collectors.toList());
+        Node value = new BlockNode(items);
+        return new DeclareNode(new CStructType(name()), name(), value);
     }
 
     @Override

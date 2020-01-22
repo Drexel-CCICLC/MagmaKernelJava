@@ -8,6 +8,10 @@ public class VariableNode implements Node {
     private final String value;
     private final boolean parameter;
 
+    public VariableNode(String value) {
+        this(value, false);
+    }
+
     public VariableNode(String value, boolean parameter) {
         this.value = value;
         this.parameter = parameter;

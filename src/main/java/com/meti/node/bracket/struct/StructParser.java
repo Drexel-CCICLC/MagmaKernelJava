@@ -19,6 +19,10 @@ public class StructParser implements Parser {
     private final Cache cache;
     private final Generator generator;
 
+    public StructParser(Declarations declarations, Cache cache) {
+        this(declarations, cache, new IncrementedGenerator());
+    }
+
     public StructParser(Declarations declarations, Cache cache, Generator generator) {
         this.declarations = declarations;
         this.generator = generator;
@@ -91,8 +95,7 @@ public class StructParser implements Parser {
 
     private Node buildBlock(Compiler compiler, String content, List<? extends Parameter> parameters) {
         Node block = parseBlock(compiler, content);
-        Declaration current = declarations.current();
-        buildInstance(parameters, block, current.declareInstance(parameters.size()), current);
+        buildInstance(parameters, block);
         return block;
     }
 
@@ -102,11 +105,10 @@ public class StructParser implements Parser {
         return impl.isParent() ? impl : new BlockNode(Collections.singleton(impl));
     }
 
-    private void buildInstance(List<? extends Parameter> parameters, Node block,
-                               Node instanceDeclaration, Declaration current) {
-        Collection<Node> nodes = current.buildAssignments(parameters);
-        nodes.add(instanceDeclaration);
+    private void buildInstance(List<? extends Parameter> parameters, Node block) {
+        Node struct = declarations.current().toStruct(parameters);
+        cache.add(struct);
         Deque<Node> children = block.children();
-        nodes.forEach(children::addFirst);
+        children.addFirst(declarations.current().toStructDeclaration(parameters));
     }
 }

@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class BlockNode implements Node {
     private final LinkedList<Node> children;
 
-    public BlockNode(Collection<Node> children) {
+    public BlockNode(Collection<? extends Node> children) {
         this.children = new LinkedList<>(children);
     }
 

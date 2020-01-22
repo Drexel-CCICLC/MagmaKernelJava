@@ -7,7 +7,8 @@ import com.meti.node.bracket.struct.IncrementedGenerator;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Stream;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ListedCache implements Cache {
     private final Collection<Node> functions = new ArrayList<>();
@@ -24,7 +25,10 @@ public class ListedCache implements Cache {
     }
 
     @Override
-    public Stream<Node> stream() {
-        return functions.stream();
+    public String render() {
+        return functions.stream()
+                .filter(Objects::nonNull)
+                .map(Node::render)
+                .collect(Collectors.joining());
     }
 }
