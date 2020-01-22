@@ -10,7 +10,7 @@ class StructTest extends InterpretedTest {
 	@Test
 	void simple() throws IOException, InterruptedException {
 		String result = interpreter.run("""
-				            native val printf = (String format, Any value) => Void;
+				native val printf = (String format, Any value) => Void;
 				val test = (Int value) => Int :{
 					return value;
 				};
