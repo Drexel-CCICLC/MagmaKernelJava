@@ -8,13 +8,13 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class StructNode implements Node {
+public class FunctionNode implements Node {
 	private final Node block;
 	private final String name;
 	private final Set<? extends Parameter> parameters;
 	private final Type returnType;
 
-	StructNode(String name, Set<? extends Parameter> parameters, Type returnType, Node block) {
+	FunctionNode(String name, Set<? extends Parameter> parameters, Type returnType, Node block) {
 		this.returnType = returnType;
 		this.name = name;
 		this.parameters = parameters;

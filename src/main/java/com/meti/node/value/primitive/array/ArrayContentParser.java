@@ -10,7 +10,7 @@ import com.meti.node.bracket.declare.AssignNode;
 import com.meti.node.bracket.declare.DeclareNode;
 import com.meti.node.bracket.struct.Generator;
 import com.meti.node.bracket.struct.ReturnNode;
-import com.meti.node.bracket.struct.StructNodeBuilder;
+import com.meti.node.bracket.struct.FunctionNodeBuilder;
 import com.meti.node.value.compound.invoke.InvocationNode;
 import com.meti.node.value.compound.variable.VariableNode;
 import com.meti.node.value.primitive.integer.IntNode;
@@ -68,7 +68,7 @@ public class ArrayContentParser implements Parser {
 		return new InvocationNode(varNode, children.values(), false);
 	}
 
-	private StructNodeBuilder createBuilder(Type type, Collection<String> keys, String name) {
+	private FunctionNodeBuilder createBuilder(Type type, Collection<String> keys, String name) {
 		Node block = buildBlock(type, keys);
 		return createBuilder(type, keys)
 				.withName(name)
@@ -84,8 +84,8 @@ public class ArrayContentParser implements Parser {
 		return new BlockNode(content);
 	}
 
-	private StructNodeBuilder createBuilder(Type arrayType, Collection<String> keys) {
-		return keys.stream().reduce(StructNodeBuilder.create(),
+	private FunctionNodeBuilder createBuilder(Type arrayType, Collection<String> keys) {
+		return keys.stream().reduce(FunctionNodeBuilder.create(),
 				(structNodeBuilder, s) -> structNodeBuilder.withParameter(Parameter.of(s, arrayType)),
 				(structNodeBuilder, structNodeBuilder2) -> structNodeBuilder);
 	}
