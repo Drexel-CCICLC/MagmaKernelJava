@@ -39,7 +39,7 @@ public class StructParser implements Parser {
         List<Parameter> parameters = parseAllParameters(compiler, content);
         Type returnType = resolveReturnType(compiler, content);
         Node block = buildConcreteBlock(compiler, content, parameters);
-        cache.add(declarations.current().toStruct(parameters, returnType, block), generator);
+        cache.add(declarations.current().toStruct(parameters, returnType, block).create(generator));
         return new EmptyNode();
     }
 

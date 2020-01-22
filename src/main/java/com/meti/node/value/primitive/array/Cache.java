@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 public interface Cache {
     void add(FunctionNodeBuilder builder);
 
-    void add(FunctionNodeBuilder builder, Generator generator);
+    void add(Node node);
 
     Stream<Node> stream();
 }

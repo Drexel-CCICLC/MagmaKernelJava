@@ -11,16 +11,15 @@ import java.util.stream.Stream;
 
 public class ListedCache implements Cache {
     private final Collection<Node> functions = new ArrayList<>();
+    private final Generator generator = new IncrementedGenerator();
 
     @Override
     public void add(FunctionNodeBuilder builder) {
-        Generator generator = new IncrementedGenerator();
-        add(builder, generator);
+        add(builder.create(generator));
     }
 
     @Override
-    public void add(FunctionNodeBuilder builder, Generator generator) {
-        Node node = builder.create(generator);
+    public void add(Node node) {
         functions.add(node);
     }
 
