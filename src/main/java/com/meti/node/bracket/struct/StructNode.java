@@ -34,6 +34,6 @@ public class StructNode implements Node {
                 .sorted()
                 .map(s -> fields.get(s).render() + " " + s + ";")
                 .collect(Collectors.joining());
-        return "struct " + name + "{" + fieldsString + "}";
+        return "struct " + name + "{" + fieldsString + "};";
     }
 }

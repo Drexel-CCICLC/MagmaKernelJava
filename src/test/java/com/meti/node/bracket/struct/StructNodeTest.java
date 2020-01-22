@@ -17,6 +17,6 @@ class StructNodeTest {
                 "x", IntType.INSTANCE,
                 "y", IntType.INSTANCE
         ));
-        assertEquals("struct Point{int x;int y;}", node.render());
+        assertEquals("struct Point{int x;int y;};", node.render());
     }
 }
