@@ -106,9 +106,12 @@ public class StructParser implements Parser {
     }
 
     private void buildInstance(List<? extends Parameter> parameters, Node block) {
-        Node struct = declarations.current().toStruct(parameters);
-        cache.add(struct);
-        Deque<Node> children = block.children();
-        children.addFirst(declarations.current().toStructDeclaration(parameters));
+        Declaration current = declarations.current();
+        if (current.parent().isEmpty()) {
+            Node struct = current.toStruct(parameters);
+            cache.add(struct);
+            Deque<Node> children = block.children();
+            children.addFirst(current.toStructDeclaration(parameters));
+        }
     }
 }
