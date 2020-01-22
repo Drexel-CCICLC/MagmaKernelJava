@@ -25,11 +25,6 @@ public class ListedFunctions implements Functions {
     }
 
     @Override
-    public int size() {
-        return functions.size();
-    }
-
-    @Override
     public Stream<Node> stream() {
         return functions.stream();
     }
