@@ -23,11 +23,11 @@ import java.util.stream.Collectors;
 public class ArrayContentParser implements Parser {
 	private static final String ARRAY_NAME = "array";
 	private static final Node ARRAY_VARIABLE = new VariableNode("array", false);
-	private final Functions functions;
+	private final Cache cache;
 	private final Generator generator;
 
-	public ArrayContentParser(Functions functions, Generator generator) {
-		this.functions = functions;
+	public ArrayContentParser(Cache cache, Generator generator) {
+		this.cache = cache;
 		this.generator = generator;
 	}
 
@@ -63,7 +63,7 @@ public class ArrayContentParser implements Parser {
 
 	private Node buildFunction(Type type, Map<String, ? extends Node> children) {
 		String name = generator.next();
-		functions.add(createBuilder(type, children.keySet(), name));
+		cache.add(createBuilder(type, children.keySet(), name));
 		Node varNode = new VariableNode(name, false);
 		return new InvocationNode(varNode, children.values(), false);
 	}

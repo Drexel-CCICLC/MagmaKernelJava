@@ -9,20 +9,20 @@ import com.meti.node.Node;
 import com.meti.node.Parser;
 import com.meti.node.Type;
 import com.meti.node.bracket.block.BlockNode;
-import com.meti.node.value.primitive.array.Functions;
+import com.meti.node.value.primitive.array.Cache;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class StructParser implements Parser {
     private final Declarations declarations;
-    private final Functions functions;
+    private final Cache cache;
     private final Generator generator;
 
-    public StructParser(Declarations declarations, Functions functions, Generator generator) {
+    public StructParser(Declarations declarations, Cache cache, Generator generator) {
         this.declarations = declarations;
         this.generator = generator;
-        this.functions = functions;
+        this.cache = cache;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class StructParser implements Parser {
         List<Parameter> parameters = parseAllParameters(compiler, content);
         Type returnType = resolveReturnType(compiler, content);
         Node block = buildConcreteBlock(compiler, content, parameters);
-        functions.add(declarations.current().toStruct(parameters, returnType, block), generator);
+        cache.add(declarations.current().toStruct(parameters, returnType, block), generator);
         return new EmptyNode();
     }
 

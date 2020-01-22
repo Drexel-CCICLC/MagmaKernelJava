@@ -6,12 +6,10 @@ import com.meti.node.bracket.struct.FunctionNodeBuilder;
 
 import java.util.stream.Stream;
 
-public interface Functions {
+public interface Cache {
     void add(FunctionNodeBuilder builder);
 
     void add(FunctionNodeBuilder builder, Generator generator);
-
-    int size();
 
     Stream<Node> stream();
 }

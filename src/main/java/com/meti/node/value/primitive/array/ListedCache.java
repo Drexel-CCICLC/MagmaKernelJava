@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Stream;
 
-public class ListedFunctions implements Functions {
+public class ListedCache implements Cache {
     private final Collection<Node> functions = new ArrayList<>();
 
     @Override

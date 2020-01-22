@@ -6,7 +6,7 @@ import com.meti.node.EmptyNode;
 import com.meti.node.Node;
 import com.meti.node.Parser;
 import com.meti.node.UnitCompiler;
-import com.meti.node.value.primitive.array.ListedFunctions;
+import com.meti.node.value.primitive.array.ListedCache;
 import com.meti.interpret.ParentParser;
 import com.meti.interpret.ParentResolver;
 import com.meti.node.other.AnyResolver;
@@ -17,7 +17,6 @@ import com.meti.node.bracket.struct.StructParser;
 import com.meti.node.bracket.struct.StructResolver;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -28,7 +27,7 @@ class DeclareParserTest {
 
 	@Test
 	void bug0() {
-		Compiler compiler = new UnitCompiler(new ParentParser(new StructParser(declarations, new ListedFunctions(), new IncrementedGenerator())),
+		Compiler compiler = new UnitCompiler(new ParentParser(new StructParser(declarations, new ListedCache(), new IncrementedGenerator())),
                 new ParentResolver(
 				new StructResolver(),
 				new StringResolver(),

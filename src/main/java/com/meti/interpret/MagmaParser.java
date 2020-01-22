@@ -23,17 +23,17 @@ import java.util.Arrays;
 import java.util.Collection;
 
 class MagmaParser extends ParentParser {
-	MagmaParser(Declarations declarations, Generator generator, Functions functions) {
+	MagmaParser(Declarations declarations, Generator generator, Cache cache) {
 		this(
 				new ThisParser(declarations),
 				new ArrayDeleteParser(),
 				new ArrayIndexParser(),
 				new ReturnParser(),
 				new BlockParser(),
-				new ArrayContentParser(functions, generator),
+				new ArrayContentParser(cache, generator),
 				new ArraySizeParser(),
 				new CharParser(),
-				new StructParser(declarations, functions, generator),
+				new StructParser(declarations, cache, generator),
 				new DeclareParser(declarations),
 				new AssignParser(),
 				new IntParser(),

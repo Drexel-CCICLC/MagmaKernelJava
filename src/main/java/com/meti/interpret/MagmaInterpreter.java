@@ -8,8 +8,8 @@ import com.meti.node.Parser;
 import com.meti.node.Resolver;
 import com.meti.node.UnitCompiler;
 import com.meti.node.bracket.struct.IncrementedGenerator;
-import com.meti.node.value.primitive.array.Functions;
-import com.meti.node.value.primitive.array.ListedFunctions;
+import com.meti.node.value.primitive.array.Cache;
+import com.meti.node.value.primitive.array.ListedCache;
 import com.meti.util.BracketPartitioner;
 
 import java.io.IOException;
@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 
 public class MagmaInterpreter implements Interpreter {
 	private final Declarations declarations = new TreeDeclarations();
-	private final Functions functions = new ListedFunctions();
+	private final Cache cache = new ListedCache();
 	private final Collection<String> headers;
 	private final Interpreter parent = new CInterpreter();
-	private final Parser rootParser = new MagmaParser(declarations, new IncrementedGenerator(), functions);
+	private final Parser rootParser = new MagmaParser(declarations, new IncrementedGenerator(), cache);
 	private final Resolver rootResolver = new MagmaResolver(declarations);
 	private final Compiler compiler = new UnitCompiler(rootParser, rootResolver);
 
@@ -45,7 +45,7 @@ public class MagmaInterpreter implements Interpreter {
 	}
 
 	private String joinFunctions() {
-		return functions.stream()
+		return cache.stream()
 				.map(Node::render)
 				.collect(Collectors.joining());
 	}
