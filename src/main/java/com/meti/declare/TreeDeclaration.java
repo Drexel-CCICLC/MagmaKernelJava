@@ -5,6 +5,7 @@ import com.meti.node.Type;
 import com.meti.node.bracket.declare.AssignNode;
 import com.meti.node.bracket.declare.DeclareNode;
 import com.meti.node.bracket.declare.Flag;
+import com.meti.node.bracket.struct.GeneratedNodeBuilder;
 import com.meti.node.bracket.struct.ObjectType;
 import com.meti.node.bracket.struct.FunctionNodeBuilder;
 import com.meti.node.other.AnyType;
@@ -179,7 +180,7 @@ public class TreeDeclaration implements Declaration {
     }
 
     @Override
-    public FunctionNodeBuilder toStruct(List<Parameter> parameters, Type returnType, Node block) {
+    public GeneratedNodeBuilder toStruct(List<? extends Parameter> parameters, Type returnType, Node block) {
         return FunctionNodeBuilder.create()
                 .withParameters(parameters)
                 .withReturnType(returnType)

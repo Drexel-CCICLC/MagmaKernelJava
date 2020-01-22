@@ -1,9 +1,9 @@
 package com.meti.node.value.primitive.array;
 
 import com.meti.node.Node;
+import com.meti.node.bracket.struct.GeneratedNodeBuilder;
 import com.meti.node.bracket.struct.Generator;
 import com.meti.node.bracket.struct.IncrementedGenerator;
-import com.meti.node.bracket.struct.FunctionNodeBuilder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,7 +14,7 @@ public class ListedCache implements Cache {
     private final Generator generator = new IncrementedGenerator();
 
     @Override
-    public void add(FunctionNodeBuilder builder) {
+    public void add(GeneratedNodeBuilder builder) {
         add(builder.create(generator));
     }
 

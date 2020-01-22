@@ -3,7 +3,7 @@ package com.meti.declare;
 import com.meti.node.Node;
 import com.meti.node.Type;
 import com.meti.node.bracket.declare.Flag;
-import com.meti.node.bracket.struct.FunctionNodeBuilder;
+import com.meti.node.bracket.struct.GeneratedNodeBuilder;
 import com.meti.node.value.compound.variable.FieldNodeBuilder;
 
 import java.util.Collection;
@@ -45,7 +45,7 @@ public interface Declaration {
 
     Node toParameter();
 
-    FunctionNodeBuilder toStruct(List<Parameter> parameters, Type returnType, Node block);
+    GeneratedNodeBuilder toStruct(List<? extends Parameter> parameters, Type returnType, Node block);
 
     Type type();
 }

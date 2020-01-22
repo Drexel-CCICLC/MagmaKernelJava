@@ -9,77 +9,73 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public interface FunctionNodeBuilder {
-	static FunctionNodeBuilder create() {
-		return new FunctionNodeBuilderImpl();
-	}
+public interface FunctionNodeBuilder extends GeneratedNodeBuilder {
+    static FunctionNodeBuilder create() {
+        return new FunctionNodeBuilderImpl();
+    }
 
-	Node create(Generator generator);
+    FunctionNodeBuilder withBlock(Node block);
 
-	FunctionNodeBuilder withBlock(Node block);
-
-	FunctionNodeBuilder withName(String name);
-
-	default FunctionNodeBuilder withParameters(List<? extends Parameter> parameters) {
-		parameters.forEach(this::withParameter);
+    default FunctionNodeBuilder withParameters(List<? extends Parameter> parameters) {
+        parameters.forEach(this::withParameter);
 		return this;
-	}
+    }
 
 	FunctionNodeBuilder withParameter(Parameter parameter);
 
-	FunctionNodeBuilder withReturnType(Type returnType);
+    FunctionNodeBuilder withReturnType(Type returnType);
 
-	final class FunctionNodeBuilderImpl implements FunctionNodeBuilder {
-		private final Node block;
-		private final String name;
-		private final Set<Parameter> parameters;
-		private final Type returnType;
+    final class FunctionNodeBuilderImpl implements FunctionNodeBuilder {
+        private final Node block;
+        private final String name;
+        private final Set<Parameter> parameters;
+        private final Type returnType;
 
-		private FunctionNodeBuilderImpl() {
-			this(null, null, new HashSet<>(), null);
-		}
+        private FunctionNodeBuilderImpl() {
+            this(null, null, new HashSet<>(), null);
+        }
 
-		private FunctionNodeBuilderImpl(Node block, String name, Set<Parameter> parameters, Type returnType) {
-			this.block = block;
-			this.name = name;
-			this.parameters = parameters;
-			this.returnType = returnType;
-		}
+        private FunctionNodeBuilderImpl(Node block, String name, Set<Parameter> parameters, Type returnType) {
+            this.block = block;
+            this.name = name;
+            this.parameters = parameters;
+            this.returnType = returnType;
+        }
 
-		@Override
-		public Node create(Generator generator) {
-			String name = buildName(generator);
-			Type type = buildType();
-			return new FunctionNode(name, parameters, type, block);
-		}
+        @Override
+        public Node create(Generator generator) {
+            String name = buildName(generator);
+            Type type = buildType();
+            return new FunctionNode(name, parameters, type, block);
+        }
 
-		private String buildName(Generator generator) {
-			return (null == this.name) ? generator.next() : this.name;
-		}
+        private String buildName(Generator generator) {
+            return (null == this.name) ? generator.next() : this.name;
+        }
 
-		private Type buildType() {
-			return null == this.returnType ? VoidType.INSTANCE() : this.returnType;
-		}
+        private Type buildType() {
+            return null == this.returnType ? VoidType.INSTANCE() : this.returnType;
+        }
 
-		@Override
-		public FunctionNodeBuilder withBlock(Node block) {
-			return new FunctionNodeBuilderImpl(block, name, parameters, returnType);
-		}
+        @Override
+        public FunctionNodeBuilder withBlock(Node block) {
+            return new FunctionNodeBuilderImpl(block, name, parameters, returnType);
+        }
 
-		@Override
-		public FunctionNodeBuilder withName(String name) {
-			return new FunctionNodeBuilderImpl(block, name, parameters, returnType);
-		}
+        @Override
+        public FunctionNodeBuilder withName(String name) {
+            return new FunctionNodeBuilderImpl(block, name, parameters, returnType);
+        }
 
-		@Override
-		public FunctionNodeBuilder withParameter(Parameter parameter) {
-			parameters.add(parameter);
-			return this;
-		}
+        @Override
+        public FunctionNodeBuilder withParameter(Parameter parameter) {
+            parameters.add(parameter);
+            return this;
+        }
 
-		@Override
-		public FunctionNodeBuilder withReturnType(Type returnType) {
-			return new FunctionNodeBuilderImpl(block, name, parameters, returnType);
-		}
-	}
+        @Override
+        public FunctionNodeBuilder withReturnType(Type returnType) {
+            return new FunctionNodeBuilderImpl(block, name, parameters, returnType);
+        }
+    }
 }
