@@ -45,7 +45,7 @@ public interface Declaration {
 
     Node toParameter();
 
-    GeneratedNodeBuilder toStruct(List<? extends Parameter> parameters, Type returnType, Node block);
+    GeneratedNodeBuilder asStructBuilder(List<? extends Parameter> parameters, Type returnType, Node block);
 
     Type type();
 }

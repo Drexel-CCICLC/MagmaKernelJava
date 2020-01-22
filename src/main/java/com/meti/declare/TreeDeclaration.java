@@ -180,7 +180,7 @@ public class TreeDeclaration implements Declaration {
     }
 
     @Override
-    public GeneratedNodeBuilder toStruct(List<? extends Parameter> parameters, Type returnType, Node block) {
+    public GeneratedNodeBuilder asStructBuilder(List<? extends Parameter> parameters, Type returnType, Node block) {
         return FunctionNodeBuilder.create()
                 .withParameters(parameters)
                 .withReturnType(returnType)
