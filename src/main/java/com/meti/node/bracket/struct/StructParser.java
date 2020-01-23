@@ -43,7 +43,7 @@ public class StructParser implements Parser {
         List<Parameter> parameters = parseAllParameters(compiler, content);
         Type returnType = resolveReturnType(compiler, content);
         Node block = buildConcreteBlock(compiler, content, parameters);
-        cache.add(declarations.current().asStructBuilder(parameters, returnType, block).create(generator));
+        cache.addLast(declarations.current().asStructBuilder(parameters, returnType, block).create(generator));
         return new EmptyNode();
     }
 
@@ -109,7 +109,7 @@ public class StructParser implements Parser {
         Declaration current = declarations.current();
         if (current.isClass()) {
             Node struct = current.toStruct(parameters);
-            cache.add(struct);
+            cache.addFirst(struct);
             Deque<Node> children = block.children();
             children.addFirst(current.toStructDeclaration(parameters));
         }

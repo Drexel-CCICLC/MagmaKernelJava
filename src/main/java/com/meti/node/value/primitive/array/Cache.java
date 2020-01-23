@@ -4,9 +4,11 @@ import com.meti.node.Node;
 import com.meti.node.bracket.struct.GeneratedNodeBuilder;
 
 public interface Cache {
-    void add(GeneratedNodeBuilder builder);
+	void addFirst(GeneratedNodeBuilder builder);
 
-    void add(Node node);
+	void addFirst(Node node);
 
-    String render();
+    void addLast(Node node);
+
+	String render();
 }

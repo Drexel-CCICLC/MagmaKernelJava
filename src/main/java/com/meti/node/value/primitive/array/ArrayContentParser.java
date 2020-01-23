@@ -64,7 +64,7 @@ public class ArrayContentParser implements Parser {
 
     private Node buildFunction(Type type, Map<String, ? extends Node> children) {
         String name = generator.next();
-        cache.add(createBuilder(type, children.keySet(), name));
+        cache.addFirst(createBuilder(type, children.keySet(), name));
         Node varNode = new VariableNode(name, false);
         return new InvocationNode(varNode, children.values(), false);
     }
