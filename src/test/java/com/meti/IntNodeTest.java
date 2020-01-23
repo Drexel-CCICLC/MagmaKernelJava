@@ -1,7 +1,5 @@
-package com;
+package com.meti;
 
-import com.meti.IntNode;
-import com.meti.Node;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
