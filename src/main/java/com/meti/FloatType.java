@@ -1,8 +1,8 @@
 package com.meti;
 
-public class IntType implements Type {
+public class FloatType implements Type {
     @Override
     public String render() {
-        return "int";
+        return "float";
     }
 }
