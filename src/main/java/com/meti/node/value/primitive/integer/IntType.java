@@ -1,27 +1,17 @@
 package com.meti.node.value.primitive.integer;
 
+import com.meti.node.ObjectType;
 import com.meti.node.Node;
 import com.meti.node.Type;
-import com.meti.node.other.VoidType;
 
 import java.util.Optional;
 
-public class IntType implements Type {
-	public static final Type INSTANCE = new IntType();
-
-	@Override
-	public Optional<String> name() {
-		return Optional.empty();
-	}
+public class IntType implements ObjectType {
+	public static final ObjectType INSTANCE = new IntType();
 
 	@Override
 	public Optional<Node> toField(Node instance, String name) {
 		return Optional.empty();
-	}
-
-	@Override
-	public boolean doesReturnVoid() {
-		return returnType().isPresent() && returnType().get() instanceof VoidType;
 	}
 
 	@Override

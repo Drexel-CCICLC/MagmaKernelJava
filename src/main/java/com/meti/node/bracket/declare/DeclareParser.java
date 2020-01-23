@@ -2,10 +2,7 @@ package com.meti.node.bracket.declare;
 
 import com.meti.compile.Compiler;
 import com.meti.declare.Declarations;
-import com.meti.node.EmptyNode;
-import com.meti.node.Node;
-import com.meti.node.Parser;
-import com.meti.node.Type;
+import com.meti.node.*;
 
 import java.util.Arrays;
 import java.util.Optional;

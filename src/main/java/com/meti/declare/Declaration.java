@@ -1,5 +1,6 @@
 package com.meti.declare;
 
+import com.meti.node.ObjectType;
 import com.meti.node.Node;
 import com.meti.node.Type;
 import com.meti.node.bracket.declare.Flag;
@@ -43,7 +44,7 @@ public interface Declaration {
 
     Parameter toInstancePair();
 
-    Type toObject();
+    ObjectType toObject();
 
     Node toParameter();
 

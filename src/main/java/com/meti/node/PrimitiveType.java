@@ -1,16 +1,11 @@
 package com.meti.node;
 
-import com.meti.node.other.VoidType;
 import com.meti.node.value.compound.variable.FieldNodeBuilder;
 
 import java.util.Optional;
 import java.util.OptionalInt;
 
-public abstract class PrimitiveType implements Type {
-	@Override
-	public Optional<String> name() {
-		return Optional.empty();
-	}
+public abstract class PrimitiveType implements ObjectType {
 
 	@Override
 	public Optional<Node> toField(Node instance, String name) {
@@ -45,8 +40,4 @@ public abstract class PrimitiveType implements Type {
         return Optional.empty();
     }
 
-	@Override
-	public boolean doesReturnVoid() {
-		return returnType().isPresent() && returnType().get() instanceof VoidType;
-	}
 }

@@ -4,15 +4,11 @@ import com.meti.declare.Declaration;
 import com.meti.declare.Declarations;
 import com.meti.node.Node;
 import com.meti.node.Type;
-import com.meti.node.other.AnyType;
-import com.meti.node.other.VoidType;
 import com.meti.node.value.compound.variable.FieldNodeBuilder;
-import com.meti.node.value.primitive.array.ArrayType;
-import com.meti.node.value.primitive.point.PointerType;
 
 import java.util.Optional;
 
-public class ObjectType implements Type {
+public class ObjectType implements com.meti.node.ObjectType {
 	private final Declarations declarations;
 	private final String name;
 
@@ -29,18 +25,8 @@ public class ObjectType implements Type {
 	}
 
 	@Override
-	public boolean doesReturnVoid() {
-		return returnType().isPresent() && returnType().get() instanceof VoidType;
-	}
-
-	@Override
 	public boolean isNamed() {
 		return false;
-	}
-
-	@Override
-	public Optional<String> name() {
-        return Optional.of(name);
 	}
 
 	@Override

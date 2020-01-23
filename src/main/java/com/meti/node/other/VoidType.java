@@ -1,5 +1,6 @@
 package com.meti.node.other;
 
+import com.meti.node.ObjectType;
 import com.meti.node.Node;
 import com.meti.node.Type;
 import com.meti.node.value.compound.variable.FieldNodeBuilder;
@@ -7,16 +8,11 @@ import com.meti.node.value.compound.variable.FieldNodeBuilder;
 import java.util.Optional;
 import java.util.OptionalInt;
 
-public class VoidType implements Type {
+public class VoidType implements ObjectType {
 	public static final Type INSTANCE = new VoidType();
 
 	public static Type INSTANCE() {
 		return INSTANCE;
-	}
-
-	@Override
-	public Optional<String> name() {
-		return Optional.empty();
 	}
 
 	@Override
@@ -57,8 +53,4 @@ public class VoidType implements Type {
 		return Optional.empty();
 	}
 
-	@Override
-	public boolean doesReturnVoid() {
-		return returnType().isPresent() && returnType().get() instanceof VoidType;
-	}
 }

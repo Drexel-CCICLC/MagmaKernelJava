@@ -1,6 +1,7 @@
 package com.meti.node.value.compound.invoke;
 
 import com.meti.compile.Compiler;
+import com.meti.node.StructType;
 import com.meti.node.Resolver;
 import com.meti.node.Type;
 
@@ -19,7 +20,11 @@ public class InvocationResolver implements Resolver {
 			int start = trim.indexOf('(');
 			String callerString = trim.substring(0, start);
 			Type callerType = compiler.resolveValue(callerString);
-			return callerType.returnType();
+			if (callerType instanceof StructType) {
+				return ((StructType) callerType).returnType();
+			} else {
+				throw new IllegalArgumentException(callerType + " is not a struct.");
+			}
 		}
 		return Optional.empty();
 	}

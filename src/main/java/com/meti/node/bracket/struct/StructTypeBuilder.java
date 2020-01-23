@@ -59,7 +59,7 @@ public interface StructTypeBuilder {
 
         @Override
         public Type build() {
-            return new StructType(returnType, name, parameters);
+            return new StructTypeImpl(returnType, name, parameters);
         }
     }
 }

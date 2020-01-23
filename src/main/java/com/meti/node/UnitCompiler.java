@@ -3,8 +3,6 @@ package com.meti.node;
 import com.meti.compile.Compiler;
 import com.meti.exception.ParseException;
 
-import java.util.Collection;
-
 public class UnitCompiler implements Compiler {
 	private final Parser rootParser;
 	private final Resolver rootResolver;

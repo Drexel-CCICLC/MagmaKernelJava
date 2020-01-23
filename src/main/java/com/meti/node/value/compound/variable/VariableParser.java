@@ -3,10 +3,10 @@ package com.meti.node.value.compound.variable;
 import com.meti.compile.Compiler;
 import com.meti.declare.Declaration;
 import com.meti.declare.Declarations;
+import com.meti.node.ObjectType;
 import com.meti.node.Node;
 import com.meti.node.Parser;
 import com.meti.node.Type;
-import com.meti.node.bracket.struct.ObjectType;
 
 import java.util.Optional;
 
@@ -28,7 +28,13 @@ public class VariableParser implements Parser {
 		String parentString = trim.substring(0, period);
 		String childString = trim.substring(period + 1);
 		Node parent = compiler.parseSingle(parentString);
-		Type type = compiler.resolveValue(parentString);
+		Type resolvedType = compiler.resolveValue(parentString);
+		ObjectType type;
+		if (resolvedType instanceof ObjectType) {
+			type = (ObjectType) resolvedType;
+		} else {
+			throw new IllegalArgumentException(resolvedType + " is not a structure.");
+		}
 		return type.toField(parent, childString.trim().trim()).orElseThrow();
 	}
 
@@ -37,7 +43,7 @@ public class VariableParser implements Parser {
 		if (parentOptional.isPresent()) {
 			Declaration parent = parentOptional.get();
 			if (!declarations.isRoot(parent) && !declarations.isCurrent(parent) && parent.hasChildAsParameter(childName)) {
-				Type type = parent.toObject();
+				ObjectType type = parent.toObject();
 				Node instance = parent.toInstance();
 				return type.toField(instance, childName.trim()).orElseThrow();
 			}

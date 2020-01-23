@@ -3,6 +3,7 @@ package com.meti.node.value.compound.variable;
 import com.meti.compile.Compiler;
 import com.meti.declare.Declaration;
 import com.meti.declare.Declarations;
+import com.meti.node.ObjectType;
 import com.meti.node.Resolver;
 import com.meti.node.Type;
 
@@ -30,7 +31,13 @@ public class VariableResolver implements Resolver {
         int period = trim.indexOf('.');
         String parentString = trim.substring(0, period);
         String childString = trim.substring(period + 1);
-        Type type = compiler.resolveValue(parentString);
+        Type resolvedType = compiler.resolveValue(parentString);
+        ObjectType type;
+        if (resolvedType instanceof ObjectType) {
+            type = (ObjectType) resolvedType;
+        } else {
+            throw new IllegalArgumentException(resolvedType + " is not a structure.");
+        }
         return type.childType(childString).orElseThrow();
     }
 

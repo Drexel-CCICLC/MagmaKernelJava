@@ -1,5 +1,7 @@
 package com.meti.node.bracket.declare;
 
+import com.meti.node.NamedType;
+import com.meti.node.StructType;
 import com.meti.node.Node;
 import com.meti.node.Type;
 
@@ -28,8 +30,10 @@ public class DeclareNode implements Node {
 
 	@Override
 	public String render() {
-		String before = (type.isNamed()) ? type.renderWithName(name) : type.render() + " " + name;
+		String before = type instanceof StructType ?
+				((NamedType) type).renderWithName(name) :
+				type.render() + " " + name;
 		String after = value.render();
-        return after.isBlank() ? "" : before + "=" + after + ";";
+		return after.isBlank() ? "" : before + "=" + after + ";";
 	}
 }

@@ -1,8 +1,7 @@
 package com.meti.declare;
 
-import com.meti.node.Node;
-import com.meti.node.Type;
-import com.meti.node.bracket.block.BlockNode;
+import com.meti.node.*;
+import com.meti.node.ObjectType;
 import com.meti.node.bracket.declare.AssignNode;
 import com.meti.node.bracket.declare.DeclareNode;
 import com.meti.node.bracket.declare.Flag;
@@ -17,7 +16,6 @@ import com.meti.node.value.primitive.point.DereferenceNode;
 
 import java.util.*;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -88,7 +86,7 @@ public class TreeDeclaration implements Declaration {
 	@Override
 	public Node declareInstance(int paramSize) {
 		Type pointerType = pointerOf(AnyType.INSTANCE);
-		Type arrayType = arrayOf(pointerType);
+		NamedType arrayType = arrayOf(pointerType);
 		Node sizeNode = new IntNode(paramSize);
 		Node arraySizeNode = new ArraySizeNode(pointerType, sizeNode);
 		return new DeclareNode(arrayType, instanceName(), arraySizeNode);
@@ -130,7 +128,7 @@ public class TreeDeclaration implements Declaration {
 
 	@Override
 	public boolean isClass() {
-		return children.stream().anyMatch(declaration -> declaration.type() instanceof StructType);
+		return children.stream().anyMatch(declaration -> declaration.type() instanceof StructTypeImpl);
 	}
 
 	@Override
@@ -171,13 +169,13 @@ public class TreeDeclaration implements Declaration {
 
 	@Override
 	public Parameter toInstancePair() {
-		Type type = new ObjectType(declarations, name());
+		ObjectType type = new com.meti.node.bracket.struct.ObjectType(declarations, name());
 		return Parameter.of(instanceName(), type);
 	}
 
 	@Override
-	public Type toObject() {
-		return new ObjectType(declarations, name());
+	public ObjectType toObject() {
+		return new com.meti.node.bracket.struct.ObjectType(declarations, name());
 	}
 
 	@Override

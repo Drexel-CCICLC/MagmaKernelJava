@@ -1,27 +1,20 @@
 package com.meti.node.value.primitive.array;
 
-import com.meti.node.Node;
-import com.meti.node.Type;
-import com.meti.node.other.VoidType;
+import com.meti.node.*;
 import com.meti.node.value.compound.variable.FieldNodeBuilder;
 
 import java.util.Optional;
 import java.util.OptionalInt;
 
-public final class ArrayType implements Type {
+public final class ArrayType implements ObjectType {
 	private final Type elementType;
 
 	private ArrayType(Type elementType) {
 		this.elementType = elementType;
 	}
 
-	public static Type arrayOf(Type elementType) {
+	public static NamedType arrayOf(Type elementType) {
 		return new ArrayType(elementType);
-	}
-
-	@Override
-	public Optional<String> name() {
-		return Optional.empty();
 	}
 
 	@Override
@@ -62,8 +55,4 @@ public final class ArrayType implements Type {
 		return Optional.empty();
 	}
 
-	@Override
-	public boolean doesReturnVoid() {
-		return returnType().isPresent() && returnType().get() instanceof VoidType;
-	}
 }

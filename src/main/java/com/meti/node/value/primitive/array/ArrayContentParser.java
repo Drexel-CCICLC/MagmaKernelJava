@@ -2,9 +2,7 @@ package com.meti.node.value.primitive.array;
 
 import com.meti.compile.Compiler;
 import com.meti.declare.Parameter;
-import com.meti.node.Node;
-import com.meti.node.Parser;
-import com.meti.node.Type;
+import com.meti.node.*;
 import com.meti.node.bracket.block.BlockNode;
 import com.meti.node.bracket.declare.AssignNode;
 import com.meti.node.bracket.declare.DeclareNode;
@@ -92,7 +90,7 @@ public class ArrayContentParser implements Parser {
     }
 
     private Node buildDeclaration(Type type, int size) {
-        Type arrayType = ArrayType.arrayOf(type);
+        NamedType arrayType = ArrayType.arrayOf(type);
         Node sizeNode = new IntNode(size);
         Node arraySizeNode = new ArraySizeNode(type, sizeNode);
         return new DeclareNode(arrayType, ARRAY_NAME, arraySizeNode);
