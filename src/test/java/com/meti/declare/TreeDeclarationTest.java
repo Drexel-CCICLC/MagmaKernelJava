@@ -184,6 +184,11 @@ class TreeDeclarationTest {
 		}
 
 		@Override
+		public FieldNodeBuilder withParent(Declaration parent) {
+			return null;
+		}
+
+		@Override
 		public FieldNodeBuilder withType(Type type) {
 			this.type.set(type);
 			return this;

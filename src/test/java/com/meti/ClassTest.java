@@ -1,5 +1,6 @@
 package com.meti;
 
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -7,7 +8,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ClassTest extends InterpretedTest {
-	@Test
+	@RepeatedTest(3)
 	void test() throws IOException, InterruptedException {
 		String result = interpreter.run("""
 				native val printf = (String format, Any value) => Void;
@@ -21,9 +22,7 @@ class ClassTest extends InterpretedTest {
 					return this;
 				};
 				val main = () => Int :{
-					val a = 3;
-					val b = 4;
-					val point = Point(a, b);
+					val point = Point(3, 4);
 					val x = point.getX();
 					val y = point.getY();
 					printf("%i", x);

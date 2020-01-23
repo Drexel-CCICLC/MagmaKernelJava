@@ -24,7 +24,7 @@ public class VariableNode implements Node {
 
     @Override
     public String render() {
-        return (parameter) ? "*" + value : value;
+        return value;
     }
 
     @Override

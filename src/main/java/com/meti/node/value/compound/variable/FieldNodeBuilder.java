@@ -1,5 +1,6 @@
 package com.meti.node.value.compound.variable;
 
+import com.meti.declare.Declaration;
 import com.meti.node.Node;
 import com.meti.node.Type;
 
@@ -16,48 +17,55 @@ public interface FieldNodeBuilder {
 
 	FieldNodeBuilder withOrder(int order);
 
+	FieldNodeBuilder withParent(Declaration parent);
+
 	FieldNodeBuilder withType(Type type);
 
 	final class FieldNodeBuilderImpl implements FieldNodeBuilder {
 		private final Type childType;
 		private final Node instanceArray;
 		private final String name;
-		private final int order;
+		private final Declaration parent;
 
 		private FieldNodeBuilderImpl() {
-			this(null, null, null, -1);
+			this(null, null, null, null);
 		}
 
-		private FieldNodeBuilderImpl(Type childType, Node instanceArray, String name, int order) {
+		private FieldNodeBuilderImpl(Declaration parent, Type childType, Node instanceArray, String name) {
+			this.parent = parent;
 			this.childType = childType;
 			this.instanceArray = instanceArray;
 			this.name = name;
-			this.order = order;
+		}
+
+		@Override
+		public FieldNodeBuilder withParent(Declaration parent) {
+			return new FieldNodeBuilderImpl(parent, childType, instanceArray, name);
 		}
 
 		@Override
 		public Node build() {
-			return new FieldNode(instanceArray, order, childType, name);
+			return new FieldNode(parent, instanceArray, childType, name);
 		}
 
 		@Override
 		public FieldNodeBuilder withInstanceArray(Node instanceArray) {
-			return new FieldNodeBuilderImpl(childType, instanceArray, name, order);
+			return new FieldNodeBuilderImpl(parent, childType, instanceArray, name);
 		}
 
 		@Override
 		public FieldNodeBuilder withName(String name) {
-			return new FieldNodeBuilderImpl(childType, instanceArray, name, order);
+			return new FieldNodeBuilderImpl(parent, childType, instanceArray, name);
 		}
 
 		@Override
 		public FieldNodeBuilder withOrder(int order) {
-			return new FieldNodeBuilderImpl(childType, instanceArray, name, order);
+			return new FieldNodeBuilderImpl(parent, childType, instanceArray, name);
 		}
 
 		@Override
 		public FieldNodeBuilder withType(Type type) {
-			return new FieldNodeBuilderImpl(type, instanceArray, name, order);
+			return new FieldNodeBuilderImpl(parent, type, instanceArray, name);
 		}
 	}
 }

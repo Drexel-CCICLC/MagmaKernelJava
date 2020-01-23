@@ -194,7 +194,11 @@ public class TreeDeclaration implements Declaration {
 				.withParameters(parameters)
 				.withReturnType(returnType)
 				.withBlock(block)
-				.withName(name());
+				.withName(joinedName());
+	}
+
+	private String joinedName() {
+		return String.join("_", stack);
 	}
 
 	@Override
@@ -217,8 +221,8 @@ public class TreeDeclaration implements Declaration {
 				.map((Function<Parameter, String>) Parameter::name)
 				.map(VariableNode::new)
 				.collect(Collectors.toList());
-		Node value = new BlockNode(items);
-		return new DeclareNode(new CStructType(name()), name(), value);
+		Node value = new StructContentNode(items);
+		return new DeclareNode(new CStructType(name()), name() + "_", value);
 	}
 
 	@Override

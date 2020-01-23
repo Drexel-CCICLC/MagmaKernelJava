@@ -78,7 +78,7 @@ public class StructParser implements Parser {
                 .map(String::trim)
                 .filter(paramString -> !paramString.isBlank())
                 .map(value -> Parameter.of(value, compiler))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     private Set<Parameter> buildParentParameters() {

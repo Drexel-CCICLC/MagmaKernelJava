@@ -42,7 +42,7 @@ public interface Parameter {
 
 		@Override
 		public String render() {
-			return type().render() + "* " + name;
+			return type().render() + " " + name;
 		}
 
 		@Override

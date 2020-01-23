@@ -1,26 +1,23 @@
 package com.meti.node.value.compound.variable;
 
+import com.meti.declare.Declaration;
 import com.meti.node.Node;
 import com.meti.node.Type;
-import com.meti.node.value.compound.cast.CastNode;
-import com.meti.node.value.primitive.array.ArrayIndexNode;
-import com.meti.node.value.primitive.integer.IntNode;
-import com.meti.node.value.primitive.point.DereferenceNode;
-import com.meti.node.value.primitive.point.PointerType;
+import com.meti.node.bracket.struct.StructType;
 
 import java.util.LinkedList;
 
 public class FieldNode implements Node {
 	private final Type childType;
-	private final Node instanceArray;
-	private final String name;
-	private final int order;
+	private final String field;
+	private final Node instance;
+	private final Declaration parent;
 
-	FieldNode(Node instanceArray, int order, Type childType, String name) {
-		this.instanceArray = instanceArray;
-		this.order = order;
+	FieldNode(Declaration parent, Node instance, Type childType, String field) {
+		this.parent = parent;
+		this.instance = instance;
 		this.childType = childType;
-		this.name = name;
+		this.field = field;
 	}
 
 	@Override
@@ -35,15 +32,8 @@ public class FieldNode implements Node {
 
 	@Override
 	public String render() {
-		if (childType.returnType().isPresent()) {
-			return name;
-		} else {
-			Type pointerType = PointerType.pointerOf(childType);
-			Node orderNode = new IntNode(order);
-			Node arrayIndexNode = new ArrayIndexNode(instanceArray, orderNode);
-			Node castNode = new CastNode(pointerType, arrayIndexNode);
-			Node dereferenceNode = new DereferenceNode(castNode);
-			return dereferenceNode.render();
-		}
+		return childType instanceof StructType ?
+				parent.toInstance().render() + field :
+				instance.render() + "." + field;
 	}
 }

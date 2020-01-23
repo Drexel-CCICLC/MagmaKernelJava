@@ -44,7 +44,7 @@ public class CStructType implements Type {
 
     @Override
     public String renderWithName(String name) {
-        return null;
+        return "struct " + name;
     }
 
     @Override

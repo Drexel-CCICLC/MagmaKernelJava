@@ -45,9 +45,7 @@ public class ObjectType implements Type {
 
 	@Override
 	public String render() {
-		Type pointer = PointerType.pointerOf(AnyType.INSTANCE);
-		Type array = ArrayType.arrayOf(pointer);
-		return array.render();
+		return new CStructType(name).render();
 	}
 
 	@Override
@@ -64,6 +62,7 @@ public class ObjectType implements Type {
 	public Optional<Node> toField(Node instance, String name) {
 		FieldNodeBuilder builder = FieldNodeBuilder.create()
 				.withName(name)
+				.withParent(declaration())
 				.withInstanceArray(instance);
 		builder = lookupFieldType(builder, name);
 		builder = lookupFieldOrder(builder, name);

@@ -63,7 +63,8 @@ class StructParserTest {
                 }""");
         assertTrue(result.render().isBlank());
         assertEquals("struct Point{int x;int y;};" +
-                "int Point_getX=(struct Point Point_){return Point_.x;}" +
-                "int Point_getY=(struct Point Point_){return Point_.y;}", cache.render());
+                "int Point_getX(struct Point Point_){return Point_.x;}" +
+                "int Point_getY(struct Point Point_){return Point_.y;}" +
+                "struct Point Point(int y,int x){struct Point Point_={x,y};}", cache.render());
     }
 }
