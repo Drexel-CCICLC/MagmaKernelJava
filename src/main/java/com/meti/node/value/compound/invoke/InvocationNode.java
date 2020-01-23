@@ -11,10 +11,6 @@ public class InvocationNode implements Node {
     private final Node caller;
     private final boolean isVoid;
 
-    public InvocationNode(Node caller, Collection<? extends Node> args) {
-        this(caller, args, false);
-	}
-
     public InvocationNode(Node caller, Collection<? extends Node> args, boolean isVoid) {
         this.caller = caller;
         this.args = args;
