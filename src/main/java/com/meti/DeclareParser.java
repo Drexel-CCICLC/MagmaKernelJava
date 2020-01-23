@@ -11,7 +11,6 @@ public class DeclareParser implements Parser {
             int equalsIndex = content.indexOf('=');
             String beforeEquals = content.substring(0, equalsIndex);
             String afterEquals = content.substring(equalsIndex + 1);
-            Node value
         }
         return Optional.empty();
     }
