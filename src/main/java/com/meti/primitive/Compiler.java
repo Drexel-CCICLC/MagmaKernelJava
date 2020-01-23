@@ -1,5 +1,7 @@
-package com.meti;
+package com.meti.primitive;
 
+import com.meti.Node;
+import com.meti.Parser;
 import com.meti.exception.ParseException;
 
 import java.util.Optional;
@@ -11,7 +13,7 @@ public class Compiler {
         this.rootParser = rootParser;
     }
 
-    Optional<Node> parse(String value) throws ParseException {
+    public Optional<Node> parse(String value) throws ParseException {
         return rootParser.parse(value);
     }
 }

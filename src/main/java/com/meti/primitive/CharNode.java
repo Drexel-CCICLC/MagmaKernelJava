@@ -1,4 +1,6 @@
-package com.meti;
+package com.meti.primitive;
+
+import com.meti.Node;
 
 public class CharNode implements Node {
     private final char value;

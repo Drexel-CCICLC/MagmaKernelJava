@@ -1,5 +1,7 @@
-package com.meti;
+package com.meti.primitive;
 
+import com.meti.Node;
+import com.meti.Parser;
 import com.meti.exception.ParseException;
 
 import java.util.Optional;
