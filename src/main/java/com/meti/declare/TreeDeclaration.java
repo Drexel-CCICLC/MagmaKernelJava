@@ -1,7 +1,7 @@
 package com.meti.declare;
 
-import com.meti.node.*;
 import com.meti.node.ObjectType;
+import com.meti.node.*;
 import com.meti.node.bracket.declare.AssignNode;
 import com.meti.node.bracket.declare.DeclareNode;
 import com.meti.node.bracket.declare.Flag;
@@ -59,7 +59,7 @@ public class TreeDeclaration implements Declaration {
 
 	private Node buildAssignment(int index, Parameter paramName) {
 		Node paramNode = paramName.toNode();
-		Node arrayNode = new VariableNode(instanceName(), false);
+		Node arrayNode = new VariableNode(instanceName());
 		Node indexNode = new IntNode(index);
 		Node arrayIndexNode = new ArrayIndexNode(arrayNode, indexNode);
 		return new AssignNode(arrayIndexNode, new DereferenceNode(paramNode));
@@ -164,7 +164,7 @@ public class TreeDeclaration implements Declaration {
 
 	@Override
 	public Node toInstance() {
-		return new VariableNode(instanceName(), false);
+		return new VariableNode(instanceName());
 	}
 
 	@Override
@@ -180,7 +180,7 @@ public class TreeDeclaration implements Declaration {
 
 	@Override
 	public Node toParameter() {
-		return new VariableNode(name(), true);
+		return new VariableNode(name());
 	}
 
 	@Override

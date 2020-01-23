@@ -46,7 +46,7 @@ public class InvocationParser implements Parser {
 			int periodIndex = callerString.lastIndexOf('.');
 			if (-1 != periodIndex) {
 				String parentString = callerString.substring(0, periodIndex);
-				arguments.add(new VariableNode(parentString, false));
+				arguments.add(new VariableNode(parentString));
 			}
 
 			boolean returnsVoid = callerType.returnType().map(type -> type.equals(VoidType.INSTANCE)).orElseThrow();

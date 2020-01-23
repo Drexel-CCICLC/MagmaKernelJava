@@ -12,14 +12,14 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 public class ArraySizeNode implements Node {
-    private static final Node malloc = new VariableNode("malloc", false);
-    private final Type type;
-    private final Node size;
+	private static final Node malloc = new VariableNode("malloc");
+	private final Node size;
+	private final Type type;
 
-    public ArraySizeNode(Type type, Node size) {
-        this.type = type;
-        this.size = size;
-    }
+	public ArraySizeNode(Type type, Node size) {
+		this.type = type;
+		this.size = size;
+	}
 
 	@Override
 	public LinkedList<Node> children() {
@@ -27,15 +27,15 @@ public class ArraySizeNode implements Node {
 	}
 
 	@Override
-    public String render() {
-        Node sizeOf = new SizeOfNode(type);
-        Node operation = new OperationNode(size, sizeOf, Operations.MULTIPLY);
-        Node invocation = new InvocationNode(malloc, Collections.singletonList(operation));
-        return invocation.render();
-    }
+	public boolean isParent() {
+		return false;
+	}
 
-    @Override
-    public boolean isParent() {
-        return false;
-    }
+	@Override
+	public String render() {
+		Node sizeOf = new SizeOfNode(type);
+		Node operation = new OperationNode(size, sizeOf, Operations.MULTIPLY);
+		Node invocation = new InvocationNode(malloc, Collections.singletonList(operation));
+		return invocation.render();
+	}
 }

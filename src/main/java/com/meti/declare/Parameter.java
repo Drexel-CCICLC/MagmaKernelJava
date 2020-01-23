@@ -47,7 +47,7 @@ public interface Parameter {
 
 		@Override
 		public Node toNode() {
-			return new VariableNode(name, false);
+			return new VariableNode(name);
 		}
 
 		@Override
