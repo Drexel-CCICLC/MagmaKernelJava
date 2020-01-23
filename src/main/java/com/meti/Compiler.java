@@ -1,4 +1,4 @@
-package com.meti.primitive;
+package com.meti;
 
 import com.meti.Node;
 import com.meti.Parser;
@@ -14,6 +14,6 @@ public class Compiler {
     }
 
     public Optional<Node> parse(String value) throws ParseException {
-        return rootParser.parse(value);
+        return rootParser.parse(value, this);
     }
 }
