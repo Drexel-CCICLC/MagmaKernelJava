@@ -12,9 +12,9 @@ public class ParentParser implements Parser {
     }
 
     @Override
-    public Optional<Node> parse(String value) throws ParseException {
+    public Optional<Node> parse(String content) throws ParseException {
         for (Parser parser : parsers) {
-            Optional<Node> parse = parser.parse(value);
+            Optional<Node> parse = parser.parse(content);
             if (parse.isPresent()) {
                 return parse;
             }

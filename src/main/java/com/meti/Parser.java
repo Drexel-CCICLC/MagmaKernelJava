@@ -5,5 +5,5 @@ import com.meti.exception.ParseException;
 import java.util.Optional;
 
 public interface Parser {
-    Optional<Node> parse(String value) throws ParseException;
+    Optional<Node> parse(String content) throws ParseException;
 }

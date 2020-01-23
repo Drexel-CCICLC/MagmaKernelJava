@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public class IntParser implements Parser {
     @Override
-    public Optional<Node> parse(String value) {
-        String trim = value.trim();
+    public Optional<Node> parse(String content) {
+        String trim = content.trim();
         String intValue = trim.endsWith("i") ?
                 trim.substring(0, trim.length() - 1) :
                 trim;
