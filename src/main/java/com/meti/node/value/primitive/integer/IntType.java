@@ -7,7 +7,7 @@ import com.meti.node.Type;
 import java.util.Optional;
 
 public class IntType implements ObjectType {
-	public static final ObjectType INSTANCE = new IntType();
+	public static final Type INSTANCE = new IntType();
 
 	@Override
 	public Optional<Node> toField(Node instance, String name) {

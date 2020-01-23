@@ -169,7 +169,7 @@ public class TreeDeclaration implements Declaration {
 
 	@Override
 	public Parameter toInstancePair() {
-		ObjectType type = new com.meti.node.bracket.struct.ObjectType(declarations, name());
+		Type type = new com.meti.node.bracket.struct.ObjectType(declarations, name());
 		return Parameter.of(instanceName(), type);
 	}
 

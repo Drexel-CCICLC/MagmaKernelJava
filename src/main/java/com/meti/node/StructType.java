@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public interface StructType extends NamedType {
-	static StructType create(Type returnType, String name, List<? extends Type> parameters) {
+	static Type create(Type returnType, String name, List<? extends Type> parameters) {
 		return new StructTypeImpl(returnType, name, parameters);
 	}
 

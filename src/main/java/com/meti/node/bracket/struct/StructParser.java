@@ -81,7 +81,7 @@ public class StructParser implements Parser {
                 .collect(Collectors.toList());
     }
 
-    private Set<Parameter> buildParentParameters() {
+    private Collection<Parameter> buildParentParameters() {
         return declarations.stream()
                 .filter(declaration -> !declarations.isRoot(declaration) &&
                         !declarations.isCurrent(declaration))
