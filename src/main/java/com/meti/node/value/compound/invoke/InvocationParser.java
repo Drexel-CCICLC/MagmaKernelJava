@@ -51,8 +51,8 @@ public class InvocationParser implements Parser {
 
 			boolean returnsVoid = callerType.returnType().map(type -> type.equals(VoidType.INSTANCE)).orElseThrow();
 			return returnsVoid ?
-					Optional.of(new InvocationNode(caller, arguments)) :
-					Optional.of(new VoidInvocationNode(caller, arguments));
+					Optional.of(new VoidInvocationNode(caller, arguments)) :
+					Optional.of(new InvocationNode(caller, arguments));
 		}
 		return Optional.empty();
 	}
