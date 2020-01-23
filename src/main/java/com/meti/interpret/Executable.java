@@ -5,11 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public interface Executable {
-	static String run(String... command) throws IOException, InterruptedException {
-		Executable executable = new ExecutableImpl();
-		return executable.runImpl(command);
-	}
-
 	String runImpl(String... command) throws IOException, InterruptedException;
 
 	class ExecutableImpl implements Executable {
