@@ -17,7 +17,12 @@ public class CStructType implements Type {
         return Optional.empty();
     }
 
-    @Override
+	@Override
+	public Optional<String> name() {
+		return Optional.empty();
+	}
+
+	@Override
     public Optional<Node> toField(Node instance, String name) {
         return Optional.empty();
     }

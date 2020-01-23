@@ -128,6 +128,15 @@ public class TreeDeclaration implements Declaration {
 	}
 
 	@Override
+	public boolean isClass() {
+		return type.returnType()
+				.flatMap(Type::name)
+				.map(s -> s.equals(name()))
+				.orElse(false)
+				.booleanValue();
+	}
+
+	@Override
 	public boolean isParameter() {
 		return parameter;
 	}

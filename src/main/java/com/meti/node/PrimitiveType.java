@@ -8,6 +8,11 @@ import java.util.OptionalInt;
 
 public abstract class PrimitiveType implements Type {
 	@Override
+	public Optional<String> name() {
+		return Optional.empty();
+	}
+
+	@Override
 	public Optional<Node> toField(Node instance, String name) {
 		Optional<Type> child = childType(name.trim());
 		OptionalInt order = childOrder(name.trim());

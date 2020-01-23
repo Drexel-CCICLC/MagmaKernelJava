@@ -10,6 +10,11 @@ public class IntType implements Type {
 	public static final Type INSTANCE = new IntType();
 
 	@Override
+	public Optional<String> name() {
+		return Optional.empty();
+	}
+
+	@Override
 	public Optional<Node> toField(Node instance, String name) {
 		return Optional.empty();
 	}

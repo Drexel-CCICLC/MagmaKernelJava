@@ -13,67 +13,72 @@ import com.meti.node.value.primitive.point.PointerType;
 import java.util.Optional;
 
 public class ObjectType implements Type {
-    private final Declarations declarations;
-    private final String name;
+	private final Declarations declarations;
+	private final String name;
 
-    public ObjectType(Declarations declarations, String name) {
-        this.declarations = declarations;
-        this.name = name;
-    }
+	public ObjectType(Declarations declarations, String name) {
+		this.declarations = declarations;
+		this.name = name;
+	}
 
-    @Override
-    public Optional<Node> toField(Node instance, String name) {
-        FieldNodeBuilder builder = FieldNodeBuilder.create()
-                .withName(name)
-                .withInstanceArray(instance);
-        builder = lookupFieldType(builder, name);
-        builder = lookupFieldOrder(builder, name);
-        return Optional.ofNullable(builder.build());
-    }
+	@Override
+	public Optional<Type> childType(String childName) {
+		return declaration()
+				.child(childName)
+				.map(Declaration::type);
+	}
 
-    private FieldNodeBuilder lookupFieldType(FieldNodeBuilder builder, String name) {
-        return declaration().lookupFieldType(name, builder);
-    }
+	@Override
+	public boolean doesReturnVoid() {
+		return returnType().isPresent() && returnType().get() instanceof VoidType;
+	}
 
-    private FieldNodeBuilder lookupFieldOrder(FieldNodeBuilder builder, String name) {
-        return declaration().lookupFieldOrder(name, builder);
-    }
+	@Override
+	public boolean isNamed() {
+		return false;
+	}
 
-    private Declaration declaration() {
-        return declarations.relative(this.name).orElseThrow();
-    }
+	@Override
+	public Optional<String> name() {
+        return Optional.of(name);
+	}
 
-    @Override
-    public boolean doesReturnVoid() {
-        return returnType().isPresent() && returnType().get() instanceof VoidType;
-    }
+	@Override
+	public String render() {
+		Type pointer = PointerType.pointerOf(AnyType.INSTANCE);
+		Type array = ArrayType.arrayOf(pointer);
+		return array.render();
+	}
 
-    @Override
-    public boolean isNamed() {
-        return false;
-    }
+	@Override
+	public String renderWithName(String name) {
+		return (isNamed()) ? render() : render() + " " + name;
+	}
 
-    @Override
-    public String render() {
-        Type pointer = PointerType.pointerOf(AnyType.INSTANCE);
-        Type array = ArrayType.arrayOf(pointer);
-        return array.render();
-    }
+	@Override
+	public Optional<Type> returnType() {
+		return Optional.empty();
+	}
 
-    @Override
-    public String renderWithName(String name) {
-        return (isNamed()) ? render() : render() + " " + name;
-    }
+	@Override
+	public Optional<Node> toField(Node instance, String name) {
+		FieldNodeBuilder builder = FieldNodeBuilder.create()
+				.withName(name)
+				.withInstanceArray(instance);
+		builder = lookupFieldType(builder, name);
+		builder = lookupFieldOrder(builder, name);
+		return Optional.ofNullable(builder.build());
+	}
 
-    @Override
-    public Optional<Type> returnType() {
-        return Optional.empty();
-    }
+	private FieldNodeBuilder lookupFieldType(FieldNodeBuilder builder, String name) {
+		return declaration().lookupFieldType(name, builder);
+	}
 
-    @Override
-    public Optional<Type> childType(String childName) {
-        return declaration()
-                .child(childName)
-                .map(Declaration::type);
-    }
+	private FieldNodeBuilder lookupFieldOrder(FieldNodeBuilder builder, String name) {
+		return declaration().lookupFieldOrder(name, builder);
+	}
+
+	private Declaration declaration() {
+		return declarations.relative(this.name).orElseThrow();
+	}
 }

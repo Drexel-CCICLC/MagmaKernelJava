@@ -26,6 +26,8 @@ public interface Declaration {
 
     boolean hasChildAsParameter(String childName);
 
+    boolean isClass();
+
     boolean isParameter();
 
     FieldNodeBuilder lookupFieldOrder(String name, FieldNodeBuilder builder);
