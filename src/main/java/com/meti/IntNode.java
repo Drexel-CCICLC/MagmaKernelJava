@@ -9,6 +9,6 @@ public class IntNode implements Node {
 
     @Override
     public String render() {
-        return String.valueOf(value);
+        return value + "i";
     }
 }

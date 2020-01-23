@@ -10,13 +10,13 @@ public class IntNodeTest {
     @Test
     void test10() {
         Node node = new IntNode(10);
-        assertEquals("10", node.render());
+        assertEquals("10i", node.render());
     }
 
     @Test
     void test100() {
         Node node = new IntNode(100);
-        assertEquals("100", node.render());
+        assertEquals("100i", node.render());
     }
 
 }
