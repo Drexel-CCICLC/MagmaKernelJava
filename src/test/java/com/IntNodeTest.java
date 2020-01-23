@@ -1,6 +1,7 @@
 package com;
 
 import com.meti.IntNode;
+import com.meti.Node;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,13 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class IntNodeTest {
     @Test
     void test10() {
-        IntNode node = new IntNode(10);
+        Node node = new IntNode(10);
         assertEquals("10", node.render());
     }
 
     @Test
     void test100() {
-        IntNode node = new IntNode(100);
+        Node node = new IntNode(100);
         assertEquals("100", node.render());
     }
 
