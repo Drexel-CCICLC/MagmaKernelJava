@@ -6,11 +6,11 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 
-public class InvocationNode implements Node {
+public class VoidInvocationNode implements Node {
 	private final Collection<? extends Node> args;
 	private final Node caller;
 
-    public InvocationNode(Node caller, Collection<? extends Node> args) {
+    VoidInvocationNode(Node caller, Collection<? extends Node> args) {
 		this.caller = caller;
 		this.args = args;
 	}
@@ -30,6 +30,6 @@ public class InvocationNode implements Node {
 		String argsString = args.stream()
 				.map(Node::render)
 				.collect(Collectors.joining(","));
-		return caller.render() + "(" + argsString + ")";
+		return caller.render() + "(" + argsString + ");";
 	}
 }

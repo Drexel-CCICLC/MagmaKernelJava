@@ -2,7 +2,10 @@ package com.meti.node.value.compound.invoke;
 
 import com.meti.compile.Compiler;
 import com.meti.declare.Declarations;
-import com.meti.node.*;
+import com.meti.node.Node;
+import com.meti.node.Parser;
+import com.meti.node.StructType;
+import com.meti.node.Type;
 import com.meti.node.other.VoidType;
 import com.meti.node.value.compound.variable.VariableNode;
 
@@ -46,8 +49,10 @@ public class InvocationParser implements Parser {
 				arguments.add(new VariableNode(parentString, false));
 			}
 
-            boolean returnsVoid = callerType.returnType().map(type -> type.equals(VoidType.INSTANCE)).orElseThrow();
-            return Optional.of(new InvocationNode(caller, arguments, returnsVoid));
+			boolean returnsVoid = callerType.returnType().map(type -> type.equals(VoidType.INSTANCE)).orElseThrow();
+			return returnsVoid ?
+					Optional.of(new InvocationNode(caller, arguments)) :
+					Optional.of(new VoidInvocationNode(caller, arguments));
 		}
 		return Optional.empty();
 	}

@@ -27,6 +27,6 @@ public class ArrayDeleteNode implements Node {
 
 	@Override
 	public String render() {
-		return new InvocationNode(FREE_NODE, Collections.singletonList(array), true).render();
+		return new InvocationNode(FREE_NODE, Collections.singletonList(array)).render();
 	}
 }

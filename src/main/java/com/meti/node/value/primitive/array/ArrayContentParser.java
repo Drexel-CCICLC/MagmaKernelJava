@@ -64,7 +64,7 @@ public class ArrayContentParser implements Parser {
         String name = generator.next();
         cache.addFirst(createBuilder(type, children.keySet(), name));
         Node varNode = new VariableNode(name, false);
-        return new InvocationNode(varNode, children.values(), false);
+        return new InvocationNode(varNode, children.values());
     }
 
     private GeneratedNodeBuilder createBuilder(Type type, Collection<String> keys, String name) {

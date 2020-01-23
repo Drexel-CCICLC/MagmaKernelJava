@@ -30,7 +30,7 @@ public class ArraySizeNode implements Node {
     public String render() {
         Node sizeOf = new SizeOfNode(type);
         Node operation = new OperationNode(size, sizeOf, Operations.MULTIPLY);
-        Node invocation = new InvocationNode(malloc, Collections.singletonList(operation), false);
+        Node invocation = new InvocationNode(malloc, Collections.singletonList(operation));
         return invocation.render();
     }
 
