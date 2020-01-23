@@ -1,5 +1,7 @@
 package com.meti;
 
+import com.meti.exception.ParseException;
+
 import java.util.Optional;
 
 public class CharParser implements Parser {
