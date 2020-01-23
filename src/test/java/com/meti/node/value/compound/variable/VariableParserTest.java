@@ -27,7 +27,7 @@ class VariableParserTest {
 		declarations.define("a", new ObjectType(declarations, "Point"), Collections.emptySet());
 		Compiler compiler = new UnitCompiler(new VariableParser(declarations), new VariableResolver(declarations));
 		Node node = compiler.parseSingle("a.x");
-		assertEquals("*(int*)a[0]", node.render());
+		assertEquals("a.x", node.render());
 	}
 
 	@Test

@@ -17,6 +17,7 @@ import com.meti.node.value.primitive.point.DereferenceNode;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -129,11 +130,7 @@ public class TreeDeclaration implements Declaration {
 
 	@Override
 	public boolean isClass() {
-		return type.returnType()
-				.flatMap(Type::name)
-				.map(s -> s.equals(name()))
-				.orElse(false)
-				.booleanValue();
+		return children.stream().anyMatch(declaration -> declaration.type() instanceof StructType);
 	}
 
 	@Override
