@@ -128,7 +128,7 @@ public class TreeDeclaration implements Declaration {
 
 	@Override
 	public boolean isClass() {
-		return children.stream().anyMatch(declaration -> declaration.type() instanceof StructType.StructTypeImpl);
+		return children.stream().anyMatch(declaration -> declaration.type() instanceof StructType);
 	}
 
 	@Override
