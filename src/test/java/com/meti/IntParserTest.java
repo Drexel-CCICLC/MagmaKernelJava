@@ -7,22 +7,22 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class IntParserTest {
     @Test
-    void testWithout() {
-        IntParser parser = new IntParser();
+    void testWithout() throws ParseException {
+        Parser parser = new IntParser();
         Node node = parser.parse("10").orElseThrow();
         assertEquals("10i", node.render());
     }
 
     @Test
-    void testWith() {
-        IntParser parser = new IntParser();
+    void testWith() throws ParseException {
+        Parser parser = new IntParser();
         Node node = parser.parse("10i").orElseThrow();
         assertEquals("10i", node.render());
     }
 
     @Test
-    void testInvalid() {
-        IntParser parser = new IntParser();
+    void testInvalid() throws ParseException {
+        Parser parser = new IntParser();
         assertTrue(parser.parse("test").isEmpty());
     }
 }

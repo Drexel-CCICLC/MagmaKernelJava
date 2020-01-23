@@ -2,8 +2,9 @@ package com.meti;
 
 import java.util.Optional;
 
-public class IntParser {
-    Optional<IntNode> parse(String value) {
+public class IntParser implements Parser {
+    @Override
+    public Optional<Node> parse(String value) {
         String trim = value.trim();
         String intValue = trim.endsWith("i") ?
                 trim.substring(0, trim.length() - 1) :
