@@ -11,7 +11,7 @@ class AssignNodeTest {
     void render() {
         Node from = new IntNode(10);
         Node to = new VariableNode("x");
-        Node node = new AssignNode(from, to);
+        Node node = new AssignNode(to, from);
         assertEquals("x=10i;", node.render());
     }
 }
