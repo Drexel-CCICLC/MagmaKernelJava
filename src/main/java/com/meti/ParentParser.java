@@ -14,7 +14,7 @@ public class ParentParser implements Parser {
     @Override
     public Optional<Node> parse(String content, Compiler compiler) throws ParseException {
         for (Parser parser : parsers) {
-            Optional<Node> parse = parser.parse(content, null);
+            Optional<Node> parse = parser.parse(content, compiler);
             if (parse.isPresent()) {
                 return parse;
             }

@@ -11,11 +11,11 @@ public class CompilerTest {
     private final Compiler compiler = new Compiler(new ParentParser(
             new IntParser(),
             new CharParser()
-    ));
+    ), null);
 
     @Test
     void compile() throws ParseException {
-        assertEquals("'x'", compiler.parse("'x'").orElseThrow().render());
-        assertEquals("10i", compiler.parse("10").orElseThrow().render());
+        assertEquals("'x'", compiler.parse("'x'").render());
+        assertEquals("10i", compiler.parse("10").render());
     }
 }

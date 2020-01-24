@@ -1,19 +1,21 @@
 package com.meti;
 
-import com.meti.Node;
-import com.meti.Parser;
 import com.meti.exception.ParseException;
 
-import java.util.Optional;
-
 public class Compiler {
-    private final Parser rootParser;
+	private final Parser rootParser;
+	private final Resolver rootResolver;
 
-    public Compiler(Parser rootParser) {
-        this.rootParser = rootParser;
-    }
+	public Compiler(Parser rootParser, Resolver rootResolver) {
+		this.rootParser = rootParser;
+		this.rootResolver = rootResolver;
+	}
 
-    public Optional<Node> parse(String value) throws ParseException {
-        return rootParser.parse(value, this);
-    }
+	public Node parse(String value) throws ParseException {
+		return rootParser.parse(value, this).orElseThrow();
+	}
+
+	public Type resolveValue(String value) {
+        return rootResolver.resolveValue(value).orElseThrow();
+	}
 }
