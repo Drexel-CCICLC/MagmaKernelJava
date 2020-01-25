@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class Cache {
 	private static final String EXIT_NAME = "_exit";
-	private static final DeclareNode EXIT_DECLARE = new DeclareNode(IntType.INSTANCE, EXIT_NAME, new IntNode(0));
+	private static final Node EXIT_DECLARE = new DeclareNode(IntType.INSTANCE, EXIT_NAME, new IntNode(0));
 	private final Collection<Node> functions;
 	private final Collection<Node> main;
 	private final Collection<Node> structs;
