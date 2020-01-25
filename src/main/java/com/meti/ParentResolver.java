@@ -10,6 +10,11 @@ public class ParentResolver implements Resolver {
 	}
 
 	@Override
+	public Optional<Type> resolveName(String content) {
+		return Optional.empty();
+	}
+
+	@Override
 	public Optional<Type> resolveValue(String content) {
 		for (Resolver child : children) {
 			Optional<Type> optional = child.resolveValue(content);

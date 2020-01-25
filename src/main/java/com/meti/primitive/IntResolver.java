@@ -7,6 +7,11 @@ import java.util.Optional;
 
 public class IntResolver implements Resolver {
 	@Override
+	public Optional<Type> resolveName(String content) {
+		return Optional.empty();
+	}
+
+	@Override
 	public Optional<Type> resolveValue(String content) {
 		String trim = content.trim();
 		String intValue = trim.endsWith("i") ?
