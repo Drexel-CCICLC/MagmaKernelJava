@@ -1,12 +1,13 @@
 package com.meti;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class BlockNode implements Node {
-	private final List<? extends Node> children;
+	private final Collection<? extends Node> children;
 
-	public BlockNode(List<? extends Node> children) {
+	public BlockNode(Collection<? extends Node> children) {
 		this.children = children;
 	}
 
