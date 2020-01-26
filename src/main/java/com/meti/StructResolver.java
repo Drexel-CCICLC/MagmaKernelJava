@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 public class StructResolver implements Resolver {
+	private int implStart = 0;
 	private int paramStart = 0;
 	private int returnStart = 0;
 
@@ -21,6 +22,7 @@ public class StructResolver implements Resolver {
 	public Optional<Type> resolveValue(String content, Compiler compiler) {
 		paramStart = content.indexOf('(');
 		returnStart = content.indexOf("=>");
+		implStart = content.indexOf(':');
 		if (allEmpty(paramStart, returnStart)) {
 			return Optional.empty();
 		} else {
@@ -38,7 +40,7 @@ public class StructResolver implements Resolver {
 	private Collection<Type> parseParameters(String content, Compiler compiler) {
 		Collection<Type> parameters = new ArrayList<>();
 		if (-1 != paramStart) {
-			int paramEnd = endOf(content, returnStart);
+			int paramEnd = endOf(content, returnStart, implStart);
 			String paramsString = content.substring(paramStart, paramEnd).trim();
 			if (paramsString.startsWith("(") && paramsString.endsWith(")")) {
 				Arrays.stream(paramsString.substring(1, paramsString.length() - 1).split(","))
@@ -52,7 +54,7 @@ public class StructResolver implements Resolver {
 	private Type parseReturnType(String content, Compiler compiler) {
 		Type returnType = VoidType.INSTANCE;
 		if (-1 != returnStart) {
-			int returnEnd = endOf(content, 0);
+			int returnEnd = endOf(content, implStart);
 			String returnString = content.substring(returnStart, returnEnd).trim();
 			if (returnString.startsWith("=>")) {
 				returnType = compiler.resolveName(returnString.substring(2));
