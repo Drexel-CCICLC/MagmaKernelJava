@@ -19,10 +19,10 @@ public class SubFunctionTest {
 		declarations = new Declarations();
 		cache = new Cache();
 		parser = new ParentParser(
-				new InvocationParser(),
 				new StructParser(declarations, cache),
 				new DeclareParser(declarations),
 				new ReturnParser(),
+				new InvocationParser(),
 				new VariableParser(declarations)
 		);
 		resolver = new ParentResolver(
