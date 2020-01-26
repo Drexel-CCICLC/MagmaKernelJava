@@ -8,12 +8,12 @@ import java.util.stream.IntStream;
 
 public class StructParser implements Parser {
 	private final Cache cache;
-	private final Declarations declarations;
+	private final TreeDeclarations declarations;
 	private int implStart = 0;
 	private int paramStart = 0;
 	private int returnStart = 0;
 
-	public StructParser(Declarations declarations, Cache cache) {
+	public StructParser(TreeDeclarations declarations, Cache cache) {
 		this.declarations = declarations;
 		this.cache = cache;
 	}

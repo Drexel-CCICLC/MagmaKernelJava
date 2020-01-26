@@ -18,7 +18,7 @@ class CacheTest {
 	@Test
 	void add() {
 		List<Node> main = new ArrayList<>();
-		Cache cache = new Cache(Collections.emptyList(), Collections.emptyList(), main);
+		Cache cache = new CollectionCache(Collections.emptyList(), Collections.emptyList(), main);
 		Node expected = new IntNode(10);
 		cache.add(expected);
 		assertEquals(expected, main.get(0));
@@ -27,7 +27,7 @@ class CacheTest {
 	@Test
 	void addFunction() {
 		Collection<Node> nodes = new ArrayList<>();
-		Cache cache = new Cache(Collections.emptyList(), nodes, new ArrayList<>());
+		Cache cache = new CollectionCache(Collections.emptyList(), nodes, new ArrayList<>());
 		Node function = Mockito.mock(Node.class);
 		cache.addFunction(function);
 		assertIterableEquals(Collections.singleton(function), nodes);
@@ -36,7 +36,7 @@ class CacheTest {
 	@Test
 	void addStruct() {
 		Collection<Node> nodes = new ArrayList<>();
-		Cache cache = new Cache(nodes, Collections.emptyList(), new ArrayList<>());
+		Cache cache = new CollectionCache(nodes, Collections.emptyList(), new ArrayList<>());
 		Node struct = Mockito.mock(Node.class);
 		cache.addStruct(struct);
 		assertIterableEquals(Collections.singleton(struct), nodes);
@@ -44,7 +44,7 @@ class CacheTest {
 
 	@Test
 	void render() {
-		Cache cache = new Cache();
+		Cache cache = new CollectionCache();
 		Collection<Parameter> structParams = List.of(
 				Parameter.create(IntType.INSTANCE, "x"),
 				Parameter.create(IntType.INSTANCE, "y"));

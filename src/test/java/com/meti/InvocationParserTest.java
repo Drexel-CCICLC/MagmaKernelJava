@@ -13,7 +13,7 @@ class InvocationParserTest {
 
 	@Test
 	void parse() throws ParseException {
-		Declarations declarations = new Declarations();
+		TreeDeclarations declarations = new Declarations();
 		declarations.define(new FunctionType(Collections.emptySet(), VoidType.INSTANCE, "a"), "a");
 		Parser parser = new ParentParser(
 				new InvocationParser(),

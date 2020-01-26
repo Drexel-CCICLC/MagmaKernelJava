@@ -12,7 +12,7 @@ class VariableParserTest {
 
 	@Test
 	void parse() throws ParseException {
-		Declarations declarations = new Declarations();
+		TreeDeclarations declarations = new Declarations();
 		declarations.define(IntType.INSTANCE, "test");
 		Parser parser = new ParentParser(
 				new DeclareParser(new Declarations()),

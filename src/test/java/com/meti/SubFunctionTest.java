@@ -7,25 +7,21 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SubFunctionTest {
-	private Cache cache;
+class SubFunctionTest {
+	private final Cache cache = new CollectionCache();
 	private Compiler compiler;
-	private Declarations declarations;
-	private Parser parser;
-	private Resolver resolver;
 
 	@BeforeEach
 	void setUp() {
-		declarations = new Declarations();
-		cache = new Cache();
-		parser = new ParentParser(
+		TreeDeclarations declarations = new Declarations();
+		Parser parser = new ParentParser(
 				new StructParser(declarations, cache),
 				new DeclareParser(declarations),
 				new ReturnParser(),
 				new InvocationParser(),
 				new VariableParser(declarations)
 		);
-		resolver = new ParentResolver(
+		Resolver resolver = new ParentResolver(
 				new StructResolver(declarations),
 				new IntResolver()
 		);

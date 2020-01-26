@@ -6,9 +6,9 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class DeclareParser implements Parser {
-	private final Declarations declarations;
+	private final TreeDeclarations declarations;
 
-	public DeclareParser(Declarations declarations) {
+	public DeclareParser(TreeDeclarations declarations) {
 		this.declarations = declarations;
 	}
 

@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class StructParserTest {
 	private Cache cache;
 	private Compiler compiler;
-	private Declarations declarations;
+	private TreeDeclarations declarations;
 	private Parser parser;
 	private Resolver resolver;
 
@@ -31,7 +31,7 @@ class StructParserTest {
 	@BeforeEach
 	void setUp() {
 		declarations = new Declarations();
-		cache = new Cache();
+		cache = new CollectionCache();
 		parser = new ParentParser(
 				new StructParser(declarations, cache),
 				new DeclareParser(declarations),

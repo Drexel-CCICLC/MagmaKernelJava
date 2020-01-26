@@ -3,9 +3,9 @@ package com.meti;
 import java.util.Optional;
 
 public class VariableParser implements Parser {
-	private final Declarations declarations;
+	private final TreeDeclarations declarations;
 
-	public VariableParser(Declarations declarations) {
+	public VariableParser(TreeDeclarations declarations) {
 		this.declarations = declarations;
 	}
 

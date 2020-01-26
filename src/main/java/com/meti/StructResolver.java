@@ -13,9 +13,9 @@ public class StructResolver implements Resolver {
 	private int paramStart = 0;
 	private int returnStart = 0;
 
-	private final Declarations declarations;
+	private final TreeDeclarations declarations;
 
-	public StructResolver(Declarations declarations) {
+	public StructResolver(TreeDeclarations declarations) {
 		this.declarations = declarations;
 	}
 
