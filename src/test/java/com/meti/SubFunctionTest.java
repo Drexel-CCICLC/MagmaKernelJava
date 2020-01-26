@@ -41,11 +41,14 @@ public class SubFunctionTest {
 					};
 					return doOperation();
 				}""");
-		assertEquals("int _exit=0i;" +
+		assertEquals("int _exitCode=0i;" +
 				"struct reflect{int x;int(*doOperation)();};" +
-				"struct reflect reflect_;" +
-				"int reflect_doOperation(){return reflect_.x;}" +
-				"int reflect(int x){reflect_={x,doOperation};return reflect_.doOperation();}" +
-				"int main(){return _exit;}", cache.render());
+				"struct reflect reflect$;" +
+				"int reflect_doOperation(){return reflect$.x;}" +
+				"int reflect(int x){" +
+				"struct reflectreflect_={x,reflect_doOperation};" +
+				"reflect$=reflect_;" +
+				"return reflect_.doOperation();}" +
+				"int main(){return _exitCode;}", cache.render());
 	}
 }
