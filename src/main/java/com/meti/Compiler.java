@@ -15,7 +15,11 @@ public class Compiler {
 		return rootParser.parse(value, this).orElseThrow();
 	}
 
+	public Type resolveName(String name) {
+		return null;
+	}
+
 	public Type resolveValue(String value) {
-        return rootResolver.resolveValue(value).orElseThrow();
+		return rootResolver.resolveValue(value, this).orElseThrow();
 	}
 }

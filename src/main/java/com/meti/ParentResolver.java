@@ -15,9 +15,9 @@ public class ParentResolver implements Resolver {
 	}
 
 	@Override
-	public Optional<Type> resolveValue(String content) {
+	public Optional<Type> resolveValue(String content, Compiler compiler) {
 		for (Resolver child : children) {
-			Optional<Type> optional = child.resolveValue(content);
+			Optional<Type> optional = child.resolveValue(content, compiler);
 			if (optional.isPresent()) {
 				return optional;
 			}

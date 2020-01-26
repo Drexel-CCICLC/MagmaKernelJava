@@ -1,5 +1,6 @@
 package com.meti.primitive;
 
+import com.meti.Compiler;
 import com.meti.Resolver;
 import com.meti.Type;
 
@@ -12,7 +13,7 @@ public class IntResolver implements Resolver {
 	}
 
 	@Override
-	public Optional<Type> resolveValue(String content) {
+	public Optional<Type> resolveValue(String content, Compiler compiler) {
 		String trim = content.trim();
 		String intValue = trim.endsWith("i") ?
 				trim.substring(0, trim.length() - 1) :

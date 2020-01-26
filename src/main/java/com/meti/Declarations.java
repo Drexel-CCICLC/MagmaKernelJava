@@ -7,6 +7,10 @@ import java.util.Set;
 public class Declarations {
 	private final Set<Declaration> declarationSet = new HashSet<>();
 
+	public Declaration current() {
+		return null;
+	}
+
 	public void define(Type type, String name) {
 		declarationSet.add(new Declaration(name));
 	}
