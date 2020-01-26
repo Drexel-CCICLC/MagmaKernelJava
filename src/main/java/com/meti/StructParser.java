@@ -80,7 +80,7 @@ public class StructParser implements Parser {
 	private Node parseBlock(String content, Compiler compiler) throws ParseException {
 		Collection<Node> statements = new ArrayList<>();
 		if (-1 != implStart) {
-			String implString = content.substring(implStart).trim().substring(1);
+			String implString = content.substring(implStart).trim().substring(1).trim();
 			if (implString.startsWith("{") && implString.endsWith("}")) {
 				String[] split = implString.substring(1, implString.length() - 1).split(";");
 				for (String s : split) {
