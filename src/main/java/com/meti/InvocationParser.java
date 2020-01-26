@@ -17,8 +17,10 @@ public class InvocationParser implements Parser {
 			Node callerNode = compiler.parse(caller);
 			List<Node> arguments = new ArrayList<>();
 			for (String s : values.split(",")) {
-				Node node = compiler.parse(s);
-				arguments.add(node);
+				if (!s.isBlank()) {
+					Node node = compiler.parse(s);
+					arguments.add(node);
+				}
 			}
 			return Optional.of(new InvocationNode(callerNode, arguments));
 		}
