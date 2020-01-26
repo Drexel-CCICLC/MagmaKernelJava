@@ -23,7 +23,7 @@ public class StructResolver implements Resolver {
 		paramStart = content.indexOf('(');
 		returnStart = content.indexOf("=>");
 		implStart = content.indexOf(':');
-		if (allEmpty(paramStart, returnStart)) {
+		if (allEmpty(paramStart, returnStart, implStart)) {
 			return Optional.empty();
 		} else {
 			Collection<Type> parameters = parseParameters(content, compiler);
@@ -32,8 +32,8 @@ public class StructResolver implements Resolver {
 		}
 	}
 
-	private boolean allEmpty(int paramIndex, int returnIndex) {
-		return IntStream.of(paramIndex, returnIndex)
+	private boolean allEmpty(int paramIndex, int returnIndex, int implStart) {
+		return IntStream.of(paramIndex, returnIndex, implStart)
 				.allMatch(value -> -1 == value);
 	}
 

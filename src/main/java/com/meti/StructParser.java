@@ -23,15 +23,16 @@ public class StructParser implements Parser {
 
 	@Override
 	public Optional<Node> parse(String content, Compiler compiler) throws ParseException {
-		paramStart = content.indexOf('(');
-		returnStart = content.indexOf("=>");
-		implStart = content.indexOf(':');
-		if (allEmpty(paramStart, returnStart, implStart)) {
+		String trim = content.trim();
+		paramStart = trim.indexOf('(');
+		returnStart = trim.indexOf("=>");
+		implStart = trim.indexOf(':');
+		if (allEmpty(paramStart, returnStart, implStart) || !isZero(paramStart, returnStart, implStart)) {
 			return Optional.empty();
 		} else {
-			Collection<Parameter> parameters = parseParameters(content, compiler);
-			Type returnType = parseReturnType(content, compiler);
-			Node block = parseBlock(content, compiler);
+			Collection<Parameter> parameters = parseParameters(trim, compiler);
+			Type returnType = parseReturnType(trim, compiler);
+			Node block = parseBlock(trim, compiler);
 			Node function = new FunctionNode(declarations.current().getName(), returnType, parameters, block);
 			cache.addFunction(function);
 			return Optional.of(new EmptyNode());
@@ -41,6 +42,12 @@ public class StructParser implements Parser {
 	private boolean allEmpty(int paramIndex, int returnIndex, int implIndex) {
 		return IntStream.of(paramIndex, returnIndex, implIndex)
 				.allMatch(value -> -1 == value);
+	}
+
+	private boolean isZero(int paramStart, int returnStart, int implStart) {
+		return IntStream.of(paramStart, returnStart, implStart)
+				.anyMatch(value -> value == 0);
+
 	}
 
 	private Collection<Parameter> parseParameters(String content, Compiler compiler) {
@@ -72,12 +79,14 @@ public class StructParser implements Parser {
 	private Node parseBlock(String content, Compiler compiler) throws ParseException {
 		Collection<Node> statements = new ArrayList<>();
 		if (-1 != implStart) {
-			String implString = content.substring(implStart).trim();
+			String implString = content.substring(implStart).trim().substring(1);
 			if (implString.startsWith("{") && implString.endsWith("}")) {
 				String[] split = implString.substring(1, implString.length() - 1).split(";");
 				for (String s : split) {
-					Node node = compiler.parse(s);
-					statements.add(node);
+					if (!s.isBlank()) {
+						Node node = compiler.parse(s);
+						statements.add(node);
+					}
 				}
 			} else {
 				throw new ParseException("Single statement methods are not supported yet.");

@@ -14,8 +14,9 @@ class StructParserTest {
 		Declarations declarations = new Declarations();
 		Cache cache = new Cache();
 		Parser parser = new ParentParser(
+				new StructParser(declarations, cache),
 				new DeclareParser(),
-				new StructParser(declarations, cache)
+				new ReturnParser()
 		);
 		Resolver resolver = new ParentResolver(
 				new StructResolver(),
