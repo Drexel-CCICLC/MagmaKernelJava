@@ -2,24 +2,10 @@ package com.meti;
 
 import com.meti.exception.ParseException;
 
-public class Compiler {
-	private final Parser rootParser;
-	private final Resolver rootResolver;
+public interface Compiler {
+	Node parse(String value) throws ParseException;
 
-	public Compiler(Parser rootParser, Resolver rootResolver) {
-		this.rootParser = rootParser;
-		this.rootResolver = rootResolver;
-	}
+	Type resolveName(String name);
 
-	public Node parse(String value) throws ParseException {
-		return rootParser.parse(value, this).orElseThrow(() -> new ParseException("Failed to parse: " + value));
-	}
-
-	public Type resolveName(String name) {
-		return rootResolver.resolveName(name, this).orElseThrow();
-	}
-
-	public Type resolveValue(String value) {
-		return rootResolver.resolveValue(value, this).orElseThrow();
-	}
+	Type resolveValue(String value);
 }

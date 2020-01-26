@@ -4,7 +4,6 @@ import com.meti.exception.ParseException;
 import com.meti.primitive.VoidType;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class StructParser implements Parser {
@@ -28,12 +27,7 @@ public class StructParser implements Parser {
 		if (allEmpty(paramStart, returnStart, implStart) || !isZero(paramStart, returnStart, implStart)) {
 			return Optional.empty();
 		} else {
-			Collection<Parameter> parameters = parseParameters(trim, compiler);
-			Type returnType = parseReturnType(trim, compiler);
-			Node block = parseBlock(trim, compiler);
-			String funcName = String.join("_", declarations.getStack());
-			Node function = new FunctionNode(funcName, returnType, parameters, block);
-			cache.addFunction(function);
+			cache.addFunction(buildFunction(compiler, trim));
 			return Optional.of(new EmptyNode());
 		}
 	}
@@ -47,6 +41,14 @@ public class StructParser implements Parser {
 		return IntStream.of(paramStart, returnStart, implStart)
 				.anyMatch(value -> value == 0);
 
+	}
+
+	private Node buildFunction(Compiler compiler, String trim) throws ParseException {
+		Collection<Parameter> parameters = parseParameters(trim, compiler);
+		Type returnType = parseReturnType(trim, compiler);
+		Node block = parseBlock(trim, compiler);
+		String funcName = String.join("_", declarations.getStack());
+		return new FunctionNode(funcName, returnType, parameters, block);
 	}
 
 	private Collection<Parameter> parseParameters(String content, Compiler compiler) {
@@ -77,36 +79,16 @@ public class StructParser implements Parser {
 	}
 
 	private Node parseBlock(String content, Compiler compiler) throws ParseException {
-		LinkedList<Node> statements = new LinkedList<>();
-		if (-1 != implStart) {
-			String implString = content.substring(implStart).trim().substring(1).trim();
-			if (implString.startsWith("{") && implString.endsWith("}")) {
-				statements.addAll(parseStatements(compiler, implString));
-				Declaration current = declarations.current();
-				if (current.isParent()) {
-					List<Parameter> params = current.children()
-							.stream()
-							.map(declaration -> new Parameter(declaration.getType(), declaration.getName()))
-							.collect(Collectors.toList());
-					String currentName = current.getName();
-					cache.addStruct(new StructNode(currentName, params));
-					cache.addStruct(new DeclareNode(new StructType(currentName), currentName + "_", null));
-					String args = params.stream()
-							.map(Parameter::getName)
-							.collect(Collectors.joining(","));
-					statements.addFirst(new AssignNode(new VariableNode(currentName + "_"),
-							new VariableNode("{" + args + "}")));
-				}
-			} else {
-				throw new ParseException("Single statement methods are not supported yet.");
-			}
+		if (-1 == implStart) throw new ParseException("Abstract methods are not supported yet.");
+		String implString = content.substring(implStart).trim().substring(1).trim();
+		if (implString.startsWith("{") && implString.endsWith("}")) {
+			return parseValidBlock(compiler, implString);
 		} else {
-			throw new ParseException("Abstract methods are not supported yet.");
+			throw new ParseException("Single statement methods are not supported yet.");
 		}
-		return new BlockNode(statements);
 	}
 
-	private int endOf(String content, int... indices) {
+	private int endOf(CharSequence content, int... indices) {
 		return IntStream.concat(IntStream.of(indices), IntStream.of(content.length()))
 				.filter(value -> -1 != value)
 				.min().orElseThrow();
@@ -116,12 +98,36 @@ public class StructParser implements Parser {
 		int lastSpace = s.lastIndexOf(' ');
 		String type = s.substring(0, lastSpace);
 		String name = s.substring(lastSpace + 1);
-		return new Parameter(compiler.resolveName(type), name);
+		return Parameter.create(compiler.resolveName(type), name);
+	}
+
+	private Node parseValidBlock(Compiler compiler, String implString) throws ParseException {
+		Deque<Node> statements = new LinkedList<>(parseStatements(compiler, implString));
+		Declaration current = declarations.current();
+		if (current.isParent()) statements.addFirst(assign(current));
+		return new BlockNode(statements);
 	}
 
 	private Collection<Node> parseStatements(Compiler compiler, String implString) throws ParseException {
 		Collection<Node> statements = new ArrayList<>();
 		String childString = implString.substring(1, implString.length() - 1);
+		Collection<String> partitions = partition(childString);
+		for (String s : partitions) {
+			if (!s.isBlank()) {
+				Node node = compiler.parse(s);
+				statements.add(node);
+			}
+		}
+		return statements;
+	}
+
+	private AssignNode assign(Declaration current) {
+		cache.addStruct(current.toStruct());
+		cache.addStruct(new DeclareNode(new StructType(current.getName()), current.instanceName(), null));
+		return current.assignField();
+	}
+
+	private Collection<String> partition(String childString) {
 		Collection<String> partitions = new ArrayList<>();
 		StringBuilder current = new StringBuilder();
 		int depth = 0;
@@ -140,28 +146,6 @@ public class StructParser implements Parser {
 			}
 		}
 		partitions.add(current.toString());
-		for (String s : partitions) {
-			if (!s.isBlank()) {
-				Node node = compiler.parse(s);
-				statements.add(node);
-			}
-		}
-		return statements;
+		return partitions;
 	}
-	/*
-		Valid:
-		val empty =:{
-		}
-		val accept = (Any object) :{
-			//impl
-		}
-		val add = (Int value0, Int Value1) : value0 + value1;
-		void someAbstractMethod ==> Void;
-		void doAThing () => Void :{}
-
-		Invalid:
-		val empty =;
-	 */
-
-
 }

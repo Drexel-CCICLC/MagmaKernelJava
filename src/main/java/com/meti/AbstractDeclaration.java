@@ -35,7 +35,7 @@ public class AbstractDeclaration implements Declaration {
 
 	@Override
 	public Declaration define(Parameter parameter) {
-		Declaration declaration = new ParameterDeclaration(parameter.getName(), parameter.getType());
+		Declaration declaration = parameter.toDeclaration();
 		children.add(declaration);
 		return declaration;
 	}
@@ -53,5 +53,10 @@ public class AbstractDeclaration implements Declaration {
 	@Override
 	public boolean isParent() {
 		return children.stream().anyMatch(declaration -> declaration.getType() instanceof FunctionType);
+	}
+
+	@Override
+	public Parameter toParameter() {
+		return Parameter.create(getType(), getName());
 	}
 }

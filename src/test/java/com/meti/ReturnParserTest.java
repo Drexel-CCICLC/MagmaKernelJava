@@ -10,7 +10,7 @@ class ReturnParserTest {
 
 	@Test
 	void parse() throws ParseException {
-		Compiler compiler = new Compiler(new ParentParser(
+		Compiler compiler = new UnitCompiler(new ParentParser(
 				new ReturnParser(),
 				new IntParser()
 		), null);

@@ -5,25 +5,24 @@ import java.util.stream.Collectors;
 
 public class FunctionType implements Type {
 	private final String name;
-	private final Collection<Type> parameters;
+	private final Collection<? extends Type> parameters;
 	private final Type returnType;
 
-	public FunctionType(Collection<Type> parameters, Type returnType, String name) {
+	FunctionType(Collection<? extends Type> parameters, Type returnType, String name) {
 		this.parameters = parameters;
 		this.returnType = returnType;
 		this.name = name;
 	}
 
 	@Override
-	public boolean isNamed() {
-		return true;
+	public String render() {
+		String joinedParams = joinParams();
+		return returnType.render() + "(*" + name + ")(" + joinedParams + ")";
 	}
 
-	@Override
-	public String render() {
-		String joinedParams = parameters.stream()
+	private String joinParams() {
+		return parameters.stream()
 				.map(Type::render)
 				.collect(Collectors.joining(","));
-		return returnType.render() + "(*" + name + ")(" + joinedParams + ")";
 	}
 }

@@ -18,7 +18,7 @@ class DeclareParserTest {
 		Resolver rootResolver = new ParentResolver(
 				new IntResolver()
 		);
-		Compiler compiler = new Compiler(rootParser, rootResolver);
+		Compiler compiler = new UnitCompiler(rootParser, rootResolver);
 		Node node = compiler.parse("val x = 10");
 		assertEquals("int x=10i;", node.render());
 	}

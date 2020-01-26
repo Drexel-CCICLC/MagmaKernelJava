@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CompilerTest {
-    private final Compiler compiler = new Compiler(new ParentParser(
+    private final Compiler compiler = new UnitCompiler(new ParentParser(
             new IntParser(),
             new CharParser()
     ), null);

@@ -46,16 +46,16 @@ class CacheTest {
 	void render() {
 		Cache cache = new Cache();
 		Collection<Parameter> structParams = List.of(
-				new Parameter(IntType.INSTANCE, "x"),
-				new Parameter(IntType.INSTANCE, "y"));
+				Parameter.create(IntType.INSTANCE, "x"),
+				Parameter.create(IntType.INSTANCE, "y"));
 		cache.addStruct(new StructNode("Point", structParams));
 
-		Collection<Parameter> getXParams = Collections.singleton(new Parameter(new StructType("Point"), "Point_"));
+		Collection<Parameter> getXParams = Collections.singleton(Parameter.create(new StructType("Point"), "Point_"));
 		Collection<Node> getXContent = Collections.singleton(new ReturnNode(new FieldNode(new VariableNode("Point_"),
 				"x")));
 		cache.addFunction(new FunctionNode("Point_getX", IntType.INSTANCE, getXParams, new BlockNode(getXContent)));
 
-		Collection<Parameter> getYParams = Collections.singleton(new Parameter(new StructType("Point"), "Point_"));
+		Collection<Parameter> getYParams = Collections.singleton(Parameter.create(new StructType("Point"), "Point_"));
 		Collection<Node> getYContent = Collections.singleton(new ReturnNode(new FieldNode(new VariableNode("Point_"),
 				"y")));
 		cache.addFunction(new FunctionNode("Point_getY", IntType.INSTANCE, getYParams, new BlockNode(getYContent)));

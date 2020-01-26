@@ -1,27 +1,44 @@
 package com.meti;
 
-public class Parameter {
-	private final String name;
-	private final Type type;
+import java.util.function.Function;
 
-	public Parameter(Type type, String name) {
-		this.type = type;
-		this.name = name;
+public interface Parameter {
+	static Parameter create(Type type, String name) {
+		return new ParameterImpl(type, name);
 	}
 
-	public String getName() {
-		return name;
-	}
+	String name();
 
-	public Type getType() {
-		return type;
-	}
+	String render();
 
-	public String render() {
-		if (type.isNamed()) {
-			return type.render();
-		} else {
-			return type.render() + " " + name;
+	Declaration toDeclaration();
+
+	final class ParameterImpl implements Parameter {
+		private final String name;
+		private final Type type;
+
+		private ParameterImpl(Type type, String name) {
+			this.type = type;
+			this.name = name;
+		}
+
+		@Override
+		public String name() {
+			return name;
+		}
+
+		@Override
+		public String render() {
+			if (type instanceof FunctionType) {
+				return type.render();
+			} else {
+				return type.render() + " " + name;
+			}
+		}
+
+		@Override
+		public Declaration toDeclaration() {
+			return new ParameterDeclaration(name, type);
 		}
 	}
 }

@@ -8,11 +8,6 @@ public class StructType implements Type {
 	}
 
 	@Override
-	public boolean isNamed() {
-        return false;
-	}
-
-	@Override
 	public String render() {
 		return "struct " + name;
 	}

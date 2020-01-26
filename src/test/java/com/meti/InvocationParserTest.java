@@ -22,7 +22,7 @@ class InvocationParserTest {
 		);
 		Resolver resolver = new ParentResolver(
 		);
-		Compiler compiler = new Compiler(parser, resolver);
+		Compiler compiler = new UnitCompiler(parser, resolver);
 		Node node = compiler.parse("a(10)");
 		assertEquals("a(10i)", node.render());
 	}

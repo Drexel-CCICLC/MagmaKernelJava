@@ -22,7 +22,7 @@ class VariableParserTest {
 		Resolver resolver = new ParentResolver(
 				new IntResolver()
 		);
-		Compiler compiler = new Compiler(parser, resolver);
+		Compiler compiler = new UnitCompiler(parser, resolver);
 		Node node = compiler.parse("test=10");
 		assertEquals("test=10i;", node.render());
 	}

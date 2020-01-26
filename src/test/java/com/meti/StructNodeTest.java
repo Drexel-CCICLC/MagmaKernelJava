@@ -12,8 +12,8 @@ class StructNodeTest {
 
 	@Test
 	void render() {
-		Parameter x = new Parameter(IntType.INSTANCE, "x");
-		Parameter y = new Parameter(IntType.INSTANCE, "y");
+		Parameter x = Parameter.create(IntType.INSTANCE, "x");
+		Parameter y = Parameter.create(IntType.INSTANCE, "y");
 		Collection<Parameter> parameters = List.of(x, y);
 		Node node = new StructNode("Point", parameters);
 		assertEquals("struct Point{int x;int y;};", node.render());

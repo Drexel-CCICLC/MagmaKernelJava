@@ -29,7 +29,7 @@ public class SubFunctionTest {
 				new StructResolver(declarations),
 				new IntResolver()
 		);
-		compiler = new Compiler(parser, resolver);
+		compiler = new UnitCompiler(parser, resolver);
 	}
 
 	@Test
