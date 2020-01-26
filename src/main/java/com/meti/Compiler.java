@@ -16,7 +16,7 @@ public class Compiler {
 	}
 
 	public Type resolveName(String name) {
-		return null;
+		return rootResolver.resolveName(name, this).orElseThrow();
 	}
 
 	public Type resolveValue(String value) {

@@ -8,8 +8,11 @@ import java.util.Optional;
 
 public class IntResolver implements Resolver {
 	@Override
-	public Optional<Type> resolveName(String content) {
-		return Optional.empty();
+	public Optional<Type> resolveName(String content, Compiler compiler) {
+		return Optional.of(content)
+				.map(String::trim)
+				.filter(s -> s.equals("Int"))
+				.map(s -> IntType.INSTANCE);
 	}
 
 	@Override

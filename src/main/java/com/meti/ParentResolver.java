@@ -10,7 +10,13 @@ public class ParentResolver implements Resolver {
 	}
 
 	@Override
-	public Optional<Type> resolveName(String content) {
+	public Optional<Type> resolveName(String content, Compiler compiler) {
+		for (Resolver child : children) {
+			Optional<Type> optional = child.resolveName(content, compiler);
+			if (optional.isPresent()) {
+				return optional;
+			}
+		}
 		return Optional.empty();
 	}
 
