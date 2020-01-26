@@ -9,36 +9,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StructParserTest {
-	private Cache cache;
+	private Cache cache = new CollectionCache();
 	private Compiler compiler;
-	private TreeDeclarations declarations;
-	private Parser parser;
-	private Resolver resolver;
 
 	@Test
 	void empty() throws ParseException {
 		compiler.parse("val empty =: {}");
-		assertEquals("int _exit=0i;void empty(){}int main(){return _exit;}", cache.render());
+		assertEquals("int _exitCode=0i;void empty(){}int main(){return _exitCode;}", cache.render());
 	}
 
 	@Test
 	void parseComplete() throws ParseException {
 		Node node = compiler.parse("val complete = (Int value) => Int : {return value;}");
 		assertTrue(node.render().isBlank());
-		assertEquals("int _exit=0i;int complete(int value){return value;}int main(){return _exit;}", cache.render());
+		assertEquals("int _exitCode=0i;int complete(int value){return value;}int main(){return _exitCode;}", cache.render());
 	}
 
 	@BeforeEach
 	void setUp() {
-		declarations = new Declarations();
-		cache = new CollectionCache();
-		parser = new ParentParser(
+		TreeDeclarations declarations = new Declarations();
+		Parser parser = new ParentParser(
 				new StructParser(declarations, cache),
 				new DeclareParser(declarations),
 				new ReturnParser(),
 				new VariableParser(declarations)
 		);
-		resolver = new ParentResolver(
+		Resolver resolver = new ParentResolver(
 				new StructResolver(declarations),
 				new IntResolver()
 		);
@@ -48,12 +44,12 @@ class StructParserTest {
 	@Test
 	void withParam() throws ParseException {
 		compiler.parse("val accept = (Int some) : {}");
-		assertEquals("int _exit=0i;void accept(int some){}int main(){return _exit;}", cache.render());
+		assertEquals("int _exitCode=0i;void accept(int some){}int main(){return _exitCode;}", cache.render());
 	}
 
 	@Test
 	void withTwoParam() throws ParseException {
 		compiler.parse("val accept = (Int one, Int two) : {}");
-		assertEquals("int _exit=0i;void accept(int one,int two){}int main(){return _exit;}", cache.render());
+		assertEquals("int _exitCode=0i;void accept(int one,int two){}int main(){return _exitCode;}", cache.render());
 	}
 }

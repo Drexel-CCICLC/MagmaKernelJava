@@ -60,10 +60,10 @@ class CacheTest {
 				"y")));
 		cache.addFunction(new FunctionNode("Point_getY", IntType.INSTANCE, getYParams, new BlockNode(getYContent)));
 
-		assertEquals("int _exit=0i;" +
+		assertEquals("int _exitCode=0i;" +
 				"struct Point{int x;int y;};" +
 				"int Point_getX(struct Point Point_){return Point_.x;}" +
 				"int Point_getY(struct Point Point_){return Point_.y;}" +
-				"int main(){return _exit;}", cache.render());
+				"int main(){return _exitCode;}", cache.render());
 	}
 }
