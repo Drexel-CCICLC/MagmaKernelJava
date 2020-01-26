@@ -12,7 +12,7 @@ public class Compiler {
 	}
 
 	public Node parse(String value) throws ParseException {
-		return rootParser.parse(value, this).orElseThrow();
+		return rootParser.parse(value, this).orElseThrow(() -> new ParseException("Failed to parse: " + value));
 	}
 
 	public Type resolveName(String name) {
