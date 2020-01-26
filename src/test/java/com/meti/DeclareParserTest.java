@@ -12,7 +12,7 @@ class DeclareParserTest {
 	@Test
 	void parseDeclaration() throws ParseException {
 		Parser rootParser = new ParentParser(
-				new DeclareParser(),
+				new DeclareParser(new Declarations()),
 				new IntParser()
 		);
 		Resolver rootResolver = new ParentResolver(

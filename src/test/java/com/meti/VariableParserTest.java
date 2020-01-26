@@ -15,7 +15,7 @@ class VariableParserTest {
 		Declarations declarations = new Declarations();
 		declarations.define(IntType.INSTANCE, "test");
 		Parser parser = new ParentParser(
-				new DeclareParser(),
+				new DeclareParser(new Declarations()),
 				new IntParser(),
 				new VariableParser(declarations)
 		);

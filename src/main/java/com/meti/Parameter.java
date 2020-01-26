@@ -9,6 +9,14 @@ public class Parameter {
 		this.name = name;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
 	public String render() {
 		return type.render() + " " + name;
 	}

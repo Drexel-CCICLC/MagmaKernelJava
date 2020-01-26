@@ -1,23 +1,51 @@
 package com.meti;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Supplier;
 
 public class Declarations {
-	private final Set<Declaration> declarationSet = new HashSet<>();
+	private final Declaration root = new Declaration("root");
+	private final Stack<String> stack = new Stack<>();
 
-	public Declaration current() {
-		return null;
+	public Declaration define(Parameter parameter) {
+		return define(parameter.getType(), parameter.getName());
 	}
 
-	public void define(Type type, String name) {
-		declarationSet.add(new Declaration(name));
+	public Declaration define(Type type, String name) {
+		return current().define(type, name);
+	}
+
+	public Declaration current() {
+		return absolute(stack);
+	}
+
+	public Declaration absolute(Collection<String> stack) {
+		Declaration current = root;
+		for (String s : stack) {
+			current = current.child(s).orElseThrow();
+		}
+		return current;
+	}
+
+	public <T> T define(Type type, String name, Supplier<T> supplier) {
+		define(type, name);
+		stack.push(name);
+		T t = supplier.get();
+		stack.pop();
+		return t;
 	}
 
 	public Optional<Declaration> get(String name) {
-		return declarationSet.stream()
-				.filter(declaration -> declaration.getName().equals(name))
-				.findFirst();
+		Deque<String> deque = new LinkedList<>(stack);
+		while (!deque.isEmpty()) {
+			Declaration declaration = absolute(deque);
+			Optional<Declaration> child = declaration.child(name);
+			if (child.isPresent()) {
+				return child;
+			} else {
+				deque.pollLast();
+			}
+		}
+		return root.child(name);
 	}
 }

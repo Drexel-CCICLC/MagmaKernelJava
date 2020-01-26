@@ -58,6 +58,7 @@ public class StructParser implements Parser {
 			if (paramsString.startsWith("(") && paramsString.endsWith(")")) {
 				Arrays.stream(paramsString.substring(1, paramsString.length() - 1).split(","))
 						.map(s -> parseParam(s, compiler))
+						.peek(declarations::define)
 						.forEach(parameters::add);
 			}
 		}

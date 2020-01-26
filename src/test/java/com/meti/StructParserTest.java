@@ -15,8 +15,9 @@ class StructParserTest {
 		Cache cache = new Cache();
 		Parser parser = new ParentParser(
 				new StructParser(declarations, cache),
-				new DeclareParser(),
-				new ReturnParser()
+				new DeclareParser(declarations),
+				new ReturnParser(),
+				new VariableParser(declarations)
 		);
 		Resolver resolver = new ParentResolver(
 				new StructResolver(),
@@ -29,6 +30,6 @@ class StructParserTest {
 				            }
 				""");
 		assertTrue(node.render().isBlank());
-		assertEquals("int complete(int value){return value;}", cache.render());
+		assertEquals("int _exit=0i;int complete(int value){return value;}int main(){return _exit;}", cache.render());
 	}
 }
