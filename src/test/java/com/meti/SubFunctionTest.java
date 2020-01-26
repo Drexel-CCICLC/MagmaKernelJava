@@ -43,8 +43,8 @@ public class SubFunctionTest {
 				}""");
 		assertEquals("int exit_=0i;" +
 				"struct reflect{int x;};" +
-				"int reflect_doOperation(struct add add_){return add_.x;}" +
-				"int reflect(int x){struct add add_={x};return doOperation(add_);}" +
+				"int reflect_doOperation(struct reflect reflect_){return reflect_.x;}" +
+				"int reflect(int x){struct reflect reflect_={x};return doOperation(reflect_);}" +
 				"int main(){return exit_;}", cache.render());
 	}
 }

@@ -1,7 +1,5 @@
 package com.meti;
 
-import com.meti.exception.ParseException;
-
 import java.util.Optional;
 
 public class VariableParser implements Parser {
@@ -14,8 +12,17 @@ public class VariableParser implements Parser {
 	@Override
 	public Optional<Node> parse(String content, Compiler compiler) {
 		String trim = content.trim();
-		return declarations.get(trim)
-				.map(Declaration::getName)
-				.map(VariableNode::new);
+		Optional<Declaration> parentOptional = declarations.parent(trim);
+		if (parentOptional.isEmpty()) {
+			return Optional.empty();
+		} else {
+			Declaration parent = parentOptional.get();
+			if (declarations.isRoot(parent)) {
+				return Optional.of(new VariableNode(trim));
+			} else {
+				String parentName = parent.getName();
+				return Optional.of(new FieldNode(new VariableNode(parentName + "_"), trim));
+			}
+		}
 	}
 }

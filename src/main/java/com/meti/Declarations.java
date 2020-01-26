@@ -35,17 +35,22 @@ public class Declarations {
 		return t;
 	}
 
-	public Optional<Declaration> get(String name) {
+	public boolean isRoot(Declaration declaration) {
+		return root.equals(declaration);
+	}
+
+	public Optional<Declaration> parent(String name) {
 		Deque<String> deque = new LinkedList<>(stack);
 		while (!deque.isEmpty()) {
 			Declaration declaration = absolute(deque);
 			Optional<Declaration> child = declaration.child(name);
 			if (child.isPresent()) {
-				return child;
+				return Optional.of(declaration);
 			} else {
 				deque.pollLast();
 			}
 		}
-		return root.child(name);
+		Optional<Declaration> child = root.child(name);
+		return child.isPresent() ? Optional.of(root) : Optional.empty();
 	}
 }
