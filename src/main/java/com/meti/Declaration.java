@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class Declaration {
+	protected final String name;
+	protected final Type type;
 	private final List<Declaration> children = new ArrayList<>();
-	private final String name;
-	private final Type type;
 
 	public Declaration(String name, Type type) {
 		this.name = name;
@@ -26,6 +26,12 @@ public class Declaration {
 
 	public Declaration define(Type type, String name) {
 		Declaration declaration = new Declaration(name, type);
+		children.add(declaration);
+		return declaration;
+	}
+
+	public Declaration define(Parameter parameter) {
+		Declaration declaration = new ParameterDeclaration(parameter.getName(), parameter.getType());
 		children.add(declaration);
 		return declaration;
 	}

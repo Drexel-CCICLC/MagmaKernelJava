@@ -17,7 +17,7 @@ public class VariableParser implements Parser {
 			return Optional.empty();
 		} else {
 			Declaration parent = parentOptional.get();
-			if (declarations.isRoot(parent)) {
+			if (declarations.isRoot(parent) || (!parent.isParent() && parent.child(trim).orElseThrow() instanceof ParameterDeclaration)) {
 				return Optional.of(new VariableNode(trim));
 			} else {
 				String parentName = parent.getName();

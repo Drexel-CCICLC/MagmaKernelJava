@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.function.Function;
 
 public class Declarations {
-	private final Declaration root = new Declaration("root", null);
+	private final Declaration root = new ValueDeclaration("root", null);
 	private final Stack<String> stack = new Stack<>();
 
 	public String currentName() {
@@ -12,7 +12,7 @@ public class Declarations {
 	}
 
 	public Declaration define(Parameter parameter) {
-		return current().define(parameter.getType(), parameter.getName());
+		return current().define(parameter);
 	}
 
 	public Declaration current() {
@@ -25,6 +25,10 @@ public class Declarations {
 			current = current.child(s).orElseThrow();
 		}
 		return current;
+	}
+
+	public void define(Type type, String name) {
+		current().define(type, name);
 	}
 
 	public Declaration defineParent(Type type, String name) {

@@ -21,7 +21,7 @@ class CacheTest {
 		Cache cache = new Cache(Collections.emptyList(), Collections.emptyList(), main);
 		Node expected = new IntNode(10);
 		cache.add(expected);
-		assertEquals(expected, main.get(1));
+		assertEquals(expected, main.get(0));
 	}
 
 	@Test
