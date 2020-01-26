@@ -34,16 +34,16 @@ public class SubFunctionTest {
 	@Test
 	void simple() throws ParseException {
 		compiler.parse("""
-				val add = (Int x, Int y) => Int :{
+				val reflect = (Int x) => Int :{
 					val doOperation ==> Int : {
-						return x + y;
+						return x;
 					};
 					return doOperation();
 				}""");
 		assertEquals("int exit_=0i;" +
-				"struct add{int x;int y;};" +
-				"int add_doOperation(struct add add_){return add_.x + add_.y;}" +
-				"int add(int x,int y){struct add add_={x,y};return doOperation(add_);}" +
+				"struct reflect{int x;};" +
+				"int reflect_doOperation(struct add add_){return add_.x;}" +
+				"int reflect(int x){struct add add_={x};return doOperation(add_);}" +
 				"int main(){return exit_;}", cache.render());
 	}
 }
