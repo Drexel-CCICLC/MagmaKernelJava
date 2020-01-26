@@ -26,7 +26,7 @@ public class SubFunctionTest {
 				new VariableParser(declarations)
 		);
 		resolver = new ParentResolver(
-				new StructResolver(),
+				new StructResolver(declarations),
 				new IntResolver()
 		);
 		compiler = new Compiler(parser, resolver);
@@ -41,10 +41,11 @@ public class SubFunctionTest {
 					};
 					return doOperation();
 				}""");
-		assertEquals("int exit_=0i;" +
-				"struct reflect{int x;};" +
-				"int reflect_doOperation(struct reflect reflect_){return reflect_.x;}" +
-				"int reflect(int x){struct reflect reflect_={x};return doOperation(reflect_);}" +
-				"int main(){return exit_;}", cache.render());
+		assertEquals("int _exit=0i;" +
+				"struct reflect{int x;int(*doOperation)();};" +
+				"struct reflect reflect_;" +
+				"int reflect_doOperation(){return reflect_.x;}" +
+				"int reflect(int x){reflect_={x,doOperation};return reflect_.doOperation();}" +
+				"int main(){return _exit;}", cache.render());
 	}
 }

@@ -13,6 +13,12 @@ public class StructResolver implements Resolver {
 	private int paramStart = 0;
 	private int returnStart = 0;
 
+	private final Declarations declarations;
+
+	public StructResolver(Declarations declarations) {
+		this.declarations = declarations;
+	}
+
 	@Override
 	public Optional<Type> resolveName(String content, Compiler compiler) {
 		return Optional.empty();
@@ -28,7 +34,7 @@ public class StructResolver implements Resolver {
 		} else {
 			Collection<Type> parameters = parseParameters(content, compiler);
 			Type returnType = parseReturnType(content, compiler);
-			return Optional.of(new FunctionType(parameters, returnType));
+			return Optional.of(new FunctionType(parameters, returnType, declarations.currentName()));
 		}
 	}
 

@@ -3,10 +3,8 @@ package com.meti;
 import com.meti.exception.ParseException;
 import com.meti.primitive.VoidType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class StructParser implements Parser {
@@ -33,7 +31,8 @@ public class StructParser implements Parser {
 			Collection<Parameter> parameters = parseParameters(trim, compiler);
 			Type returnType = parseReturnType(trim, compiler);
 			Node block = parseBlock(trim, compiler);
-			Node function = new FunctionNode(declarations.current().getName(), returnType, parameters, block);
+			String funcName = String.join("_", declarations.getStack());
+			Node function = new FunctionNode(funcName, returnType, parameters, block);
 			cache.addFunction(function);
 			return Optional.of(new EmptyNode());
 		}
@@ -78,34 +77,25 @@ public class StructParser implements Parser {
 	}
 
 	private Node parseBlock(String content, Compiler compiler) throws ParseException {
-		Collection<Node> statements = new ArrayList<>();
+		LinkedList<Node> statements = new LinkedList<>();
 		if (-1 != implStart) {
 			String implString = content.substring(implStart).trim().substring(1).trim();
 			if (implString.startsWith("{") && implString.endsWith("}")) {
-				String childString = implString.substring(1, implString.length() - 1);
-				Collection<String> partitions = new ArrayList<>();
-				StringBuilder current = new StringBuilder();
-				int depth = 0;
-				for (char c : childString.toCharArray()) {
-					if (c == ';' && depth == 0) {
-						partitions.add(current.toString());
-						current = new StringBuilder();
-					} else {
-						if (c == '{') {
-							depth++;
-						}
-						if (c == '}') {
-							depth--;
-						}
-						current.append(c);
-					}
-				}
-				partitions.add(current.toString());
-				for (String s : partitions) {
-					if (!s.isBlank()) {
-						Node node = compiler.parse(s);
-						statements.add(node);
-					}
+				statements.addAll(parseStatements(compiler, implString));
+				Declaration current = declarations.current();
+				if (current.isParent()) {
+					List<Parameter> params = current.children()
+							.stream()
+							.map(declaration -> new Parameter(declaration.getType(), declaration.getName()))
+							.collect(Collectors.toList());
+					String currentName = current.getName();
+					cache.addStruct(new StructNode(currentName, params));
+					cache.addStruct(new DeclareNode(new StructType(currentName), currentName + "_", null));
+					String args = params.stream()
+							.map(Parameter::getName)
+							.collect(Collectors.joining(","));
+					statements.addFirst(new AssignNode(new VariableNode(currentName + "_"),
+							new VariableNode("{" + args + "}")));
 				}
 			} else {
 				throw new ParseException("Single statement methods are not supported yet.");
@@ -127,6 +117,36 @@ public class StructParser implements Parser {
 		String type = s.substring(0, lastSpace);
 		String name = s.substring(lastSpace + 1);
 		return new Parameter(compiler.resolveName(type), name);
+	}
+
+	private Collection<Node> parseStatements(Compiler compiler, String implString) throws ParseException {
+		Collection<Node> statements = new ArrayList<>();
+		String childString = implString.substring(1, implString.length() - 1);
+		Collection<String> partitions = new ArrayList<>();
+		StringBuilder current = new StringBuilder();
+		int depth = 0;
+		for (char c : childString.toCharArray()) {
+			if (c == ';' && depth == 0) {
+				partitions.add(current.toString());
+				current = new StringBuilder();
+			} else {
+				if (c == '{') {
+					depth++;
+				}
+				if (c == '}') {
+					depth--;
+				}
+				current.append(c);
+			}
+		}
+		partitions.add(current.toString());
+		for (String s : partitions) {
+			if (!s.isBlank()) {
+				Node node = compiler.parse(s);
+				statements.add(node);
+			}
+		}
+		return statements;
 	}
 	/*
 		Valid:

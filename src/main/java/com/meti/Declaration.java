@@ -1,15 +1,17 @@
 package com.meti;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class Declaration {
-	private final Set<Declaration> children = new HashSet<>();
+	private final List<Declaration> children = new ArrayList<>();
 	private final String name;
+	private final Type type;
 
-	public Declaration(String name) {
+	public Declaration(String name, Type type) {
 		this.name = name;
+		this.type = type;
 	}
 
 	public Optional<Declaration> child(String name) {
@@ -18,13 +20,25 @@ public class Declaration {
 				.findFirst();
 	}
 
+	public List<Declaration> children() {
+		return children;
+	}
+
 	public Declaration define(Type type, String name) {
-		Declaration declaration = new Declaration(name);
+		Declaration declaration = new Declaration(name, type);
 		children.add(declaration);
 		return declaration;
 	}
 
 	public String getName() {
 		return name;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public boolean isParent() {
+		return children.stream().anyMatch(declaration -> declaration.type instanceof FunctionType);
 	}
 }

@@ -1,18 +1,18 @@
 package com.meti;
 
 import java.util.*;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class Declarations {
-	private final Declaration root = new Declaration("root");
+	private final Declaration root = new Declaration("root", null);
 	private final Stack<String> stack = new Stack<>();
 
-	public Declaration define(Parameter parameter) {
-		return define(parameter.getType(), parameter.getName());
+	public String currentName() {
+		return stack.peek();
 	}
 
-	public Declaration define(Type type, String name) {
-		return current().define(type, name);
+	public Declaration define(Parameter parameter) {
+		return current().define(parameter.getType(), parameter.getName());
 	}
 
 	public Declaration current() {
@@ -27,10 +27,21 @@ public class Declarations {
 		return current;
 	}
 
-	public <T> T define(Type type, String name, Supplier<T> supplier) {
-		define(type, name);
+	public Declaration defineParent(Type type, String name) {
+		return parent().define(type, name);
+	}
+
+	public Declaration parent() {
+		return absolute(stack.subList(0, stack.size() - 1));
+	}
+
+	public Stack<String> getStack() {
+		return stack;
+	}
+
+	public <T> T inStack(String name, Function<String, T> mapper) {
 		stack.push(name);
-		T t = supplier.get();
+		T t = mapper.apply(name);
 		stack.pop();
 		return t;
 	}

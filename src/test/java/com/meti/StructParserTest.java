@@ -39,7 +39,7 @@ class StructParserTest {
 				new VariableParser(declarations)
 		);
 		resolver = new ParentResolver(
-				new StructResolver(),
+				new StructResolver(declarations),
 				new IntResolver()
 		);
 		compiler = new Compiler(parser, resolver);

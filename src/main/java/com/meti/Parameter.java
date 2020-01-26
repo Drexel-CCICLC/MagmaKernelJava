@@ -18,6 +18,10 @@ public class Parameter {
 	}
 
 	public String render() {
-		return type.render() + " " + name;
+		if (type.isNamed()) {
+			return type.render();
+		} else {
+			return type.render() + " " + name;
+		}
 	}
 }

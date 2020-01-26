@@ -5,7 +5,12 @@ import com.meti.Type;
 public class IntType implements Type {
     public static final Type INSTANCE = new IntType();
 
-    @Override
+	@Override
+	public boolean isNamed() {
+        return false;
+	}
+
+	@Override
     public String render() {
         return "int";
     }

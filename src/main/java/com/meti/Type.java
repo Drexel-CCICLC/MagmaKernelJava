@@ -1,5 +1,7 @@
 package com.meti;
 
 public interface Type {
-    String render();
+    boolean isNamed();
+
+	String render();
 }

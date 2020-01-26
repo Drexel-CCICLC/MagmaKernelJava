@@ -18,7 +18,6 @@ public class DeclareParser implements Parser {
 			int equalsIndex = content.indexOf('=');
 			String beforeEquals = content.substring(0, equalsIndex).trim();
 			String afterEquals = content.substring(equalsIndex + 1).trim();
-			Type type = compiler.resolveValue(afterEquals);
 			int lastSpace = beforeEquals.lastIndexOf(' ');
 			String flagString = "";
 			String nameString = beforeEquals;
@@ -29,16 +28,16 @@ public class DeclareParser implements Parser {
 			boolean hasDeclareFlag = Arrays.stream(flagString.split(" "))
 					.anyMatch(s -> s.equals("val") || s.equals("var"));
 			if (hasDeclareFlag) {
-				Node from = declarations.define(type, nameString, () -> {
+				Node declaration = declarations.inStack(nameString, s -> {
 					try {
-						return compiler.parse(afterEquals);
+						Type type = compiler.resolveValue(afterEquals);
+						declarations.defineParent(type, s);
+						return new DeclareNode(type, s, compiler.parse(afterEquals));
 					} catch (ParseException e) {
 						throw new RuntimeException(e);
 					}
 				});
-				return from.render().isBlank() ?
-						Optional.of(new EmptyNode()) :
-						Optional.of(new DeclareNode(type, nameString, from));
+				return Optional.of(declaration);
 			} else {
 				Node from = compiler.parse(afterEquals);
 				Node to = compiler.parse(nameString);
