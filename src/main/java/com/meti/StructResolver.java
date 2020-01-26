@@ -13,7 +13,7 @@ public class StructResolver implements Resolver {
 	private int returnStart = 0;
 
 	@Override
-	public Optional<Type> resolveName(String content) {
+	public Optional<Type> resolveName(String content, Compiler compiler) {
 		return Optional.empty();
 	}
 
@@ -38,11 +38,13 @@ public class StructResolver implements Resolver {
 	private Collection<Type> parseParameters(String content, Compiler compiler) {
 		Collection<Type> parameters = new ArrayList<>();
 		if (-1 != paramStart) {
-			int paramEnd = endOf(content, returnStart, 0);
+			int paramEnd = endOf(content, returnStart);
 			String paramsString = content.substring(paramStart, paramEnd).trim();
-			Arrays.stream(paramsString.split(","))
-					.map(s -> parseParam(s, compiler))
-					.forEach(parameters::add);
+			if (paramsString.startsWith("(") && paramsString.endsWith(")")) {
+				Arrays.stream(paramsString.substring(1, paramsString.length() - 1).split(","))
+						.map(s -> parseParam(s, compiler))
+						.forEach(parameters::add);
+			}
 		}
 		return parameters;
 	}

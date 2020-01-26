@@ -48,9 +48,11 @@ public class StructParser implements Parser {
 		if (-1 != paramStart) {
 			int paramEnd = endOf(content, returnStart, implStart);
 			String paramsString = content.substring(paramStart, paramEnd).trim();
-			Arrays.stream(paramsString.split(","))
-					.map(s -> parseParam(s, compiler))
-					.forEach(parameters::add);
+			if (paramsString.startsWith("(") && paramsString.endsWith(")")) {
+				Arrays.stream(paramsString.substring(1, paramsString.length() - 1).split(","))
+						.map(s -> parseParam(s, compiler))
+						.forEach(parameters::add);
+			}
 		}
 		return parameters;
 	}
