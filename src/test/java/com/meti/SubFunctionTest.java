@@ -37,7 +37,7 @@ public class SubFunctionTest {
 				val add = (Int x, Int y) => Int :{
 					val doOperation ==> Int : {
 						return x + y;
-					}
+					};
 					return doOperation();
 				}""");
 		assertEquals("int exit_=0i;" +

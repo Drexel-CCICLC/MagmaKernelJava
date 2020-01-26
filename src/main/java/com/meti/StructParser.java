@@ -82,8 +82,26 @@ public class StructParser implements Parser {
 		if (-1 != implStart) {
 			String implString = content.substring(implStart).trim().substring(1).trim();
 			if (implString.startsWith("{") && implString.endsWith("}")) {
-				String[] split = implString.substring(1, implString.length() - 1).split(";");
-				for (String s : split) {
+				String childString = implString.substring(1, implString.length() - 1);
+				Collection<String> partitions = new ArrayList<>();
+				StringBuilder current = new StringBuilder();
+				int depth = 0;
+				for (char c : childString.toCharArray()) {
+					if (c == ';' && depth == 0) {
+						partitions.add(current.toString());
+						current = new StringBuilder();
+					} else {
+						if (c == '{') {
+							depth++;
+						}
+						if (c == '}') {
+							depth--;
+						}
+						current.append(c);
+					}
+				}
+				partitions.add(current.toString());
+				for (String s : partitions) {
 					if (!s.isBlank()) {
 						Node node = compiler.parse(s);
 						statements.add(node);
