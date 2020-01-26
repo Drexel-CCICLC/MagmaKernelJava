@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.function.Function;
 
 public class Declarations {
-	private final Declaration root = new ValueDeclaration("root", null);
+	private final AbstractDeclaration root = new ValueDeclaration("root", null);
 	private final Stack<String> stack = new Stack<>();
 
 	public String currentName() {

@@ -1,50 +1,20 @@
 package com.meti;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Declaration {
-	protected final String name;
-	protected final Type type;
-	private final List<Declaration> children = new ArrayList<>();
+public interface Declaration {
+	Optional<Declaration> child(String name);
 
-	public Declaration(String name, Type type) {
-		this.name = name;
-		this.type = type;
-	}
+	List<Declaration> children();
 
-	public Optional<Declaration> child(String name) {
-		return children.stream()
-				.filter(declaration -> declaration.name.equals(name))
-				.findFirst();
-	}
+	Declaration define(Type type, String name);
 
-	public List<Declaration> children() {
-		return children;
-	}
+	Declaration define(Parameter parameter);
 
-	public Declaration define(Type type, String name) {
-		Declaration declaration = new Declaration(name, type);
-		children.add(declaration);
-		return declaration;
-	}
+	String getName();
 
-	public Declaration define(Parameter parameter) {
-		Declaration declaration = new ParameterDeclaration(parameter.getName(), parameter.getType());
-		children.add(declaration);
-		return declaration;
-	}
+	Type getType();
 
-	public String getName() {
-		return name;
-	}
-
-	public Type getType() {
-		return type;
-	}
-
-	public boolean isParent() {
-		return children.stream().anyMatch(declaration -> declaration.type instanceof FunctionType);
-	}
+	boolean isParent();
 }
