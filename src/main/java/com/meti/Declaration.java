@@ -5,45 +5,49 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public interface Declaration {
-	default AssignNode assignField() {
-		return new AssignNode(new VariableNode(instanceName()),
-				new VariableNode("{" + joinArgs() + "}"));
-	}
+    default Node declareInstance() {
+        return new DeclareNode(new StructType(getName()),
+                tempName(),  new VariableNode("{" + joinArgs() + "}"));
+    }
 
-	Optional<Declaration> child(String name);
+    Optional<Declaration> child(String name);
 
-	List<Declaration> children();
+    List<Declaration> children();
 
-	default List<Parameter> childrenAsParams() {
-		return children()
-				.stream()
-				.map(Declaration::toParameter)
-				.collect(Collectors.toList());
-	}
+    default List<Parameter> childrenAsParams() {
+        return children()
+                .stream()
+                .map(Declaration::toParameter)
+                .collect(Collectors.toList());
+    }
 
-	Declaration define(Type type, String name);
+    Declaration define(Type type, String name);
 
-	Declaration define(Parameter parameter);
+    Declaration define(Parameter parameter);
 
-	String getName();
+    String getName();
 
-	Type getType();
+    Type getType();
 
-	default String instanceName() {
-		return getName() + "$";
-	}
+    default String tempName() {
+		return getName() + "_";
+    }
 
-	boolean isParent();
+    default String instanceName() {
+        return getName() + "$";
+    }
 
-	default String joinArgs() {
-		return childrenAsParams().stream()
-				.map(Parameter::name)
-				.collect(Collectors.joining(","));
-	}
+    boolean isParent();
 
-	Parameter toParameter();
+    default String joinArgs() {
+        return childrenAsParams().stream()
+                .map(Parameter::name)
+                .collect(Collectors.joining(","));
+    }
 
-	default StructNode toStruct() {
-		return new StructNode(getName(), childrenAsParams());
-	}
+    Parameter toParameter();
+
+    default StructNode toStruct() {
+        return new StructNode(getName(), childrenAsParams());
+    }
 }
