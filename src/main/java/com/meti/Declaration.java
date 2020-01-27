@@ -30,7 +30,7 @@ public interface Declaration {
 	Type getType();
 
 	default String instanceName() {
-		return getName() + "_";
+		return getName() + "$";
 	}
 
 	boolean isParent();
