@@ -42,7 +42,7 @@ class SubFunctionTest {
 				"struct reflect reflect$;" +
 				"int reflect_doOperation(){return reflect$.x;}" +
 				"int reflect(int x){" +
-				"struct reflectreflect_={x,reflect_doOperation};" +
+				"struct reflect reflect_={x,reflect_doOperation};" +
 				"reflect$=reflect_;" +
 				"return reflect_.doOperation();}" +
 				"int main(){return _exitCode;}", cache.render());
