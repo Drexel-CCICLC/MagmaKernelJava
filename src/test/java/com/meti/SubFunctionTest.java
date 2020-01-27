@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SubFunctionTest {
 	private final Cache cache = new CollectionCache();
-	private Compiler compiler;
+	private Compiler compiler = null;
 
 	@BeforeEach
 	void setUp() {
