@@ -57,6 +57,6 @@ public class AbstractDeclaration implements Declaration {
 
 	@Override
 	public Parameter toParameter() {
-		return Parameter.create(getType(), getName());
+		return Parameter.create(type, name);
 	}
 }
