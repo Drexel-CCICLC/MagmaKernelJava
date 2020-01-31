@@ -12,7 +12,10 @@ public interface Type {
 
 	boolean isNamed();
 
+	@Deprecated
 	String render();
 
 	Optional<Type> returnType();
+
+	String render(String name);
 }

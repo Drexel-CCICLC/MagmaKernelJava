@@ -26,8 +26,13 @@ public class IntType implements Type {
 		return "int";
 	}
 
-    @Override
-    public Optional<Type> returnType() {
-        return Optional.empty();
-    }
+	@Override
+	public Optional<Type> returnType() {
+		return Optional.empty();
+	}
+
+	@Override
+	public String render(String name) {
+		return render() + " " + name;
+	}
 }

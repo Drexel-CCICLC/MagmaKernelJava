@@ -30,4 +30,9 @@ public class AnyType implements Type {
     public Optional<Type> returnType() {
         return Optional.empty();
     }
+
+    @Override
+    public String render(String name) {
+        return render() + " " + name;
+    }
 }

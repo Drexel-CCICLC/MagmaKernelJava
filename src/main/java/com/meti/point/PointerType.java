@@ -42,4 +42,9 @@ public class PointerType implements Type {
 			return child.render() + "*";
 		}
 	}
+
+	@Override
+	public String render(String name) {
+		return render() + " " + name;
+	}
 }

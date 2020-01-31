@@ -45,4 +45,12 @@ public class StructType implements Type {
     public Optional<Type> returnType() {
         return Optional.ofNullable(returnType);
     }
+
+    @Override
+    public String render(String name) {
+        String joinedParams = parameters.stream()
+                .map(Type::render)
+                .collect(Collectors.joining(","));
+        return returnType.render() + "(*" + name + ")" + "(" + joinedParams + ")";
+    }
 }

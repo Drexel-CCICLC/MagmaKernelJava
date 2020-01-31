@@ -36,4 +36,9 @@ public class ArrayType implements Type {
     public String render() {
         return elementType.render() + "*";
     }
+
+    @Override
+    public String render(String name) {
+        return render() + " " + name;
+    }
 }
