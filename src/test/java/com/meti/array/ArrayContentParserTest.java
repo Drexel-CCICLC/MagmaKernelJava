@@ -2,6 +2,8 @@ package com.meti.array;
 
 import com.meti.Compiler;
 import com.meti.*;
+import com.meti.declare.Declarations;
+import com.meti.declare.DeclareParser;
 import com.meti.primitive.IntParser;
 import com.meti.primitive.IntResolver;
 import org.junit.jupiter.api.Test;

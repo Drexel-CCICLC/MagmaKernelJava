@@ -1,4 +1,7 @@
-package com.meti;
+package com.meti.declare;
+
+import com.meti.Parameter;
+import com.meti.Type;
 
 import java.util.*;
 import java.util.function.Function;

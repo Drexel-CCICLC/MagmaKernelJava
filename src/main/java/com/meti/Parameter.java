@@ -1,6 +1,7 @@
 package com.meti;
 
-import java.util.function.Function;
+import com.meti.declare.Declaration;
+import com.meti.declare.ParameterDeclaration;
 
 public interface Parameter {
 	static Parameter create(Type type, String name) {

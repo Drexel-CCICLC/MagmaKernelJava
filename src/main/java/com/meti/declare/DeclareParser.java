@@ -1,5 +1,7 @@
-package com.meti;
+package com.meti.declare;
 
+import com.meti.Compiler;
+import com.meti.*;
 import com.meti.exception.ParseException;
 
 import java.util.Arrays;

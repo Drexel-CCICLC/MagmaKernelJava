@@ -1,5 +1,7 @@
 package com.meti;
 
+import com.meti.declare.Declarations;
+import com.meti.declare.TreeDeclarations;
 import com.meti.exception.ParseException;
 import com.meti.primitive.IntParser;
 import com.meti.primitive.VoidType;

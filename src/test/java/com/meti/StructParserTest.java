@@ -1,5 +1,8 @@
 package com.meti;
 
+import com.meti.declare.Declarations;
+import com.meti.declare.DeclareParser;
+import com.meti.declare.TreeDeclarations;
 import com.meti.exception.ParseException;
 import com.meti.primitive.IntResolver;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StructParserTest {
-	private Cache cache = new CollectionCache();
+	private final Cache cache = new CollectionCache();
 	private Compiler compiler;
 
 	@Test

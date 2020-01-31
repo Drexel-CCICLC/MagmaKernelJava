@@ -1,5 +1,6 @@
 package com.meti;
 
+import com.meti.declare.TreeDeclarations;
 import com.meti.primitive.VoidType;
 
 import java.util.ArrayList;

@@ -1,4 +1,6 @@
-package com.meti;
+package com.meti.declare;
+
+import com.meti.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,7 +9,7 @@ import java.util.stream.Collectors;
 public interface Declaration {
     default Node declareInstance() {
         return new DeclareNode(new StructType(getName()),
-                tempName(),  new VariableNode("{" + joinArgs() + "}"));
+                tempName(), new VariableNode("{" + joinArgs() + "}"));
     }
 
     Optional<Declaration> child(String name);

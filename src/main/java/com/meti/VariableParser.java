@@ -1,5 +1,9 @@
 package com.meti;
 
+import com.meti.declare.Declaration;
+import com.meti.declare.ParameterDeclaration;
+import com.meti.declare.TreeDeclarations;
+
 import java.util.Optional;
 
 public class VariableParser implements Parser {

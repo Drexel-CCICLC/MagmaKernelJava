@@ -1,4 +1,7 @@
-package com.meti;
+package com.meti.declare;
+
+import com.meti.Node;
+import com.meti.Type;
 
 public class DeclareNode implements Node {
 	private final String name;
