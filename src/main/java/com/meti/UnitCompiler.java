@@ -4,8 +4,8 @@ public class UnitCompiler implements Compiler {
 	private final Parser rootParser;
 	private final Resolver rootResolver;
 
-	public UnitCompiler(Parser root, Resolver rootResolver) {
-		this.rootParser = root;
+	public UnitCompiler(Parser rootParser, Resolver rootResolver) {
+		this.rootParser = rootParser;
 		this.rootResolver = rootResolver;
 	}
 
