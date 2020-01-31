@@ -1,5 +1,7 @@
 package com.meti;
 
+import com.meti.declare.AssignNode;
+import com.meti.declare.VariableNode;
 import com.meti.primitive.IntNode;
 import org.junit.jupiter.api.Test;
 

@@ -1,5 +1,6 @@
 package com.meti;
 
+import com.meti.declare.VariableNode;
 import com.meti.point.ReferenceNode;
 import org.junit.jupiter.api.Test;
 

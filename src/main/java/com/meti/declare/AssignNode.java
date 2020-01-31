@@ -1,4 +1,6 @@
-package com.meti;
+package com.meti.declare;
+
+import com.meti.Node;
 
 public class AssignNode implements Node {
     private final Node from;

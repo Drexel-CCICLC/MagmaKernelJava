@@ -1,6 +1,7 @@
 package com.meti;
 
 import com.meti.declare.DeclareNode;
+import com.meti.declare.VariableNode;
 import com.meti.primitive.IntNode;
 import com.meti.primitive.IntType;
 

@@ -1,8 +1,9 @@
-package com.meti;
+package com.meti.declare;
 
-import com.meti.declare.Declaration;
-import com.meti.declare.ParameterDeclaration;
-import com.meti.declare.TreeDeclarations;
+import com.meti.Compiler;
+import com.meti.FieldNode;
+import com.meti.Node;
+import com.meti.Parser;
 
 import java.util.Optional;
 
