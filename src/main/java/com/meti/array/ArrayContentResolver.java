@@ -24,7 +24,7 @@ public class ArrayContentResolver implements Resolver {
             } else {
                 String typeString = trim.substring(first + 1, last).trim();
                 Type elementType = compiler.resolveName(typeString);
-                return Optional.of(new ArrayType(elementType));
+                return Optional.of(new IndexedArrayType(elementType));
             }
         }
         return Optional.empty();

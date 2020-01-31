@@ -18,6 +18,6 @@ class ArrayContentResolverTest {
                 new IntResolver()
         ));
         Type type = compiler.resolveValue("Array<Int>{3, 4");
-        assertEquals("int array[]", type.render());
+        assertEquals("int array[]", type.render("array"));
     }
 }

@@ -15,7 +15,7 @@ import java.util.LinkedList;
 
 public class ArraySizeNode implements Node {
     private static final Node malloc = new VariableNode("malloc");
-    private static final Type mallocType = new StructType(new ArrayType(new AnyType()), "malloc", Collections.emptyList());
+    private static final Type mallocType = new StructType(new PointerArrayType(new AnyType()), "malloc", Collections.emptyList());
     private final Type type;
     private final Node size;
 

@@ -1,7 +1,7 @@
 package com.meti.struct;
 
 import com.meti.Type;
-import com.meti.array.ArrayType;
+import com.meti.array.PointerArrayType;
 import com.meti.other.AnyType;
 import com.meti.point.PointerType;
 
@@ -42,7 +42,7 @@ public class ObjectType implements Type {
 	public String render() {
 		Type any = new AnyType();
 		Type pointer = new PointerType(any);
-		Type array = new ArrayType(pointer);
+		Type array = new PointerArrayType(pointer);
 		return array.render();
 	}
 
