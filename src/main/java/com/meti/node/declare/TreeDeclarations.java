@@ -27,9 +27,12 @@ public class TreeDeclarations implements Declarations {
 
 	@Override
 	public Declaration absolute(Collection<String> stack) {
+		//TODO: change to reduction
 		Declaration current = root;
 		for (String s : stack) {
-			current = current.child(s).orElseThrow();
+			current = current.child(s).orElseThrow(() -> new IllegalArgumentException("Failed to find declaration " +
+					"for:" +
+					" " + String.join(",", stack)));
 		}
 		return current;
 	}
