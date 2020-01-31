@@ -23,7 +23,7 @@ public interface Declarations {
 
 	Stack<String> getStack();
 
-	<T> T inStack(String name, Function<String, T> mapper);
+	<T> T inStack(String name, Function<? super String, T> mapper);
 
 	boolean isRoot(Declaration declaration);
 

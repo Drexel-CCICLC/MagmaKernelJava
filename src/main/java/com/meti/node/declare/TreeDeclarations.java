@@ -55,7 +55,7 @@ public class TreeDeclarations implements Declarations {
 	}
 
 	@Override
-	public <T> T inStack(String name, Function<String, T> mapper) {
+	public <T> T inStack(String name, Function<? super String, T> mapper) {
 		stack.push(name);
 		T t = mapper.apply(name);
 		stack.pop();
