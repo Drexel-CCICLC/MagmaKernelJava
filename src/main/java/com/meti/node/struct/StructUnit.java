@@ -2,8 +2,7 @@ package com.meti.node.struct;
 
 import com.meti.Cache;
 import com.meti.Compiler;
-import com.meti.Parser;
-import com.meti.Resolver;
+import com.meti.Unit;
 import com.meti.core.EmptyNode;
 import com.meti.exception.ParseException;
 import com.meti.node.Node;
@@ -17,7 +16,7 @@ import com.meti.node.primitive.VoidType;
 import java.util.*;
 import java.util.stream.IntStream;
 
-public class StructUnit implements Parser, Resolver {
+public class StructUnit implements Unit {
 	private final Cache cache;
 	private final TreeDeclarations declarations;
 	private int implStart = 0;

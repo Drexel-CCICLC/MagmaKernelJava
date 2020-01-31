@@ -40,7 +40,7 @@ class StructUnitTest {
 	@BeforeEach
 	void setUp() {
 		TreeDeclarations declarations = new Declarations();
-		StructUnit unit = new StructUnit(declarations, cache);
+		Unit unit = new StructUnit(declarations, cache);
 		Parser parser = new ParentParser(
 				unit,
 				new DeclareParser(declarations),
