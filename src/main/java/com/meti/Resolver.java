@@ -1,5 +1,7 @@
 package com.meti;
 
+import com.meti.node.Type;
+
 import java.util.Optional;
 
 public interface Resolver {

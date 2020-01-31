@@ -1,7 +1,9 @@
 package com.meti;
 
-import com.meti.primitive.IntNode;
-import com.meti.transform.OperationNode;
+import com.meti.node.Node;
+import com.meti.node.primitive.IntNode;
+import com.meti.node.transform.Operation;
+import com.meti.node.transform.OperationNode;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

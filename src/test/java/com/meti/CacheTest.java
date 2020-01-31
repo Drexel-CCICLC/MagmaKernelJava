@@ -1,9 +1,12 @@
 package com.meti;
 
-import com.meti.declare.VariableNode;
-import com.meti.primitive.IntNode;
-import com.meti.primitive.IntType;
-import com.meti.struct.*;
+import com.meti.node.Node;
+import com.meti.node.Parameter;
+import com.meti.node.declare.VariableNode;
+import com.meti.node.primitive.IntNode;
+import com.meti.node.primitive.IntType;
+import com.meti.node.struct.*;
+import com.meti.core.CollectionCache;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

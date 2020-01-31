@@ -1,7 +1,9 @@
 package com.meti;
 
-import com.meti.primitive.IntNode;
-import com.meti.struct.BlockNode;
+import com.meti.node.Node;
+import com.meti.node.primitive.IntNode;
+import com.meti.node.primitive.StringNode;
+import com.meti.node.struct.BlockNode;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

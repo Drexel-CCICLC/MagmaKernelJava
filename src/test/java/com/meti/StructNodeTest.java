@@ -1,7 +1,9 @@
 package com.meti;
 
-import com.meti.primitive.IntType;
-import com.meti.struct.StructNode;
+import com.meti.node.Node;
+import com.meti.node.Parameter;
+import com.meti.node.primitive.IntType;
+import com.meti.node.struct.StructNode;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;

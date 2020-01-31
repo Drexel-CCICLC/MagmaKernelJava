@@ -1,13 +1,17 @@
 package com.meti;
 
-import com.meti.declare.Declarations;
-import com.meti.declare.TreeDeclarations;
-import com.meti.declare.VariableParser;
+import com.meti.node.Node;
+import com.meti.node.declare.Declarations;
+import com.meti.node.declare.TreeDeclarations;
+import com.meti.node.declare.VariableParser;
 import com.meti.exception.ParseException;
-import com.meti.primitive.IntParser;
-import com.meti.primitive.VoidType;
-import com.meti.struct.FunctionType;
-import com.meti.struct.InvocationParser;
+import com.meti.node.primitive.IntParser;
+import com.meti.node.primitive.VoidType;
+import com.meti.node.struct.FunctionType;
+import com.meti.node.struct.InvocationParser;
+import com.meti.core.ParentParser;
+import com.meti.core.ParentResolver;
+import com.meti.core.UnitCompiler;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;

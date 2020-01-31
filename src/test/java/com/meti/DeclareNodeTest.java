@@ -1,8 +1,9 @@
 package com.meti;
 
-import com.meti.declare.DeclareNode;
-import com.meti.primitive.IntNode;
-import com.meti.primitive.IntType;
+import com.meti.node.Node;
+import com.meti.node.declare.DeclareNode;
+import com.meti.node.primitive.IntNode;
+import com.meti.node.primitive.IntType;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
