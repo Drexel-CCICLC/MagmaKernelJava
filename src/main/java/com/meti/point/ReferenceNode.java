@@ -1,4 +1,6 @@
-package com.meti;
+package com.meti.point;
+
+import com.meti.Node;
 
 public class ReferenceNode implements Node {
     private final Node value;
