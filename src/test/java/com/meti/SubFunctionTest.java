@@ -1,50 +1,43 @@
 package com.meti;
 
-import com.meti.exception.ParseException;
-import com.meti.primitive.IntResolver;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class SubFunctionTest {
-	private final Cache cache = new CollectionCache();
-	private Compiler compiler = null;
-
-	@BeforeEach
-	void setUp() {
-		TreeDeclarations declarations = new Declarations();
-		Parser parser = new ParentParser(
-				new StructParser(declarations, cache),
-				new DeclareParser(declarations),
-				new ReturnParser(),
-				new InvocationParser(),
-				new VariableParser(declarations)
-		);
-		Resolver resolver = new ParentResolver(
-				new StructResolver(declarations),
-				new IntResolver()
-		);
-		compiler = new UnitCompiler(parser, resolver);
+class SubFunctionTest extends InterpretedTest {
+	@Test
+	void parse() {
+		String result = interpreter.parse("""
+					val a = (Int value) => Int :{
+					val b = () => Int : {
+						return value;
+					};
+					return b();
+				};
+				""").orElseThrow();
+		assertEquals("""
+				#include <stdio.h>
+				#include <stdlib.h>
+				int b(void** a_){return *(int*)a_[0];}int a(int value){void** a_=malloc(1*sizeof(void*));a_[0]=&value;return b(a_);}""", result);
 	}
 
 	@Test
-	void simple() throws ParseException {
-		compiler.parse("""
-				val reflect = (Int x) => Int :{
-					val doOperation ==> Int : {
-						return x;
+	void test() throws IOException, InterruptedException {
+		String result = interpreter.run("""
+				native val printf = (String format, Any value) => Void;
+				val a = (Int value) => Int :{
+					val b = () => Int : {
+						return value;
 					};
-					return doOperation();
-				}""");
-		assertEquals("int _exitCode=0i;" +
-				"struct reflect{int x;int(*doOperation)();};" +
-				"struct reflect reflect$;" +
-				"int reflect_doOperation(){return reflect$.x;}" +
-				"int reflect(int x){" +
-				"struct reflect reflect_={x,reflect_doOperation};" +
-				"reflect$=reflect_;" +
-				"return reflect_.doOperation();}" +
-				"int main(){return _exitCode;}", cache.render());
+					return b();
+				};
+				val main = () => Int :{
+					val result = a(10);
+					printf("%i", result);
+				}
+				""");
+		assertEquals("10", result);
 	}
 }
