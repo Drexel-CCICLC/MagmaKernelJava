@@ -37,14 +37,16 @@ public class StructUnit implements Unit {
 	}
 
 	private Node buildFunction(Compiler compiler, IndexBuffer buffer) {
-		Collection<Parameter> parameters = parseParameters(compiler, buffer);
+		Collection<Parameter> parameters = parseParameters(compiler, buffer)
+				.peek(declarations::define)
+				.collect(Collectors.toList());
 		Type returnType = parseReturnType(compiler, buffer);
 		Node block = parseBlock(compiler, buffer);
 		String funcName = String.join("_", declarations.getStack());
 		return new FunctionNode(funcName, returnType, parameters, block);
 	}
 
-	private Collection<Parameter> parseParameters(Compiler compiler, IndexBuffer buffer) {
+	private Stream<Parameter> parseParameters(Compiler compiler, IndexBuffer buffer) {
 		return buffer.cutIfPresent(0)
 				.stream()
 				.map(String::trim)
@@ -52,9 +54,7 @@ public class StructUnit implements Unit {
 				.map(s -> s.substring(1, s.length() - 1))
 				.map(s -> s.split(","))
 				.flatMap(Arrays::stream)
-				.map(paramString -> parseParam(compiler, paramString))
-				.peek(declarations::define)
-				.collect(Collectors.toList());
+				.map(paramString -> parseParam(compiler, paramString));
 	}
 
 	private Type parseReturnType(Compiler compiler, IndexBuffer buffer) {
@@ -145,7 +145,8 @@ public class StructUnit implements Unit {
 	}
 
 	private Type extractType(Compiler compiler, IndexBuffer indexBuffer) {
-		Collection<Parameter> parameters = parseParameters(compiler, indexBuffer);
+		Collection<Parameter> parameters = parseParameters(compiler, indexBuffer)
+				.collect(Collectors.toList());
 		Type returnType = parseReturnType(compiler, indexBuffer);
 		return new FunctionType(parameters, returnType, declarations.currentName());
 	}
