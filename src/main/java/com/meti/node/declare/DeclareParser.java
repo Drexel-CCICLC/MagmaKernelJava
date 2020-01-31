@@ -1,7 +1,7 @@
 package com.meti.node.declare;
 
 import com.meti.Compiler;
-import com.meti.*;
+import com.meti.Parser;
 import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.Type;
@@ -10,9 +10,9 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class DeclareParser implements Parser {
-	private final TreeDeclarations declarations;
+	private final Declarations declarations;
 
-	public DeclareParser(TreeDeclarations declarations) {
+	public DeclareParser(Declarations declarations) {
 		this.declarations = declarations;
 	}
 

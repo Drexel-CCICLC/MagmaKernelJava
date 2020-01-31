@@ -1,16 +1,16 @@
 package com.meti.node.declare;
 
 import com.meti.Compiler;
-import com.meti.node.Node;
 import com.meti.Parser;
+import com.meti.node.Node;
 import com.meti.node.struct.FieldNode;
 
 import java.util.Optional;
 
 public class VariableParser implements Parser {
-	private final TreeDeclarations declarations;
+	private final Declarations declarations;
 
-	public VariableParser(TreeDeclarations declarations) {
+	public VariableParser(Declarations declarations) {
 		this.declarations = declarations;
 	}
 

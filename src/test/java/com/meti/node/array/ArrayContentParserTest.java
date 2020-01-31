@@ -1,15 +1,16 @@
 package com.meti.node.array;
 
 import com.meti.Compiler;
-import com.meti.*;
-import com.meti.node.Node;
-import com.meti.node.declare.Declarations;
-import com.meti.node.declare.DeclareParser;
-import com.meti.node.primitive.IntParser;
-import com.meti.node.primitive.IntResolver;
+import com.meti.Parser;
+import com.meti.Resolver;
 import com.meti.core.ParentParser;
 import com.meti.core.ParentResolver;
 import com.meti.core.UnitCompiler;
+import com.meti.node.Node;
+import com.meti.node.declare.DeclareParser;
+import com.meti.node.declare.TreeDeclarations;
+import com.meti.node.primitive.IntParser;
+import com.meti.node.primitive.IntResolver;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +19,7 @@ class ArrayContentParserTest {
 
 	@Test
 	void parse() {
-		Declarations declarations = new Declarations();
+		TreeDeclarations declarations = new TreeDeclarations();
 		Parser parser = new ParentParser(
 				new DeclareParser(declarations),
 				new ArrayContentParser(),

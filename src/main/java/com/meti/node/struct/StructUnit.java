@@ -8,8 +8,8 @@ import com.meti.node.Node;
 import com.meti.node.Parameter;
 import com.meti.node.Type;
 import com.meti.node.declare.Declaration;
+import com.meti.node.declare.Declarations;
 import com.meti.node.declare.DeclareNode;
-import com.meti.node.declare.TreeDeclarations;
 import com.meti.node.primitive.VoidType;
 
 import java.util.*;
@@ -19,9 +19,9 @@ import java.util.stream.Stream;
 public class StructUnit implements Unit {
 	private static final List<String> MARKERS = List.of("(", "=>", ":");
 	private final Cache cache;
-	private final TreeDeclarations declarations;
+	private final Declarations declarations;
 
-	public StructUnit(TreeDeclarations declarations, Cache cache) {
+	public StructUnit(Declarations declarations, Cache cache) {
 		this.declarations = declarations;
 		this.cache = cache;
 	}
