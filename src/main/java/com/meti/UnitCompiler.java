@@ -1,5 +1,7 @@
 package com.meti;
 
+import com.meti.exception.ParseException;
+
 public class UnitCompiler implements Compiler {
 	private final Parser rootParser;
 	private final Resolver rootResolver;
