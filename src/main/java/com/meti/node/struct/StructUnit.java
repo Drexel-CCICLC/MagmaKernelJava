@@ -14,14 +14,13 @@ import com.meti.node.declare.TreeDeclarations;
 import com.meti.node.primitive.VoidType;
 
 import java.util.*;
-import java.util.stream.IntStream;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class StructUnit implements Unit {
+	private static final List<String> MARKERS = List.of("(", "=>", ":");
 	private final Cache cache;
 	private final TreeDeclarations declarations;
-	private int implStart = 0;
-	private int paramStart = 0;
-	private int returnStart = 0;
 
 	public StructUnit(TreeDeclarations declarations, Cache cache) {
 		this.declarations = declarations;
@@ -29,106 +28,81 @@ public class StructUnit implements Unit {
 	}
 
 	@Override
-	public Optional<Node> parse(String content, com.meti.Compiler compiler) throws ParseException {
-		String trim = content.trim();
-		paramStart = trim.indexOf('(');
-		returnStart = trim.indexOf("=>");
-		implStart = trim.indexOf(':');
-		if (allEmpty(paramStart, returnStart, implStart) || !isZero(paramStart, returnStart, implStart)) {
-			return Optional.empty();
-		} else {
-			cache.addFunction(buildFunction(compiler, trim));
-			return Optional.of(new EmptyNode());
-		}
+	public Optional<Node> parse(String content, Compiler compiler) {
+		return Optional.of(content)
+				.map(String::trim)
+				.map(s -> new StringIndexBuffer(content, MARKERS))
+				.filter(IndexBuffer::isValid)
+				.map(buffer -> addToCache(compiler, buffer));
 	}
 
-	private boolean allEmpty(int paramIndex, int returnIndex, int implIndex) {
-		return IntStream.of(paramIndex, returnIndex, implIndex)
-				.allMatch(value -> -1 == value);
+	private Node addToCache(Compiler compiler, IndexBuffer buffer) {
+		Node function = buildFunction(compiler, buffer);
+		cache.addFunction(function);
+		return new EmptyNode();
 	}
 
-	private boolean isZero(int paramStart, int returnStart, int implStart) {
-		return IntStream.of(paramStart, returnStart, implStart)
-				.anyMatch(value -> value == 0);
-
-	}
-
-	private Node buildFunction(com.meti.Compiler compiler, String trim) throws ParseException {
-		Collection<Parameter> parameters = parseParameters(trim, compiler);
-		Type returnType = parseReturnType(trim, compiler);
-		Node block = parseBlock(trim, compiler);
+	private Node buildFunction(Compiler compiler, IndexBuffer buffer) {
+		Collection<Parameter> parameters = parseParameters(compiler, buffer);
+		Type returnType = parseReturnType(compiler, buffer);
+		Node block = parseBlock(compiler, buffer);
 		String funcName = String.join("_", declarations.getStack());
 		return new FunctionNode(funcName, returnType, parameters, block);
 	}
 
-	private Collection<Parameter> parseParameters(String content, com.meti.Compiler compiler) {
-		Collection<Parameter> parameters = new ArrayList<>();
-		if (-1 != paramStart) {
-			int paramEnd = endOf(content, returnStart, implStart);
-			String paramsString = content.substring(paramStart, paramEnd).trim();
-			if (paramsString.startsWith("(") && paramsString.endsWith(")")) {
-				Arrays.stream(paramsString.substring(1, paramsString.length() - 1).split(","))
-						.map(s -> parseParam(s, compiler))
-						.peek(declarations::define)
-						.forEach(parameters::add);
-			}
-		}
-		return parameters;
+	private Collection<Parameter> parseParameters(Compiler compiler, IndexBuffer buffer) {
+		return buffer.cutIfPresent(0)
+				.stream()
+				.filter(s -> s.startsWith("(") && s.endsWith(")"))
+				.map(s -> s.substring(1, s.length() - 1))
+				.map(s -> s.split(","))
+				.flatMap(Arrays::stream)
+				.map(paramString -> parseParam(compiler, paramString))
+				.peek(declarations::define)
+				.collect(Collectors.toList());
 	}
 
-	private Type parseReturnType(String content, com.meti.Compiler compiler) {
-		Type returnType = VoidType.INSTANCE;
-		if (-1 != returnStart) {
-			int returnEnd = endOf(content, implStart);
-			String returnString = content.substring(returnStart, returnEnd).trim();
-			if (returnString.startsWith("=>")) {
-				returnType = compiler.resolveName(returnString.substring(2));
-			}
-		}
-		return returnType;
+	private Type parseReturnType(Compiler compiler, IndexBuffer buffer) {
+		return buffer.cutIfPresent(1)
+				.filter(s -> s.startsWith("=>"))
+				.map(s -> s.substring(2))
+				.map(compiler::resolveName)
+				.orElse(VoidType.INSTANCE);
 	}
 
-	private Node parseBlock(String content, com.meti.Compiler compiler) throws ParseException {
-		if (-1 == implStart) throw new ParseException("Abstract methods are not supported yet.");
-		String implString = content.substring(implStart).trim().substring(1).trim();
-		if (implString.startsWith("{") && implString.endsWith("}")) {
-			return parseValidBlock(compiler, implString);
-		} else {
-			throw new ParseException("Single statement methods are not supported yet.");
-		}
+	private Node parseBlock(Compiler compiler, IndexBuffer buffer) {
+		if (buffer.isPresent(2)) throw new ParseException("Abstract methods are not supported yet.");
+		return Optional.of(buffer)
+				.map(b -> b.cut(2))
+				.map(String::trim)
+				.map(s -> s.substring(1))
+				.map(String::trim)
+				.filter(s -> s.startsWith("{") && s.endsWith("}"))
+				.map(s -> parseValidBlock(compiler, s))
+				.orElseThrow(() -> new ParseException("Single statement methods are not supported yet."));
 	}
 
-	private int endOf(CharSequence content, int... indices) {
-		return IntStream.concat(IntStream.of(indices), IntStream.of(content.length()))
-				.filter(value -> -1 != value)
-				.min().orElseThrow();
-	}
-
-	private Parameter parseParam(String s, com.meti.Compiler compiler) {
-		int lastSpace = s.lastIndexOf(' ');
-		String type = s.substring(0, lastSpace);
-		String name = s.substring(lastSpace + 1);
+	private Parameter parseParam(Compiler compiler, String paramString) {
+		int lastSpace = paramString.lastIndexOf(' ');
+		String type = paramString.substring(0, lastSpace);
+		String name = paramString.substring(lastSpace + 1);
 		return Parameter.create(compiler.resolveName(type), name);
 	}
 
-	private Node parseValidBlock(com.meti.Compiler compiler, String implString) throws ParseException {
-		Deque<Node> statements = new LinkedList<>(parseStatements(compiler, implString));
+	private Node parseValidBlock(Compiler compiler, String implString) {
+		Deque<Node> statements = parseStatements(compiler, implString);
 		Declaration current = declarations.current();
 		if (current.isParent()) statements.addFirst(assign(current));
 		return new BlockNode(statements);
 	}
 
-	private Collection<Node> parseStatements(Compiler compiler, String implString) throws ParseException {
-		Collection<Node> statements = new ArrayList<>();
-		String childString = implString.substring(1, implString.length() - 1);
-		Collection<String> partitions = partition(childString);
-		for (String s : partitions) {
-			if (!s.isBlank()) {
-				Node node = compiler.parse(s);
-				statements.add(node);
-			}
-		}
-		return statements;
+	private Deque<Node> parseStatements(Compiler compiler, String implString) {
+		return Stream.of(implString)
+				.map(s -> implString.substring(1, implString.length() - 1))
+				.flatMap(this::partition)
+				.filter(s -> !s.isBlank())
+				.map(compiler::parse)
+				.collect(Collectors.toCollection(LinkedList::new));
 	}
 
 	private Node assign(Declaration current) {
@@ -137,26 +111,26 @@ public class StructUnit implements Unit {
 		return current.declareInstance();
 	}
 
-	private Collection<String> partition(String childString) {
+	private Stream<String> partition(String childString) {
 		Collection<String> partitions = new ArrayList<>();
 		StringBuilder current = new StringBuilder();
 		int depth = 0;
 		for (char c : childString.toCharArray()) {
-			if (c == ';' && depth == 0) {
+			if (';' == c && 0 == depth) {
 				partitions.add(current.toString());
 				current = new StringBuilder();
 			} else {
-				if (c == '{') {
+				if ('{' == c) {
 					depth++;
 				}
-				if (c == '}') {
+				if ('}' == c) {
 					depth--;
 				}
 				current.append(c);
 			}
 		}
 		partitions.add(current.toString());
-		return partitions;
+		return partitions.stream();
 	}
 
 	@Override
@@ -166,16 +140,16 @@ public class StructUnit implements Unit {
 
 	@Override
 	public Optional<Type> resolveValue(String content, Compiler compiler) {
-		paramStart = content.indexOf('(');
-		returnStart = content.indexOf("=>");
-		implStart = content.indexOf(':');
-		if (allEmpty(paramStart, returnStart, implStart)) {
-			return Optional.empty();
-		} else {
-			Collection<Parameter> parameters = parseParameters(content, compiler);
-			Type returnType = parseReturnType(content, compiler);
-			return Optional.of(new FunctionType(parameters, returnType, declarations.currentName()));
-		}
+		return Optional.of(content)
+				.map(String::trim)
+				.map(s -> new StringIndexBuffer(content, MARKERS))
+				.filter(IndexBuffer::isValid)
+				.map(indexBuffer -> extractType(compiler, indexBuffer));
 	}
 
+	private Type extractType(Compiler compiler, IndexBuffer indexBuffer) {
+		Collection<Parameter> parameters = parseParameters(compiler, indexBuffer);
+		Type returnType = parseReturnType(compiler, indexBuffer);
+		return new FunctionType(parameters, returnType, declarations.currentName());
+	}
 }

@@ -1,9 +1,9 @@
 package com.meti.node.struct;
 
 import com.meti.Compiler;
-import com.meti.node.Node;
 import com.meti.Parser;
 import com.meti.exception.ParseException;
+import com.meti.node.Node;
 
 import java.util.ArrayList;
 import java.util.List;
