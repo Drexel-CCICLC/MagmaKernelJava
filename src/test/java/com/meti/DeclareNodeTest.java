@@ -12,6 +12,6 @@ class DeclareNodeTest {
     void render() {
         Node value = new IntNode(10);
         Node node = new DeclareNode(IntType.INSTANCE, "test", value);
-        assertEquals("int test=10i;", node.render());
+        assertEquals("int test=10;", node.render());
     }
 }

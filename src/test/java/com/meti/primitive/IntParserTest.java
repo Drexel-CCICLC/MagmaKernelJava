@@ -13,14 +13,14 @@ public class IntParserTest {
     void testWithout() throws ParseException {
         Parser parser = new IntParser();
         Node node = parser.parse("10", null).orElseThrow();
-        assertEquals("10i", node.render());
+        assertEquals("10", node.render());
     }
 
     @Test
     void testWith() throws ParseException {
         Parser parser = new IntParser();
         Node node = parser.parse("10i", null).orElseThrow();
-        assertEquals("10i", node.render());
+        assertEquals("10", node.render());
     }
 
     @Test

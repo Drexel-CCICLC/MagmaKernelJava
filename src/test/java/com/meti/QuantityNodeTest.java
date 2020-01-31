@@ -11,6 +11,6 @@ class QuantityNodeTest {
     void render() {
         Node value = new IntNode(10);
         Node node = new QuantityNode(value);
-        assertEquals("(10i)", node.render());
+        assertEquals("(10)", node.render());
     }
 }

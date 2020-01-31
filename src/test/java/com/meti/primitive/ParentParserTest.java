@@ -16,6 +16,6 @@ class ParentParserTest {
                 new CharParser()
         );
         assertEquals("'x'", parser.parse("'x'", null).orElseThrow().render());
-        assertEquals("10i", parser.parse("10", null).orElseThrow().render());
+        assertEquals("10", parser.parse("10", null).orElseThrow().render());
     }
 }

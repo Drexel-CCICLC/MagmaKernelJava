@@ -13,16 +13,13 @@ public class DeclareNode implements Node {
 
 	@Override
 	public String render() {
-		if (value != null) {
+		if (null != value) {
 			String renderedValue = value.render();
-            if (renderedValue.isBlank()) {
-				return "";
-			} else {
-				return type.render() + " " + name + "=" +
-						renderedValue + ";";
-			}
+			return renderedValue.isBlank() ? "" :
+					type.render(name) + "=" +
+							renderedValue + ";";
 		} else {
-			return type.render() + " " + name + ";";
+			return type.render(name) + ";";
 		}
 	}
 }

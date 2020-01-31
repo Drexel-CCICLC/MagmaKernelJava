@@ -35,6 +35,6 @@ public class IntType implements Type {
 
 	@Override
 	public String render(String name) {
-		return null;
+		return "int " + name;
 	}
 }

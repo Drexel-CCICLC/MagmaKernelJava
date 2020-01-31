@@ -20,6 +20,6 @@ class DeclareParserTest {
 		);
 		Compiler compiler = new UnitCompiler(rootParser, rootResolver);
 		Node node = compiler.parse("val x = 10");
-		assertEquals("int x=10i;", node.render());
+		assertEquals("int x=10;", node.render());
 	}
 }

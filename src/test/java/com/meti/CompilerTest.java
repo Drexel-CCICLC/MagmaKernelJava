@@ -16,6 +16,6 @@ public class CompilerTest {
     @Test
     void compile() throws ParseException {
         assertEquals("'x'", compiler.parse("'x'").render());
-        assertEquals("10i", compiler.parse("10").render());
+        assertEquals("10", compiler.parse("10").render());
     }
 }

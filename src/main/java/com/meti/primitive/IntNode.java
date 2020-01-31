@@ -11,6 +11,6 @@ public class IntNode implements Node {
 
     @Override
     public String render() {
-        return value + "i";
+        return String.valueOf(value);
     }
 }

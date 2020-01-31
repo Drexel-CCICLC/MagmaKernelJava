@@ -24,6 +24,6 @@ class InvocationParserTest {
 		);
 		Compiler compiler = new UnitCompiler(parser, resolver);
 		Node node = compiler.parse("a(10)");
-		assertEquals("a(10i)", node.render());
+		assertEquals("a(10)", node.render());
 	}
 }

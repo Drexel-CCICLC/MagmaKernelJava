@@ -11,6 +11,6 @@ class ReturnNodeTest {
 	void render() {
 		Node value = new IntNode(10);
 		Node node = new ReturnNode(value);
-		assertEquals("return 10i;", node.render());
+		assertEquals("return 10;", node.render());
 	}
 }

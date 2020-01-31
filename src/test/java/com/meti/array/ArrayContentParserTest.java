@@ -19,6 +19,7 @@ class ArrayContentParserTest {
 				new IntParser()
 		);
 		Resolver resolver = new ParentResolver(
+				new ArrayContentResolver(),
 				new IntResolver()
 		);
 		Compiler compiler = new UnitCompiler(parser, resolver);

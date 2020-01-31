@@ -14,6 +14,6 @@ class BlockNodeTest {
 		Node value0 = new IntNode(10);
 		Node value1 = new StringNode("test");
 		Node node = new BlockNode(List.of(value0, value1));
-		assertEquals("{10i\"test\"}", node.render());
+		assertEquals("{10\"test\"}", node.render());
 	}
 }

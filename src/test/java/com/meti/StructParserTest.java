@@ -15,14 +15,14 @@ class StructParserTest {
 	@Test
 	void empty() throws ParseException {
 		compiler.parse("val empty =: {}");
-		assertEquals("int _exitCode=0i;void empty(){}int main(){return _exitCode;}", cache.render());
+		assertEquals("int _exitCode=0;void empty(){}int main(){return _exitCode;}", cache.render());
 	}
 
 	@Test
 	void parseComplete() throws ParseException {
 		Node node = compiler.parse("val complete = (Int value) => Int : {return value;}");
 		assertTrue(node.render().isBlank());
-		assertEquals("int _exitCode=0i;int complete(int value){return value;}int main(){return _exitCode;}", cache.render());
+		assertEquals("int _exitCode=0;int complete(int value){return value;}int main(){return _exitCode;}", cache.render());
 	}
 
 	@BeforeEach
@@ -44,12 +44,12 @@ class StructParserTest {
 	@Test
 	void withParam() throws ParseException {
 		compiler.parse("val accept = (Int some) : {}");
-		assertEquals("int _exitCode=0i;void accept(int some){}int main(){return _exitCode;}", cache.render());
+		assertEquals("int _exitCode=0;void accept(int some){}int main(){return _exitCode;}", cache.render());
 	}
 
 	@Test
 	void withTwoParam() throws ParseException {
 		compiler.parse("val accept = (Int one, Int two) : {}");
-		assertEquals("int _exitCode=0i;void accept(int one,int two){}int main(){return _exitCode;}", cache.render());
+		assertEquals("int _exitCode=0;void accept(int one,int two){}int main(){return _exitCode;}", cache.render());
 	}
 }

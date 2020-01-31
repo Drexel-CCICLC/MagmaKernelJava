@@ -24,6 +24,6 @@ class VariableParserTest {
 		);
 		Compiler compiler = new UnitCompiler(parser, resolver);
 		Node node = compiler.parse("test=10");
-		assertEquals("test=10i;", node.render());
+		assertEquals("test=10;", node.render());
 	}
 }

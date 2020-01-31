@@ -15,6 +15,6 @@ class ReturnParserTest {
 				new IntParser()
 		), null);
 		Node node = compiler.parse("return 10");
-		assertEquals("return 10i;", node.render());
+		assertEquals("return 10;", node.render());
 	}
 }
