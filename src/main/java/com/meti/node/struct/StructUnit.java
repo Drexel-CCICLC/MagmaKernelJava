@@ -65,15 +65,17 @@ public class StructUnit implements Unit {
 	}
 
 	private Node parseBlock(Compiler compiler, IndexBuffer buffer) {
-		if (buffer.isPresent(2)) throw new ParseException("Abstract methods are not supported yet.");
-		return Optional.of(buffer)
-				.map(b -> b.cut(2))
-				.map(String::trim)
-				.map(s -> s.substring(1))
-				.map(String::trim)
-				.filter(s -> s.startsWith("{") && s.endsWith("}"))
-				.map(s -> parseValidBlock(compiler, s))
-				.orElseThrow(() -> new ParseException("Single statement methods are not supported yet."));
+		if (buffer.isPresent(2)) {
+			return Optional.of(buffer)
+					.map(b -> b.cut(2))
+					.map(String::trim)
+					.map(s -> s.substring(1))
+					.map(String::trim)
+					.filter(s -> s.startsWith("{") && s.endsWith("}"))
+					.map(s -> parseValidBlock(compiler, s))
+					.orElseThrow(() -> new ParseException("Single statement methods are not supported yet."));
+		}
+		throw new ParseException("Abstract methods are not supported yet.");
 	}
 
 	private Parameter parseParam(Compiler compiler, String paramString) {
