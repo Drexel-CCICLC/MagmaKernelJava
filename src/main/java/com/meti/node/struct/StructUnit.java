@@ -47,6 +47,7 @@ public class StructUnit implements Unit {
 	private Collection<Parameter> parseParameters(Compiler compiler, IndexBuffer buffer) {
 		return buffer.cutIfPresent(0)
 				.stream()
+				.map(String::trim)
 				.filter(s -> s.startsWith("(") && s.endsWith(")"))
 				.map(s -> s.substring(1, s.length() - 1))
 				.map(s -> s.split(","))
