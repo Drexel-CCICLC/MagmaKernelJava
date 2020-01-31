@@ -1,8 +1,8 @@
 package com.meti.declare;
 
-import com.meti.FunctionType;
 import com.meti.Parameter;
 import com.meti.Type;
+import com.meti.struct.FunctionType;
 
 import java.util.ArrayList;
 import java.util.List;

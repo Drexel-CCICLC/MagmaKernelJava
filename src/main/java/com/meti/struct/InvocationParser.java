@@ -1,5 +1,8 @@
-package com.meti;
+package com.meti.struct;
 
+import com.meti.Compiler;
+import com.meti.Node;
+import com.meti.Parser;
 import com.meti.exception.ParseException;
 
 import java.util.ArrayList;

@@ -6,6 +6,9 @@ import com.meti.declare.TreeDeclarations;
 import com.meti.declare.VariableParser;
 import com.meti.exception.ParseException;
 import com.meti.primitive.IntResolver;
+import com.meti.struct.ReturnParser;
+import com.meti.struct.StructParser;
+import com.meti.struct.StructResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +29,8 @@ class StructParserTest {
 	void parseComplete() throws ParseException {
 		Node node = compiler.parse("val complete = (Int value) => Int : {return value;}");
 		assertTrue(node.render().isBlank());
-		assertEquals("int _exitCode=0;int complete(int value){return value;}int main(){return _exitCode;}", cache.render());
+		assertEquals("int _exitCode=0;int complete(int value){return value;}int main(){return _exitCode;}",
+				cache.render());
 	}
 
 	@BeforeEach

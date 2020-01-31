@@ -1,5 +1,8 @@
-package com.meti;
+package com.meti.struct;
 
+import com.meti.Compiler;
+import com.meti.Resolver;
+import com.meti.Type;
 import com.meti.declare.TreeDeclarations;
 import com.meti.primitive.VoidType;
 

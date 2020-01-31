@@ -1,6 +1,7 @@
 package com.meti;
 
 import com.meti.declare.VariableNode;
+import com.meti.struct.InvocationNode;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;

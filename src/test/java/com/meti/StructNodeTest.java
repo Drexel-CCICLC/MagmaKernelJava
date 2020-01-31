@@ -1,6 +1,7 @@
 package com.meti;
 
 import com.meti.primitive.IntType;
+import com.meti.struct.StructNode;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;

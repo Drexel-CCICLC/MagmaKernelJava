@@ -2,6 +2,7 @@ package com.meti;
 
 import com.meti.declare.Declaration;
 import com.meti.declare.ParameterDeclaration;
+import com.meti.struct.FunctionType;
 
 public interface Parameter {
 	static Parameter create(Type type, String name) {

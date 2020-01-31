@@ -1,4 +1,7 @@
-package com.meti;
+package com.meti.struct;
+
+import com.meti.Node;
+import com.meti.Parameter;
 
 import java.util.Collection;
 import java.util.stream.Collectors;

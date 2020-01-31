@@ -4,6 +4,9 @@ import com.meti.declare.DeclareNode;
 import com.meti.declare.VariableNode;
 import com.meti.primitive.IntNode;
 import com.meti.primitive.IntType;
+import com.meti.struct.BlockNode;
+import com.meti.struct.FunctionNode;
+import com.meti.struct.ReturnNode;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -2,6 +2,8 @@ package com.meti;
 
 import com.meti.primitive.IntType;
 import com.meti.primitive.VoidType;
+import com.meti.struct.BlockNode;
+import com.meti.struct.FunctionNode;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;

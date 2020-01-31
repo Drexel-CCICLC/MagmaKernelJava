@@ -1,7 +1,8 @@
-package com.meti;
+package com.meti.struct;
+
+import com.meti.Node;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class BlockNode implements Node {

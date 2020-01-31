@@ -1,9 +1,9 @@
 package com.meti.declare;
 
 import com.meti.Compiler;
-import com.meti.FieldNode;
 import com.meti.Node;
 import com.meti.Parser;
+import com.meti.struct.FieldNode;
 
 import java.util.Optional;
 

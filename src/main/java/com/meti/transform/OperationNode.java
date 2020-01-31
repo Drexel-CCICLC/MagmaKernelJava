@@ -1,4 +1,7 @@
-package com.meti;
+package com.meti.transform;
+
+import com.meti.Node;
+import com.meti.Operation;
 
 public class OperationNode implements Node {
     private final Node node0;

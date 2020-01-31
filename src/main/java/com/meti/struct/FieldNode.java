@@ -1,4 +1,6 @@
-package com.meti;
+package com.meti.struct;
+
+import com.meti.Node;
 
 public class FieldNode implements Node {
 	private final Node instance;

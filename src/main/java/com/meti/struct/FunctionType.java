@@ -1,4 +1,6 @@
-package com.meti;
+package com.meti.struct;
+
+import com.meti.Type;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -10,7 +12,7 @@ public class FunctionType implements Type {
 	private final Collection<? extends Type> parameters;
 	private final Type returnType;
 
-	FunctionType(Collection<? extends Type> parameters, Type returnType, String name) {
+	public FunctionType(Collection<? extends Type> parameters, Type returnType, String name) {
 		this.parameters = parameters;
 		this.returnType = returnType;
 		this.name = name;

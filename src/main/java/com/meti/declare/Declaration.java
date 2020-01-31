@@ -1,6 +1,10 @@
 package com.meti.declare;
 
-import com.meti.*;
+import com.meti.Node;
+import com.meti.Parameter;
+import com.meti.StructType;
+import com.meti.Type;
+import com.meti.struct.StructNode;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +53,7 @@ public interface Declaration {
 
     Parameter toParameter();
 
-    default StructNode toStruct() {
+    default Node toStruct() {
         return new StructNode(getName(), childrenAsParams());
     }
 }
