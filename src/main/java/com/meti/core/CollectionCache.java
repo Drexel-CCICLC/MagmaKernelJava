@@ -38,8 +38,9 @@ public class CollectionCache implements Cache {
 	}
 
 	@Override
-	public void addFunction(Node function) {
+	public Node addFunction(Node function) {
 		functions.add(function);
+		return new EmptyNode();
 	}
 
 	@Override

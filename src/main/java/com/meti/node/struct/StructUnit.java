@@ -3,7 +3,6 @@ package com.meti.node.struct;
 import com.meti.Cache;
 import com.meti.Compiler;
 import com.meti.Unit;
-import com.meti.core.EmptyNode;
 import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.Parameter;
@@ -33,13 +32,8 @@ public class StructUnit implements Unit {
 				.map(String::trim)
 				.map(s -> new StringIndexBuffer(content, MARKERS))
 				.filter(IndexBuffer::isValid)
-				.map(buffer -> addToCache(compiler, buffer));
-	}
-
-	private Node addToCache(Compiler compiler, IndexBuffer buffer) {
-		Node function = buildFunction(compiler, buffer);
-		cache.addFunction(function);
-		return new EmptyNode();
+				.map(buffer -> buildFunction(compiler, buffer))
+				.map(cache::addFunction);
 	}
 
 	private Node buildFunction(Compiler compiler, IndexBuffer buffer) {
