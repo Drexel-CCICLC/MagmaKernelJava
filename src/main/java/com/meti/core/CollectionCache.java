@@ -22,11 +22,11 @@ public class CollectionCache implements Cache {
 	private final Collection<Node> main;
 	private final Collection<Node> structs;
 
-	CollectionCache() {
+	public CollectionCache() {
 		this(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 	}
 
-	CollectionCache(Collection<Node> structs, Collection<Node> functions, Collection<Node> main) {
+	public CollectionCache(Collection<Node> structs, Collection<Node> functions, Collection<Node> main) {
 		this.functions = functions;
 		this.structs = structs;
 		this.main = main;
