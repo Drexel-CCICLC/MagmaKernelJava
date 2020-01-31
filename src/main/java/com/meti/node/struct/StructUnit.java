@@ -1,28 +1,30 @@
 package com.meti.node.struct;
 
+import com.meti.Cache;
 import com.meti.Compiler;
-import com.meti.*;
+import com.meti.Parser;
+import com.meti.Resolver;
+import com.meti.core.EmptyNode;
+import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.Parameter;
 import com.meti.node.Type;
 import com.meti.node.declare.Declaration;
 import com.meti.node.declare.DeclareNode;
 import com.meti.node.declare.TreeDeclarations;
-import com.meti.exception.ParseException;
 import com.meti.node.primitive.VoidType;
-import com.meti.core.EmptyNode;
 
 import java.util.*;
 import java.util.stream.IntStream;
 
-public class StructParser implements Parser {
+public class StructUnit implements Parser, Resolver {
 	private final Cache cache;
 	private final TreeDeclarations declarations;
 	private int implStart = 0;
 	private int paramStart = 0;
 	private int returnStart = 0;
 
-	public StructParser(TreeDeclarations declarations, Cache cache) {
+	public StructUnit(TreeDeclarations declarations, Cache cache) {
 		this.declarations = declarations;
 		this.cache = cache;
 	}
@@ -157,4 +159,24 @@ public class StructParser implements Parser {
 		partitions.add(current.toString());
 		return partitions;
 	}
+
+	@Override
+	public Optional<Type> resolveName(String content, Compiler compiler) {
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Type> resolveValue(String content, Compiler compiler) {
+		paramStart = content.indexOf('(');
+		returnStart = content.indexOf("=>");
+		implStart = content.indexOf(':');
+		if (allEmpty(paramStart, returnStart, implStart)) {
+			return Optional.empty();
+		} else {
+			Collection<Parameter> parameters = parseParameters(content, compiler);
+			Type returnType = parseReturnType(content, compiler);
+			return Optional.of(new FunctionType(parameters, returnType, declarations.currentName()));
+		}
+	}
+
 }

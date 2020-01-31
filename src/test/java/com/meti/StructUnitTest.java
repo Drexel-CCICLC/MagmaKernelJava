@@ -1,26 +1,25 @@
 package com.meti;
 
+import com.meti.core.CollectionCache;
+import com.meti.core.ParentParser;
+import com.meti.core.ParentResolver;
+import com.meti.core.UnitCompiler;
+import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.declare.Declarations;
 import com.meti.node.declare.DeclareParser;
 import com.meti.node.declare.TreeDeclarations;
 import com.meti.node.declare.VariableParser;
-import com.meti.exception.ParseException;
 import com.meti.node.primitive.IntResolver;
 import com.meti.node.struct.ReturnParser;
-import com.meti.node.struct.StructParser;
-import com.meti.node.struct.StructResolver;
-import com.meti.core.CollectionCache;
-import com.meti.core.ParentParser;
-import com.meti.core.ParentResolver;
-import com.meti.core.UnitCompiler;
+import com.meti.node.struct.StructUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class StructParserTest {
+class StructUnitTest {
 	private final Cache cache = new CollectionCache();
 	private Compiler compiler;
 
@@ -41,14 +40,15 @@ class StructParserTest {
 	@BeforeEach
 	void setUp() {
 		TreeDeclarations declarations = new Declarations();
+		StructUnit unit = new StructUnit(declarations, cache);
 		Parser parser = new ParentParser(
-				new StructParser(declarations, cache),
+				unit,
 				new DeclareParser(declarations),
 				new ReturnParser(),
 				new VariableParser(declarations)
 		);
 		Resolver resolver = new ParentResolver(
-				new StructResolver(declarations),
+				unit,
 				new IntResolver()
 		);
 		compiler = new UnitCompiler(parser, resolver);
