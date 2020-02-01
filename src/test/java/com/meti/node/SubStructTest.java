@@ -26,8 +26,8 @@ class SubStructTest {
 		Declarations declarations = new TreeDeclarations();
 		Unit structUnit = new StructUnit(declarations, cache);
 		Parser parser = new ParentParser(
-				new DeclareParser(declarations),
 				structUnit,
+				new DeclareParser(declarations),
 				new ReturnParser(),
 				new OperationParser(),
 				new VariableParser(declarations),
