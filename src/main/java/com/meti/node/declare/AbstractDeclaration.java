@@ -26,8 +26,18 @@ public class AbstractDeclaration implements Declaration {
 	}
 
 	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
 	public List<Declaration> children() {
 		return children;
+	}
+
+	@Override
+	public Parameter toParameter() {
+		return Parameter.create(type, name);
 	}
 
 	@Override
@@ -45,8 +55,8 @@ public class AbstractDeclaration implements Declaration {
 	}
 
 	@Override
-	public String getName() {
-		return name;
+	public String instanceName() {
+		return name + "_";
 	}
 
 	@Override
@@ -57,10 +67,5 @@ public class AbstractDeclaration implements Declaration {
 	@Override
 	public boolean isParent() {
 		return children.stream().anyMatch(Declaration::isFunction);
-	}
-
-	@Override
-	public Parameter toParameter() {
-		return Parameter.create(type, name);
 	}
 }

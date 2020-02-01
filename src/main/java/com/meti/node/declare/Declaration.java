@@ -46,9 +46,7 @@ public interface Declaration {
 
     Declaration define(Parameter parameter);
 
-    default String instanceName() {
-        return getName() + "$";
-    }
+    String instanceName();
 
     boolean isFunction();
 
