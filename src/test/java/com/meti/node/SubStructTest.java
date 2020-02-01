@@ -46,13 +46,17 @@ class SubStructTest {
 				                return doOperation();
 				            }
 				""");
-		assertEquals("struct addTwoNumbers{int x;int y;};" +
+		assertEquals("int _exitCode=0;" +
+				"struct addTwoNumbers{int x;int y;};" +
 				"int addTwoNumbers_doOperation(struct addTwoNumbers addTwoNumbers_){" +
 				"return addTwoNumbers_.x+addTwoNumbers_.y;" +
 				"}" +
 				"int addTwoNumbers(int x,int y){" +
 				"struct addTwoNumbers addTwoNumbers_={x,y};" +
 				"return addTwoNumbers_doOperation(addTwoNumbers_);" +
+				"}" +
+				"int main(){" +
+				"return _exitCode;" +
 				"}", cache.render());
 	}
 }
