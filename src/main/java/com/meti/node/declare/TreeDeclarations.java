@@ -103,4 +103,18 @@ public class TreeDeclarations implements Declarations {
 		Optional<Declaration> child = root.child(name);
 		return child.isPresent() ? Optional.of(root) : Optional.empty();
 	}
+
+	@Override
+	public Optional<Declaration> relative(String name) {
+		Deque<String> stringDeque = new LinkedList<>(stack);
+		while (!stringDeque.isEmpty()) {
+			Optional<Declaration> optional = absolute(stringDeque).child(name);
+			if (optional.isPresent()) {
+				return optional;
+			} else {
+				stringDeque.pollLast();
+			}
+		}
+		return root.child(name);
+	}
 }

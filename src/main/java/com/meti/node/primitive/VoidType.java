@@ -35,6 +35,6 @@ public class VoidType implements Type {
 
 	@Override
 	public String render(String name) {
-		return null;
+		return "void " + name;
 	}
 }

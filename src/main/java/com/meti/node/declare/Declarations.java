@@ -11,8 +11,6 @@ import java.util.function.Function;
 public interface Declarations {
 	Declaration absolute(Collection<String> stack);
 
-	Type toCurrentClass(String name);
-
 	String buildStackName();
 
 	List<Parameter> buildStackParameters();
@@ -34,4 +32,8 @@ public interface Declarations {
 	Declaration parent();
 
 	Optional<Declaration> parent(String name);
+
+	Optional<Declaration> relative(String name);
+
+	Type toCurrentClass(String name);
 }

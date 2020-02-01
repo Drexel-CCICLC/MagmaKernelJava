@@ -110,7 +110,7 @@ public class AbstractDeclaration implements Declaration {
 
 	@Override
 	public Node toVariable() {
-		return new VariableNode(name);
+		return new VariableNode(name + "_");
 	}
 
 	@Override

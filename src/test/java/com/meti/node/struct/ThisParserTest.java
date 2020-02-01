@@ -9,6 +9,7 @@ import com.meti.core.UnitCompiler;
 import com.meti.node.declare.Declarations;
 import com.meti.node.declare.DeclareParser;
 import com.meti.node.declare.TreeDeclarations;
+import com.meti.node.declare.VariableResolver;
 import com.meti.node.primitive.IntResolver;
 import org.junit.jupiter.api.Test;
 
@@ -30,6 +31,7 @@ class ThisParserTest {
 		Resolver resolver = new ParentResolver(
 				structUnit,
 				new IntResolver(),
+				new VariableResolver(declarations),
 				new ObjectResolver(declarations)
 		);
 		Compiler compiler = new UnitCompiler(parser, resolver);
