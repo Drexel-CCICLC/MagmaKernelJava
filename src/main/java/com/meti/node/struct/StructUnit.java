@@ -9,7 +9,6 @@ import com.meti.node.Parameter;
 import com.meti.node.Type;
 import com.meti.node.declare.Declaration;
 import com.meti.node.declare.Declarations;
-import com.meti.node.declare.DeclareNode;
 import com.meti.node.primitive.VoidType;
 
 import java.util.*;
@@ -104,7 +103,6 @@ public class StructUnit implements Unit {
 
 	private Node assign(Declaration current) {
 		cache.addStruct(current.toStruct());
-		cache.addStruct(new DeclareNode(new StructType(current.getName()), current.instanceName(), null));
 		return current.declareInstance();
 	}
 
