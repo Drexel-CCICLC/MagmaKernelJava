@@ -2,23 +2,33 @@ package com.meti.node.declare;
 
 import com.meti.node.Node;
 import com.meti.node.Parameter;
-import com.meti.node.struct.StructType;
 import com.meti.node.Type;
 import com.meti.node.struct.StructNode;
+import com.meti.node.struct.StructType;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public interface Declaration {
+    Optional<Declaration> child(String name);
+
     default Node declareInstance() {
         return new DeclareNode(new StructType(getName()),
                 tempName(), new VariableNode("{" + joinArgs() + "}"));
     }
 
-    Optional<Declaration> child(String name);
+    String getName();
 
-    List<Declaration> children();
+    default String tempName() {
+        return getName() + "_";
+    }
+
+    default String joinArgs() {
+        return childrenAsParams().stream()
+                .map(Parameter::name)
+                .collect(Collectors.joining(","));
+    }
 
     default List<Parameter> childrenAsParams() {
         return children()
@@ -27,31 +37,21 @@ public interface Declaration {
                 .collect(Collectors.toList());
     }
 
+    List<Declaration> children();
+
+    Parameter toParameter();
+
     Declaration define(Type type, String name);
 
     Declaration define(Parameter parameter);
-
-    String getName();
-
-    Type getType();
-
-    default String tempName() {
-		return getName() + "_";
-    }
 
     default String instanceName() {
         return getName() + "$";
     }
 
+    boolean isFunction();
+
     boolean isParent();
-
-    default String joinArgs() {
-        return childrenAsParams().stream()
-                .map(Parameter::name)
-                .collect(Collectors.joining(","));
-    }
-
-    Parameter toParameter();
 
     default Node toStruct() {
         return new StructNode(getName(), childrenAsParams());

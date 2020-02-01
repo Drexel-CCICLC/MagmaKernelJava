@@ -50,13 +50,13 @@ public class AbstractDeclaration implements Declaration {
 	}
 
 	@Override
-	public Type getType() {
-		return type;
+	public boolean isFunction() {
+		return type instanceof FunctionType;
 	}
 
 	@Override
 	public boolean isParent() {
-		return children.stream().anyMatch(declaration -> declaration.getType() instanceof FunctionType);
+		return children.stream().anyMatch(Declaration::isFunction);
 	}
 
 	@Override
