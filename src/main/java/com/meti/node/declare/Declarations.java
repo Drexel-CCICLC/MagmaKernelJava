@@ -11,6 +11,8 @@ import java.util.function.Function;
 public interface Declarations {
 	Declaration absolute(Collection<String> stack);
 
+	Type toCurrentClass(String name);
+
 	String buildStackName();
 
 	List<Parameter> buildStackParameters();

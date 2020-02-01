@@ -29,7 +29,8 @@ class ThisParserTest {
 		);
 		Resolver resolver = new ParentResolver(
 				structUnit,
-				new IntResolver()
+				new IntResolver(),
+				new ObjectResolver(declarations)
 		);
 		Compiler compiler = new UnitCompiler(parser, resolver);
 		compiler.parse("""

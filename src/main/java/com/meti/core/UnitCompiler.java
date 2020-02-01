@@ -1,7 +1,8 @@
 package com.meti.core;
 
-import com.meti.*;
 import com.meti.Compiler;
+import com.meti.Parser;
+import com.meti.Resolver;
 import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.Type;

@@ -2,6 +2,7 @@ package com.meti.node.declare;
 
 import com.meti.node.Parameter;
 import com.meti.node.Type;
+import com.meti.node.struct.ObjectType;
 import com.meti.node.struct.StructType;
 
 import java.util.*;
@@ -11,6 +12,13 @@ import java.util.stream.Collectors;
 public class TreeDeclarations implements Declarations {
 	private final Declaration root = new ValueDeclaration("root", null);
 	private final Stack<String> stack = new Stack<>();
+
+	@Override
+	public Type toCurrentClass(String name) {
+		List<String> stack = new ArrayList<>(this.stack);
+		stack.add(name);
+		return new ObjectType(this, stack);
+	}
 
 	@Override
 	public String buildStackName() {
@@ -38,6 +46,7 @@ public class TreeDeclarations implements Declarations {
 	public Declaration current() {
 		return absolute(stack);
 	}
+
 
 	@Override
 	public Declaration absolute(Collection<String> stack) {
