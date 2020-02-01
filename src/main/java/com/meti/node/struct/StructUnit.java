@@ -38,10 +38,12 @@ public class StructUnit implements Unit {
 	private Node buildFunction(Compiler compiler, IndexBuffer buffer) {
 		Collection<Parameter> parameters = parseParameters(compiler, buffer)
 				.peek(declarations::define)
-				.collect(Collectors.toList());
+				.collect(Collectors.toCollection(ArrayList::new));
+		List<Parameter> stackParameters = declarations.buildStackParameters();
+		parameters.addAll(stackParameters);
 		Type returnType = parseReturnType(compiler, buffer);
 		Node block = parseBlock(compiler, buffer);
-		String funcName = String.join("_", declarations.getStack());
+		String funcName = declarations.buildStackName();
 		return new FunctionNode(funcName, returnType, parameters, block);
 	}
 

@@ -2,13 +2,27 @@ package com.meti.node.declare;
 
 import com.meti.node.Parameter;
 import com.meti.node.Type;
+import com.meti.node.struct.StructType;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class TreeDeclarations implements Declarations {
 	private final Declaration root = new ValueDeclaration("root", null);
 	private final Stack<String> stack = new Stack<>();
+
+	@Override
+	public String buildStackName() {
+		return String.join("_", stack);
+	}
+
+	@Override
+	public List<Parameter> buildStackParameters() {
+		return stack.subList(0, stack.size() - 1).stream()
+				.map(s -> Parameter.create(new StructType(s), s + "_"))
+				.collect(Collectors.toList());
+	}
 
 	@Override
 	public String currentName() {
@@ -50,11 +64,6 @@ public class TreeDeclarations implements Declarations {
 	@Override
 	public Declaration parent() {
 		return absolute(stack.subList(0, stack.size() - 1));
-	}
-
-	@Override
-	public Stack<String> getStack() {
-		return stack;
 	}
 
 	@Override

@@ -4,12 +4,16 @@ import com.meti.node.Parameter;
 import com.meti.node.Type;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
-import java.util.Stack;
 import java.util.function.Function;
 
 public interface Declarations {
 	Declaration absolute(Collection<String> stack);
+
+	String buildStackName();
+
+	List<Parameter> buildStackParameters();
 
 	Declaration current();
 
@@ -20,8 +24,6 @@ public interface Declarations {
 	void define(Type type, String name);
 
 	Declaration defineParent(Type type, String name);
-
-	Stack<String> getStack();
 
 	<T> T inStack(String name, Function<? super String, T> mapper);
 
