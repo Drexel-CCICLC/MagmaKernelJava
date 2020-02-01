@@ -14,7 +14,7 @@ public class StructType implements Type {
 
 	@Override
 	public OptionalInt childOrder(String name) {
-		return null;
+		return OptionalInt.empty();
 	}
 
 	@Override
@@ -39,6 +39,6 @@ public class StructType implements Type {
 
 	@Override
 	public String render(String name) {
-		return null;
+		return "struct " + this.name + " " + name;
 	}
 }
