@@ -25,7 +25,7 @@ public class VariableParser implements Parser {
 			if (declarations.isRoot(parent) || (!parent.isParent() && parent.child(trim).orElseThrow() instanceof ParameterDeclaration)) {
 				return Optional.of(new VariableNode(trim));
 			} else {
-				return Optional.of(new FieldNode(new VariableNode(parent.instanceName()), trim));
+				return Optional.of(new FieldNode(parent, trim));
 			}
 		}
 	}
