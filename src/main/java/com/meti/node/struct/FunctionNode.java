@@ -22,7 +22,7 @@ public class FunctionNode implements Node {
 
 	@Override
 	public String render() {
-		return returnType.render() + " " + name +
+		return returnType.render(name) +
 				"(" + renderParams() + ")" + content.render();
 	}
 
