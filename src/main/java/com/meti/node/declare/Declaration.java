@@ -33,6 +33,7 @@ public interface Declaration {
     default List<Parameter> childrenAsParams() {
         return children()
                 .stream()
+                .filter(child -> !child.isFunction())
                 .map(Declaration::toParameter)
                 .collect(Collectors.toList());
     }
