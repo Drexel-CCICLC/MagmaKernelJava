@@ -1,21 +1,13 @@
 package com.meti.node.transform;
 
-public enum Operation {
-    ADD("+", "+");
+import com.meti.node.Node;
 
-    private final String from;
-    private final String to;
+import java.util.function.Function;
 
-    Operation(String from, String to) {
-        this.from = from;
-        this.to = to;
-    }
+public interface Operation {
+	boolean isPresent(String content);
 
-    public String getFrom() {
-        return from;
-    }
+	String render(Node node0, Node node1);
 
-    public String getTo() {
-        return to;
-    }
+	Node toNode(String content, Function<? super String, ? extends Node> parser);
 }

@@ -15,6 +15,6 @@ public class OperationNode implements Node {
 
     @Override
     public String render() {
-        return node0.render() + operation.getTo() + node1.render();
+        return operation.render(node0, node1);
     }
 }
