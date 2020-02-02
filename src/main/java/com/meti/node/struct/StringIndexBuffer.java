@@ -21,29 +21,6 @@ public class StringIndexBuffer implements IndexBuffer {
 				.collect(Collectors.toList());
 	}
 
-	@Override
-	public Optional<String> cutIfPresent(int index) {
-		return Optional.of(index)
-				.filter(this::isPresent)
-				.map(this::cut);
-	}
-
-	@Override
-	public boolean isPresent(int index) {
-		return -1 != buffer.get(index);
-	}
-
-	@Override
-	public String cut(int index) {
-		int start = buffer.get(index);
-		if (0 == start) return this.content;
-		int end = contentStream(this.content, index)
-				.filter(value -> -1 != value)
-				.min()
-				.orElseThrow();
-		return start <= end ? this.content.substring(start, end) : "";
-	}
-
 	private IntStream contentStream(CharSequence content, int index) {
 		int length = content.length();
 		IntStream lengthStream = IntStream.of(length);
@@ -56,6 +33,36 @@ public class StringIndexBuffer implements IndexBuffer {
 				.stream()
 				.mapToInt(Integer::intValue);
 	}
+
+	@Override
+	public Optional<String> cutIfPresent(int index) {
+		return Optional.of(index)
+				.filter(this::isPresent)
+				.map(this::cut);
+	}
+
+
+	@Override
+	public boolean isPresent(int index) {
+		return -1 != buffer.get(index);
+	}
+
+	@Override
+	public String cut(int index) {
+		if (index != buffer.size() - 1) {
+			int start = buffer.get(index);
+			int i = 0;
+			int end;
+			do {
+				i++;
+				end = buffer.get(index + i);
+			} while (-1 == end);
+			return content.substring(start, end);
+		} else {
+			return content.substring(buffer.get(index));
+		}
+	}
+
 
 	private boolean areAllInvalid() {
 		return buffer.stream().allMatch(value -> -1 == value);
