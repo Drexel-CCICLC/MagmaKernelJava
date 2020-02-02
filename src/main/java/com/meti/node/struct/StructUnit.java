@@ -10,6 +10,7 @@ import com.meti.node.Parameter;
 import com.meti.node.Type;
 import com.meti.node.declare.Declaration;
 import com.meti.node.declare.Declarations;
+import com.meti.node.declare.VariableNode;
 import com.meti.node.primitive.VoidType;
 
 import java.util.*;
@@ -68,7 +69,7 @@ public class StructUnit implements Unit {
 				.filter(s -> s.startsWith("=>"))
 				.map(s -> s.substring(2))
 				.map(compiler::resolveName)
-				.orElse(VoidType.INSTANCE);
+				.orElseGet(this::buildMissingReturnType);
 	}
 
 	private Node parseBlock(Compiler compiler, IndexBuffer buffer) {
@@ -92,10 +93,17 @@ public class StructUnit implements Unit {
 		return Parameter.create(compiler.resolveName(type), Collections.singletonList(name));
 	}
 
+	private Type buildMissingReturnType() {
+		return declarations.isInClass() ? declarations.toCurrentClass() : VoidType.INSTANCE;
+	}
+
 	private Node parseValidBlock(Compiler compiler, String implString) {
 		Deque<Node> statements = parseStatements(compiler, implString);
 		Declaration current = declarations.current();
 		if (current.isParent()) statements.addFirst(assign(current));
+		if (declarations.isInClass()) {
+			statements.addLast(new ReturnNode(new VariableNode(declarations.currentName() + "_")));
+		}
 		return new BlockNode(statements);
 	}
 

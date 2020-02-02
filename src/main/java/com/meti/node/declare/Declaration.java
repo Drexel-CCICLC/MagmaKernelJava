@@ -21,6 +21,8 @@ public interface Declaration {
 
 	String instanceName();
 
+	boolean isClass();
+
 	boolean isFunctional();
 
 	boolean isNative();

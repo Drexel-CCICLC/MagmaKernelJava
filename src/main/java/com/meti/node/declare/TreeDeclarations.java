@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import static java.util.Collections.*;
 
 public class TreeDeclarations implements Declarations {
+	private final Set<Flag> flags = EnumSet.noneOf(Flag.class);
 	private final Declaration root = new ValueDeclaration(emptyList(), null, emptySet());
 	private final Stack<String> stack = new Stack<>();
 
@@ -23,6 +24,11 @@ public class TreeDeclarations implements Declarations {
 			clone.add(name);
 		}
 		return new ObjectType(this, clone);
+	}
+
+	@Override
+	public Set<Flag> flags() {
+		return flags;
 	}
 
 	@Override
@@ -80,6 +86,11 @@ public class TreeDeclarations implements Declarations {
 	}
 
 	@Override
+	public boolean isInClass() {
+		return flags.contains(Flag.CLASS);
+	}
+
+	@Override
 	public Declaration parent() {
 		return absolute(stack.subList(0, stack.size() - 1));
 	}
@@ -90,6 +101,11 @@ public class TreeDeclarations implements Declarations {
 		T t = mapper.apply(name);
 		stack.pop();
 		return t;
+	}
+
+	@Override
+	public Type toCurrentClass() {
+		return toCurrentClass(stack.peek());
 	}
 
 	@Override

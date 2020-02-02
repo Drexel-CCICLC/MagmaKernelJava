@@ -7,6 +7,7 @@ import com.meti.node.Node;
 import com.meti.node.Type;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -39,9 +40,16 @@ public class DeclareParser implements Parser {
 			if (hasDeclareFlag) {
 				Node declaration = declarations.inStack(nameString, name -> {
 					try {
+						Set<Flag> parentFlags = declarations.flags();
+						Set<Flag> parentFlagCopy = EnumSet.copyOf(parentFlags);
+						parentFlags.clear();
+						parentFlags.addAll(flags);
 						Type type = compiler.resolveValue(afterEquals);
 						declarations.defineParent(type, name, flags);
-						return new DeclareNode(type, name, compiler.parse(afterEquals));
+						Node node = compiler.parse(afterEquals);
+						parentFlags.removeAll(flags);
+						parentFlags.addAll(parentFlagCopy);
+						return new DeclareNode(type, name, node);
 					} catch (ParseException e) {
 						throw new RuntimeException(e);
 					}

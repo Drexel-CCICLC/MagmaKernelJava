@@ -26,7 +26,11 @@ public interface Declarations {
 
 	void defineParent(Type type, String name, Set<Flag> flags);
 
+	Set<Flag> flags();
+
 	<T> T inStack(String name, Function<? super String, T> mapper);
+
+	boolean isInClass();
 
 	boolean isRoot(Declaration declaration);
 
@@ -37,4 +41,6 @@ public interface Declarations {
 	Optional<Declaration> relative(String name);
 
 	Type toCurrentClass(String name);
+
+	Type toCurrentClass();
 }

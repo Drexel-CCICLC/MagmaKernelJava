@@ -71,6 +71,11 @@ public abstract class AbstractDeclaration implements Declaration {
 	}
 
 	@Override
+	public boolean isClass() {
+		return flags.contains(Flag.CLASS);
+	}
+
+	@Override
 	public boolean isFunctional() {
 		return type.isFunctional();
 	}
