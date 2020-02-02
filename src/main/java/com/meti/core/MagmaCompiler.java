@@ -10,9 +10,7 @@ import com.meti.node.declare.TreeDeclarations;
 import com.meti.node.declare.VariableParser;
 import com.meti.node.primitive.StringParser;
 import com.meti.node.primitive.StringResolver;
-import com.meti.node.struct.InvocationParser;
-import com.meti.node.struct.ObjectResolver;
-import com.meti.node.struct.StructUnit;
+import com.meti.node.struct.*;
 
 class MagmaCompiler extends UnitCompiler {
 	MagmaCompiler(Cache cache) {
@@ -28,6 +26,8 @@ class MagmaCompiler extends UnitCompiler {
 						unit,
 						new DeclareParser(declarations),
 						new InvocationParser(declarations),
+						new ReturnParser(),
+						new ThisParser(declarations),
 						new StringParser(),
 						new VariableParser(declarations)
 				),
