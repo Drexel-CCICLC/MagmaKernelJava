@@ -6,17 +6,11 @@ import com.meti.node.Node;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.Set;
 
 public class OperationParser implements Parser {
-	public static final Set<String> operations = Set.of(
-			"+"
-	);
 
 	@Override
 	public Optional<Node> parse(String content, Compiler compiler) {
-		//TODO: implement OperationParser
-
 		return Arrays.stream(Operation.values())
 				.filter(operation -> containsOperation(operation, content))
 				.map(operation -> buildOperation(operation, content, compiler))
