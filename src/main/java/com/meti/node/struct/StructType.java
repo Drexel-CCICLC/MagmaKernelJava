@@ -2,9 +2,6 @@ package com.meti.node.struct;
 
 import com.meti.node.Type;
 
-import java.util.Optional;
-import java.util.OptionalInt;
-
 public class StructType implements Type {
 	private final String name;
 
@@ -13,28 +10,8 @@ public class StructType implements Type {
 	}
 
 	@Override
-	public OptionalInt childOrder(String name) {
-		return OptionalInt.empty();
-	}
-
-	@Override
-	public Optional<Type> childType(String name) {
-		return Optional.empty();
-	}
-
-	@Override
-	public boolean isNamed() {
-		return false;
-	}
-
-	@Override
 	public String render() {
 		return "struct " + name;
-	}
-
-	@Override
-	public Optional<Type> returnType() {
-		return Optional.empty();
 	}
 
 	@Override
