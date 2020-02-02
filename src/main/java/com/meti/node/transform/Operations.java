@@ -5,14 +5,14 @@ import com.meti.node.Node;
 import java.util.function.Function;
 
 public enum Operations implements Operation {
-	ADD("+", "+");
+	ADD();
 
 	private final String from;
 	private final String to;
 
-	Operations(String from, String to) {
-		this.from = from;
-		this.to = to;
+	Operations() {
+		this.from = "+";
+		this.to = "+";
 	}
 
 	@Override

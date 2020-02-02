@@ -11,7 +11,7 @@ public class IntResolver implements Resolver {
 	public Optional<Type> resolveName(String content, Compiler compiler) {
 		return Optional.of(content)
 				.map(String::trim)
-				.filter(s -> s.equals("Int"))
+				.filter(s -> "Int".equals(s))
 				.map(s -> IntType.INSTANCE);
 	}
 

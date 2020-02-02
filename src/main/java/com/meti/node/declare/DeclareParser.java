@@ -30,7 +30,7 @@ public class DeclareParser implements Parser {
 				nameString = beforeEquals.substring(lastSpace + 1);
 			}
 			boolean hasDeclareFlag = Arrays.stream(flagString.split(" "))
-					.anyMatch(s -> s.equals("val") || s.equals("var"));
+					.anyMatch(s -> "val".equals(s) || "var".equals(s));
 			if (hasDeclareFlag) {
 				Node declaration = declarations.inStack(nameString, s -> {
 					try {

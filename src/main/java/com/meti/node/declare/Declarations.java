@@ -19,11 +19,11 @@ public interface Declarations {
 
 	String currentName();
 
-	Declaration define(Parameter parameter);
+	void define(Parameter parameter);
 
 	void define(Type type, String name);
 
-	Declaration defineParent(Type type, String name);
+	void defineParent(Type type, String name);
 
 	<T> T inStack(String name, Function<? super String, T> mapper);
 

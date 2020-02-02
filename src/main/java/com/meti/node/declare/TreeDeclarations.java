@@ -44,8 +44,8 @@ public class TreeDeclarations implements Declarations {
 	}
 
 	@Override
-	public Declaration define(Parameter parameter) {
-		return current().define(parameter);
+	public void define(Parameter parameter) {
+		current().define(parameter);
 	}
 
 	@Override
@@ -76,8 +76,8 @@ public class TreeDeclarations implements Declarations {
 	}
 
 	@Override
-	public Declaration defineParent(Type type, String name) {
-		return parent().define(type, name);
+	public void defineParent(Type type, String name) {
+		parent().define(type, name);
 	}
 
 	@Override
