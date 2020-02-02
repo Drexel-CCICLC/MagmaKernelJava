@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class StringIndexBuffer implements IndexBuffer {
 	private final List<Integer> buffer;
@@ -19,19 +18,6 @@ public class StringIndexBuffer implements IndexBuffer {
 		this.buffer = sequences.stream()
 				.map(content::indexOf)
 				.collect(Collectors.toList());
-	}
-
-	private IntStream contentStream(CharSequence content, int index) {
-		int length = content.length();
-		IntStream lengthStream = IntStream.of(length);
-		IntStream bufferStream = bufferStream(index);
-		return IntStream.concat(lengthStream, bufferStream);
-	}
-
-	private IntStream bufferStream(int index) {
-		return buffer.subList(index + 1, buffer.size())
-				.stream()
-				.mapToInt(Integer::intValue);
 	}
 
 	@Override
@@ -49,7 +35,9 @@ public class StringIndexBuffer implements IndexBuffer {
 
 	@Override
 	public String cut(int index) {
-		if (index != buffer.size() - 1) {
+		if (index == buffer.size() - 1) {
+			return content.substring(buffer.get(index));
+		} else {
 			int start = buffer.get(index);
 			int i = 0;
 			int end;
@@ -57,9 +45,9 @@ public class StringIndexBuffer implements IndexBuffer {
 				i++;
 				end = buffer.get(index + i);
 			} while (-1 == end);
-			return content.substring(start, end);
-		} else {
-			return content.substring(buffer.get(index));
+			return end > start ?
+					content.substring(start, end) :
+					content.substring(start);
 		}
 	}
 
