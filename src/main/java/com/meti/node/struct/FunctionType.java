@@ -20,6 +20,7 @@ public class FunctionType implements Type {
 	@Override
 	public String render() {
 		String joinedParams = joinParams();
+		//TODO: fix implementation
 		return returnType.render() + "(*" + name + ")(" + joinedParams + ")";
 	}
 

@@ -17,12 +17,12 @@ public class ObjectType implements Type {
 
 	@Override
 	public String render() {
-		return new StructType(lazyDeclaration().name()).render();
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public String render(String name) {
-		return render() + " " + name;
+		return new StructType(lazyDeclaration().name()).render(name);
 	}
 
 	private Declaration lazyDeclaration() {

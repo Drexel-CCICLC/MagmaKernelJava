@@ -10,6 +10,6 @@ class FloatTypeTest {
     @Test
     void render() {
         Type type = new FloatType();
-        assertEquals("float", type.render());
+        assertEquals("float test", type.render("test"));
     }
 }

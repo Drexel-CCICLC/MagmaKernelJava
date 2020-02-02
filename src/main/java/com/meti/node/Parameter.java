@@ -2,7 +2,6 @@ package com.meti.node;
 
 import com.meti.node.declare.Declaration;
 import com.meti.node.declare.ParameterDeclaration;
-import com.meti.node.struct.FunctionType;
 
 import java.util.List;
 
@@ -33,11 +32,7 @@ public interface Parameter {
 
 		@Override
 		public String render() {
-			if (type instanceof FunctionType) {
-				return type.render();
-			} else {
-				return type.render() + " " + name();
-			}
+			return type.render(name());
 		}
 
 		@Override

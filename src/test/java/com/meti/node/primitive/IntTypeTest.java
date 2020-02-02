@@ -10,6 +10,6 @@ class IntTypeTest {
     @Test
     void render() {
         Type type = new IntType();
-        assertEquals("int", type.render());
+        assertEquals("int test", type.render("test"));
     }
 }
