@@ -59,7 +59,9 @@ public class VariableParser implements Parser {
 	}
 
 	private Optional<Node> buildField(Declaration parent, String childName) {
-		Declaration child = parent.child(childName).orElseThrow();
+		Declaration child = parent.child(childName)
+				.orElseThrow(() -> new ParseException(parent.name() + "." + childName + " is " +
+						"not defined."));
 		return child.isFunctional() ?
 				Optional.of(new VariableNode(child.joinStack())) :
 				Optional.of(new FieldNode(parent, childName));
