@@ -159,7 +159,7 @@ public class StructUnit implements Unit {
 		return Optional.of(content)
 				.map(String::trim)
 				.map(s -> new StringIndexBuffer(content, MARKERS))
-				.filter(IndexBuffer::isValid)
+				.filter(StringIndexBuffer::isValid)
 				.map(indexBuffer -> extractType(compiler, indexBuffer));
 	}
 

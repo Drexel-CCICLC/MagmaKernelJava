@@ -21,7 +21,7 @@ public class StringIndexBuffer implements IndexBuffer {
 				buffer.add(index0);
 			} else {
 				int index1 = content.indexOf(sequences.get(i + 1));
-				if (index0 > index1) {
+				if (-1 != index1 && index0 > index1) {
 					buffer.add(-1);
 				} else {
 					buffer.add(index0);
