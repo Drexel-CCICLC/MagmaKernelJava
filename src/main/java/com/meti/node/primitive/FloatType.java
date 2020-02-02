@@ -16,6 +16,6 @@ public class FloatType implements Type {
 
 	@Override
 	public String render(String name) {
-		return null;
+		return "float " + name;
 	}
 }

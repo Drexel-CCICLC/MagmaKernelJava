@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Declaration {
+	boolean isParameter();
+
 	Optional<Declaration> child(String name);
 
 	List<Declaration> children();

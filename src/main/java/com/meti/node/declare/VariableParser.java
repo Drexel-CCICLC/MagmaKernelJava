@@ -37,6 +37,6 @@ public class VariableParser implements Parser {
 	}
 
 	private boolean isParameter(String childName, Declaration parent) {
-		return parent.child(childName).orElseThrow() instanceof ParameterDeclaration;
+		return parent.child(childName).orElseThrow().isParameter();
 	}
 }

@@ -8,4 +8,9 @@ public class ParameterDeclaration extends AbstractDeclaration {
 	public ParameterDeclaration(List<String> stack, Type type) {
 		super(stack, type);
 	}
+
+	@Override
+	public boolean isParameter() {
+		return true;
+	}
 }

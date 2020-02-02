@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class AbstractDeclaration implements Declaration {
+public abstract class AbstractDeclaration implements Declaration {
 	private final List<Declaration> children = new ArrayList<>();
 	private final List<String> stack;
 	private final Type type;
