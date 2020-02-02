@@ -8,11 +8,51 @@ import com.meti.core.ParentResolver;
 import com.meti.core.UnitCompiler;
 import com.meti.node.declare.*;
 import com.meti.node.primitive.IntResolver;
+import com.meti.node.primitive.StringParser;
+import com.meti.node.primitive.StringResolver;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ThisParserTest {
+	@Test
+	void singletonTest() {
+		Cache cache = new CollectionCache();
+		Declarations declarations = new TreeDeclarations();
+		Unit structUnit = new StructUnit(declarations, cache);
+		Parser parser = new ParentParser(
+				structUnit,
+				new DeclareParser(declarations),
+				new ReturnParser(),
+				new StringParser(),
+				new ThisParser(declarations),
+				new VariableParser(declarations)
+		);
+		Resolver resolver = new ParentResolver(
+				structUnit,
+				new StringResolver(),
+				new VariableResolver(declarations),
+				new ObjectResolver(declarations)
+		);
+		Compiler compiler = new UnitCompiler(parser, resolver);
+		compiler.parse("""
+				single val MySingleton =:{
+					val returnAValue = () => String :{
+						return "test";
+					}
+				}
+				            """);
+		assertEquals("int _exitCode=0;" +
+				"struct Point{int x;int y;};" +
+				"int Point_getX(struct Point Point_){return Point_.x;}" +
+				"int Point_getY(struct Point Point_){return Point_.y;}" +
+				"struct Point Point(int x,int y){" +
+				"struct Point Point_={x,y};return Point_;}" +
+				"int main(){return _exitCode;" +
+				"struct Point Point_=Point();" +
+				"}", cache.render());
+	}
+
 	@Test
 	void classTest() {
 		Cache cache = new CollectionCache();
@@ -51,6 +91,7 @@ class ThisParserTest {
 				"int main(){return _exitCode;" +
 				"}", cache.render());
 	}
+
 
 	@Test
 	void parse() {

@@ -33,6 +33,7 @@ public class DeclareParser implements Parser {
 				nameString = beforeEquals.substring(lastSpace + 1);
 			}
 			Set<Flag> flags = Arrays.stream(flagString.split(" "))
+					.filter(s -> !s.isBlank())
 					.map(String::toUpperCase)
 					.map(Flag::valueOf)
 					.collect(Collectors.toSet());
