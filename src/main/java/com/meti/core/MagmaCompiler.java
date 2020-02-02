@@ -4,10 +4,7 @@ import com.meti.Cache;
 import com.meti.Parser;
 import com.meti.Resolver;
 import com.meti.Unit;
-import com.meti.node.declare.Declarations;
-import com.meti.node.declare.DeclareParser;
-import com.meti.node.declare.TreeDeclarations;
-import com.meti.node.declare.VariableParser;
+import com.meti.node.declare.*;
 import com.meti.node.primitive.StringParser;
 import com.meti.node.primitive.StringResolver;
 import com.meti.node.struct.*;
@@ -35,6 +32,7 @@ class MagmaCompiler extends UnitCompiler {
 						unit,
 						new InvocationResolver(declarations),
 						new StringResolver(),
+						new VariableResolver(declarations),
 						new ObjectResolver(declarations)
 				));
 	}
