@@ -31,7 +31,7 @@ class SubStructTest {
 				new ReturnParser(),
 				new OperationParser(),
 				new VariableParser(declarations),
-				new InvocationParser()
+				new InvocationParser(declarations)
 		);
 		Resolver resolver = new ParentResolver(
 				structUnit,

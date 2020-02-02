@@ -4,12 +4,20 @@ import com.meti.Compiler;
 import com.meti.Parser;
 import com.meti.exception.ParseException;
 import com.meti.node.Node;
+import com.meti.node.declare.Declaration;
+import com.meti.node.declare.Declarations;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class InvocationParser implements Parser {
+	private final Declarations declarations;
+
+	public InvocationParser(Declarations declarations) {
+		this.declarations = declarations;
+	}
+
 	@Override
 	public Optional<Node> parse(String content, Compiler compiler) throws ParseException {
 		String trim = content.trim();
@@ -24,6 +32,12 @@ public class InvocationParser implements Parser {
 					Node node = compiler.parse(s);
 					arguments.add(node);
 				}
+			}
+			Optional<Declaration> optional = declarations.relative(caller);
+			if (optional.isPresent()) {
+				Declaration callDeclaration = optional.get();
+				List<Node> parentParameters = callDeclaration.toParentParameters();
+				arguments.addAll(parentParameters);
 			}
 			return Optional.of(new InvocationNode(callerNode, arguments));
 		}

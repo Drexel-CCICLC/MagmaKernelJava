@@ -9,8 +9,11 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+
 public class TreeDeclarations implements Declarations {
-	private final Declaration root = new ValueDeclaration("root", null);
+	private final Declaration root = new ValueDeclaration(emptyList(), null);
 	private final Stack<String> stack = new Stack<>();
 
 	@Override
@@ -30,7 +33,7 @@ public class TreeDeclarations implements Declarations {
 	@Override
 	public List<Parameter> buildStackParameters() {
 		return stack.subList(0, stack.size() - 1).stream()
-				.map(s -> Parameter.create(new StructType(s), Collections.singletonList(s + "_")))
+				.map(s -> Parameter.create(new StructType(s), singletonList(s + "_")))
 				.collect(Collectors.toList());
 	}
 

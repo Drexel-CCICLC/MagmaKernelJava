@@ -2,10 +2,10 @@ package com.meti.node.declare;
 
 import com.meti.node.Type;
 
-import static java.util.Collections.singletonList;
+import java.util.List;
 
 public class ValueDeclaration extends AbstractDeclaration {
-	public ValueDeclaration(String name, Type type) {
-		super(singletonList(name), type);
+	public ValueDeclaration(List<String> stack, Type type) {
+		super(stack, type);
 	}
 }

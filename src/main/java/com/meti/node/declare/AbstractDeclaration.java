@@ -37,7 +37,7 @@ public class AbstractDeclaration implements Declaration {
 	@Override
 	public Node declareInstance() {
 		return new DeclareNode(new StructType(name()),
-				tempName(), new VariableNode("{" + joinArgs() + "}"));
+				instanceName(), new VariableNode("{" + joinArgs() + "}"));
 	}
 
 	private List<Parameter> childrenAsParams() {
@@ -49,7 +49,9 @@ public class AbstractDeclaration implements Declaration {
 
 	@Override
 	public Declaration define(Type type, String name) {
-		Declaration declaration = new ValueDeclaration(name, type);
+		List<String> copy = new ArrayList<>(stack);
+		copy.add(name);
+		Declaration declaration = new ValueDeclaration(copy, type);
 		children.add(declaration);
 		return declaration;
 	}
@@ -63,7 +65,7 @@ public class AbstractDeclaration implements Declaration {
 
 	@Override
 	public String instanceName() {
-		return stack + "_";
+		return name() + "_";
 	}
 
 	@Override
@@ -81,6 +83,11 @@ public class AbstractDeclaration implements Declaration {
 		return childrenAsParams().stream()
 				.map(Parameter::name)
 				.collect(Collectors.joining(","));
+	}
+
+	@Override
+	public String joinStack() {
+		return String.join("_", stack);
 	}
 
 	@Override
@@ -104,13 +111,22 @@ public class AbstractDeclaration implements Declaration {
 	}
 
 	@Override
+	public List<Node> toParentParameters() {
+		return stack.subList(0, stack.size() - 1)
+				.stream()
+				.map(s -> s + "_")
+				.map(VariableNode::new)
+				.collect(Collectors.toList());
+	}
+
+	@Override
 	public Node toStruct() {
 		return new StructNode(name(), childrenAsParams());
 	}
 
 	@Override
 	public Node toVariable() {
-		return new VariableNode(stack + "_");
+		return new VariableNode(name() + "_");
 	}
 
 	@Override

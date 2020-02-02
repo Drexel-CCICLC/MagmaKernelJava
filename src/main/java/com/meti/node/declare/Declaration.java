@@ -26,6 +26,8 @@ public interface Declaration {
 
 	String joinArgs();
 
+	String joinStack();
+
 	boolean matches(String name);
 
 	String name();
@@ -33,6 +35,8 @@ public interface Declaration {
 	String tempName();
 
 	Parameter toParameter();
+
+	List<Node> toParentParameters();
 
 	Node toStruct();
 
