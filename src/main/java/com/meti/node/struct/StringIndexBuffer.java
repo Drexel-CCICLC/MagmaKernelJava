@@ -33,9 +33,10 @@ public class StringIndexBuffer implements IndexBuffer {
 	public String cut(int index) {
 		int start = buffer.get(index);
 		int end = contentStream(this.content, index)
-				.filter(value -> -1 != value).min()
+				.filter(value -> 0 < value)
+				.min()
 				.orElseThrow();
-		return this.content.substring(start, end);
+		return start <= end ? this.content.substring(start, end) : "";
 	}
 
 	private IntStream contentStream(CharSequence content, int index) {
