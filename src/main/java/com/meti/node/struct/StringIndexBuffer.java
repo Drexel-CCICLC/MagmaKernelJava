@@ -10,6 +10,10 @@ public class StringIndexBuffer implements IndexBuffer {
 	private final List<Integer> buffer;
 	private final String content;
 
+	public StringIndexBuffer(String content, String... sequences) {
+		this(content, List.of(sequences));
+	}
+
 	public StringIndexBuffer(String content, Collection<String> sequences) {
 		this.content = content;
 		this.buffer = sequences.stream()
