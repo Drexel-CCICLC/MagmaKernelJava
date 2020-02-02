@@ -55,13 +55,13 @@ class StructUnitTest {
 	}
 
 	@Test
-	void withParam() throws ParseException {
+	void withParam() {
 		compiler.parse("val accept = (Int some) : {}");
 		assertEquals("int _exitCode=0;void accept(int some){}int main(){return _exitCode;}", cache.render());
 	}
 
 	@Test
-	void withTwoParam() throws ParseException {
+	void withTwoParam() {
 		compiler.parse("val accept = (Int one, Int two) : {}");
 		assertEquals("int _exitCode=0;void accept(int one,int two){}int main(){return _exitCode;}", cache.render());
 	}
