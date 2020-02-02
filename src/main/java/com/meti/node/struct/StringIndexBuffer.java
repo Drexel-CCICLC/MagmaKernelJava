@@ -1,23 +1,33 @@
 package com.meti.node.struct;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class StringIndexBuffer implements IndexBuffer {
-	private final List<Integer> buffer;
+	private final List<Integer> buffer = new ArrayList<>();
 	private final String content;
 
 	public StringIndexBuffer(String content, String... sequences) {
 		this(content, List.of(sequences));
 	}
 
-	public StringIndexBuffer(String content, Collection<String> sequences) {
+	public StringIndexBuffer(String content, List<String> sequences) {
 		this.content = content;
-		this.buffer = sequences.stream()
-				.map(content::indexOf)
-				.collect(Collectors.toList());
+		if (sequences.isEmpty()) throw new IllegalArgumentException("Cannot have empty sequences.");
+		for (int i = 0; i < sequences.size(); i++) {
+			int index0 = content.indexOf(sequences.get(i));
+			if (i == sequences.size() - 1) {
+				buffer.add(index0);
+			} else {
+				int index1 = content.indexOf(sequences.get(i + 1));
+				if (index0 > index1) {
+					buffer.add(-1);
+				} else {
+					buffer.add(index0);
+				}
+			}
+		}
 	}
 
 	@Override

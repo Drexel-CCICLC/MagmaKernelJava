@@ -39,6 +39,21 @@ class StringIndexBufferTest {
 	}
 
 	@Test
+	void test() {
+		IndexBuffer buffer = new StringIndexBuffer("""
+				            (Int x, Int y) :{
+					val getX ==> Int :{
+						return x;
+					};
+					val getY ==> Int :{
+						return y;
+					};
+				}
+				            """, "(", "=>", ":");
+		assertFalse(buffer.isPresent(1));
+	}
+
+	@Test
 	void cutIfPresentAtEnd() {
 		IndexBuffer buffer = new StringIndexBuffer("(Int value) => Int : {return value;}", ":");
 		Optional<String> result = buffer.cutIfPresent(0);
