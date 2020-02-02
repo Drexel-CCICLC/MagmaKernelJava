@@ -84,7 +84,7 @@ public class StructUnit implements Unit {
 		int lastSpace = paramString.lastIndexOf(' ');
 		String type = paramString.substring(0, lastSpace);
 		String name = paramString.substring(lastSpace + 1);
-		return Parameter.create(compiler.resolveName(type), name);
+		return Parameter.create(compiler.resolveName(type), Collections.singletonList(name));
 	}
 
 	private Node parseValidBlock(Compiler compiler, String implString) {

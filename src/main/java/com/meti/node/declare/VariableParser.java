@@ -22,11 +22,21 @@ public class VariableParser implements Parser {
 			return Optional.empty();
 		} else {
 			Declaration parent = parentOptional.get();
-			if (declarations.isRoot(parent) || (!parent.isParent() && parent.child(trim).orElseThrow() instanceof ParameterDeclaration)) {
+			if (declarations.isRoot(parent) || (!parent.isParent() && isParameter(trim, parent))) {
 				return Optional.of(new VariableNode(trim));
 			} else {
-				return Optional.of(new FieldNode(parent, trim));
+				Declaration child = parent.child(trim).orElseThrow();
+				return Optional.of(new FieldNode(parent, trim));/*
+				if (!child.isFunction()) {
+
+				} else {
+					return Optional.of();
+				}*/
 			}
 		}
+	}
+
+	private boolean isParameter(String childName, Declaration parent) {
+		return parent.child(childName).orElseThrow() instanceof ParameterDeclaration;
 	}
 }

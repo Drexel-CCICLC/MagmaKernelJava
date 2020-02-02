@@ -30,7 +30,7 @@ public class TreeDeclarations implements Declarations {
 	@Override
 	public List<Parameter> buildStackParameters() {
 		return stack.subList(0, stack.size() - 1).stream()
-				.map(s -> Parameter.create(new StructType(s), s + "_"))
+				.map(s -> Parameter.create(new StructType(s), Collections.singletonList(s + "_")))
 				.collect(Collectors.toList());
 	}
 

@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 
 public class AbstractDeclaration implements Declaration {
 	private final List<Declaration> children = new ArrayList<>();
-	private final String name;
+	private final List<String> stack;
 	private final Type type;
 
-	AbstractDeclaration(String name, Type type) {
-		this.name = name;
+	AbstractDeclaration(List<String> stack, Type type) {
+		this.stack = stack;
 		this.type = type;
 	}
 
@@ -36,7 +36,7 @@ public class AbstractDeclaration implements Declaration {
 
 	@Override
 	public Node declareInstance() {
-		return new DeclareNode(new StructType(name),
+		return new DeclareNode(new StructType(name()),
 				tempName(), new VariableNode("{" + joinArgs() + "}"));
 	}
 
@@ -48,40 +48,8 @@ public class AbstractDeclaration implements Declaration {
 	}
 
 	@Override
-	public String name() {
-		return name;
-	}
-
-	@Override
-	public boolean isFunction() {
-		return type instanceof FunctionType;
-	}
-
-	@Override
-	public String joinArgs() {
-		return childrenAsParams().stream()
-				.map(Parameter::name)
-				.collect(Collectors.joining(","));
-	}
-
-	@Override
-	public boolean matches(String name) {
-		return this.name.equals(name);
-	}
-
-	@Override
-	public String tempName() {
-		return name + "_";
-	}
-
-	@Override
-	public Parameter toParameter() {
-		return Parameter.create(type, name);
-	}
-
-	@Override
 	public Declaration define(Type type, String name) {
-		Declaration declaration = new AbstractDeclaration(name, type);
+		Declaration declaration = new ValueDeclaration(name, type);
 		children.add(declaration);
 		return declaration;
 	}
@@ -95,7 +63,12 @@ public class AbstractDeclaration implements Declaration {
 
 	@Override
 	public String instanceName() {
-		return name + "_";
+		return stack + "_";
+	}
+
+	@Override
+	public boolean isFunction() {
+		return type instanceof FunctionType;
 	}
 
 	@Override
@@ -104,13 +77,40 @@ public class AbstractDeclaration implements Declaration {
 	}
 
 	@Override
+	public String joinArgs() {
+		return childrenAsParams().stream()
+				.map(Parameter::name)
+				.collect(Collectors.joining(","));
+	}
+
+	@Override
+	public boolean matches(String name) {
+		return this.name().equals(name);
+	}
+
+	@Override
+	public String name() {
+		return stack.get(stack.size() - 1);
+	}
+
+	@Override
+	public String tempName() {
+		return stack + "_";
+	}
+
+	@Override
+	public Parameter toParameter() {
+		return Parameter.create(type, stack);
+	}
+
+	@Override
 	public Node toStruct() {
-		return new StructNode(name, childrenAsParams());
+		return new StructNode(name(), childrenAsParams());
 	}
 
 	@Override
 	public Node toVariable() {
-		return new VariableNode(name + "_");
+		return new VariableNode(stack + "_");
 	}
 
 	@Override

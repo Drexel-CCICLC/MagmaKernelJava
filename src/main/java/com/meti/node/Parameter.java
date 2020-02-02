@@ -4,8 +4,10 @@ import com.meti.node.declare.Declaration;
 import com.meti.node.declare.ParameterDeclaration;
 import com.meti.node.struct.FunctionType;
 
+import java.util.List;
+
 public interface Parameter {
-	static Parameter create(Type type, String name) {
+	static Parameter create(Type type, List<String> name) {
 		return new ParameterImpl(type, name);
 	}
 
@@ -16,17 +18,17 @@ public interface Parameter {
 	Declaration toDeclaration();
 
 	final class ParameterImpl implements Parameter {
-		private final String name;
+		private final List<String> stack;
 		private final Type type;
 
-		private ParameterImpl(Type type, String name) {
+		private ParameterImpl(Type type, List<String> stack) {
 			this.type = type;
-			this.name = name;
+			this.stack = stack;
 		}
 
 		@Override
 		public String name() {
-			return name;
+			return stack.get(stack.size() - 1);
 		}
 
 		@Override
@@ -34,13 +36,13 @@ public interface Parameter {
 			if (type instanceof FunctionType) {
 				return type.render();
 			} else {
-				return type.render() + " " + name;
+				return type.render() + " " + name();
 			}
 		}
 
 		@Override
 		public Declaration toDeclaration() {
-			return new ParameterDeclaration(name, type);
+			return new ParameterDeclaration(stack, type);
 		}
 	}
 }

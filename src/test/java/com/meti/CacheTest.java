@@ -1,12 +1,12 @@
 package com.meti;
 
+import com.meti.core.CollectionCache;
 import com.meti.node.Node;
 import com.meti.node.Parameter;
 import com.meti.node.declare.VariableNode;
 import com.meti.node.primitive.IntNode;
 import com.meti.node.primitive.IntType;
 import com.meti.node.struct.*;
-import com.meti.core.CollectionCache;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -51,16 +51,18 @@ class CacheTest {
 	void render() {
 		Cache cache = new CollectionCache();
 		Collection<Parameter> structParams = List.of(
-				Parameter.create(IntType.INSTANCE, "x"),
-				Parameter.create(IntType.INSTANCE, "y"));
+				Parameter.create(IntType.INSTANCE, Collections.singletonList("x")),
+				Parameter.create(IntType.INSTANCE, Collections.singletonList("y")));
 		cache.addStruct(new StructNode("Point", structParams));
 
-		Collection<Parameter> getXParams = Collections.singleton(Parameter.create(new StructType("Point"), "Point_"));
+		Collection<Parameter> getXParams = Collections.singleton(Parameter.create(new StructType("Point"),
+				Collections.singletonList("Point_")));
 		Collection<Node> getXContent = Collections.singleton(new ReturnNode(new FieldNode(new VariableNode("Point_"),
 				"x")));
 		cache.addFunction(new FunctionNode("Point_getX", IntType.INSTANCE, getXParams, new BlockNode(getXContent)));
 
-		Collection<Parameter> getYParams = Collections.singleton(Parameter.create(new StructType("Point"), "Point_"));
+		Collection<Parameter> getYParams = Collections.singleton(Parameter.create(new StructType("Point"),
+				Collections.singletonList("Point_")));
 		Collection<Node> getYContent = Collections.singleton(new ReturnNode(new FieldNode(new VariableNode("Point_"),
 				"y")));
 		cache.addFunction(new FunctionNode("Point_getY", IntType.INSTANCE, getYParams, new BlockNode(getYContent)));
