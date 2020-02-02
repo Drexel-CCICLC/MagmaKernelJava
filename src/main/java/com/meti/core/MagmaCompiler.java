@@ -7,6 +7,7 @@ import com.meti.Unit;
 import com.meti.node.declare.Declarations;
 import com.meti.node.declare.DeclareParser;
 import com.meti.node.declare.TreeDeclarations;
+import com.meti.node.primitive.StringResolver;
 import com.meti.node.struct.StructUnit;
 
 class MagmaCompiler extends UnitCompiler {
@@ -24,8 +25,8 @@ class MagmaCompiler extends UnitCompiler {
 						new DeclareParser(declarations)
 				),
 				new ParentResolver(
-						unit
-						/*new StringResolver(),*/
+						unit,
+						new StringResolver()
 				));
 	}
 
