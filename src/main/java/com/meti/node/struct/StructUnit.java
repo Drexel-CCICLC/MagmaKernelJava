@@ -3,6 +3,7 @@ package com.meti.node.struct;
 import com.meti.Cache;
 import com.meti.Compiler;
 import com.meti.Unit;
+import com.meti.core.EmptyNode;
 import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.Parameter;
@@ -42,9 +43,13 @@ public class StructUnit implements Unit {
 		List<Parameter> stackParameters = declarations.buildStackParameters();
 		parameters.addAll(stackParameters);
 		Type returnType = parseReturnType(compiler, buffer);
-		Node block = parseBlock(compiler, buffer);
-		String funcName = declarations.buildStackName();
-		return new FunctionNode(funcName, returnType, parameters, block);
+		if (declarations.current().isNative()) {
+			return new EmptyNode();
+		} else {
+			Node block = parseBlock(compiler, buffer);
+			String funcName = declarations.buildStackName();
+			return new FunctionNode(funcName, returnType, parameters, block);
+		}
 	}
 
 	private Stream<Parameter> parseParameters(Compiler compiler, IndexBuffer buffer) {

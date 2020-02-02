@@ -9,16 +9,19 @@ import com.meti.node.struct.StructType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public abstract class AbstractDeclaration implements Declaration {
 	private final List<Declaration> children = new ArrayList<>();
+	private final Set<Flag> flags;
 	private final List<String> stack;
 	private final Type type;
 
-	AbstractDeclaration(List<String> stack, Type type) {
+	AbstractDeclaration(List<String> stack, Type type, Set<Flag> flags) {
 		this.stack = stack;
 		this.type = type;
+		this.flags = flags;
 	}
 
 	@Override
@@ -47,10 +50,10 @@ public abstract class AbstractDeclaration implements Declaration {
 	}
 
 	@Override
-	public Declaration define(Type type, String name) {
+	public Declaration define(Type type, String name, Set<Flag> flags) {
 		List<String> copy = new ArrayList<>(stack);
 		copy.add(name);
-		Declaration declaration = new ValueDeclaration(copy, type);
+		Declaration declaration = new ValueDeclaration(copy, type, flags);
 		children.add(declaration);
 		return declaration;
 	}
@@ -70,6 +73,11 @@ public abstract class AbstractDeclaration implements Declaration {
 	@Override
 	public boolean isFunctional() {
 		return type.isFunctional();
+	}
+
+	@Override
+	public boolean isNative() {
+		return flags.contains(Flag.NATIVE);
 	}
 
 	@Override

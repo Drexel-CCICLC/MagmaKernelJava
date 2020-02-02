@@ -14,6 +14,8 @@ import com.meti.node.primitive.IntResolver;
 import com.meti.node.primitive.IntType;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class VariableParserTest {
@@ -21,7 +23,7 @@ class VariableParserTest {
 	@Test
 	void parse() throws ParseException {
 		Declarations declarations = new TreeDeclarations();
-		declarations.define(IntType.INSTANCE, "test");
+		declarations.define(IntType.INSTANCE, "test", Collections.emptySet());
 		Parser parser = new ParentParser(
 				new DeclareParser(new TreeDeclarations()),
 				new IntParser(),

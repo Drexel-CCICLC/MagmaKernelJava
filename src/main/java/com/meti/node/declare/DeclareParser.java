@@ -8,6 +8,8 @@ import com.meti.node.Type;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DeclareParser implements Parser {
 	private final Declarations declarations;
@@ -17,7 +19,7 @@ public class DeclareParser implements Parser {
 	}
 
 	@Override
-	public Optional<Node> parse(String content, Compiler compiler) throws ParseException {
+	public Optional<Node> parse(String content, Compiler compiler) {
 		if (content.contains("=")) {
 			int equalsIndex = content.indexOf('=');
 			String beforeEquals = content.substring(0, equalsIndex).trim();
@@ -29,14 +31,17 @@ public class DeclareParser implements Parser {
 				flagString = beforeEquals.substring(0, lastSpace);
 				nameString = beforeEquals.substring(lastSpace + 1);
 			}
-			boolean hasDeclareFlag = Arrays.stream(flagString.split(" "))
-					.anyMatch(s -> "val".equals(s) || "var".equals(s));
+			Set<Flag> flags = Arrays.stream(flagString.split(" "))
+					.map(String::toUpperCase)
+					.map(Flag::valueOf)
+					.collect(Collectors.toSet());
+			boolean hasDeclareFlag = flags.contains(Flag.VAR) || flags.contains(Flag.VAL);
 			if (hasDeclareFlag) {
-				Node declaration = declarations.inStack(nameString, s -> {
+				Node declaration = declarations.inStack(nameString, name -> {
 					try {
 						Type type = compiler.resolveValue(afterEquals);
-						declarations.defineParent(type, s);
-						return new DeclareNode(type, s, compiler.parse(afterEquals));
+						declarations.defineParent(type, name, flags);
+						return new DeclareNode(type, name, compiler.parse(afterEquals));
 					} catch (ParseException e) {
 						throw new RuntimeException(e);
 					}

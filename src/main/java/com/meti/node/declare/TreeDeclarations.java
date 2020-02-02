@@ -10,11 +10,10 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
+import static java.util.Collections.*;
 
 public class TreeDeclarations implements Declarations {
-	private final Declaration root = new ValueDeclaration(emptyList(), null);
+	private final Declaration root = new ValueDeclaration(emptyList(), null, emptySet());
 	private final Stack<String> stack = new Stack<>();
 
 	@Override
@@ -71,13 +70,13 @@ public class TreeDeclarations implements Declarations {
 	}
 
 	@Override
-	public void define(Type type, String name) {
-		current().define(type, name);
+	public void define(Type type, String name, Set<Flag> flags) {
+		current().define(type, name, flags);
 	}
 
 	@Override
-	public void defineParent(Type type, String name) {
-		parent().define(type, name);
+	public void defineParent(Type type, String name, Set<Flag> flags) {
+		parent().define(type, name, flags);
 	}
 
 	@Override
