@@ -15,9 +15,11 @@ public class TreeDeclarations implements Declarations {
 
 	@Override
 	public Type toCurrentClass(String name) {
-		List<String> stack = new ArrayList<>(this.stack);
-		stack.add(name);
-		return new ObjectType(this, stack);
+		List<String> clone = new ArrayList<>(stack);
+		if (!clone.isEmpty() && !clone.get(clone.size() - 1).equals(name)) {
+			clone.add(name);
+		}
+		return new ObjectType(this, clone);
 	}
 
 	@Override

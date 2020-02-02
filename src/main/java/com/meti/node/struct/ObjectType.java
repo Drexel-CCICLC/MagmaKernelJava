@@ -1,11 +1,8 @@
 package com.meti.node.struct;
 
 import com.meti.node.Type;
-import com.meti.node.array.PointerArrayType;
 import com.meti.node.declare.Declaration;
 import com.meti.node.declare.Declarations;
-import com.meti.node.point.PointerType;
-import com.meti.node.primitive.AnyType;
 
 import java.util.Collection;
 import java.util.List;
@@ -51,10 +48,7 @@ public class ObjectType implements Type {
 
 	@Override
 	public String render() {
-		Type any = new AnyType();
-		Type pointer = new PointerType(any);
-		Type array = new PointerArrayType(pointer);
-		return array.render();
+		return new StructType(lazyDeclaration().name()).render();
 	}
 
 	@Override
