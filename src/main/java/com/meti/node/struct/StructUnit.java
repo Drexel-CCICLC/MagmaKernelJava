@@ -61,11 +61,13 @@ public class StructUnit implements Unit {
 				.map(s -> s.substring(1, s.length() - 1))
 				.map(s -> s.split(","))
 				.flatMap(Arrays::stream)
+				.filter(s -> !s.isBlank())
 				.map(paramString -> parseParam(compiler, paramString));
 	}
 
 	private Type parseReturnType(Compiler compiler, IndexBuffer buffer) {
-		return buffer.cutIfPresent(1)
+		Optional<String> s1 = buffer.cutIfPresent(1);
+		return s1
 				.filter(s -> s.startsWith("=>"))
 				.map(s -> s.substring(2))
 				.map(compiler::resolveName)
@@ -103,6 +105,10 @@ public class StructUnit implements Unit {
 		if (current.isParent()) statements.addFirst(assign(current));
 		if (declarations.isInClass()) {
 			statements.addLast(new ReturnNode(new VariableNode(declarations.currentName() + "_")));
+		}
+		if (declarations.isInSingleton()) {
+			String name = current.name();
+			statements.add(compiler.parse("val " + name.substring(0, name.length() - 1) + "=" + name + "()"));
 		}
 		return new BlockNode(statements);
 	}

@@ -25,12 +25,14 @@ class ThisParserTest {
 				new DeclareParser(declarations),
 				new ReturnParser(),
 				new StringParser(),
+				new InvocationParser(declarations),
 				new ThisParser(declarations),
 				new VariableParser(declarations)
 		);
 		Resolver resolver = new ParentResolver(
 				structUnit,
 				new StringResolver(),
+				new InvocationResolver(declarations),
 				new VariableResolver(declarations),
 				new ObjectResolver(declarations)
 		);
@@ -43,14 +45,14 @@ class ThisParserTest {
 				}
 				            """);
 		assertEquals("int _exitCode=0;" +
-				"struct Point{int x;int y;};" +
-				"int Point_getX(struct Point Point_){return Point_.x;}" +
-				"int Point_getY(struct Point Point_){return Point_.y;}" +
-				"struct Point Point(int x,int y){" +
-				"struct Point Point_={x,y};return Point_;}" +
-				"int main(){return _exitCode;" +
-				"struct Point Point_=Point();" +
-				"}", cache.render());
+				"struct MySingleton${};" +
+				"char* MySingleton$_returnAValue(struct MySingleton$ MySingleton$_){" +
+				"return \"test\";}" +
+				"struct MySingleton$ MySingleton$(){" +
+				"struct MySingleton$ MySingleton$_={};" +
+				"return MySingleton$_;" +
+				"struct MySingleton$ MySingleton=MySingleton$();}" +
+				"int main(){return _exitCode;}", cache.render());
 	}
 
 	@Test

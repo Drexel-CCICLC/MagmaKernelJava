@@ -40,6 +40,8 @@ public interface Declarations {
 
 	Optional<Declaration> relative(String name);
 
+	boolean isInSingleton();
+
 	Type toCurrentClass(String name);
 
 	Type toCurrentClass();

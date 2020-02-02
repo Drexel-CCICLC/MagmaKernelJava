@@ -18,6 +18,11 @@ public class TreeDeclarations implements Declarations {
 	private final Stack<String> stack = new Stack<>();
 
 	@Override
+	public boolean isInClass() {
+		return flags.contains(Flag.CLASS) || flags.contains(Flag.SINGLE);
+	}
+
+	@Override
 	public Type toCurrentClass(String name) {
 		List<String> clone = new ArrayList<>(stack);
 		if (!clone.isEmpty() && !clone.get(clone.size() - 1).equals(name)) {
@@ -58,7 +63,6 @@ public class TreeDeclarations implements Declarations {
 		return absolute(stack);
 	}
 
-
 	@Override
 	public Declaration absolute(Collection<String> stack) {
 		try {
@@ -86,13 +90,28 @@ public class TreeDeclarations implements Declarations {
 	}
 
 	@Override
-	public boolean isInClass() {
-		return flags.contains(Flag.CLASS);
+	public Declaration parent() {
+		return stack.isEmpty() ? root : absolute(stack.subList(0, stack.size() - 1));
 	}
 
 	@Override
-	public Declaration parent() {
-		return absolute(stack.subList(0, stack.size() - 1));
+	public Optional<Declaration> relative(String name) {
+		Deque<String> stringDeque = new LinkedList<>(stack);
+		if (!stack.isEmpty()) {
+			Optional<Declaration> child = parent().child(currentName());
+			if (child.isEmpty()) {
+				stringDeque.pollLast();
+			}
+		}
+		while (!stringDeque.isEmpty()) {
+			Optional<Declaration> optional = absolute(stringDeque).child(name);
+			if (optional.isPresent()) {
+				return optional;
+			} else {
+				stringDeque.pollLast();
+			}
+		}
+		return root.child(name);
 	}
 
 	@Override
@@ -130,17 +149,7 @@ public class TreeDeclarations implements Declarations {
 	}
 
 	@Override
-	public Optional<Declaration> relative(String name) {
-		Deque<String> stringDeque = new LinkedList<>(stack);
-		stringDeque.pollLast();
-		while (!stringDeque.isEmpty()) {
-			Optional<Declaration> optional = absolute(stringDeque).child(name);
-			if (optional.isPresent()) {
-				return optional;
-			} else {
-				stringDeque.pollLast();
-			}
-		}
-		return root.child(name);
+	public boolean isInSingleton() {
+		return flags.contains(Flag.SINGLE);
 	}
 }

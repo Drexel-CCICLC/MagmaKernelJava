@@ -38,6 +38,9 @@ public class DeclareParser implements Parser {
 					.map(Flag::valueOf)
 					.collect(Collectors.toSet());
 			boolean hasDeclareFlag = flags.contains(Flag.VAR) || flags.contains(Flag.VAL);
+			if (flags.contains(Flag.SINGLE)) {
+				nameString += "$";
+			}
 			if (hasDeclareFlag) {
 				Node declaration = declarations.inStack(nameString, name -> {
 					try {
