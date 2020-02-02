@@ -20,7 +20,7 @@ public interface Declaration {
 
 	String instanceName();
 
-	boolean isFunction();
+	boolean isFunctional();
 
 	boolean isParent();
 

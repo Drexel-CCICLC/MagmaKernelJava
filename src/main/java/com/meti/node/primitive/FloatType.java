@@ -5,9 +5,14 @@ import com.meti.node.Type;
 public class FloatType implements Type {
 
 	@Override
-    public String render() {
-        return "float";
-    }
+	public boolean isFunctional() {
+		return false;
+	}
+
+	@Override
+	public String render() {
+		return "float";
+	}
 
 	@Override
 	public String render(String name) {

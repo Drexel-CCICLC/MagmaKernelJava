@@ -10,6 +10,11 @@ public class StructType implements Type {
 	}
 
 	@Override
+	public boolean isFunctional() {
+		return false;
+	}
+
+	@Override
 	public String render() {
 		return "struct " + name;
 	}

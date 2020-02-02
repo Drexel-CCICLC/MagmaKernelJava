@@ -27,7 +27,7 @@ public class VariableParser implements Parser {
 			} else {
 				Declaration child = parent.child(trim).orElseThrow();
 
-				if (!child.isFunction()) {
+				if (!child.isFunctional()) {
 					return Optional.of(new FieldNode(parent, trim));
 				} else {
 					return Optional.of(new VariableNode(child.joinStack()));

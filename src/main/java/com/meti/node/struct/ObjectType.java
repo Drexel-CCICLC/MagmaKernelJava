@@ -16,6 +16,11 @@ public class ObjectType implements Type {
 	}
 
 	@Override
+	public boolean isFunctional() {
+		return false;
+	}
+
+	@Override
 	public String render() {
 		throw new UnsupportedOperationException();
 	}

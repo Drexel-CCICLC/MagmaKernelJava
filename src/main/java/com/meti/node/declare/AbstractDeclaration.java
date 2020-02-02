@@ -3,7 +3,6 @@ package com.meti.node.declare;
 import com.meti.node.Node;
 import com.meti.node.Parameter;
 import com.meti.node.Type;
-import com.meti.node.struct.FunctionType;
 import com.meti.node.struct.StructNode;
 import com.meti.node.struct.StructType;
 
@@ -42,7 +41,7 @@ public class AbstractDeclaration implements Declaration {
 
 	private List<Parameter> childrenAsParams() {
 		return children().stream()
-				.filter(child -> !child.isFunction())
+				.filter(child -> !child.isFunctional())
 				.map(Declaration::toParameter)
 				.collect(Collectors.toList());
 	}
@@ -69,13 +68,13 @@ public class AbstractDeclaration implements Declaration {
 	}
 
 	@Override
-	public boolean isFunction() {
-		return type instanceof FunctionType;
+	public boolean isFunctional() {
+		return type.isFunctional();
 	}
 
 	@Override
 	public boolean isParent() {
-		return children.stream().anyMatch(Declaration::isFunction);
+		return children.stream().anyMatch(Declaration::isFunctional);
 	}
 
 	@Override
