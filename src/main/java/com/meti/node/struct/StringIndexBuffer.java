@@ -39,12 +39,12 @@ public class StringIndexBuffer implements IndexBuffer {
 			return content.substring(buffer.get(index));
 		} else {
 			int start = buffer.get(index);
-			int i = 0;
-			int end;
-			do {
-				i++;
-				end = buffer.get(index + i);
-			} while (-1 == end);
+			int end = buffer.subList(index + 1, buffer.size())
+					.stream()
+					.mapToInt(Integer::intValue)
+					.filter(value -> -1 != value)
+					.min()
+					.orElse(content.length());
 			return end > start ?
 					content.substring(start, end) :
 					content.substring(start);

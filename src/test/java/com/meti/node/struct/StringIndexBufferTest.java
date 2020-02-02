@@ -23,6 +23,22 @@ class StringIndexBufferTest {
 	}
 
 	@Test
+	void cutMultiple() {
+		IndexBuffer buffer = new StringIndexBuffer("""
+				(Int x, Int y) :{
+					val getX ==> Int :{
+						return x;
+					};
+					val getY ==> Int :{
+						return y;
+					};
+				}
+				            """, "(", "=>", ":");
+		String result = buffer.cut(0);
+		assertEquals("(Int x, Int y) ", result);
+	}
+
+	@Test
 	void cutIfPresentAtEnd() {
 		IndexBuffer buffer = new StringIndexBuffer("(Int value) => Int : {return value;}", ":");
 		Optional<String> result = buffer.cutIfPresent(0);
