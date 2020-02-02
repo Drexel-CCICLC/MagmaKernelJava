@@ -33,6 +33,7 @@ class MagmaCompiler extends UnitCompiler {
 				),
 				new ParentResolver(
 						unit,
+						new InvocationResolver(declarations),
 						new StringResolver(),
 						new ObjectResolver(declarations)
 				));

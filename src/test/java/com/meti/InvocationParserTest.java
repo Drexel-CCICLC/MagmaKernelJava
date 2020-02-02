@@ -10,7 +10,7 @@ import com.meti.node.declare.TreeDeclarations;
 import com.meti.node.declare.VariableParser;
 import com.meti.node.primitive.IntParser;
 import com.meti.node.primitive.VoidType;
-import com.meti.node.struct.FunctionType;
+import com.meti.node.struct.FunctionTypeImpl;
 import com.meti.node.struct.InvocationParser;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +23,7 @@ class InvocationParserTest {
 	@Test
 	void parse() throws ParseException {
 		Declarations declarations = new TreeDeclarations();
-		declarations.define(new FunctionType(Collections.emptySet(), VoidType.INSTANCE, "a"), "a",
+		declarations.define(new FunctionTypeImpl(Collections.emptySet(), VoidType.INSTANCE, "a"), "a",
 				Collections.emptySet());
 		Parser parser = new ParentParser(new InvocationParser(declarations), new VariableParser(declarations),
 				new IntParser());

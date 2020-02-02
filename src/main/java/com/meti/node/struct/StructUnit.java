@@ -153,6 +153,6 @@ public class StructUnit implements Unit {
 		Collection<Parameter> parameters = parseParameters(compiler, indexBuffer)
 				.collect(Collectors.toList());
 		Type returnType = parseReturnType(compiler, indexBuffer);
-		return new FunctionType(parameters, returnType, declarations.currentName());
+		return new FunctionTypeImpl(parameters, returnType, declarations.currentName());
 	}
 }
