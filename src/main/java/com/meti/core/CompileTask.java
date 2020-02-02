@@ -17,7 +17,7 @@ public class CompileTask {
 	private static final Path BUILD = Paths.get("build");
 	private static final Path ROOT = Paths.get("");
 	private final Cache cache = new CollectionCache();
-	private final Compiler compiler = new UnitCompiler(MagmaParser.INSTANCE, MagmaResolver.INSTANCE);
+	private final Compiler compiler = new MagmaCompiler(cache);
 	private final StringBuilder content = new StringBuilder();
 	private final Collection<String> headers = new HashSet<>();
 
