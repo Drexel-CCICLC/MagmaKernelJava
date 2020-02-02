@@ -1,5 +1,6 @@
 package com.meti.node.declare;
 
+import com.meti.exception.ParseException;
 import com.meti.node.Parameter;
 import com.meti.node.Type;
 import com.meti.node.struct.ObjectType;
@@ -55,14 +56,18 @@ public class TreeDeclarations implements Declarations {
 
 	@Override
 	public Declaration absolute(Collection<String> stack) {
-		//TODO: change to reduction
-		Declaration current = root;
-		for (String s : stack) {
-			current = current.child(s).orElseThrow(() -> new IllegalArgumentException("Failed to find declaration " +
-					"for:" +
-					" " + String.join(",", stack)));
+		try {
+			return stack.stream().reduce(root,
+					this::extractChild,
+					(declaration, declaration2) -> declaration2);
+		} catch (ParseException e) {
+			throw new ParseException("Failed to find declaration " +
+					"for: " + String.join(",", stack), e);
 		}
-		return current;
+	}
+
+	private Declaration extractChild(Declaration declaration, String s) {
+		return declaration.child(s).orElseThrow(() -> new ParseException("No such child " + s + " in " + declaration.joinStack()));
 	}
 
 	@Override
