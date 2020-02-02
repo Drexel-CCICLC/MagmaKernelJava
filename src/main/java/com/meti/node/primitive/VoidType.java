@@ -1,14 +1,10 @@
 package com.meti.node.primitive;
 
 import com.meti.node.Type;
+import com.meti.node.array.ValueType;
 
-public class VoidType implements Type {
+public class VoidType extends ValueType {
 	public static final Type INSTANCE = new VoidType();
-
-	@Override
-	public boolean isFunctional() {
-		return false;
-	}
 
 	@Override
 	public String render() {

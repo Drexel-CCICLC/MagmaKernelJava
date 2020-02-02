@@ -1,23 +1,18 @@
 package com.meti.node.struct;
 
-import com.meti.node.Type;
+import com.meti.node.array.ValueType;
 import com.meti.node.declare.Declaration;
 import com.meti.node.declare.Declarations;
 
 import java.util.Collection;
 
-public class ObjectType implements Type {
+public class ObjectType extends ValueType {
 	private final Declarations declarations;
 	private final Collection<String> stack;
 
 	public ObjectType(Declarations declarations, Collection<String> stack) {
 		this.declarations = declarations;
 		this.stack = stack;
-	}
-
-	@Override
-	public boolean isFunctional() {
-		return false;
 	}
 
 	@Override

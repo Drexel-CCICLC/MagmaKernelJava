@@ -1,14 +1,10 @@
 package com.meti.node.primitive;
 
 import com.meti.node.Type;
+import com.meti.node.array.ValueType;
 
-public class IntType implements Type {
+public class IntType extends ValueType {
 	public static final Type INSTANCE = new IntType();
-
-	@Override
-	public boolean isFunctional() {
-		return false;
-	}
 
 	@Override
 	public String render() {

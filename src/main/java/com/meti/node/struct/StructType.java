@@ -1,17 +1,12 @@
 package com.meti.node.struct;
 
-import com.meti.node.Type;
+import com.meti.node.array.ValueType;
 
-public class StructType implements Type {
+public class StructType extends ValueType {
 	private final String name;
 
 	public StructType(String name) {
 		this.name = name;
-	}
-
-	@Override
-	public boolean isFunctional() {
-		return false;
 	}
 
 	@Override

@@ -1,14 +1,8 @@
 package com.meti.node.primitive;
 
-import com.meti.node.Type;
+import com.meti.node.array.ValueType;
 
-public class FloatType implements Type {
-
-	@Override
-	public boolean isFunctional() {
-		return false;
-	}
-
+public class FloatType extends ValueType {
 	@Override
 	public String render() {
 		return "float";
