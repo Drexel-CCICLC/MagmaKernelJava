@@ -8,13 +8,13 @@ import java.util.Optional;
 
 public class ArrayResolver implements Resolver {
 	@Override
-	public Optional<Type> resolveName(String name, Compiler compiler) {
+	public Optional<Type> resolveName(String content, Compiler compiler) {
 		return Optional.empty();
 	}
 
 	@Override
-	public Optional<Type> resolveValue(String value, Compiler compiler) {
-		String trim = value.trim();
+	public Optional<Type> resolveValue(String content, Compiler compiler) {
+		String trim = content.trim();
 		if (trim.startsWith("Array")) {
 			int typeStart = trim.indexOf('<') + 1;
 			int typeEnd = trim.indexOf('>');
