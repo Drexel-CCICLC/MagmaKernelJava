@@ -29,6 +29,16 @@ class StructTest {
 	}
 
 	@Test
+	void missing() {
+		Compiler compiler = new Compiler();
+		String result = compiler.compile("""
+				            val missing =:{
+				            }
+				""");
+		assertEquals("void missing(){}", result);
+	}
+
+	@Test
 	void multiple() {
 		Compiler compiler = new Compiler();
 		String result = compiler.compile("""
