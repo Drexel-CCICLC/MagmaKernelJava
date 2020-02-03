@@ -1,11 +1,11 @@
-package com.meti.feature.core;
+package com.meti.feature.primitive;
 
 import com.meti.Compiler;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class PrimitiveTest {
+class NumberTest {
 	@Test
 	void testDouble() {
 		Compiler compiler = new Compiler();
