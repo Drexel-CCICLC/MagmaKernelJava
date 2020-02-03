@@ -7,13 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PrimitiveTest {
 	@Test
-	void testChar() {
-		Compiler compiler = new Compiler();
-		String result = compiler.compile("'x'");
-		assertEquals("'x'", result);
-	}
-
-	@Test
 	void testDouble() {
 		Compiler compiler = new Compiler();
 		String result = compiler.compile("10D");
