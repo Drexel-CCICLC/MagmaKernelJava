@@ -51,8 +51,9 @@ class ThisParserTest {
 				"struct MySingleton$ MySingleton$(){" +
 				"struct MySingleton$ MySingleton$_={};" +
 				"return MySingleton$_;}" +
+				"int main(){" +
 				"struct MySingleton$ MySingleton=MySingleton$();" +
-				"int main(){return _exitCode;}", cache.render());
+				"return _exitCode;}", cache.render());
 	}
 
 	@Test
