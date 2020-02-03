@@ -6,6 +6,7 @@ import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.declare.Declaration;
 import com.meti.node.declare.Declarations;
+import com.meti.node.declare.VariableNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,16 @@ public class InvocationParser implements Parser {
 				if (!s.isBlank()) {
 					Node node = compiler.parse(s);
 					arguments.add(node);
+				}
+			}
+			if (caller.contains(".")) {
+				int period = caller.lastIndexOf(".");
+				String parent = caller.substring(0, period);
+				Optional<Declaration> parentOptional = declarations.relative(parent + "$");
+				if (parentOptional.isPresent() && parentOptional.get().child(parent).isPresent()) {
+					arguments.add(new VariableNode(parent.trim()));
+				} else {
+					throw new ParseException(parent + " is not defined.");
 				}
 			}
 			Optional<Declaration> optional = declarations.relative(caller);
