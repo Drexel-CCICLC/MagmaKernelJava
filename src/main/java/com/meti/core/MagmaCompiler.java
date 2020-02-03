@@ -5,6 +5,7 @@ import com.meti.Parser;
 import com.meti.Resolver;
 import com.meti.Unit;
 import com.meti.node.declare.*;
+import com.meti.node.primitive.IntParser;
 import com.meti.node.primitive.StringParser;
 import com.meti.node.primitive.StringResolver;
 import com.meti.node.struct.*;
@@ -25,6 +26,7 @@ class MagmaCompiler extends UnitCompiler {
 						new InvocationParser(declarations),
 						new ReturnParser(),
 						new ThisParser(declarations),
+						new IntParser(),
 						new StringParser(),
 						new VariableParser(declarations)
 				),

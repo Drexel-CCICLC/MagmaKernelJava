@@ -1,0 +1,11 @@
+class val Point = (Float x, Float y) : {
+	val getX =: {
+		return x;
+	};
+	val getY =: {
+		return y;
+	};
+};
+
+val a = Point(3, 4);
+val b = Point(0, 0);
