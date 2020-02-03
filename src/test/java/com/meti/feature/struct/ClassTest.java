@@ -7,6 +7,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ClassTest {
 	@Test
+	void caseKeyword() {
+		Compiler compiler = new Compiler();
+		String result = compiler.compile("""
+				class val Point = (case Float x, case Float y) :{
+				}:
+				            """);
+		assertEquals("struct Point{float x;float y;};" +
+				"int Point_x(struct Point $Point){" +
+				"return $Point.x}" +
+				"int Point_y(struct Point $Point){" +
+				"return $Point.y}" +
+				"struct Point _Point(float x,float y){" +
+				"struct Point Point$={x,y};" +
+				"return Point$;}" +
+				"void Point_(struct Point Point$){" +
+				"}", result);
+	}
+
+	@Test
 	void classKeyword() {
 		Compiler compiler = new Compiler();
 		String result = compiler.compile("""
