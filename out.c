@@ -1,2 +1,11 @@
-#include <stdio.h>
-int _exitCode=0;struct Internal${};void Internal$_writeString(char* value,struct Internal$ Internal$_){printf("%s",value);}struct Internal$ Internal$(){struct Internal$ Internal$_={};return Internal$_;}int main(){struct Internal$ Internal=Internal$();Internal$_writeString("Hello World!",Internal);return _exitCode;}
+int _exitCode=0;
+struct Point{float x;float y;};
+float Point_getX(struct Point Point_){
+return Point_.x;}
+float Point_getY(struct Point Point_){
+return Point_.y;}
+struct Point Point(float x,float y){
+struct Point Point_={x,y};
+return Point_;
+}int main(){
+return _exitCode;}

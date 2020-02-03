@@ -1,8 +1,11 @@
 package com.meti.node.primitive;
 
+import com.meti.node.Type;
 import com.meti.node.array.ValueType;
 
 public class FloatType extends ValueType {
+	public static final Type INSTANCE = new FloatType();
+
 	@Override
 	public String render() {
 		return "float";

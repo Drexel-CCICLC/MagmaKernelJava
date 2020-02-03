@@ -5,6 +5,7 @@ import com.meti.Parser;
 import com.meti.Resolver;
 import com.meti.Unit;
 import com.meti.node.declare.*;
+import com.meti.node.primitive.FloatResolver;
 import com.meti.node.primitive.IntParser;
 import com.meti.node.primitive.StringParser;
 import com.meti.node.primitive.StringResolver;
@@ -16,10 +17,10 @@ class MagmaCompiler extends UnitCompiler {
 	}
 
 	private MagmaCompiler(Cache cache, Declarations declarations) {
-		this(cache, declarations, new StructUnit(declarations, cache));
+		this(declarations, new StructUnit(declarations, cache));
 	}
 
-	private MagmaCompiler(Cache cache, Declarations declarations, Unit unit) {
+	private MagmaCompiler(Declarations declarations, Unit unit) {
 		this(new ParentParser(
 						unit,
 						new DeclareParser(declarations),
@@ -34,6 +35,7 @@ class MagmaCompiler extends UnitCompiler {
 						unit,
 						new InvocationResolver(declarations),
 						new StringResolver(),
+						new FloatResolver(),
 						new VariableResolver(declarations),
 						new ObjectResolver(declarations)
 				));
