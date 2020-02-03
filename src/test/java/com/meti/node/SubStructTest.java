@@ -6,10 +6,7 @@ import com.meti.core.CollectionCache;
 import com.meti.core.ParentParser;
 import com.meti.core.ParentResolver;
 import com.meti.core.UnitCompiler;
-import com.meti.node.declare.Declarations;
-import com.meti.node.declare.DeclareParser;
-import com.meti.node.declare.TreeDeclarations;
-import com.meti.node.declare.VariableParser;
+import com.meti.node.declare.*;
 import com.meti.node.primitive.IntResolver;
 import com.meti.node.struct.InvocationParser;
 import com.meti.node.struct.ReturnParser;
@@ -35,7 +32,8 @@ class SubStructTest {
 		);
 		Resolver resolver = new ParentResolver(
 				structUnit,
-				new IntResolver()
+				new IntResolver(),
+				new VariableResolver(declarations)
 		);
 		Compiler compiler = new UnitCompiler(parser, resolver);
 		compiler.parse("""

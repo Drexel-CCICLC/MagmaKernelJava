@@ -2,7 +2,9 @@ package com.meti.node.declare;
 
 import com.meti.Compiler;
 import com.meti.Resolver;
+import com.meti.exception.ParseException;
 import com.meti.node.Type;
+import com.meti.node.struct.ObjectType;
 
 import java.util.Optional;
 
@@ -21,7 +23,29 @@ public class VariableResolver implements Resolver {
 	@Override
 	public Optional<Type> resolveValue(String content, Compiler compiler) {
 		String trim = content.trim();
-		return declarations.relative(trim)
-				.map(Declaration::type);
+		if (!trim.contains(".")) {
+			String singletonName = trim + "$";
+			Optional<Declaration> singleton = declarations.relative(singletonName);
+			if (singleton.isPresent()) {
+				Declaration declaration = singleton.get();
+				return declaration.child(trim)
+						.map(Declaration::type);
+			} else {
+				return declarations.relative(trim)
+						.map(Declaration::type);
+			}
+		} else {
+			int period = trim.indexOf('.');
+			String before = trim.substring(0, period);
+			String after = trim.substring(period + 1);
+			Type type = compiler.resolveValue(before);
+			if (type instanceof ObjectType) {
+				return ((ObjectType) type).declaration()
+						.child(after)
+						.map(Declaration::type);
+			} else {
+				throw new ParseException(before + " is not an object.");
+			}
+		}
 	}
 }

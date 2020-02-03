@@ -1,7 +1,5 @@
-val Internal ==> Internal :{
-	val write = (String value) :{
+single val Internal =:{
+	val writeString = (String value) :{
 		printf("%s", value);
 	};
-	return this;
 };
-val _Internal = Internal();

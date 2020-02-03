@@ -108,7 +108,7 @@ public class StructUnit implements Unit {
 		}
 		if (declarations.isInSingleton()) {
 			String name = current.name();
-			statements.add(compiler.parse("val " + name.substring(0, name.length() - 1) + "=" + name + "()"));
+			cache.add(compiler.parse("val " + name.substring(0, name.length() - 1) + "=" + name + "()"));
 		}
 		return new BlockNode(statements);
 	}

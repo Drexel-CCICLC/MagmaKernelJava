@@ -8,6 +8,7 @@ import com.meti.node.Node;
 import com.meti.node.declare.Declarations;
 import com.meti.node.declare.TreeDeclarations;
 import com.meti.node.declare.VariableParser;
+import com.meti.node.declare.VariableResolver;
 import com.meti.node.primitive.IntParser;
 import com.meti.node.primitive.VoidType;
 import com.meti.node.struct.FunctionTypeImpl;
@@ -27,7 +28,7 @@ class InvocationParserTest {
 				Collections.emptySet());
 		Parser parser = new ParentParser(new InvocationParser(declarations), new VariableParser(declarations),
 				new IntParser());
-		Resolver resolver = new ParentResolver();
+		Resolver resolver = new ParentResolver(new VariableResolver(declarations));
 		Compiler compiler = new UnitCompiler(parser, resolver);
 		Node node = compiler.parse("a(10)");
 		assertEquals("a(10)", node.render());

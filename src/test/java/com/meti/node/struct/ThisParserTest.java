@@ -50,8 +50,8 @@ class ThisParserTest {
 				"return \"test\";}" +
 				"struct MySingleton$ MySingleton$(){" +
 				"struct MySingleton$ MySingleton$_={};" +
-				"return MySingleton$_;" +
-				"struct MySingleton$ MySingleton=MySingleton$();}" +
+				"return MySingleton$_;}" +
+				"struct MySingleton$ MySingleton=MySingleton$();" +
 				"int main(){return _exitCode;}", cache.render());
 	}
 

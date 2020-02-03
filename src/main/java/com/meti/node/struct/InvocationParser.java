@@ -39,7 +39,7 @@ public class InvocationParser implements Parser {
 				List<Node> parentParameters = callDeclaration.toParentParameters();
 				arguments.addAll(parentParameters);
 			}
-			return Optional.of(new InvocationNode(callerNode, arguments));
+			return Optional.of(new InvocationNode(callerNode, arguments, compiler.resolveValue(caller)));
 		}
 		return Optional.empty();
 	}
