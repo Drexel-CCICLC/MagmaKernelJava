@@ -23,9 +23,9 @@ class MagmaCompiler extends UnitCompiler {
 	private MagmaCompiler(Declarations declarations, Unit unit) {
 		this(new ParentParser(
 						unit,
+						new ReturnParser(),
 						new DeclareParser(declarations),
 						new InvocationParser(declarations),
-						new ReturnParser(),
 						new ThisParser(declarations),
 						new IntParser(),
 						new StringParser(),

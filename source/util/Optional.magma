@@ -1,6 +1,6 @@
 class val Optional = (Any* value) : {
     val isEmpty ==> Bool :{
-        return value == NULL;
+        return value == null;
     };
     val isPresent ==> Bool :{
         return !isEmpty();
