@@ -10,7 +10,7 @@ public class AnyType extends ValueType {
 
 	@Override
 	public String render() {
-		return null;
+		return "void";
 	}
 
 	@Override

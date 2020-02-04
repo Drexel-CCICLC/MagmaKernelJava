@@ -3,7 +3,9 @@ package com.meti.node.struct;
 import com.meti.Compiler;
 import com.meti.Parser;
 import com.meti.exception.ParseException;
+import com.meti.exception.RenderException;
 import com.meti.node.Node;
+import com.meti.node.Type;
 import com.meti.node.declare.Declaration;
 import com.meti.node.declare.Declarations;
 import com.meti.node.declare.VariableNode;
@@ -50,7 +52,14 @@ public class InvocationParser implements Parser {
 				List<Node> parentParameters = callDeclaration.toParentParameters();
 				arguments.addAll(parentParameters);
 			}
-			return Optional.of(new InvocationNode(callerNode, arguments, compiler.resolveValue(caller)));
+			Type functionType = compiler.resolveValue(caller);
+			Type returnType;
+			if (functionType instanceof FunctionType) {
+				returnType = ((FunctionType) functionType).returnType();
+			} else {
+				throw new RenderException(functionType + " is not a function.");
+			}
+			return Optional.of(new InvocationNode(callerNode, arguments, returnType));
 		}
 		return Optional.empty();
 	}

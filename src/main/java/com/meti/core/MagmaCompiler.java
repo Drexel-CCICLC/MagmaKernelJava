@@ -12,6 +12,7 @@ import com.meti.node.point.AnyResolver;
 import com.meti.node.point.PointerResolver;
 import com.meti.node.primitive.*;
 import com.meti.node.struct.*;
+import com.meti.node.thrower.ThrowParser;
 import com.meti.node.transform.NotParser;
 import com.meti.node.transform.OperationParser;
 
@@ -21,12 +22,13 @@ class MagmaCompiler extends UnitCompiler {
 	}
 
 	private MagmaCompiler(Cache cache, Declarations declarations) {
-		this(declarations, new StructUnit(declarations, cache));
+		this(declarations, new StructUnit(declarations, cache), cache);
 	}
 
-	private MagmaCompiler(Declarations declarations, Unit unit) {
+	private MagmaCompiler(Declarations declarations, Unit unit, Cache cache) {
 		this(new ParentParser(
 						unit,
+						new ThrowParser(declarations, cache),
 						new NullParser(),
 						new ReturnParser(),
 						new DeclareParser(declarations),
@@ -44,6 +46,8 @@ class MagmaCompiler extends UnitCompiler {
 				),
 				new ParentResolver(
 						unit,
+						new BooleanResolver(),
+						new IntResolver(),
 						new AnyResolver(),
 						new PointerResolver(),
 						new InvocationResolver(declarations),
