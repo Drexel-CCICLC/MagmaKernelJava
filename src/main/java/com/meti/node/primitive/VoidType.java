@@ -1,7 +1,7 @@
 package com.meti.node.primitive;
 
 import com.meti.node.Type;
-import com.meti.node.array.ValueType;
+import com.meti.node.ValueType;
 
 public class VoidType extends ValueType {
 	public static final Type INSTANCE = new VoidType();

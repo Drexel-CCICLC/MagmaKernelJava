@@ -8,6 +8,8 @@ import com.meti.node.block.BlockParser;
 import com.meti.node.block.ElseParser;
 import com.meti.node.block.IfParser;
 import com.meti.node.declare.*;
+import com.meti.node.point.AnyResolver;
+import com.meti.node.point.PointerResolver;
 import com.meti.node.primitive.*;
 import com.meti.node.struct.*;
 import com.meti.node.transform.NotParser;
@@ -42,6 +44,8 @@ class MagmaCompiler extends UnitCompiler {
 				),
 				new ParentResolver(
 						unit,
+						new AnyResolver(),
+						new PointerResolver(),
 						new InvocationResolver(declarations),
 						new StringResolver(),
 						new FloatResolver(),

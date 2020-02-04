@@ -1,6 +1,7 @@
 package com.meti.node.array;
 
 import com.meti.node.Type;
+import com.meti.node.ValueType;
 
 abstract class ArrayType extends ValueType {
 	final Type elementType;

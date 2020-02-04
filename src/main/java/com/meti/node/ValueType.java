@@ -1,6 +1,4 @@
-package com.meti.node.array;
-
-import com.meti.node.Type;
+package com.meti.node;
 
 public abstract class ValueType implements Type {
 	@Override

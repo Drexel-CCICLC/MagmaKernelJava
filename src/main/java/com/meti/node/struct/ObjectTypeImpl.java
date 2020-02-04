@@ -1,6 +1,6 @@
 package com.meti.node.struct;
 
-import com.meti.node.array.ValueType;
+import com.meti.node.ValueType;
 import com.meti.node.declare.Declaration;
 import com.meti.node.declare.Declarations;
 
