@@ -1,5 +1,6 @@
 single val Primitive =: {
 	val floatToString = (Float float) => String :{
+
 		return "0";
 	};
 };

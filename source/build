@@ -1,1 +1,5 @@
+stdio.h
+Native.magma
+Internal.magma
 Point.magma
+Main.magma
