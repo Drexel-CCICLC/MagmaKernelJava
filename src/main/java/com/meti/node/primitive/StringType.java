@@ -18,12 +18,17 @@ public class StringType extends ValueType implements DefaultType {
 	}
 
 	@Override
-	public String render() {
-		return null;
+	public String toMagmaString() {
+		return "";
 	}
 
 	@Override
 	public String render(String name) {
 		return "char* " + name;
+	}
+
+	@Override
+	public String render() {
+		return "char*";
 	}
 }

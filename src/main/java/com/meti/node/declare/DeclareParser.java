@@ -21,14 +21,15 @@ public class DeclareParser implements Parser {
 
 	@Override
 	public Optional<Node> parse(String content, Compiler compiler) {
-		if (content.contains("=")) {
-			int equalsIndex = content.indexOf('=');
-			if ("==".equals(content.substring(equalsIndex, equalsIndex + 2)) &&
-					!"==>".equals(content.substring(equalsIndex, equalsIndex + 3))) {
+		String trim = content.trim();
+		if (trim.contains("=")) {
+			int equalsIndex = trim.indexOf('=');
+			if ("==".equals(trim.substring(equalsIndex, equalsIndex + 2)) &&
+					!"==>".equals(trim.substring(equalsIndex, equalsIndex + 3))) {
 				return Optional.empty();
 			}
-			String beforeEquals = content.substring(0, equalsIndex).trim();
-			String afterEquals = content.substring(equalsIndex + 1).trim();
+			String beforeEquals = trim.substring(0, equalsIndex).trim();
+			String afterEquals = trim.substring(equalsIndex + 1).trim();
 			int lastSpace = beforeEquals.lastIndexOf(' ');
 			String flagString = "";
 			String nameString = beforeEquals;

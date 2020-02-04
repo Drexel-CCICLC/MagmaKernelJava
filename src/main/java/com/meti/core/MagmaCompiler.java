@@ -12,7 +12,11 @@ import com.meti.node.point.AnyResolver;
 import com.meti.node.point.PointerResolver;
 import com.meti.node.primitive.*;
 import com.meti.node.struct.*;
+import com.meti.node.thrower.CatchParser;
 import com.meti.node.thrower.ThrowParser;
+import com.meti.node.thrower.TryParser;
+import com.meti.node.transform.CastParser;
+import com.meti.node.transform.CastResolver;
 import com.meti.node.transform.NotParser;
 import com.meti.node.transform.OperationParser;
 
@@ -28,6 +32,10 @@ class MagmaCompiler extends UnitCompiler {
 	private MagmaCompiler(Declarations declarations, Unit unit, Cache cache) {
 		this(new ParentParser(
 						unit,
+						new CastParser(),
+						new BlockParser(),
+						new TryParser(),
+						new CatchParser(declarations, cache),
 						new ThrowParser(declarations, cache),
 						new NullParser(),
 						new ReturnParser(),
@@ -35,7 +43,6 @@ class MagmaCompiler extends UnitCompiler {
 						new NotParser(),
 						new IfParser(),
 						new ElseParser(),
-						new BlockParser(),
 						new BooleanParser(),
 						new InvocationParser(declarations),
 						new OperationParser(),
@@ -46,6 +53,8 @@ class MagmaCompiler extends UnitCompiler {
 				),
 				new ParentResolver(
 						unit,
+						new VoidResolver(),
+						new CastResolver(),
 						new BooleanResolver(),
 						new IntResolver(),
 						new AnyResolver(),

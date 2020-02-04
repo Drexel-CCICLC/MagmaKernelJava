@@ -15,4 +15,9 @@ public class IntType extends ValueType {
 	public String render(String name) {
 		return "int " + name;
 	}
+
+	@Override
+	public String toMagmaString() {
+		return "";
+	}
 }

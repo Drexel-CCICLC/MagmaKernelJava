@@ -15,4 +15,9 @@ public class FloatType extends ValueType {
 	public String render(String name) {
 		return "float " + name;
 	}
+
+	@Override
+	public String toMagmaString() {
+		return "";
+	}
 }

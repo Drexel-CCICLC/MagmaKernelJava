@@ -6,7 +6,8 @@ import java.util.function.Function;
 
 public enum Operations implements Operation {
 	ADD("+", "+"),
-	EQUALS("==", "==");
+	EQUALS("==", "=="),
+	NOT_EQUALS("!=", "!=");
 
 	private final String from;
 	private final String to;

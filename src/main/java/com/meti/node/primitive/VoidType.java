@@ -15,4 +15,9 @@ public class VoidType extends ValueType {
 	public String render(String name) {
 		return "void " + name;
 	}
+
+	@Override
+	public String toMagmaString() {
+		return "Void";
+	}
 }

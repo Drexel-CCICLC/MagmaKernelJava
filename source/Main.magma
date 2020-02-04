@@ -1,1 +1,9 @@
-val x = 10;
+val empty = Optional(null);
+try{
+	val value = <String>empty.getOrThrow();
+	Internal.writeString(value);
+};
+catch(throwable){
+	val message = <String>throwable;
+	Internal.writeString(message);
+};

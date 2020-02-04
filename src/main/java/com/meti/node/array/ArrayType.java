@@ -10,4 +10,8 @@ abstract class ArrayType extends ValueType {
 		this.elementType = elementType;
 	}
 
+	@Override
+	public String toMagmaString() {
+		return "";
+	}
 }

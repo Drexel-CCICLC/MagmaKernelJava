@@ -29,4 +29,9 @@ public class ObjectTypeImpl extends ValueType implements ObjectType {
 	public Declaration declaration() {
 		return declarations.absolute(stack);
 	}
+
+	@Override
+	public String toMagmaString() {
+		return "";
+	}
 }

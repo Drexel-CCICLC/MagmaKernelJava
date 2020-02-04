@@ -18,4 +18,9 @@ public class StructType extends ValueType {
 	public String render(String name) {
 		return "struct " + this.name + " " + name;
 	}
+
+	@Override
+	public String toMagmaString() {
+		return "";
+	}
 }

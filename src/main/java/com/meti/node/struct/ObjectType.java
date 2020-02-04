@@ -5,4 +5,9 @@ import com.meti.node.declare.Declaration;
 
 public interface ObjectType extends Type {
 	Declaration declaration();
+
+	@Override
+	default String toMagmaString() {
+		return "";
+	}
 }

@@ -5,4 +5,5 @@ public abstract class ValueType implements Type {
 	public boolean isFunctional() {
 		return false;
 	}
+
 }
