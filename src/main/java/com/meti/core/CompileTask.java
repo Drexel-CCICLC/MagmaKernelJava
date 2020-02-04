@@ -76,6 +76,7 @@ public class CompileTask {
 				buffer.append(c);
 			}
 		}
+		partitions.add(buffer.toString());
 
 		partitions.stream()
 				.filter(s -> !s.isBlank())
