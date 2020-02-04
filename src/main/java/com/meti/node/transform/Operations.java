@@ -5,14 +5,15 @@ import com.meti.node.Node;
 import java.util.function.Function;
 
 public enum Operations implements Operation {
-	ADD();
+	ADD("+", "+"),
+	EQUALS("==", "==");
 
 	private final String from;
 	private final String to;
 
-	Operations() {
-		this.from = "+";
-		this.to = "+";
+	Operations(String from, String to) {
+		this.from = from;
+		this.to = to;
 	}
 
 	@Override
@@ -29,7 +30,7 @@ public enum Operations implements Operation {
 	public Node toNode(String content, Function<? super String, ? extends Node> parser) {
 		int fromIndex = content.indexOf(from);
 		String before = content.substring(0, fromIndex).trim();
-		String after = content.substring(fromIndex + 1).trim();
+		String after = content.substring(fromIndex + from.length()).trim();
 		Node beforeNode = parser.apply(before);
 		Node afterNode = parser.apply(after);
 		return new OperationNode(beforeNode, afterNode, this);

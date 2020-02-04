@@ -23,6 +23,10 @@ public class DeclareParser implements Parser {
 	public Optional<Node> parse(String content, Compiler compiler) {
 		if (content.contains("=")) {
 			int equalsIndex = content.indexOf('=');
+			if ("==".equals(content.substring(equalsIndex, equalsIndex + 2)) &&
+					!"==>".equals(content.substring(equalsIndex, equalsIndex + 3))) {
+				return Optional.empty();
+			}
 			String beforeEquals = content.substring(0, equalsIndex).trim();
 			String afterEquals = content.substring(equalsIndex + 1).trim();
 			int lastSpace = beforeEquals.lastIndexOf(' ');
