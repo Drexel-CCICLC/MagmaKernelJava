@@ -19,6 +19,7 @@ class val Optional = (Any* value) : {
     val getOrThrow ==> Any* : {
         if(isPresent()) {
             return get();
+        };
         else {
             throw "Optional is empty.";
         };
