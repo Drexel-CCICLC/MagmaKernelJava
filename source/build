@@ -1,5 +1,7 @@
-stdio.h
-Native.magma
+stdlib
+string
+stdio
+Primitive.magma
 Internal.magma
-Point.magma
+Assertions.magma
 Main.magma

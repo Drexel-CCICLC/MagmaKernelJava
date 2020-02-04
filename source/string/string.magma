@@ -1,0 +1,3 @@
+native val strcpy = (String destination, String source);
+native val strcat = (String previous, String toAppend);
+native val strlen = (String string) => Int;

@@ -1,0 +1,2 @@
+native val malloc = (int size) => Any*;
+native val free = (Any* memory) => Void;

@@ -1,8 +1,0 @@
-class val Point = (Float x, Float y) : {
-	val getX ==> Float :{
-		return x;
-	};
-	val getY ==> Float :{
-		return y;
-	};
-};
