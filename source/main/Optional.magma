@@ -1,0 +1,25 @@
+class val Optional = (Any* value) : {
+    val isEmpty ==> Boolean :{
+        return value == null;
+    };
+    val isPresent ==> Boolean :{
+        return !isEmpty();
+    };
+    val get ==> Any* :{
+        return value;
+    };
+    val getOrElse = (Any* other) => Any* :{
+        if(isEmpty()){
+            return value;
+        };
+        else {
+            return other;
+        };
+    };
+    val getOrThrow ==> Any* :{
+        if(isEmpty()){
+            throw "Value is not present.";
+        };
+        return value;
+    };
+};
