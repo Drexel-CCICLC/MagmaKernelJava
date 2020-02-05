@@ -16,10 +16,7 @@ import com.meti.node.struct.*;
 import com.meti.node.thrower.CatchParser;
 import com.meti.node.thrower.ThrowParser;
 import com.meti.node.thrower.TryParser;
-import com.meti.node.transform.CastParser;
-import com.meti.node.transform.CastResolver;
-import com.meti.node.transform.NotParser;
-import com.meti.node.transform.OperationParser;
+import com.meti.node.transform.*;
 
 class MagmaCompiler extends UnitCompiler {
 	MagmaCompiler(Cache cache) {
@@ -54,6 +51,7 @@ class MagmaCompiler extends UnitCompiler {
 				),
 				new ParentResolver(
 						unit,
+						new OperationResolver(),
 						new BlockResolver(declarations),
 						new VoidResolver(),
 						new CastResolver(),
