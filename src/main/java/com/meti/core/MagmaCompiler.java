@@ -4,12 +4,10 @@ import com.meti.Cache;
 import com.meti.Parser;
 import com.meti.Resolver;
 import com.meti.Unit;
-import com.meti.node.block.BlockParser;
-import com.meti.node.block.BlockResolver;
-import com.meti.node.block.ElseParser;
-import com.meti.node.block.IfParser;
+import com.meti.node.block.*;
 import com.meti.node.declare.*;
 import com.meti.node.point.AnyResolver;
+import com.meti.node.point.DereferenceParser;
 import com.meti.node.point.PointerResolver;
 import com.meti.node.primitive.*;
 import com.meti.node.struct.*;
@@ -30,6 +28,8 @@ class MagmaCompiler extends UnitCompiler {
 	private MagmaCompiler(Declarations declarations, Unit unit, Cache cache) {
 		this(new ParentParser(
 						unit,
+						new WhileParser(),
+						new DereferenceParser(),
 						new IfParser(),
 						new CastParser(),
 						new BlockParser(),

@@ -11,7 +11,8 @@ public enum Operations implements Operation {
     ADD("+", "+"),
     SUBTRACT("-", "-"),
     EQUALS("==", "=="),
-    NOT_EQUALS("!=", "!=");
+    NOT_EQUALS("!=", "!="),
+    LESS_THAN("<", "<");
 
     private final String from;
     private final String to;

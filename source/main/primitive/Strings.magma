@@ -18,9 +18,9 @@ single val Strings =: {
         if(!sameSize(s0, s1)){
             return false;
         };
-        val length = length(s0);
+        val l = length(s0);
         var i = 0;
-        while(i < length) {
+        while(i < l) {
             val char0 = charAt(s0, i);
             val char1 = charAt(s1, i);
             if(char0 != char1) {

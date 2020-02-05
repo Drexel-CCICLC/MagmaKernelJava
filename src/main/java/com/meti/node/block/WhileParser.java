@@ -31,7 +31,7 @@ public class WhileParser implements Parser {
                 throw new ParseException("Could not resolve condition of:\n\t" + trim);
             }
             String conditionString = withoutHeader.substring(0, index);
-            String blockString = withoutHeader.substring(index + 1, withoutHeader.length() - 1);
+            String blockString = withoutHeader.substring(index + 1);
             Node condition = compiler.parse(conditionString);
             Node block = compiler.parse(blockString);
             return Optional.of(new WhileNode(condition, block));
