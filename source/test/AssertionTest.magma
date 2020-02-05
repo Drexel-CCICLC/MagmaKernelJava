@@ -1,0 +1,2 @@
+val assertion = Assertion("True");
+assertion.assertTrue(true);

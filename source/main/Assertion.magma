@@ -1,0 +1,18 @@
+class val Assertion = (String name) : {
+    val fail =: {
+        Internal.writeString(name);
+        Internal.writeString(" has failed.");
+    };
+    val pass =: {
+        Internal.writeString(name);
+        Internal.writeString(" has passed.");
+    };
+    val assertTrue = (Bool value): {
+        if(value){
+           pass();
+        };
+        else {
+           fail();
+        };
+    };
+};
