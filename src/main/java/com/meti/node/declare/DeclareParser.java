@@ -24,8 +24,7 @@ public class DeclareParser implements Parser {
 		String trim = content.trim();
 		if (trim.contains("=")) {
 			int equalsIndex = trim.indexOf('=');
-			if ("==".equals(trim.substring(equalsIndex, equalsIndex + 2)) &&
-					!"==>".equals(trim.substring(equalsIndex, equalsIndex + 3))) {
+			if (!isValid(trim, equalsIndex)) {
 				return Optional.empty();
 			}
 			String beforeEquals = trim.substring(0, equalsIndex).trim();
@@ -71,5 +70,12 @@ public class DeclareParser implements Parser {
 			}
 		}
 		return Optional.empty();
+	}
+
+	private boolean isValid(String trim, int equalsIndex) {
+		String twoString = trim.substring(equalsIndex, equalsIndex + 2);
+		if (twoString.equals("==")) {
+			return trim.substring(equalsIndex, equalsIndex + 3).equals("==>");
+		} else return !trim.substring(equalsIndex - 1, equalsIndex + 1).equals("!=");
 	}
 }

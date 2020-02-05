@@ -1,9 +1,12 @@
 val empty = Optional(null);
+val value = <String>null;
 try{
-	val value = <String>empty.getOrThrow();
-	Internal.writeString(value);
+	value = <String>empty.getOrThrow();
 };
 catch(throwable){
 	val message = <String>throwable;
 	Internal.writeString(message);
+};
+if(value != null) {
+	Internal.writeString(value);
 };

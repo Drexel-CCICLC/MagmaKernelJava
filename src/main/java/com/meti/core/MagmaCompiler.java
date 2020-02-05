@@ -32,6 +32,7 @@ class MagmaCompiler extends UnitCompiler {
 	private MagmaCompiler(Declarations declarations, Unit unit, Cache cache) {
 		this(new ParentParser(
 						unit,
+						new IfParser(),
 						new CastParser(),
 						new BlockParser(),
 						new TryParser(),
@@ -41,7 +42,6 @@ class MagmaCompiler extends UnitCompiler {
 						new ReturnParser(),
 						new DeclareParser(declarations),
 						new NotParser(),
-						new IfParser(),
 						new ElseParser(),
 						new BooleanParser(),
 						new InvocationParser(declarations),
