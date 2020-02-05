@@ -35,7 +35,7 @@ class WhileTest {
         Node node = compiler.parse("""
                 while(true) {
                     val x = 10;
-                };
+                }
                 """);
         assertEquals("while(1){int x=10;}", node.render());
     }
