@@ -1,4 +1,2 @@
-native
-util
-io
+stdio.h
 Main.magma

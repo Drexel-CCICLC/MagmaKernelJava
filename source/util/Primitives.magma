@@ -1,0 +1,20 @@
+single val Primitives =:{
+	val intToFloat = (Int value) => Float :{
+		return value * 1.0f;
+	};
+
+	val intToString = (Int value) => String :{
+		val digitCount = (Int) Math.log(value, 10);
+		val memory = (String) NativeMemory.memoryDynamic(digitCount + 1);
+		val counter = 0;
+		var buffer = value;
+		while(counter < digitCount) {
+			val digit = (Integer) (buffer / Math.pow(counter, 10));
+			val char = (Char) (digit + 60);
+			memory + counter = char;
+			counter = counter + 1;
+		};
+		memory + digitCount = 0;
+		return memory;
+	};
+};

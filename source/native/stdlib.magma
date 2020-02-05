@@ -1,0 +1,11 @@
+native val malloc = (Integer size) => Any*;
+native val free = (Any* memory);
+
+single val NativeMemory =: {
+	val memoryDynamic = (Integer count) => Any* :{
+		return malloc(count);
+	};
+	val memoryFree = (Any* block) : {
+		free(block);
+	};
+};

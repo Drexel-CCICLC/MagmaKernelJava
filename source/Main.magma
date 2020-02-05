@@ -1,12 +1,25 @@
-val empty = Optional(null);
-val value = <String>null;
-try{
-	value = <String>empty.getOrThrow();
+native val printf = (String format, String message);
+
+single val Internal =: {
+	val writeString = (String message) :{
+		printf("%s", message);
+	};
 };
-catch(throwable){
-	val message = <String>throwable;
-	Internal.writeString(message);
-};
-if(value != null) {
-	Internal.writeString(value);
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Internal.writeString("Hello test!");

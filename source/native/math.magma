@@ -1,0 +1,15 @@
+native val pow = (Double base, Double exponent) => Double;
+native val log = (Double value) => Double;
+native val floor = (Double value) => Double;
+
+single val NativeMath =: {
+	val nativePow = (Double base, Double exponent) => Double :{
+		return pow(base, exponent);
+	};
+	val nativeLog = (Double value) => Double :{
+		return log(value);
+	};
+	val nativeFloor = (Double value) => Double :{
+		return floor(value);
+	};
+};

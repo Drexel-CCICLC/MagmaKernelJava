@@ -1,0 +1,8 @@
+single val Math =: {
+	val log = (Double exponent, Double value) => Double :{
+		return NativeFloor.nativeLog(value) / NativeFloor.nativeLog(exponent);
+	};
+	val floor = (Double value) => Double :{
+		return NativeFloor.nativeFloor(value);
+	};
+};
