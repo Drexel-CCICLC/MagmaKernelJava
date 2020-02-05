@@ -1,5 +1,0 @@
-single val Internal =: {
-	val writeString = (String value) :{
-		printf("%s", value);
-	};
-};

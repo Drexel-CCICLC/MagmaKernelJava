@@ -1,1 +1,0 @@
-native val printf = (String format, String message);
