@@ -18,6 +18,54 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ThisParserTest {
 	@Test
+	void callSibling() {
+
+		Cache cache = new CollectionCache();
+		Declarations declarations = new TreeDeclarations();
+		Unit structUnit = new StructUnit(declarations, cache);
+		Parser parser = new ParentParser(
+				structUnit,
+				new BlockParser(),
+				new DeclareParser(declarations),
+				new ReturnParser(),
+				new StringParser(),
+				new InvocationParser(declarations),
+				new ThisParser(declarations),
+				new VariableParser(declarations)
+		);
+		Resolver resolver = new ParentResolver(
+				structUnit,
+				new BlockResolver(declarations),
+				new StringResolver(),
+				new InvocationResolver(declarations),
+				new VariableResolver(declarations),
+				new ObjectResolver(declarations)
+		);
+		Compiler compiler = new UnitCompiler(parser, resolver);
+		compiler.parse("""
+				class val HasTwoMethods =: {
+					val methodOne =: {
+					};
+
+					val methodTwo =: {
+						methodOne();
+					};
+				}
+				            """);
+		assertEquals("int _exitCode=0;" +
+				"void *_throw=NULL;" +
+				"struct HasTwoMethods{};" +
+				"void HasTwoMethods_methodOne(struct HasTwoMethods HasTwoMethods_){}" +
+				"void HasTwoMethods_methodTwo(struct HasTwoMethods HasTwoMethods_){" +
+				"HasTwoMethods_methodOne(HasTwoMethods_);}" +
+				"struct HasTwoMethods HasTwoMethods(){" +
+				"struct HasTwoMethods HasTwoMethods_={};" +
+				"return HasTwoMethods_;}" +
+				"int main(){" +
+				"return _exitCode;}", cache.render());
+	}
+
+	@Test
 	void singletonTest() {
 		Cache cache = new CollectionCache();
 		Declarations declarations = new TreeDeclarations();

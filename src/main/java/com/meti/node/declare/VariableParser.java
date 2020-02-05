@@ -47,21 +47,33 @@ public class VariableParser implements Parser {
             Declaration parent = declarations.parent();
             if (parent.hasChild(trim)) {
                 if (parent.hasParameter(trim)) {
-                    return buildField(declarations.parent(), trim);
+                    return buildField(parent, trim);
                 } else {
-                    return buildVariable(trim);
+                    return buildVariable(parent, trim);
                 }
             }
             Declaration current = declarations.current();
             if (current.hasChild(trim) && !current.hasParameter(trim)) {
                 return buildField(current, trim);
             } else {
-                return buildVariable(trim);
+                return buildVariable(declarations.parent(), trim);
             }
         }
     }
 
-    private Optional<Node> buildVariable(String trim) {
+    private Optional<Node> buildVariable(Declaration parent, String trim) {
+   /*     Optional<Declaration> child = current.child(trim);
+        if(child.isPresent()) {
+            return Optional.of(new FieldNode(current, trim));
+        }*/
+        Optional<Declaration> childOptional = parent.child(trim);
+        if (childOptional.isPresent()) {
+            Declaration child = childOptional.get();
+            boolean functional = child.isFunctional();
+            if (functional) {
+                return Optional.of(new VariableNode(child.joinStack()));
+            }
+        }
         return Optional.of(new VariableNode(trim));
     }
 
