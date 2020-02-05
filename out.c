@@ -1,2 +1,0 @@
-#include <stdio.h>
-int _exitCode=0;void *_throw=NULL;struct Internal${};void Internal$_writeString(char* message,struct Internal$ Internal$_){printf("%s",message);}struct Internal$ Internal$(){struct Internal$ Internal$_={};return Internal$_;}int main(){struct Internal$ Internal=Internal$();Internal$_writeString("Hello test!",Internal);return _exitCode;}
