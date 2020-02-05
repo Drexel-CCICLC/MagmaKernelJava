@@ -1,3 +1,4 @@
 internal
+primitive
 Optional.magma
 Assertion.magma

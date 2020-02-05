@@ -1,0 +1,33 @@
+single val Strings =: {
+    val length = (String string) => Int :{
+        return strlen(string);
+    };
+
+    val sameSize = (String s0, String s1) => Bool :{
+        val length0 = length(s0);
+        val length1 = length(s1);
+        return length0 == length1;
+    };
+
+    val charAt = (String string, Int index) => Char :{
+        val elementPointer = string + index;
+        return *elementPointer;
+    };
+
+    val areEqual = (String s0, String s1) => Bool :{
+        if(!sameSize(s0, s1)){
+            return false;
+        };
+        val length = length(s0);
+        var i = 0;
+        while(i < length) {
+            val char0 = charAt(s0, i);
+            val char1 = charAt(s1, i);
+            if(char0 != char1) {
+                return false;
+            };
+            i = i + 1;
+        };
+        return true;
+    };
+};
