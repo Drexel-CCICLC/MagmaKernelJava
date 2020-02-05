@@ -45,4 +45,6 @@ public interface Declarations {
 	Type toCurrentClass(String name);
 
 	Type toCurrentClass();
+
+	boolean isParent(Declaration parent);
 }

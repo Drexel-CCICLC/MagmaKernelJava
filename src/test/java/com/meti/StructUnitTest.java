@@ -29,7 +29,13 @@ class StructUnitTest {
                 	val y = x;
                 }
                             """);
-        assertEquals("", cache.render());
+        assertEquals("int _exitCode=0;" +
+                "void *_throw=NULL;" +
+                "void empty(){" +
+                "int x=10;" +
+                "int y=x;}" +
+                "int main(){" +
+                "return _exitCode;}", cache.render());
     }
 
     @Test

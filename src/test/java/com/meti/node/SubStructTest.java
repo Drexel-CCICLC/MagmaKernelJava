@@ -27,8 +27,8 @@ class SubStructTest {
 				new DeclareParser(declarations),
 				new ReturnParser(),
 				new OperationParser(),
-				new VariableParser(declarations),
-				new InvocationParser(declarations)
+				new InvocationParser(declarations),
+				new VariableParser(declarations)
 		);
 		Resolver resolver = new ParentResolver(
 				structUnit,

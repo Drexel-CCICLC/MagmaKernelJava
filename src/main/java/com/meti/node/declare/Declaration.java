@@ -9,45 +9,51 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface Declaration {
-	Optional<Declaration> child(String name);
+    Optional<Declaration> child(String name);
 
-	List<Declaration> children();
+    List<Declaration> children();
 
-	Node declareInstance();
+    Node declareInstance();
 
-	Declaration define(Type type, String name, Set<Flag> flags);
+    Declaration define(Type type, String name, Set<Flag> flags);
 
-	Declaration define(Parameter parameter);
+    Declaration define(Parameter parameter);
 
-	String instanceName();
+    String instanceName();
 
-	boolean isClass();
+    boolean isClass();
 
-	boolean isFunctional();
+    boolean isFunctional();
 
-	boolean isNative();
+    boolean isNative();
 
-	boolean isParameter();
+    boolean isParameter();
 
-	boolean isParent();
+    boolean isParent();
 
-	String joinArgs();
+    String joinArgs();
 
-	String joinStack();
+    String joinStack();
 
-	boolean matches(String name);
+    boolean matches(String name);
 
-	String name();
+    String name();
 
-	String tempName();
+    String tempName();
 
-	Parameter toParameter();
+    Parameter toParameter();
 
-	List<Node> toParentParameters();
+    List<Node> toParentParameters();
 
-	Node toStruct();
+    Node toStruct();
 
-	Node toVariable();
+    Node toVariable();
 
-	Type type();
+    Type type();
+
+    boolean hasParameter(String childName);
+
+    default boolean hasChild(String trim) {
+        return child(trim).isPresent();
+    }
 }

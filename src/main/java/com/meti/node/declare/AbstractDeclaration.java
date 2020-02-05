@@ -145,4 +145,9 @@ public abstract class AbstractDeclaration implements Declaration {
 	public Type type() {
 		return type;
 	}
+
+	@Override
+	public boolean hasParameter(String childName) {
+		return child(childName).orElseThrow().isParameter();
+	}
 }
