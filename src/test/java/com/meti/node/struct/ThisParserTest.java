@@ -6,6 +6,8 @@ import com.meti.core.CollectionCache;
 import com.meti.core.ParentParser;
 import com.meti.core.ParentResolver;
 import com.meti.core.UnitCompiler;
+import com.meti.node.block.BlockParser;
+import com.meti.node.block.BlockResolver;
 import com.meti.node.declare.*;
 import com.meti.node.primitive.IntResolver;
 import com.meti.node.primitive.StringParser;
@@ -22,6 +24,7 @@ class ThisParserTest {
 		Unit structUnit = new StructUnit(declarations, cache);
 		Parser parser = new ParentParser(
 				structUnit,
+				new BlockParser(),
 				new DeclareParser(declarations),
 				new ReturnParser(),
 				new StringParser(),
@@ -31,6 +34,7 @@ class ThisParserTest {
 		);
 		Resolver resolver = new ParentResolver(
 				structUnit,
+				new BlockResolver(declarations),
 				new StringResolver(),
 				new InvocationResolver(declarations),
 				new VariableResolver(declarations),
@@ -52,7 +56,7 @@ class ThisParserTest {
 				"struct MySingleton$ MySingleton$(){" +
 				"struct MySingleton$ MySingleton$_={};" +
 				"return MySingleton$_;}" +
-				"struct MySingleton$ MySingleton;" +
+				"struct MySingleton$ MySingleton={};" +
 				"int main(){" +
 				"MySingleton=MySingleton$();" +
 				"return _exitCode;}", cache.render());

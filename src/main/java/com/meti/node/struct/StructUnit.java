@@ -8,9 +8,11 @@ import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.Parameter;
 import com.meti.node.Type;
+import com.meti.node.declare.AssignNode;
 import com.meti.node.declare.Declaration;
 import com.meti.node.declare.Declarations;
 import com.meti.node.declare.VariableNode;
+import com.meti.node.point.AnyType;
 import com.meti.node.primitive.VoidType;
 
 import java.util.*;
@@ -114,7 +116,9 @@ public class StructUnit implements Unit {
         }
         if (declarations.isInSingleton()) {
             String name = current.name();
-            singletonNode = compiler.parse("val " + name.substring(0, name.length() - 1) + "=" + name + "()");
+            String varName = name.substring(0, name.length() - 1);
+            singletonNode = compiler.parse("val " + varName + "={}");
+            cache.add(new AssignNode(new VariableNode(varName), new InvocationNode(new VariableNode(name), Collections.emptyList(), AnyType.INSTANCE)));
         }
         return new BlockNode(statements);
     }
