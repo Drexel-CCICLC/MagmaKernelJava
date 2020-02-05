@@ -3,7 +3,7 @@ package com.meti.node.declare;
 import com.meti.exception.ParseException;
 import com.meti.node.Parameter;
 import com.meti.node.Type;
-import com.meti.node.struct.ObjectTypeImpl;
+import com.meti.node.struct.LazyObjectType;
 import com.meti.node.struct.StructType;
 
 import java.util.*;
@@ -28,7 +28,7 @@ public class TreeDeclarations implements Declarations {
 		if (!clone.isEmpty() && !clone.get(clone.size() - 1).equals(name)) {
 			clone.add(name);
 		}
-		return new ObjectTypeImpl(this, clone);
+		return new LazyObjectType(this, clone);
 	}
 
 	@Override

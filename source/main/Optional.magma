@@ -1,8 +1,8 @@
 class val Optional = (Any* value) : {
-    val isEmpty ==> Boolean :{
+    val isEmpty ==> Bool :{
         return value == null;
     };
-    val isPresent ==> Boolean :{
+    val isPresent ==> Bool :{
         return !isEmpty();
     };
     val get ==> Any* :{
@@ -21,5 +21,14 @@ class val Optional = (Any* value) : {
             throw "Value is not present.";
         };
         return value;
+    };
+};
+
+single val Optionals =:{
+    val of = (Any* value) => Optional :{
+        return Optional(value);
+    };
+    val empty ==> Optional :{
+        return Optional(null);
     };
 };

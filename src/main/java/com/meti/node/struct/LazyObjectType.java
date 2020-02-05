@@ -6,11 +6,11 @@ import com.meti.node.declare.Declarations;
 
 import java.util.Collection;
 
-public class ObjectTypeImpl extends ValueType implements ObjectType {
+public class LazyObjectType extends ValueType implements ObjectType {
 	private final Declarations declarations;
 	private final Collection<String> stack;
 
-	public ObjectTypeImpl(Declarations declarations, Collection<String> stack) {
+	public LazyObjectType(Declarations declarations, Collection<String> stack) {
 		this.declarations = declarations;
 		this.stack = stack;
 	}
