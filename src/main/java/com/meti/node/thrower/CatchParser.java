@@ -1,6 +1,5 @@
 package com.meti.node.thrower;
 
-import com.meti.Cache;
 import com.meti.Compiler;
 import com.meti.Parser;
 import com.meti.exception.ParseException;
@@ -21,14 +20,12 @@ import java.util.Collections;
 import java.util.Optional;
 
 public class CatchParser implements Parser {
-	private static final VariableNode THROWS = new VariableNode("_throws");
-	private final Cache cache;
+	private static final Node THROWS = new VariableNode("_throw");
 	private final Declarations declarations;
 	private int counter = 0;
 
-	public CatchParser(Declarations declarations, Cache cache) {
+	public CatchParser(Declarations declarations) {
 		this.declarations = declarations;
-		this.cache = cache;
 	}
 
 	@Override

@@ -36,7 +36,7 @@ class MagmaCompiler extends UnitCompiler {
 						new CastParser(),
 						new BlockParser(),
 						new TryParser(),
-						new CatchParser(declarations, cache),
+						new CatchParser(declarations),
 						new ThrowParser(declarations, cache),
 						new NullParser(),
 						new ReturnParser(),
