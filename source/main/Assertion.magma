@@ -15,4 +15,12 @@ class val Assertion = (String name) : {
            fail();
         };
     };
+    val assertFalse = (Bool value): {
+        if(value){
+            fail();
+        };
+        else {
+            pass();
+        };
+    };
 };

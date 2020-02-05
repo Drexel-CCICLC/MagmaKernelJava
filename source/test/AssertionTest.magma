@@ -1,2 +1,5 @@
-val assertion = Assertion("True");
-assertion.assertTrue(true);
+val test0 = Assertion("True");
+test0.assertTrue(true);
+
+val test1 = Assertion("False");
+test1.assertFalse(false);
