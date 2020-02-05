@@ -3,7 +3,6 @@ package com.meti;
 import com.meti.node.Node;
 import com.meti.node.declare.VariableNode;
 import com.meti.node.primitive.VoidType;
-import com.meti.node.struct.FunctionTypeImpl;
 import com.meti.node.struct.InvocationNode;
 import org.junit.jupiter.api.Test;
 
@@ -17,8 +16,7 @@ class InvocationNodeTest {
 	void render() {
 		Node a = new VariableNode("a");
 		Node b = new VariableNode("b");
-		Node node = new InvocationNode(a, Collections.singletonList(b), new FunctionTypeImpl(Collections.emptySet(),
-				VoidType.INSTANCE, "a"));
+		Node node = new InvocationNode(a, Collections.singletonList(b), VoidType.INSTANCE);
 		assertEquals("a(b);", node.render());
 	}
 }

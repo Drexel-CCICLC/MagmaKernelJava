@@ -35,7 +35,7 @@ public class IfTest {
         Node node = compiler.parse("""
                 if(true) {
                     val x = 10;
-                };
+                }
                 """);
         assertEquals("if(1){int x=10;}", node.render());
     }

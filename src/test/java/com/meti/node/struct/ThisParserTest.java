@@ -45,14 +45,16 @@ class ThisParserTest {
 				}
 				            """);
 		assertEquals("int _exitCode=0;" +
+				"void *_throw=NULL;" +
 				"struct MySingleton${};" +
 				"char* MySingleton$_returnAValue(struct MySingleton$ MySingleton$_){" +
 				"return \"test\";}" +
 				"struct MySingleton$ MySingleton$(){" +
 				"struct MySingleton$ MySingleton$_={};" +
 				"return MySingleton$_;}" +
+				"struct MySingleton$ MySingleton;" +
 				"int main(){" +
-				"struct MySingleton$ MySingleton=MySingleton$();" +
+				"MySingleton=MySingleton$();" +
 				"return _exitCode;}", cache.render());
 	}
 
@@ -86,6 +88,7 @@ class ThisParserTest {
 				}
 				            """);
 		assertEquals("int _exitCode=0;" +
+				"void *_throw=NULL;" +
 				"struct Point{int x;int y;};" +
 				"int Point_getX(struct Point Point_){return Point_.x;}" +
 				"int Point_getY(struct Point Point_){return Point_.y;}" +
@@ -127,6 +130,7 @@ class ThisParserTest {
 				}
 				            """);
 		assertEquals("int _exitCode=0;" +
+				"void *_throw=NULL;" +
 				"struct Point{int x;int y;};" +
 				"int Point_getX(struct Point Point_){return Point_.x;}" +
 				"int Point_getY(struct Point Point_){return Point_.y;}" +

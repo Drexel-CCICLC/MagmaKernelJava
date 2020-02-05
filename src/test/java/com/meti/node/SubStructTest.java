@@ -45,6 +45,7 @@ class SubStructTest {
 				            }
 				""");
 		assertEquals("int _exitCode=0;" +
+				"void *_throw=NULL;" +
 				"struct addTwoNumbers{int x;int y;};" +
 				"int addTwoNumbers_doOperation(struct addTwoNumbers addTwoNumbers_){" +
 				"return addTwoNumbers_.x+addTwoNumbers_.y;" +
