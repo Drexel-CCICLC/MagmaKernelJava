@@ -5,6 +5,7 @@ import com.meti.Parser;
 import com.meti.Resolver;
 import com.meti.Unit;
 import com.meti.node.block.BlockParser;
+import com.meti.node.block.BlockResolver;
 import com.meti.node.block.ElseParser;
 import com.meti.node.block.IfParser;
 import com.meti.node.declare.*;
@@ -53,6 +54,7 @@ class MagmaCompiler extends UnitCompiler {
 				),
 				new ParentResolver(
 						unit,
+						new BlockResolver(declarations),
 						new VoidResolver(),
 						new CastResolver(),
 						new BooleanResolver(),

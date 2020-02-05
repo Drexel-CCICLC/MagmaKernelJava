@@ -5,17 +5,18 @@ import com.meti.node.Node;
 import java.util.function.Function;
 
 public enum Operations implements Operation {
-	ADD("+", "+"),
-	EQUALS("==", "=="),
-	NOT_EQUALS("!=", "!=");
+    ADD("+", "+"),
+    SUBTRACT("-", "-"),
+    EQUALS("==", "=="),
+    NOT_EQUALS("!=", "!=");
 
-	private final String from;
-	private final String to;
+    private final String from;
+    private final String to;
 
-	Operations(String from, String to) {
-		this.from = from;
-		this.to = to;
-	}
+    Operations(String from, String to) {
+        this.from = from;
+        this.to = to;
+    }
 
 	@Override
 	public boolean isPresent(String content) {
