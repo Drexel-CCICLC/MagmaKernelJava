@@ -23,4 +23,12 @@ class val Assertion = (String name) : {
             pass();
         };
     };
+    val assertIntEquals = (Int value0, Int value1) : {
+        if(value0 == value1){
+            pass();
+        };
+        else {
+            fail();
+        };
+    };
 };

@@ -1,0 +1,4 @@
+val lengthTest = Assertion("Length");
+val string = "test";
+val length = Strings.length(string);
+lengthTest.assertIntEquals(4, length);

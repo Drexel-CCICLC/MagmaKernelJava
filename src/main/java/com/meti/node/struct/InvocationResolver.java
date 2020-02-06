@@ -2,6 +2,7 @@ package com.meti.node.struct;
 
 import com.meti.Compiler;
 import com.meti.Resolver;
+import com.meti.exception.ParseException;
 import com.meti.node.Type;
 import com.meti.node.declare.Declaration;
 import com.meti.node.declare.Declarations;
@@ -26,13 +27,21 @@ public class InvocationResolver implements Resolver {
 		if (trim.endsWith(")")) {
 			int start = trim.indexOf('(');
 			String caller = trim.substring(0, start);
-			Optional<Declaration> optional = declarations.relative(caller);
-			if (optional.isPresent()) {
-				Declaration declaration = optional.get();
-				if (declaration.isFunctional()) {
-					FunctionType castedType = (FunctionType) declaration.type();
-					Type returnType = castedType.returnType();
-					return Optional.of(returnType);
+			if (caller.contains(".")) {
+				Type functionType = compiler.resolveValue(caller);
+				if (functionType instanceof FunctionType) {
+					return Optional.of(((FunctionType) functionType).returnType());
+				}
+				throw new ParseException(caller + " is not a function.");
+			} else {
+				Optional<Declaration> optional = declarations.relative(caller);
+				if (optional.isPresent()) {
+					Declaration declaration = optional.get();
+					if (declaration.isFunctional()) {
+						FunctionType castedType = (FunctionType) declaration.type();
+						Type returnType = castedType.returnType();
+						return Optional.of(returnType);
+					}
 				}
 			}
 		}
