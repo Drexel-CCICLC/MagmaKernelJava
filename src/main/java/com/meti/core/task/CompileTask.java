@@ -5,7 +5,9 @@ import com.meti.Compiler;
 import com.meti.exception.CompileException;
 import com.meti.parse.Declarations;
 import com.meti.parse.TreeDeclarations;
+import com.meti.util.BracketPartitioner;
 import com.meti.util.CollectionCache;
+import com.meti.util.Partitioner;
 
 import java.io.IOException;
 import java.nio.file.Files;

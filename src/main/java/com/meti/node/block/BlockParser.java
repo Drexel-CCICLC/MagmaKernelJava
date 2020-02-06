@@ -2,9 +2,9 @@ package com.meti.node.block;
 
 import com.meti.Compiler;
 import com.meti.Parser;
-import com.meti.core.task.BracketPartitioner;
-import com.meti.core.task.Partitioner;
 import com.meti.node.Node;
+import com.meti.util.BracketPartitioner;
+import com.meti.util.Partitioner;
 
 import java.util.List;
 import java.util.Optional;
