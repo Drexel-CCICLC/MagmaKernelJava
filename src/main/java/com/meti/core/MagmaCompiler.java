@@ -28,6 +28,7 @@ class MagmaCompiler extends UnitCompiler {
     private MagmaCompiler(Declarations declarations, Unit unit, Cache cache) {
         this(new ParentParser(
                         unit,
+                        new DoubleParser(),
                         new CharParser(),
                         new WhileParser(),
                         new DereferenceParser(),
@@ -52,6 +53,7 @@ class MagmaCompiler extends UnitCompiler {
                 ),
                 new ParentResolver(
                         unit,
+                        new DoubleResolver(),
                         new CastResolver(),
                         new CharResolver(),
                         new OperationResolver(),
