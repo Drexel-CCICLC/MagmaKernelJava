@@ -1,0 +1,18 @@
+single val Internal =: {
+	val dynamic = (Int size) => Any* :{
+		return malloc(size);
+	};
+
+	val dynamicOptionally = (Int size) => Optional :{
+		val block = malloc(size);
+		return Optionals.of(block);
+	};
+
+	val free = (Any* block) : {
+		free(block);
+	};
+
+    val writeString = (String value) :{
+        printf("%s", value);
+    };
+};

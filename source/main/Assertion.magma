@@ -1,0 +1,51 @@
+class val Assertion = (String name) : {
+    val fail =: {
+        Internal.writeString(name);
+        Internal.writeString(" has failed.");
+    };
+    val pass =: {
+        Internal.writeString(name);
+        Internal.writeString(" has passed.");
+    };
+    val assertTrue = (Bool value): {
+        if(value){
+           pass();
+        };
+        else {
+           fail();
+        };
+    };
+    val assertFalse = (Bool value): {
+        if(value){
+            fail();
+        };
+        else {
+            pass();
+        };
+    };
+    val assertIntEquals = (Int value0, Int value1) : {
+        if(value0 == value1){
+            pass();
+        };
+        else {
+            fail();
+        };
+    };
+    val assertCharEquals = (Char value0, Char value1) : {
+        if(value0 == value1){
+            pass();
+        };
+        else {
+            fail();
+        };
+    };
+    val assertStringEquals = (String value0, String value1) : {
+        val areEquals = Strings.areEqual(value0, value1);
+        if(areEquals){
+            pass();
+        };
+        else {
+            fail();
+        };
+    };
+};

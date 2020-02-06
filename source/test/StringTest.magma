@@ -1,0 +1,29 @@
+val lengthTest = Assertion("Length");
+val string = "test";
+val length = Strings.length(string);
+lengthTest.assertIntEquals(4, length);
+
+{
+	val sameSizeTest = Assertion("SameSize");
+	val string0 = "test0";
+	val string1 = "test1";
+	val areSameSize = Strings.sameSize(string0, string1);
+	sameSizeTest.assertTrue(areSameSize);
+};
+
+val charAtTest = Assertion("CharAt");
+val result = Strings.charAt("test", 2);
+charAtTest.assertCharEquals('s', result);
+
+val areEqualTest = Assertion("StringsAreEqual");
+val string0 = "test";
+val string1 = "test";
+val stringsAreEqual = Strings.areEqual(string0, string1);
+areEqualTest.assertTrue(stringsAreEqual);
+
+{
+	val copyTest = Assertion("StringCopyTest");
+	val thingToCopy = "test";
+	val copy = Strings.copy(thingToCopy);
+	copyTest.assertStringEquals(thingToCopy, copy);
+};
