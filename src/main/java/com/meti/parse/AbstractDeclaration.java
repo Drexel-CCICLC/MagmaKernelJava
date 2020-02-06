@@ -6,7 +6,7 @@ import com.meti.node.Type;
 import com.meti.node.declare.DeclareNode;
 import com.meti.node.declare.VariableNode;
 import com.meti.node.struct.StructNode;
-import com.meti.node.struct.StructType;
+import com.meti.node.struct.type.StructType;
 
 import java.util.ArrayList;
 import java.util.List;

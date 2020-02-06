@@ -4,7 +4,7 @@ import com.meti.Compiler;
 import com.meti.Resolver;
 import com.meti.exception.ParseException;
 import com.meti.node.Type;
-import com.meti.node.struct.ObjectType;
+import com.meti.node.struct.type.ObjectType;
 import com.meti.parse.Declaration;
 import com.meti.parse.Declarations;
 

@@ -3,7 +3,7 @@ package com.meti.node.block;
 import com.meti.Compiler;
 import com.meti.Resolver;
 import com.meti.node.Type;
-import com.meti.node.struct.FunctionType;
+import com.meti.node.struct.type.FunctionType;
 import com.meti.parse.Declaration;
 import com.meti.parse.Declarations;
 

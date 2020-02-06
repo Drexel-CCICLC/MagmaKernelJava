@@ -1,4 +1,4 @@
-package com.meti.node.struct;
+package com.meti.node.struct.type;
 
 import com.meti.node.ValueType;
 

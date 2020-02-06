@@ -6,8 +6,8 @@ import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.Type;
 import com.meti.node.struct.FieldNode;
-import com.meti.node.struct.FunctionType;
-import com.meti.node.struct.ObjectType;
+import com.meti.node.struct.type.FunctionType;
+import com.meti.node.struct.type.ObjectType;
 import com.meti.parse.Declaration;
 import com.meti.parse.Declarations;
 

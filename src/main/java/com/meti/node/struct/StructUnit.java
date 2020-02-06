@@ -11,6 +11,7 @@ import com.meti.node.declare.AssignNode;
 import com.meti.node.declare.VariableNode;
 import com.meti.node.primitive.special.AnyType;
 import com.meti.node.primitive.special.VoidType;
+import com.meti.node.struct.type.FunctionTypeImpl;
 import com.meti.parse.Declaration;
 import com.meti.parse.Declarations;
 import com.meti.util.EmptyNode;

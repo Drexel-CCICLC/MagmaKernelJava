@@ -3,8 +3,8 @@ package com.meti.parse;
 import com.meti.exception.ParseException;
 import com.meti.node.Parameter;
 import com.meti.node.Type;
-import com.meti.node.struct.LazyObjectType;
-import com.meti.node.struct.StructType;
+import com.meti.node.struct.type.LazyObjectType;
+import com.meti.node.struct.type.StructType;
 
 import java.util.*;
 import java.util.function.Function;

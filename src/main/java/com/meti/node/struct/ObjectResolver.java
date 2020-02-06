@@ -3,6 +3,7 @@ package com.meti.node.struct;
 import com.meti.Compiler;
 import com.meti.Resolver;
 import com.meti.node.Type;
+import com.meti.node.struct.type.DefinedObjectType;
 import com.meti.parse.Declaration;
 import com.meti.parse.Declarations;
 

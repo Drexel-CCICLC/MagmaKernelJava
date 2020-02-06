@@ -6,6 +6,7 @@ import com.meti.node.declare.VariableNode;
 import com.meti.node.primitive.ints.IntNode;
 import com.meti.node.primitive.ints.IntType;
 import com.meti.node.struct.*;
+import com.meti.node.struct.type.StructType;
 import com.meti.util.CollectionCache;
 import org.junit.jupiter.api.Test;
 

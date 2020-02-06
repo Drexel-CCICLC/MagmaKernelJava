@@ -7,6 +7,8 @@ import com.meti.exception.RenderException;
 import com.meti.node.Node;
 import com.meti.node.Type;
 import com.meti.node.declare.VariableNode;
+import com.meti.node.struct.type.FunctionType;
+import com.meti.node.struct.type.ObjectType;
 import com.meti.parse.Declaration;
 import com.meti.parse.Declarations;
 
