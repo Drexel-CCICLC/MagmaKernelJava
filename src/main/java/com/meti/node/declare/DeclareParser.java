@@ -3,6 +3,7 @@ package com.meti.node.declare;
 import com.meti.Compiler;
 import com.meti.Parser;
 import com.meti.exception.ParseException;
+import com.meti.exception.StateException;
 import com.meti.node.Node;
 import com.meti.node.Type;
 
@@ -46,6 +47,9 @@ public class DeclareParser implements Parser {
 				nameString += "$";
 			}
 			if (hasDeclareFlag) {
+				if (declarations.relative(nameString).isPresent()) {
+					throw new StateException(nameString + " is already defined.");
+				}
 				Node declaration = declarations.inStack(nameString, name -> {
 					try {
 						Set<Flag> parentFlags = declarations.flags();
