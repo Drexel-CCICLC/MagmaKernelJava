@@ -29,7 +29,7 @@ public interface Declaration {
 
     boolean isParameter();
 
-    boolean isParent();
+    boolean isSuperStructure();
 
     String joinArgs();
 

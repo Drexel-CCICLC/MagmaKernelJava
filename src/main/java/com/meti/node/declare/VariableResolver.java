@@ -23,18 +23,7 @@ public class VariableResolver implements Resolver {
 	@Override
 	public Optional<Type> resolveValue(String content, Compiler compiler) {
 		String trim = content.trim();
-		if (!trim.contains(".")) {
-			String singletonName = trim + "$";
-			Optional<Declaration> singleton = declarations.relative(singletonName);
-			if (singleton.isPresent()) {
-				Declaration declaration = singleton.get();
-				return declaration.child(trim)
-						.map(Declaration::type);
-			} else {
-				return declarations.relative(trim)
-						.map(Declaration::type);
-			}
-		} else {
+		if (trim.contains(".")) {
 			int period = trim.indexOf('.');
 			String before = trim.substring(0, period);
 			String after = trim.substring(period + 1);
@@ -45,6 +34,17 @@ public class VariableResolver implements Resolver {
 						.map(Declaration::type);
 			} else {
 				throw new ParseException(before + " is not an object.");
+			}
+		} else {
+			String singletonName = trim + "$";
+			Optional<Declaration> singleton = declarations.relative(singletonName);
+			if (singleton.isPresent()) {
+				Declaration declaration = singleton.get();
+				return declaration.child(trim)
+						.map(Declaration::type);
+			} else {
+				return declarations.relative(trim)
+						.map(Declaration::type);
 			}
 		}
 	}

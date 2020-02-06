@@ -26,8 +26,11 @@ class InvocationParserTest {
 		Declarations declarations = new TreeDeclarations();
 		declarations.define(new FunctionTypeImpl(Collections.emptySet(), VoidType.INSTANCE, "a"), "a",
 				Collections.emptySet());
-		Parser parser = new ParentParser(new InvocationParser(declarations), new VariableParser(declarations),
-				new IntParser());
+		Parser parser = new ParentParser(
+				new InvocationParser(declarations),
+				new IntParser(),
+				new VariableParser(declarations)
+		);
 		Resolver resolver = new ParentResolver(new VariableResolver(declarations));
 		Compiler compiler = new UnitCompiler(parser, resolver);
 		Node node = compiler.parse("a(10)");

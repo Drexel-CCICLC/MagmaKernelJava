@@ -86,7 +86,7 @@ public abstract class AbstractDeclaration implements Declaration {
 	}
 
 	@Override
-	public boolean isParent() {
+	public boolean isSuperStructure() {
 		return children.stream().anyMatch(Declaration::isFunctional);
 	}
 

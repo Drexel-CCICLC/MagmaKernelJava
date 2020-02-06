@@ -110,7 +110,7 @@ public class StructUnit implements Unit {
     private Node parseValidBlock(Compiler compiler, String implString) {
         Deque<Node> statements = parseStatements(compiler, implString);
         Declaration current = declarations.current();
-        if (current.isParent()) statements.addFirst(assign(current));
+        if (current.isSuperStructure()) statements.addFirst(assign(current));
         if (declarations.isInClass()) {
             statements.addLast(new ReturnNode(new VariableNode(declarations.currentName() + "_")));
         }
