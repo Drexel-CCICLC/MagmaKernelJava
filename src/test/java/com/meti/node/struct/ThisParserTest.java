@@ -10,6 +10,8 @@ import com.meti.node.declare.VariableResolver;
 import com.meti.node.primitive.ints.IntResolver;
 import com.meti.node.primitive.strings.StringParser;
 import com.meti.node.primitive.strings.StringResolver;
+import com.meti.node.struct.invoke.InvocationParser;
+import com.meti.node.struct.invoke.InvocationResolver;
 import com.meti.parse.Declarations;
 import com.meti.parse.TreeDeclarations;
 import com.meti.util.CollectionCache;

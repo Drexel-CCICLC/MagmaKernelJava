@@ -10,10 +10,10 @@ import com.meti.node.declare.VariableNode;
 import com.meti.node.primitive.special.NullNode;
 import com.meti.node.primitive.special.VoidType;
 import com.meti.node.struct.BlockNode;
-import com.meti.node.struct.InvocationNode;
+import com.meti.node.struct.invoke.InvocationNode;
 import com.meti.node.struct.type.FunctionType;
-import com.meti.node.transform.OperationNode;
-import com.meti.node.transform.Operations;
+import com.meti.node.transform.operate.OperationNode;
+import com.meti.node.transform.operate.Operations;
 import com.meti.parse.Declarations;
 
 import java.util.Collections;

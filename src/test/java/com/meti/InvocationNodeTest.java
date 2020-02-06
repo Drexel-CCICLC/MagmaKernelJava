@@ -3,7 +3,7 @@ package com.meti;
 import com.meti.node.Node;
 import com.meti.node.declare.VariableNode;
 import com.meti.node.primitive.special.VoidType;
-import com.meti.node.struct.InvocationNode;
+import com.meti.node.struct.invoke.InvocationNode;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package com.meti.node.struct;
+package com.meti.node.struct.invoke;
 
 import com.meti.node.Node;
 import com.meti.node.Type;

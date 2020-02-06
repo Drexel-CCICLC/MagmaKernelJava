@@ -6,7 +6,7 @@ import com.meti.node.declare.VariableParser;
 import com.meti.node.declare.VariableResolver;
 import com.meti.node.primitive.ints.IntParser;
 import com.meti.node.primitive.special.VoidType;
-import com.meti.node.struct.InvocationParser;
+import com.meti.node.struct.invoke.InvocationParser;
 import com.meti.node.struct.type.FunctionTypeImpl;
 import com.meti.parse.Declarations;
 import com.meti.parse.TreeDeclarations;
