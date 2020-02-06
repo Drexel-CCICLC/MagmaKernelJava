@@ -18,7 +18,7 @@ public class RunTask implements Task {
 	}
 
 	@Override
-	public boolean execute(String line) {
+	public void execute(String line) {
 		logger.log(Level.INFO, "Running.");
 		try {
 			Process process = new ProcessBuilder()
@@ -33,6 +33,5 @@ public class RunTask implements Task {
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "Failed to run.", e);
 		}
-		return false;
 	}
 }

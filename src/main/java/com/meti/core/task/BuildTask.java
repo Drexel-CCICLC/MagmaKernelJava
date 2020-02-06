@@ -18,7 +18,7 @@ public class BuildTask implements Task {
 	}
 
 	@Override
-	public boolean execute(String line) {
+	public void execute(String line) {
 		logger.log(Level.INFO, "Building.");
 		try {
 			Process process = new ProcessBuilder()
@@ -33,6 +33,5 @@ public class BuildTask implements Task {
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "Failed to build.", e);
 		}
-		return false;
 	}
 }
