@@ -2,11 +2,15 @@ package com.meti;
 
 import com.meti.exception.ParseException;
 import com.meti.node.Node;
-import com.meti.node.declare.*;
+import com.meti.node.declare.DeclareParser;
+import com.meti.node.declare.VariableParser;
+import com.meti.node.declare.VariableResolver;
 import com.meti.node.primitive.IntParser;
 import com.meti.node.primitive.IntResolver;
 import com.meti.node.struct.ReturnParser;
 import com.meti.node.struct.StructUnit;
+import com.meti.parse.Declarations;
+import com.meti.parse.TreeDeclarations;
 import com.meti.util.CollectionCache;
 import com.meti.util.ParentParser;
 import com.meti.util.ParentResolver;

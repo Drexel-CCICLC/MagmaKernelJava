@@ -6,7 +6,6 @@ import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.Type;
 import com.meti.node.condition.IfNode;
-import com.meti.node.declare.Declarations;
 import com.meti.node.declare.VariableNode;
 import com.meti.node.primitive.NullNode;
 import com.meti.node.primitive.VoidType;
@@ -15,6 +14,7 @@ import com.meti.node.struct.FunctionType;
 import com.meti.node.struct.InvocationNode;
 import com.meti.node.transform.OperationNode;
 import com.meti.node.transform.Operations;
+import com.meti.parse.Declarations;
 
 import java.util.Collections;
 import java.util.Optional;

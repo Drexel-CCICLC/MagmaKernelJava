@@ -9,9 +9,9 @@ import com.meti.node.Node;
 import com.meti.node.Parameter;
 import com.meti.node.Type;
 import com.meti.node.declare.AssignNode;
-import com.meti.node.declare.Declarations;
 import com.meti.node.declare.VariableNode;
 import com.meti.node.struct.*;
+import com.meti.parse.Declarations;
 
 import java.util.Collection;
 import java.util.List;

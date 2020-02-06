@@ -1,4 +1,4 @@
-package com.meti.node.declare;
+package com.meti.parse;
 
 import com.meti.node.Node;
 import com.meti.node.Parameter;

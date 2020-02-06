@@ -2,9 +2,13 @@ package com.meti.node.struct;
 
 import com.meti.Compiler;
 import com.meti.*;
-import com.meti.node.declare.*;
+import com.meti.node.declare.DeclareParser;
+import com.meti.node.declare.VariableParser;
+import com.meti.node.declare.VariableResolver;
 import com.meti.node.primitive.IntResolver;
 import com.meti.node.transform.OperationParser;
+import com.meti.parse.Declarations;
+import com.meti.parse.TreeDeclarations;
 import com.meti.util.CollectionCache;
 import com.meti.util.ParentParser;
 import com.meti.util.ParentResolver;

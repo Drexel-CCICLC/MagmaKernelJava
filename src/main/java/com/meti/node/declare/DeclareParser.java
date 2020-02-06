@@ -6,6 +6,8 @@ import com.meti.exception.ParseException;
 import com.meti.exception.StateException;
 import com.meti.node.Node;
 import com.meti.node.Type;
+import com.meti.parse.Declarations;
+import com.meti.parse.Flag;
 
 import java.util.Arrays;
 import java.util.EnumSet;

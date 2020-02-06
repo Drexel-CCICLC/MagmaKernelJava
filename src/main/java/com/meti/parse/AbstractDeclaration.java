@@ -1,8 +1,10 @@
-package com.meti.node.declare;
+package com.meti.parse;
 
 import com.meti.node.Node;
 import com.meti.node.Parameter;
 import com.meti.node.Type;
+import com.meti.node.declare.DeclareNode;
+import com.meti.node.declare.VariableNode;
 import com.meti.node.struct.StructNode;
 import com.meti.node.struct.StructType;
 
@@ -18,7 +20,7 @@ public abstract class AbstractDeclaration implements Declaration {
 	private final List<String> stack;
 	private final Type type;
 
-	AbstractDeclaration(List<String> stack, Type type, Set<Flag> flags) {
+	protected AbstractDeclaration(List<String> stack, Type type, Set<Flag> flags) {
 		this.stack = stack;
 		this.type = type;
 		this.flags = flags;

@@ -1,7 +1,7 @@
 package com.meti.node;
 
-import com.meti.node.declare.Declaration;
-import com.meti.node.declare.ParameterDeclaration;
+import com.meti.parse.Declaration;
+import com.meti.parse.ParameterDeclaration;
 
 import java.util.List;
 

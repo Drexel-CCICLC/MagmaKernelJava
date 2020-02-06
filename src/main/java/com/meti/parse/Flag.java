@@ -1,4 +1,4 @@
-package com.meti.node.declare;
+package com.meti.parse;
 
 public enum Flag {
 	CLASS,

@@ -8,11 +8,11 @@ import com.meti.node.Node;
 import com.meti.node.Parameter;
 import com.meti.node.Type;
 import com.meti.node.declare.AssignNode;
-import com.meti.node.declare.Declaration;
-import com.meti.node.declare.Declarations;
 import com.meti.node.declare.VariableNode;
 import com.meti.node.point.AnyType;
 import com.meti.node.primitive.VoidType;
+import com.meti.parse.Declaration;
+import com.meti.parse.Declarations;
 import com.meti.util.EmptyNode;
 
 import java.util.*;

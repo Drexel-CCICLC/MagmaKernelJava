@@ -1,7 +1,7 @@
 package com.meti.node.struct;
 
 import com.meti.node.ValueType;
-import com.meti.node.declare.Declaration;
+import com.meti.parse.Declaration;
 
 public class DefinedObjectType extends ValueType implements ObjectType {
     private final Declaration declaration;

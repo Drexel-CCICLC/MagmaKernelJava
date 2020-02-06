@@ -4,8 +4,8 @@ import com.meti.Compiler;
 import com.meti.Resolver;
 import com.meti.exception.ParseException;
 import com.meti.node.Type;
-import com.meti.node.declare.Declaration;
-import com.meti.node.declare.Declarations;
+import com.meti.parse.Declaration;
+import com.meti.parse.Declarations;
 
 import java.util.Optional;
 

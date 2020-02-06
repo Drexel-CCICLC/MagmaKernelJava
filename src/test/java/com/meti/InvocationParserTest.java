@@ -2,14 +2,14 @@ package com.meti;
 
 import com.meti.exception.ParseException;
 import com.meti.node.Node;
-import com.meti.node.declare.Declarations;
-import com.meti.node.declare.TreeDeclarations;
 import com.meti.node.declare.VariableParser;
 import com.meti.node.declare.VariableResolver;
 import com.meti.node.primitive.IntParser;
 import com.meti.node.primitive.VoidType;
 import com.meti.node.struct.FunctionTypeImpl;
 import com.meti.node.struct.InvocationParser;
+import com.meti.parse.Declarations;
+import com.meti.parse.TreeDeclarations;
 import com.meti.util.ParentParser;
 import com.meti.util.ParentResolver;
 import com.meti.util.UnitCompiler;
