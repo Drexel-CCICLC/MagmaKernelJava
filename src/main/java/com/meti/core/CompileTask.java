@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CompileTask {
+public class CompileTask implements Task {
     private static final Path BUILD = Paths.get("build");
     private static final Path ROOT = Paths.get("");
     private final Cache cache = new CollectionCache();
@@ -21,8 +21,15 @@ public class CompileTask {
     private final StringBuilder content = new StringBuilder();
     private final Collection<String> headers = new HashSet<>();
 
-    public static void main(String[] args) {
-        new CompileTask().run();
+    @Override
+    public boolean execute(String line) {
+        if (line.startsWith("compile")) {
+            //TODO: clear cache and collections on repeated invocations
+            run();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void readBuild(Path directory) throws IOException {
