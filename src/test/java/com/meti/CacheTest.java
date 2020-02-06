@@ -8,7 +8,6 @@ import com.meti.node.primitive.IntNode;
 import com.meti.node.primitive.IntType;
 import com.meti.node.struct.*;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,7 +32,7 @@ class CacheTest {
 	void addFunction() {
 		Collection<Node> nodes = new ArrayList<>();
 		Cache cache = new CollectionCache(Collections.emptyList(), nodes, new ArrayList<>());
-		Node function = Mockito.mock(Node.class);
+		Node function = new IntNode(10);
 		cache.addFunction(function);
 		assertIterableEquals(Collections.singleton(function), nodes);
 	}
@@ -42,7 +41,7 @@ class CacheTest {
 	void addStruct() {
 		Collection<Node> nodes = new ArrayList<>();
 		Cache cache = new CollectionCache(nodes, Collections.emptyList(), new ArrayList<>());
-		Node struct = Mockito.mock(Node.class);
+		Node struct = new IntNode(10);
 		cache.addStruct(struct);
 		assertIterableEquals(Collections.singleton(struct), nodes);
 	}
