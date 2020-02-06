@@ -1,9 +1,14 @@
 single val Internal =: {
-	val memoryDynamic = (Int size) => Any* :{
+	val dynamic = (Int size) => Any* :{
 		return malloc(size);
 	};
 
-	val memoryFree = (Any* block) : {
+	val dynamicOptionally = (Int size) => Optional :{
+		val block = malloc(size);
+		return Optionals.of(block);
+	};
+
+	val free = (Any* block) : {
 		free(block);
 	};
 
