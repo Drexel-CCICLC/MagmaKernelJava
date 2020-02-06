@@ -43,17 +43,12 @@ import com.meti.node.transform.cast.CastResolver;
 import com.meti.node.transform.operate.OperationParser;
 import com.meti.node.transform.operate.OperationResolver;
 import com.meti.parse.Declarations;
-import com.meti.parse.TreeDeclarations;
 import com.meti.util.ParentParser;
 import com.meti.util.ParentResolver;
 import com.meti.util.UnitCompiler;
 
 class MagmaCompiler extends UnitCompiler {
-    MagmaCompiler(Cache cache) {
-        this(cache, new TreeDeclarations());
-    }
-
-    private MagmaCompiler(Cache cache, Declarations declarations) {
+    public MagmaCompiler(Cache cache, Declarations declarations) {
         this(declarations, new StructUnit(declarations, cache), cache);
     }
 

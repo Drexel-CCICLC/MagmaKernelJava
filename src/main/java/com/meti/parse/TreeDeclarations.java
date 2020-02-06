@@ -49,6 +49,13 @@ public class TreeDeclarations implements Declarations {
 	}
 
 	@Override
+	public void clear() {
+		flags.clear();
+		stack.clear();
+		root.clear();
+	}
+
+	@Override
 	public String currentName() {
 		return stack.peek();
 	}
@@ -117,30 +124,25 @@ public class TreeDeclarations implements Declarations {
 	@Override
 	public <T> T inStack(String name, Function<? super String, T> mapper) {
 		stack.push(name);
-        T t = mapper.apply(name);
-        stack.pop();
-        return t;
-    }
+		T t = mapper.apply(name);
+		stack.pop();
+		return t;
+	}
 
-    @Override
-    public Type toCurrentClass() {
-        return toCurrentClass(stack.peek());
-    }
+	@Override
+	public boolean isParent(Declaration parent) {
+		return parent().equals(parent);
+	}
 
-    @Override
-    public boolean isParent(Declaration parent) {
-        return parent().equals(parent);
-    }
+	@Override
+	public boolean isRoot(Declaration declaration) {
+		return root.equals(declaration);
+	}
 
-    @Override
-    public boolean isRoot(Declaration declaration) {
-        return root.equals(declaration);
-    }
-
-    @Override
-    public Optional<Declaration> parent(String name) {
-        Deque<String> deque = new LinkedList<>(stack);
-        while (!deque.isEmpty()) {
+	@Override
+	public Optional<Declaration> parent(String name) {
+		Deque<String> deque = new LinkedList<>(stack);
+		while (!deque.isEmpty()) {
 			Declaration declaration = absolute(deque);
 			Optional<Declaration> child = declaration.child(name);
 			if (child.isPresent()) {
@@ -151,6 +153,11 @@ public class TreeDeclarations implements Declarations {
 		}
 		Optional<Declaration> child = root.child(name);
 		return child.isPresent() ? Optional.of(root) : Optional.empty();
+	}
+
+	@Override
+	public Type toCurrentClass() {
+		return toCurrentClass(stack.peek());
 	}
 
 	@Override

@@ -16,6 +16,8 @@ public interface Declarations {
 
 	List<Parameter> buildStackParameters();
 
+	void clear();
+
 	Declaration current();
 
 	String currentName();
@@ -32,6 +34,10 @@ public interface Declarations {
 
 	boolean isInClass();
 
+	boolean isInSingleton();
+
+	boolean isParent(Declaration parent);
+
 	boolean isRoot(Declaration declaration);
 
 	Declaration parent();
@@ -40,11 +46,7 @@ public interface Declarations {
 
 	Optional<Declaration> relative(String name);
 
-	boolean isInSingleton();
-
 	Type toCurrentClass(String name);
 
 	Type toCurrentClass();
-
-	boolean isParent(Declaration parent);
 }

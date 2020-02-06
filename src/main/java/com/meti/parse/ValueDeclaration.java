@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class ValueDeclaration extends AbstractDeclaration {
 	public ValueDeclaration(List<String> stack, Type type, Set<Flag> flags) {
-		super(stack, type, flags);
+		super(stack, flags, type);
 	}
 
 	@Override

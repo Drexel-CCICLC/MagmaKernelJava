@@ -8,10 +8,7 @@ import com.meti.node.declare.VariableNode;
 import com.meti.node.struct.StructNode;
 import com.meti.node.struct.type.StructType;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class AbstractDeclaration implements Declaration {
@@ -20,10 +17,19 @@ public abstract class AbstractDeclaration implements Declaration {
 	private final List<String> stack;
 	private final Type type;
 
-	protected AbstractDeclaration(List<String> stack, Type type, Set<Flag> flags) {
+	AbstractDeclaration() {
+		this(Collections.emptyList(), Collections.emptySet(), null);
+	}
+
+	AbstractDeclaration(List<String> stack, Set<Flag> flags, Type type) {
 		this.stack = stack;
 		this.type = type;
 		this.flags = flags;
+	}
+
+	@Override
+	public void clear() {
+		children.clear();
 	}
 
 	@Override

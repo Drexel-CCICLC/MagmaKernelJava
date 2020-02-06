@@ -3,6 +3,8 @@ package com.meti.core.task;
 import com.meti.Cache;
 import com.meti.Compiler;
 import com.meti.exception.CompileException;
+import com.meti.parse.Declarations;
+import com.meti.parse.TreeDeclarations;
 import com.meti.util.CollectionCache;
 
 import java.io.IOException;
@@ -21,7 +23,8 @@ public class CompileTask implements Task {
 	private static final Path BUILD = Paths.get("build");
 	private static final Path ROOT = Paths.get("");
 	private final Cache cache = new CollectionCache();
-	private final Compiler compiler = new MagmaCompiler(cache);
+	private final Declarations declarations = new TreeDeclarations();
+	private final Compiler compiler = new MagmaCompiler(cache, declarations);
 	private final Collection<String> headers = new HashSet<>();
 	private final Logger logger;
 
@@ -37,22 +40,36 @@ public class CompileTask implements Task {
 	@Override
 	public void execute(String line) {
 		logger.log(Level.INFO, "Compiling sources.");
-		cache.clear();
-		headers.clear();
-		headers.add("stddef.h");
-		logger.log(Level.INFO, "Located " + headers.size() + " headers.");
-		run();
+		clearFields();
+		resetHeaders();
+		populateCache();
+		writeCache();
 	}
 
-	private void parseCache() {
+	private void clearFields() {
+		cache.clear();
+		headers.clear();
+		declarations.clear();
+	}
+
+	private void resetHeaders() {
+		headers.add("stddef.h");
+		logger.log(Level.INFO, "Located " + headers.size() + " headers.");
+	}
+
+	private void populateCache() {
 		try {
-			String content = readBuild(ROOT);
-			partition(content).stream()
-					.filter(s -> !s.isBlank())
-					.map(compiler::parse)
-					.forEach(cache::add);
+			populateCacheExceptionally();
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "Failed to read build file.", e);
+		}
+	}
+
+	private void writeCache() {
+		try {
+			writeCacheExceptionally();
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, "Failed to write output.", e);
 		}
 	}
 
@@ -74,11 +91,22 @@ public class CompileTask implements Task {
 		return partitions;
 	}
 
+	private void populateCacheExceptionally() throws IOException {
+		partition(readBuild(ROOT)).stream()
+				.filter(s -> !s.isBlank())
+				.map(compiler::parse)
+				.forEach(cache::add);
+	}
+
+	private void writeCacheExceptionally() throws IOException {
+		Path out = ROOT.resolve("out.c");
+		String headerString = concatHeaders();
+		String output = headerString + cache.render();
+		Files.writeString(out, output);
+	}
+
 	private String readBuild(Path directory) throws IOException {
-		Path build = directory.resolve(BUILD);
-		if (!Files.exists(build)) {
-			Files.createFile(build);
-		}
+		Path build = ensureBuild(directory);
 		List<String> lines = Files.readAllLines(build);
 		StringBuilder builder = new StringBuilder();
 		for (String line : lines) {
@@ -113,21 +141,21 @@ public class CompileTask implements Task {
 		return String.join("", lines);
 	}
 
-	private void run() {
-		parseCache();
-		writeOutput();
+	private String concatHeaders() {
+		return headers.stream()
+				.map(this::formatHeader)
+				.collect(Collectors.joining());
 	}
 
-	private void writeOutput() {
-		try {
-			Path out = ROOT.resolve("out.c");
-			String headerString = headers.stream()
-					.map(s -> "#include <" + s + ">\n")
-					.collect(Collectors.joining());
-			String output = headerString + cache.render();
-			Files.writeString(out, output);
-		} catch (IOException e) {
-			logger.log(Level.SEVERE, "Failed to write output.", e);
+	private Path ensureBuild(Path directory) throws IOException {
+		Path build = directory.resolve(BUILD);
+		if (!Files.exists(build)) {
+			Files.createFile(build);
 		}
+		return build;
+	}
+
+	private String formatHeader(String s) {
+		return "#include <" + s + ">\n";
 	}
 }

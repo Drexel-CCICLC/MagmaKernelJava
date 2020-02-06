@@ -9,51 +9,53 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface Declaration {
-    Optional<Declaration> child(String name);
+	List<Declaration> children();
 
-    List<Declaration> children();
+	void clear();
 
-    Node declareInstance();
+	Node declareInstance();
 
-    Declaration define(Type type, String name, Set<Flag> flags);
+	Declaration define(Type type, String name, Set<Flag> flags);
 
-    Declaration define(Parameter parameter);
+	Declaration define(Parameter parameter);
 
-    String instanceName();
+	default boolean hasChild(String trim) {
+		return child(trim).isPresent();
+	}
 
-    boolean isClass();
+	Optional<Declaration> child(String name);
 
-    boolean isFunctional();
+	boolean hasParameter(String childName);
 
-    boolean isNative();
+	String instanceName();
 
-    boolean isParameter();
+	boolean isClass();
 
-    boolean isSuperStructure();
+	boolean isFunctional();
 
-    String joinArgs();
+	boolean isNative();
 
-    String joinStack();
+	boolean isParameter();
 
-    boolean matches(String name);
+	boolean isSuperStructure();
 
-    String name();
+	String joinArgs();
 
-    String tempName();
+	String joinStack();
 
-    Parameter toParameter();
+	boolean matches(String name);
 
-    List<Node> toParentParameters();
+	String name();
 
-    Node toStruct();
+	String tempName();
 
-    Node toVariable();
+	Parameter toParameter();
 
-    Type type();
+	List<Node> toParentParameters();
 
-    boolean hasParameter(String childName);
+	Node toStruct();
 
-    default boolean hasChild(String trim) {
-        return child(trim).isPresent();
-    }
+	Node toVariable();
+
+	Type type();
 }
