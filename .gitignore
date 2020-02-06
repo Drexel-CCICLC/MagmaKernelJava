@@ -3,4 +3,6 @@
 /project
 /target
 /out
+/out.c
+/a.exe
 MagmaKernelJava.jar
