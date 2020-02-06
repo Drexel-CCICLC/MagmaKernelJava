@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -37,13 +36,12 @@ public class CompileTask implements Task {
 		return line.startsWith("compile");
 	}
 
-	@Override
-	public void execute(String line) {
-		logger.log(Level.INFO, "Compiling sources.");
-		clearFields();
-		resetHeaders();
-		populateCache();
-		writeCache();
+	private Path ensureBuild(Path directory) throws IOException {
+		Path build = directory.resolve(BUILD);
+		if (!Files.exists(build)) {
+			Files.createFile(build);
+		}
+		return build;
 	}
 
 	private void clearFields() {
@@ -52,17 +50,36 @@ public class CompileTask implements Task {
 		declarations.clear();
 	}
 
+	@Override
+	public void execute(String line) {
+		logger.log(Level.INFO, "Compiling sources.");
+		clearFields();
+		resetHeaders();
+		processCache();
+	}
+
 	private void resetHeaders() {
 		headers.add("stddef.h");
 		logger.log(Level.INFO, "Located " + headers.size() + " headers.");
 	}
 
-	private void populateCache() {
+	private void processCache() {
 		try {
-			populateCacheExceptionally();
+			processCacheExceptionally();
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, "Failed to read build file.", e);
+			logger.log(Level.SEVERE, "Failed to read cache.", e);
 		}
+	}
+
+	private void processCacheExceptionally() throws IOException {
+		String content = readBuild(ROOT);
+		Partitioner partitioner = new BracketPartitioner(content);
+		populateCache(partitioner);
+		writeCache();
+	}
+
+	private void populateCache(Partitioner partitioner) {
+		populateCacheExceptionally(partitioner);
 	}
 
 	private void writeCache() {
@@ -73,36 +90,12 @@ public class CompileTask implements Task {
 		}
 	}
 
-	private List<String> partition(String content) {
-		List<String> partitions = new ArrayList<>();
-		StringBuilder buffer = new StringBuilder();
-		int depth = 0;
-		for (char c : content.toCharArray()) {
-			if (';' == c && 0 == depth) {
-				partitions.add(buffer.toString());
-				buffer = new StringBuilder();
-			} else {
-				if ('{' == c) depth++;
-				if ('}' == c) depth--;
-				buffer.append(c);
-			}
-		}
-		partitions.add(buffer.toString());
-		return partitions;
-	}
-
-	private void populateCacheExceptionally() throws IOException {
-		partition(readBuild(ROOT)).stream()
+	private void populateCacheExceptionally(Partitioner partitioner) {
+		partitioner.partition()
+				.stream()
 				.filter(s -> !s.isBlank())
 				.map(compiler::parse)
 				.forEach(cache::add);
-	}
-
-	private void writeCacheExceptionally() throws IOException {
-		Path out = ROOT.resolve("out.c");
-		String headerString = concatHeaders();
-		String output = headerString + cache.render();
-		Files.writeString(out, output);
 	}
 
 	private String readBuild(Path directory) throws IOException {
@@ -141,18 +134,17 @@ public class CompileTask implements Task {
 		return String.join("", lines);
 	}
 
+	private void writeCacheExceptionally() throws IOException {
+		Path out = ROOT.resolve("out.c");
+		String headerString = concatHeaders();
+		String output = headerString + cache.render();
+		Files.writeString(out, output);
+	}
+
 	private String concatHeaders() {
 		return headers.stream()
 				.map(this::formatHeader)
 				.collect(Collectors.joining());
-	}
-
-	private Path ensureBuild(Path directory) throws IOException {
-		Path build = directory.resolve(BUILD);
-		if (!Files.exists(build)) {
-			Files.createFile(build);
-		}
-		return build;
 	}
 
 	private String formatHeader(String s) {
