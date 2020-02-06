@@ -1,3 +1,7 @@
+native val strlen = (String string) => Int;
+native val strcpy = (String dest, String src) => Void;
+native val strcat = (String dest, String src) => Void;
+
 single val Strings =: {
     val length = (String string) => Int :{
         return strlen(string);
