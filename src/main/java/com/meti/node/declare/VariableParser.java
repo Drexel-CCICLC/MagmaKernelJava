@@ -10,6 +10,7 @@ import com.meti.node.struct.FunctionType;
 import com.meti.node.struct.ObjectType;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public class VariableParser implements Parser {
 	private final Declarations declarations;
@@ -93,7 +94,10 @@ public class VariableParser implements Parser {
 					}
 				}
 			}
-		Declaration relative = declarations.relative(trim).orElseThrow();
+		Declaration relative = declarations.relative(trim)
+				.orElseThrow((Supplier<ParseException>) () -> {
+					throw new ParseException(trim + " is not defined.");
+				});
 		if (relative.isParameter()) {
 			return buildField(declarations.parent(trim).orElseThrow(), trim);
 		} else {

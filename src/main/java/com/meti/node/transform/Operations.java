@@ -1,5 +1,6 @@
 package com.meti.node.transform;
 
+import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.Type;
 import com.meti.node.primitive.IntType;
@@ -10,6 +11,8 @@ import java.util.function.Function;
 public enum Operations implements Operation {
     ADD("+", "+"),
     SUBTRACT("-", "-"),
+    MULTIPLY("*", "*"),
+    DIVIDE("/", "/"),
     EQUALS("==", "=="),
     NOT_EQUALS("!=", "!="),
     LESS_THAN("<", "<");
@@ -55,7 +58,7 @@ public enum Operations implements Operation {
             if (isAny(before, after, StringType.INSTANCE) && isAny(before, after, IntType.INSTANCE)) {
                 return StringType.INSTANCE;
             }
-            throw new UnsupportedOperationException();
+            throw new ParseException("Cannot operate on: " + before + " and " + after);
         }
     }
 
