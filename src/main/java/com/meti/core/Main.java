@@ -7,8 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main {
-    public static final Logger logger = Logger.getLogger("compile");
-    private static final List<Task> tasks = Collections.singletonList(new CompileTask());
+    private static final Logger logger = Logger.getLogger("compile");
+    private static final List<Task> tasks = Collections.singletonList(new CompileTask(logger));
 
     public static void main(String[] args) {
         logger.log(Level.INFO, "Initializing compiler.");
