@@ -14,24 +14,32 @@ public class BuildTask implements Task {
 
 	@Override
 	public boolean canExecute(String line) {
-		return line.equals("build");
+		return "build".equals(line);
 	}
 
 	@Override
 	public void execute(String line) {
-		logger.log(Level.INFO, "Building.");
 		try {
-			Process process = new ProcessBuilder()
-					.command("gcc", "out.c")
-					.start();
-			try (InputStream input = process.getInputStream()) {
-				input.transferTo(System.out);
-			}
-			try (InputStream error = process.getErrorStream()) {
-				error.transferTo(System.err);
-			}
+			executeExceptionally();
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "Failed to build.", e);
 		}
+	}
+
+	private void executeExceptionally() throws IOException {
+		logger.log(Level.INFO, "Building.");
+		Process process = createProcess();
+		try (InputStream input = process.getInputStream()) {
+			input.transferTo(System.out);
+		}
+		try (InputStream error = process.getErrorStream()) {
+			error.transferTo(System.err);
+		}
+	}
+
+	private Process createProcess() throws IOException {
+		return new ProcessBuilder()
+				.command("gcc", "out.c")
+				.start();
 	}
 }
