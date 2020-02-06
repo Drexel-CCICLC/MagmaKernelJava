@@ -11,6 +11,6 @@ public class FloatNode implements Node {
 
 	@Override
 	public String render() {
-		return value + "f";
+		return String.valueOf(value);
 	}
 }

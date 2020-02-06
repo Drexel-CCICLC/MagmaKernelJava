@@ -53,6 +53,7 @@ class MagmaCompiler extends UnitCompiler {
                 ),
                 new ParentResolver(
                         unit,
+                        new FloatResolver(),
                         new DoubleResolver(),
                         new CastResolver(),
                         new CharResolver(),
