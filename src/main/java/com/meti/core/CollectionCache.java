@@ -54,6 +54,13 @@ public class CollectionCache implements Cache {
 	}
 
 	@Override
+	public void clear() {
+		functions.clear();
+		structs.clear();
+		main.clear();
+	}
+
+	@Override
 	public String render() {
 		String renderedStructs = renderNodes(structs);
 		String renderedFunctions = renderNodes(functions);

@@ -1,3 +1,0 @@
-native val strlen = (String string) => Int;
-native val strcpy = (String dest, String src) => Void;
-native val strcat = (String dest, String src) => Void;

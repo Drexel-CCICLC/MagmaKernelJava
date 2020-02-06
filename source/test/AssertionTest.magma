@@ -1,8 +1,0 @@
-val trueTest = Assertion("True");
-trueTest.assertTrue(true);
-
-val falseTest = Assertion("False");
-falseTest.assertFalse(false);
-
-val intEqualsTest = Assertion("IntEquals");
-intEqualsTest.assertIntEquals(3, 3);
