@@ -2,6 +2,7 @@ package com.meti.core;
 
 import com.meti.Cache;
 import com.meti.Compiler;
+import com.meti.exception.CompileException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -81,12 +82,16 @@ public class CompileTask implements Task {
 		StringBuilder builder = new StringBuilder();
 		for (String line : lines) {
 			String trim = line.trim();
-			if (trim.endsWith(".h")) {
-				readHeader(trim);
-			} else if (trim.endsWith(".magma")) {
-				builder.append(readPath(trim, directory));
-			} else {
-				builder.append(readDirectory(trim, directory));
+			if (!trim.isBlank()) {
+				if (trim.endsWith(".h")) {
+					readHeader(trim);
+				} else if (trim.endsWith(".magma")) {
+					builder.append(readPath(trim, directory));
+				} else if (Files.isDirectory(directory.resolve(trim))) {
+					builder.append(readDirectory(trim, directory));
+				} else {
+					throw new CompileException("Unknown child: " + trim);
+				}
 			}
 		}
 		return builder.toString();
