@@ -1,4 +1,4 @@
-package com.meti.core;
+package com.meti.util;
 
 import com.meti.node.Node;
 

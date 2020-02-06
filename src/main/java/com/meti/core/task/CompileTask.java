@@ -1,8 +1,9 @@
-package com.meti.core;
+package com.meti.core.task;
 
 import com.meti.Cache;
 import com.meti.Compiler;
 import com.meti.exception.CompileException;
+import com.meti.util.CollectionCache;
 
 import java.io.IOException;
 import java.nio.file.Files;

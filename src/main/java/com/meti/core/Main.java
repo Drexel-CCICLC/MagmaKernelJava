@@ -1,5 +1,10 @@
 package com.meti.core;
 
+import com.meti.core.task.BuildTask;
+import com.meti.core.task.CompileTask;
+import com.meti.core.task.RunTask;
+import com.meti.core.task.Task;
+
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;

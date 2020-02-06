@@ -1,24 +1,24 @@
-package com.meti.core;
+package com.meti.core.task;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class RunTask implements Task {
+public class BuildTask implements Task {
 	private final Logger logger;
 
-	public RunTask(Logger logger) {
+	public BuildTask(Logger logger) {
 		this.logger = logger;
 	}
 
 	@Override
 	public boolean execute(String line) {
-		if (line.equals("run")) {
-			logger.log(Level.INFO, "Running.");
+		if (line.equals("build")) {
+			logger.log(Level.INFO, "Building.");
 			try {
 				Process process = new ProcessBuilder()
-						.command("a")
+						.command("gcc", "out.c")
 						.start();
 				try (InputStream input = process.getInputStream()) {
 					input.transferTo(System.out);
@@ -27,7 +27,7 @@ public class RunTask implements Task {
 					error.transferTo(System.err);
 				}
 			} catch (IOException e) {
-				logger.log(Level.SEVERE, "Failed to run.", e);
+				logger.log(Level.SEVERE, "Failed to build.", e);
 			}
 			return true;
 		} else {

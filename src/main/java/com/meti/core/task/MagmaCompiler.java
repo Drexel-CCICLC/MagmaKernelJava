@@ -1,4 +1,4 @@
-package com.meti.core;
+package com.meti.core.task;
 
 import com.meti.Cache;
 import com.meti.Parser;
@@ -15,6 +15,9 @@ import com.meti.node.thrower.CatchParser;
 import com.meti.node.thrower.ThrowParser;
 import com.meti.node.thrower.TryParser;
 import com.meti.node.transform.*;
+import com.meti.util.ParentParser;
+import com.meti.util.ParentResolver;
+import com.meti.util.UnitCompiler;
 
 class MagmaCompiler extends UnitCompiler {
     MagmaCompiler(Cache cache) {

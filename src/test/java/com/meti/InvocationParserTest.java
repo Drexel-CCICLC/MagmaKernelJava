@@ -1,8 +1,5 @@
 package com.meti;
 
-import com.meti.core.ParentParser;
-import com.meti.core.ParentResolver;
-import com.meti.core.UnitCompiler;
 import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.declare.Declarations;
@@ -13,6 +10,9 @@ import com.meti.node.primitive.IntParser;
 import com.meti.node.primitive.VoidType;
 import com.meti.node.struct.FunctionTypeImpl;
 import com.meti.node.struct.InvocationParser;
+import com.meti.util.ParentParser;
+import com.meti.util.ParentResolver;
+import com.meti.util.UnitCompiler;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;

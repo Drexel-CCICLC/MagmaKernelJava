@@ -1,8 +1,8 @@
 package com.meti.node.primitive;
 
 import com.meti.Parser;
-import com.meti.core.ParentParser;
 import com.meti.exception.ParseException;
+import com.meti.util.ParentParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

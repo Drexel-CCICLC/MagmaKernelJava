@@ -3,7 +3,6 @@ package com.meti.node.struct;
 import com.meti.Cache;
 import com.meti.Compiler;
 import com.meti.Unit;
-import com.meti.core.EmptyNode;
 import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.Parameter;
@@ -14,6 +13,7 @@ import com.meti.node.declare.Declarations;
 import com.meti.node.declare.VariableNode;
 import com.meti.node.point.AnyType;
 import com.meti.node.primitive.VoidType;
+import com.meti.util.EmptyNode;
 
 import java.util.*;
 import java.util.stream.Collectors;
