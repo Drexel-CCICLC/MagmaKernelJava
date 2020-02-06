@@ -39,4 +39,13 @@ class val Assertion = (String name) : {
             fail();
         };
     };
+    val assertStringEquals = (String value0, String value1) : {
+        val areEquals = Strings.areEqual(value0, value1);
+        if(areEquals){
+            pass();
+        };
+        else {
+            fail();
+        };
+    };
 };

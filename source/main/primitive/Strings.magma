@@ -30,4 +30,11 @@ single val Strings =: {
         };
         return true;
     };
+
+    val copy = (String value) => String :{
+        val blockSize = length(value) + 1;
+        val block = Internal.dynamic(blockSize);
+        strcpy(block, value);
+        return block;
+    };
 };

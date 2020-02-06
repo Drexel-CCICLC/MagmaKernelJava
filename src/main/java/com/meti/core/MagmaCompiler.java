@@ -52,11 +52,11 @@ class MagmaCompiler extends UnitCompiler {
                 ),
                 new ParentResolver(
                         unit,
+                        new CastResolver(),
                         new CharResolver(),
                         new OperationResolver(),
                         new BlockResolver(declarations),
                         new VoidResolver(),
-                        new CastResolver(),
                         new BooleanResolver(),
                         new IntResolver(),
                         new AnyResolver(),

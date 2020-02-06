@@ -20,3 +20,10 @@ val string0 = "test";
 val string1 = "test";
 val stringsAreEqual = Strings.areEqual(string0, string1);
 areEqualTest.assertTrue(stringsAreEqual);
+
+{
+	val copyTest = Assertion("StringCopyTest");
+	val thingToCopy = "test";
+	val copy = Strings.copy(thingToCopy);
+	copyTest.assertStringEquals(thingToCopy, copy);
+};
