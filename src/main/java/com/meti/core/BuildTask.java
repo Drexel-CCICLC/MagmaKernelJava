@@ -15,6 +15,7 @@ public class BuildTask implements Task {
 	@Override
 	public boolean execute(String line) {
 		if (line.equals("build")) {
+			logger.log(Level.INFO, "Building.");
 			try {
 				Process process = new ProcessBuilder()
 						.command("gcc", "out.c")

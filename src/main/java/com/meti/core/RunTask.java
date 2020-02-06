@@ -15,6 +15,7 @@ public class RunTask implements Task {
 	@Override
 	public boolean execute(String line) {
 		if (line.equals("run")) {
+			logger.log(Level.INFO, "Running.");
 			try {
 				Process process = new ProcessBuilder()
 						.command("a")
