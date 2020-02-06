@@ -80,6 +80,20 @@ public class CompileTask implements Task {
 		writeCache();
 	}
 
+	private String readBuild(Path directory) throws IOException {
+		Path build = ensureBuild(directory);
+		List<String> lines = Files.readAllLines(build);
+		StringBuilder builder = new StringBuilder();
+		for (String line : lines) {
+			String trim = line.trim();
+			if (!trim.isBlank()) {
+				String any = resolveChild(directory, trim);
+				builder.append(any);
+			}
+		}
+		return builder.toString();
+	}
+
 	private boolean isDirectory(String childName, Path parent) {
 		Path child = parent.resolve(childName);
 		return Files.isDirectory(child);
@@ -87,6 +101,24 @@ public class CompileTask implements Task {
 
 	private boolean isHeader(String s) {
 		return s.endsWith(".h");
+	}
+
+	private Path ensureBuild(Path directory) throws IOException {
+		Path build = directory.resolve(BUILD);
+		if (!Files.exists(build)) {
+			Files.createFile(build);
+		}
+		return build;
+	}
+
+	private String resolveChild(Path directory, String trim) {
+		return map.keySet()
+				.stream()
+				.filter(predicate -> predicate.test(trim, directory))
+				.map(map::get)
+				.map(function -> function.apply(trim, directory))
+				.findAny()
+				.orElseThrow(() -> new CompileException("Unknown child: " + trim));
 	}
 
 	private boolean isSource(String s) {
@@ -113,63 +145,11 @@ public class CompileTask implements Task {
 		}
 	}
 
-	private String readBuild(Path directory) throws IOException {
-		Path build = ensureBuild(directory);
-		List<String> lines = Files.readAllLines(build);
-		StringBuilder builder = new StringBuilder();
-		for (String line : lines) {
-			String trim = line.trim();
-			if (!trim.isBlank()) {
-				String any = resolveChild(directory, trim);
-				builder.append(any);
-			}
-		}
-		return builder.toString();
-	}
-
 	private String logInvalidPath(String value, Path directory, IOException cause) {
 		String trim = value.trim();
 		Path path = directory.resolve(trim);
 		logger.log(Level.SEVERE, "Failed to read path: " + path, cause);
 		return "";
-	}
-
-	private Path ensureBuild(Path directory) throws IOException {
-		Path build = directory.resolve(BUILD);
-		if (!Files.exists(build)) {
-			Files.createFile(build);
-		}
-		return build;
-	}
-
-	private String resolveChild(Path directory, String trim) {
-		return map.keySet()
-				.stream()
-				.filter(predicate -> predicate.test(trim, directory))
-				.map(map::get)
-				.map(function -> function.apply(trim, directory))
-				.findAny()
-				.orElseThrow(() -> new CompileException("Unknown child: " + trim));
-	}
-
-	private String readHeader(String value) {
-		headers.add(value.trim());
-		return "";
-	}
-
-	private String readPath(String value, Path directory) {
-		try {
-			return readPathExceptionally(value, directory);
-		} catch (IOException e) {
-			return logInvalidPath(value, directory, e);
-		}
-	}
-
-	private String readPathExceptionally(String value, Path directory) throws IOException {
-		String trim = value.trim();
-		Path path = directory.resolve(trim);
-		List<String> lines = Files.readAllLines(path);
-		return String.join("", lines);
 	}
 
 	private void writeCache() {
@@ -195,5 +175,25 @@ public class CompileTask implements Task {
 
 	private String formatHeader(String s) {
 		return "#include <" + s + ">\n";
+	}
+
+	private String readHeader(String value) {
+		headers.add(value.trim());
+		return "";
+	}
+
+	private String readPath(String value, Path directory) {
+		try {
+			return readPathExceptionally(value, directory);
+		} catch (IOException e) {
+			return logInvalidPath(value, directory, e);
+		}
+	}
+
+	private String readPathExceptionally(String value, Path directory) throws IOException {
+		String trim = value.trim();
+		Path path = directory.resolve(trim);
+		List<String> lines = Files.readAllLines(path);
+		return String.join("", lines);
 	}
 }
