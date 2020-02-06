@@ -13,6 +13,11 @@ public class BuildTask implements Task {
 	}
 
 	@Override
+	public boolean canExecute(String line) {
+		return false;
+	}
+
+	@Override
 	public boolean execute(String line) {
 		if (line.equals("build")) {
 			logger.log(Level.INFO, "Building.");

@@ -13,6 +13,11 @@ public class RunTask implements Task {
 	}
 
 	@Override
+	public boolean canExecute(String line) {
+		return false;
+	}
+
+	@Override
 	public boolean execute(String line) {
 		if (line.equals("run")) {
 			logger.log(Level.INFO, "Running.");

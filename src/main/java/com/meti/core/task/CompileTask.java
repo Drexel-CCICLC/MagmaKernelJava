@@ -30,6 +30,11 @@ public class CompileTask implements Task {
 	}
 
 	@Override
+	public boolean canExecute(String line) {
+		return false;
+	}
+
+	@Override
 	public boolean execute(String line) {
 		if (line.startsWith("compile")) {
 			logger.log(Level.INFO, "Compiling sources.");
