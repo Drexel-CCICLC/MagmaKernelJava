@@ -31,22 +31,18 @@ public class CompileTask implements Task {
 
 	@Override
 	public boolean canExecute(String line) {
-		return false;
+		return line.startsWith("compile");
 	}
 
 	@Override
 	public boolean execute(String line) {
-		if (line.startsWith("compile")) {
-			logger.log(Level.INFO, "Compiling sources.");
-			cache.clear();
-			headers.clear();
-			headers.add("stddef.h");
-			logger.log(Level.INFO, "Located " + headers.size() + " headers.");
-			run();
-			return true;
-		} else {
-			return false;
-		}
+		logger.log(Level.INFO, "Compiling sources.");
+		cache.clear();
+		headers.clear();
+		headers.add("stddef.h");
+		logger.log(Level.INFO, "Located " + headers.size() + " headers.");
+		run();
+		return false;
 	}
 
 	private void parseCache() {

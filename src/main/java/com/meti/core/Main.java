@@ -24,8 +24,8 @@ public class Main {
 		do {
 			line = scanner.nextLine().trim();
 			for (Task task : tasks) {
-				if (task.execute(line)) {
-					break;
+				if (task.canExecute(line)) {
+					task.execute(line);
 				}
 			}
 		} while (!line.equals("exit"));

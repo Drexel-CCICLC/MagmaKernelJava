@@ -14,29 +14,25 @@ public class RunTask implements Task {
 
 	@Override
 	public boolean canExecute(String line) {
-		return false;
+		return line.equals("run");
 	}
 
 	@Override
 	public boolean execute(String line) {
-		if (line.equals("run")) {
-			logger.log(Level.INFO, "Running.");
-			try {
-				Process process = new ProcessBuilder()
-						.command("a")
-						.start();
-				try (InputStream input = process.getInputStream()) {
-					input.transferTo(System.out);
-				}
-				try (InputStream error = process.getErrorStream()) {
-					error.transferTo(System.err);
-				}
-			} catch (IOException e) {
-				logger.log(Level.SEVERE, "Failed to run.", e);
+		logger.log(Level.INFO, "Running.");
+		try {
+			Process process = new ProcessBuilder()
+					.command("a")
+					.start();
+			try (InputStream input = process.getInputStream()) {
+				input.transferTo(System.out);
 			}
-			return true;
-		} else {
-			return false;
+			try (InputStream error = process.getErrorStream()) {
+				error.transferTo(System.err);
+			}
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, "Failed to run.", e);
 		}
+		return false;
 	}
 }
