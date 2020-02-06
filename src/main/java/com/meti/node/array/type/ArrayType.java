@@ -1,4 +1,4 @@
-package com.meti.node.array;
+package com.meti.node.array.type;
 
 import com.meti.node.Type;
 import com.meti.node.ValueType;

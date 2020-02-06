@@ -1,4 +1,4 @@
-package com.meti.node.block;
+package com.meti.node.condition;
 
 import com.meti.Compiler;
 import com.meti.Parser;

@@ -4,6 +4,7 @@ import com.meti.Compiler;
 import com.meti.Parser;
 import com.meti.Resolver;
 import com.meti.node.Node;
+import com.meti.node.condition.WhileParser;
 import com.meti.node.declare.Declarations;
 import com.meti.node.declare.DeclareParser;
 import com.meti.node.declare.TreeDeclarations;

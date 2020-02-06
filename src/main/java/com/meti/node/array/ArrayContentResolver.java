@@ -4,6 +4,7 @@ import com.meti.Compiler;
 import com.meti.Resolver;
 import com.meti.exception.ParseException;
 import com.meti.node.Type;
+import com.meti.node.array.type.IndexedArrayType;
 
 import java.util.Optional;
 

@@ -5,7 +5,7 @@ import com.meti.Parser;
 import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.Type;
-import com.meti.node.block.IfNode;
+import com.meti.node.condition.IfNode;
 import com.meti.node.declare.Declarations;
 import com.meti.node.declare.VariableNode;
 import com.meti.node.primitive.NullNode;

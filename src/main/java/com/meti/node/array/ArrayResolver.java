@@ -3,6 +3,7 @@ package com.meti.node.array;
 import com.meti.Compiler;
 import com.meti.Resolver;
 import com.meti.node.Type;
+import com.meti.node.array.type.PointerArrayType;
 
 import java.util.Optional;
 
