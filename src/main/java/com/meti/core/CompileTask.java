@@ -30,7 +30,8 @@ public class CompileTask implements Task {
 	@Override
 	public boolean execute(String line) {
 		if (line.startsWith("compile")) {
-			//TODO: clear cache and collections on repeated invocations
+			cache.clear();
+			headers.clear();
 			run();
 			return true;
 		} else {

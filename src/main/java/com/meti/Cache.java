@@ -9,5 +9,7 @@ public interface Cache {
 
 	void addStruct(Node struct);
 
+	void clear();
+
 	String render();
 }
