@@ -5,7 +5,7 @@ import com.meti.*;
 import com.meti.node.declare.DeclareParser;
 import com.meti.node.declare.VariableParser;
 import com.meti.node.declare.VariableResolver;
-import com.meti.node.primitive.IntResolver;
+import com.meti.node.primitive.ints.IntResolver;
 import com.meti.node.transform.OperationParser;
 import com.meti.parse.Declarations;
 import com.meti.parse.TreeDeclarations;

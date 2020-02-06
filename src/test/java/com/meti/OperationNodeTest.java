@@ -1,7 +1,7 @@
 package com.meti;
 
 import com.meti.node.Node;
-import com.meti.node.primitive.IntNode;
+import com.meti.node.primitive.ints.IntNode;
 import com.meti.node.transform.OperationNode;
 import com.meti.node.transform.Operations;
 import org.junit.jupiter.api.Test;

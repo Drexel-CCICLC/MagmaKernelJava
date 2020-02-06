@@ -2,7 +2,7 @@ package com.meti.node.struct;
 
 import com.meti.node.Node;
 import com.meti.node.Type;
-import com.meti.node.primitive.VoidType;
+import com.meti.node.primitive.special.VoidType;
 
 import java.util.List;
 import java.util.stream.Collectors;

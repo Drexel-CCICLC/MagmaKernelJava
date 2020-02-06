@@ -1,8 +1,8 @@
 package com.meti;
 
 import com.meti.exception.ParseException;
-import com.meti.node.primitive.CharParser;
-import com.meti.node.primitive.IntParser;
+import com.meti.node.primitive.chars.CharParser;
+import com.meti.node.primitive.ints.IntParser;
 import com.meti.util.ParentParser;
 import com.meti.util.UnitCompiler;
 import org.junit.jupiter.api.Test;

@@ -2,7 +2,7 @@ package com.meti;
 
 import com.meti.exception.ParseException;
 import com.meti.node.Node;
-import com.meti.node.primitive.IntParser;
+import com.meti.node.primitive.ints.IntParser;
 import com.meti.node.struct.ReturnParser;
 import com.meti.util.ParentParser;
 import com.meti.util.UnitCompiler;

@@ -5,7 +5,7 @@ import com.meti.*;
 import com.meti.node.declare.DeclareParser;
 import com.meti.node.declare.VariableParser;
 import com.meti.node.declare.VariableResolver;
-import com.meti.node.primitive.IntResolver;
+import com.meti.node.primitive.ints.IntResolver;
 import com.meti.node.struct.InvocationParser;
 import com.meti.node.struct.ReturnParser;
 import com.meti.node.struct.StructUnit;

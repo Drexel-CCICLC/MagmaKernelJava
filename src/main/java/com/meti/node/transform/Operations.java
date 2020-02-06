@@ -3,8 +3,8 @@ package com.meti.node.transform;
 import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.Type;
-import com.meti.node.primitive.IntType;
-import com.meti.node.primitive.StringType;
+import com.meti.node.primitive.ints.IntType;
+import com.meti.node.primitive.strings.StringType;
 
 import java.util.function.Function;
 

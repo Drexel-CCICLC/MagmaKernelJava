@@ -2,7 +2,7 @@ package com.meti.node.array;
 
 import com.meti.Compiler;
 import com.meti.node.Type;
-import com.meti.node.primitive.IntResolver;
+import com.meti.node.primitive.ints.IntResolver;
 import com.meti.util.ParentResolver;
 import com.meti.util.UnitCompiler;
 import org.junit.jupiter.api.Test;
