@@ -1,8 +1,8 @@
-package com.meti.node.struct;
+package com.meti.util;
 
 import java.util.Optional;
 
-interface IndexBuffer {
+public interface IndexBuffer {
 	String cut(int index);
 
 	Optional<String> cutIfPresent(int index);

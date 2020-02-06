@@ -14,6 +14,8 @@ import com.meti.node.primitive.special.VoidType;
 import com.meti.parse.Declaration;
 import com.meti.parse.Declarations;
 import com.meti.util.EmptyNode;
+import com.meti.util.IndexBuffer;
+import com.meti.util.StringIndexBuffer;
 
 import java.util.*;
 import java.util.stream.Collectors;

@@ -1,5 +1,7 @@
 package com.meti.node.struct;
 
+import com.meti.util.IndexBuffer;
+import com.meti.util.StringIndexBuffer;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
