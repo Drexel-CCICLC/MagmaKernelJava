@@ -1,4 +1,12 @@
 single val Internal =: {
+	val memoryDynamic = (Int size) => Any* :{
+		return malloc(size);
+	};
+
+	val memoryFree = (Any* block) : {
+		free(block);
+	};
+
     val writeString = (String value) :{
         printf("%s", value);
     };
