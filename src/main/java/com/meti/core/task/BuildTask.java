@@ -29,11 +29,11 @@ public class BuildTask implements Task {
 	private void executeExceptionally() throws IOException {
 		logger.log(Level.INFO, "Building.");
 		Process process = createProcess();
-		try (InputStream input = process.getInputStream()) {
-			input.transferTo(System.out);
-		}
 		try (InputStream error = process.getErrorStream()) {
 			error.transferTo(System.err);
+		}
+		try (InputStream input = process.getInputStream()) {
+			input.transferTo(System.out);
 		}
 	}
 
