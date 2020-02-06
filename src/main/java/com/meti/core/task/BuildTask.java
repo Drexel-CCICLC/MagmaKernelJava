@@ -2,6 +2,7 @@ package com.meti.core.task;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,17 +30,19 @@ public class BuildTask implements Task {
 	private void executeExceptionally() throws IOException {
 		logger.log(Level.INFO, "Building.");
 		Process process = createProcess();
-		try (InputStream error = process.getErrorStream()) {
-			error.transferTo(System.err);
-		}
-		try (InputStream input = process.getInputStream()) {
-			input.transferTo(System.out);
-		}
+		transferProcessStream(process.getErrorStream(), System.err);
+		transferProcessStream(process.getInputStream(), System.out);
 	}
 
 	private Process createProcess() throws IOException {
 		return new ProcessBuilder()
 				.command("gcc", "out.c")
 				.start();
+	}
+
+	private void transferProcessStream(InputStream errorStream, PrintStream err) throws IOException {
+		try (InputStream error = errorStream) {
+			error.transferTo(err);
+		}
 	}
 }
