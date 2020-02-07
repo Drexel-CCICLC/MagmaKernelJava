@@ -12,115 +12,98 @@ import com.meti.parse.Declaration;
 import com.meti.parse.Declarations;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public class VariableParser implements Parser {
-	private final Declarations declarations;
+    private final Declarations declarations;
 
-	public VariableParser(Declarations declarations) {
-		this.declarations = declarations;
-	}
+    public VariableParser(Declarations declarations) {
+        this.declarations = declarations;
+    }
 
-	@Override
-	public Optional<Node> parse(String content, Compiler compiler) {
-		String trim = content.trim();
-		return trim.contains(".") ?
-				parseAccessor(compiler, trim) :
-				parseSimple(trim);
-	}
+    @Override
+    public Optional<Node> parse(String content, Compiler compiler) {
+        String trim = content.trim();
+        return trim.contains(".") ?
+                parseAccessor(compiler, trim) :
+                parseSimple(trim);
+    }
 
-	private Optional<Node> parseAccessor(Compiler compiler, String trim) {
-		int period = trim.indexOf('.');
-		String before = trim.substring(0, period);
-		String after = trim.substring(period + 1);
-		Type objectType = compiler.resolveValue(before);
-		if (objectType instanceof ObjectType) {
-			Declaration declaration = ((ObjectType) objectType).declaration();
-			return buildField(declaration, after);
-		} else {
-			return parseSingleton(compiler, before, after, objectType);
-		}
-	}
+    private Optional<Node> parseAccessor(Compiler compiler, String trim) {
+        String parent = trim.substring(0, trim.indexOf('.'));
+        String child = trim.substring(trim.indexOf('.') + 1);
+        Type parentType = compiler.resolveValue(parent);
+        return parentType instanceof ObjectType ?
+                parseObject(child, (ObjectType) parentType) :
+                parseSingleton(compiler, parent, child, parentType);
+    }
 
-	private Optional<Node> parseSimple(String trim) {
-		Optional<Node> parent = parseParameter(trim);
-		return parent.isPresent() ? parent : parseNormal(trim);
-	}
+    private Optional<Node> parseObject(String child, ObjectType parentType) {
+        Declaration declaration = parentType.declaration();
+        return buildField(declaration, child);
+    }
 
-	private Optional<Node> buildField(Declaration parent, String childName) {
-		Declaration child = parent.child(childName)
-				.orElseThrow(() -> new ParseException(parent.name() + "." + childName + " is " +
-						"not defined."));
-		return child.isFunctional() ?
-				Optional.of(new VariableNode(child.joinStack())) :
-				Optional.of(new FieldNode(parent, childName));
-	}
+    private Optional<Node> parseSimple(String trim) {
+        Optional<Node> parent = parseParameter(trim);
+        return parent.isPresent() ? parent : parseChild(trim);
+    }
 
-	private Optional<Node> parseSingleton(Compiler compiler, String before, String after, Type objectType) {
-		//object could be singleton
-		if (objectType instanceof FunctionType) {
-			Type singletonType = compiler.resolveValue("_" + before);
-			if (singletonType instanceof ObjectType) {
-				Declaration declaration = ((ObjectType) singletonType).declaration();
-				return buildField(declaration, after);
-			} else {
-				throw new ParseException(before + " is not a singleton.");
-			}
-		} else {
-			throw new ParseException(before + " is not an object.");
-		}
-	}
+    private Optional<Node> buildField(Declaration parent, String childName) {
+        Declaration child = parent.child(childName).orElseThrow(
+                () -> new ParseException(parent.name() + "." + childName + " is " + "not defined."));
+        return child.isFunctional() ?
+                Optional.of(new VariableNode(child.joinStack())) :
+                Optional.of(new FieldNode(parent, childName));
+    }
 
-	private Optional<Node> parseParameter(String childName) {
-		Optional<Declaration> parentOptional = declarations.parent(childName);
-		if (parentOptional.isPresent()) {
-			Declaration parent = parentOptional.get();
-			if (!declarations.isRoot(parent) && parent.hasParameter(childName)) {
-				return parent.isSuperStructure() ?
-						buildField(parent, childName) :
-						buildVariable(parent, childName);
-			}
-		}
-		return Optional.empty();
-	}
+    private Optional<Node> parseSingleton(Compiler compiler, String before, String after, Type parentType) {
+        if (parentType instanceof FunctionType) {
+            return parseReference(compiler, before, after);
+        } else {
+            throw new ParseException(before + " is not an reference to a singleton.");
+        }
+    }
 
-	private Optional<Node> parseNormal(String trim) {
-		Declaration current = declarations.current();
-		if (current.hasChild(trim))
-			if (!declarations.isRoot(current)) {
-				if (!current.hasParameter(trim)) {
-					if (current.isSuperStructure()) {
-						return buildField(current, trim);
-					} else {
-						return buildVariable(current, trim);
-					}
-				}
-			}
-		Declaration relative = declarations.relative(trim)
-				.orElseThrow((Supplier<ParseException>) () -> {
-					throw new ParseException(trim + " is not defined.");
-				});
-		if (relative.isParameter()) {
-			return buildField(declarations.parent(trim).orElseThrow(), trim);
-		} else {
-			return buildVariable(declarations.parent(), trim);
-		}
-	}
+    private Optional<Node> parseReference(Compiler compiler, String before, String after) {
+        Type singletonType = compiler.resolveValue("_" + before);
+        if (singletonType instanceof ObjectType) {
+            return parseObject(after, (ObjectType) singletonType);
+        } else {
+            throw new ParseException(before + " is not an instance of a singleton.");
+        }
+    }
 
-	private Optional<Node> buildVariable(Declaration parent, String trim) {
-   /*     Optional<Declaration> child = current.child(trim);
-        if(child.isPresent()) {
-            return Optional.of(new FieldNode(current, trim));
-        }*/
-		Optional<Declaration> sibling = declarations.relative(trim);
-		if (sibling.isPresent()) {
-			Declaration child = sibling.get();
-			boolean functional = child.isFunctional();
-			if (functional) {
-				return Optional.of(new VariableNode(child.joinStack()));
-			}
-		}
-		return Optional.of(new VariableNode(trim));
-	}
+    private Optional<Node> parseParameter(String childName) {
+        return declarations.parent(childName)
+                .filter(declaration -> !declarations.isRoot(declaration))
+                .filter(declaration -> declaration.hasParameter(childName))
+                .flatMap(declaration -> buildNode(declaration.isSuperStructure(), declaration, childName));
+    }
 
+    private Optional<Node> parseChild(String childName) {
+        Declaration current = declarations.current();
+        return !current.hasChild(childName) || declarations.isRoot(current) || current.hasParameter(childName) ?
+                parseCurrentChild(childName) :
+                buildNode(current.isSuperStructure(), current, childName);
+    }
+
+    private Optional<Node> parseCurrentChild(String childName) {
+        Optional<Declaration> child = declarations.relative(childName);
+        Declaration relative = child.orElseThrow(() -> new ParseException(childName + " is not defined."));
+        return buildNode(relative.isParameter(), declarations.parent(childName).orElseThrow(), childName);
+    }
+
+    private Optional<Node> buildNode(boolean isField, Declaration parent, String child) {
+        return isField ?
+                buildField(parent, child) :
+                buildVariable(child);
+    }
+
+    private Optional<Node> buildVariable(String trim) {
+        String name = declarations.relative(trim)
+                .filter(Declaration::isFunctional)
+                .map(Declaration::joinStack)
+                .orElse(trim);
+        Node node = new VariableNode(name);
+        return Optional.of(node);
+    }
 }
