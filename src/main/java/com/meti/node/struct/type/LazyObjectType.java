@@ -1,10 +1,12 @@
 package com.meti.node.struct.type;
 
+import com.meti.node.Type;
 import com.meti.node.ValueType;
 import com.meti.parse.Declaration;
 import com.meti.parse.Declarations;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public class LazyObjectType extends ValueType implements ObjectType {
 	private final Declarations declarations;
@@ -16,13 +18,10 @@ public class LazyObjectType extends ValueType implements ObjectType {
 	}
 
 	@Override
-	public String render() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String render(String name) {
-		return new StructType(declaration().name()).render(name);
+	public Optional<Type> childType(String child) {
+		return declaration()
+				.child(child)
+				.map(Declaration::type);
 	}
 
 	@Override
@@ -33,5 +32,15 @@ public class LazyObjectType extends ValueType implements ObjectType {
 	@Override
 	public String toMagmaString() {
 		return "";
+	}
+
+	@Override
+	public String render() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public String render(String name) {
+		return new StructType(declaration().name()).render(name);
 	}
 }

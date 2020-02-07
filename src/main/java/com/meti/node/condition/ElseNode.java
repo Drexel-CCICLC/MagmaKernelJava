@@ -5,7 +5,7 @@ import com.meti.node.Node;
 public class ElseNode implements Node {
     private final Node block;
 
-    public ElseNode(Node block) {
+    ElseNode(Node block) {
         this.block = block;
     }
 
