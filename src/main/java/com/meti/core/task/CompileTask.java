@@ -43,7 +43,7 @@ public class CompileTask implements Task {
 
 	@Override
 	public boolean canExecute(String line) {
-		return line.startsWith("compile");
+		return "compile".equals(line);
 	}
 
 	@Override
