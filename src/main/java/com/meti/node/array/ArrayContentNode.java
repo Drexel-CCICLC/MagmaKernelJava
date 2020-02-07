@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 public class ArrayContentNode implements Node {
 	private final Collection<? extends Node> children;
 
-	public ArrayContentNode(Collection<? extends Node> children) {
+	ArrayContentNode(Collection<? extends Node> children) {
 		this.children = children;
 	}
 
