@@ -14,6 +14,7 @@ import com.meti.node.declare.VariableParser;
 import com.meti.node.declare.VariableResolver;
 import com.meti.node.point.DereferenceParser;
 import com.meti.node.point.PointerResolver;
+import com.meti.node.point.ReferenceParser;
 import com.meti.node.primitive.bool.BooleanParser;
 import com.meti.node.primitive.bool.BooleanResolver;
 import com.meti.node.primitive.chars.CharParser;
@@ -60,6 +61,7 @@ class MagmaCompiler extends UnitCompiler {
 						new CharParser(),
 						new WhileParser(),
 						new DereferenceParser(),
+						new ReferenceParser(),
 						new IfParser(),
 						new CastParser(),
 						new BlockParser(),
