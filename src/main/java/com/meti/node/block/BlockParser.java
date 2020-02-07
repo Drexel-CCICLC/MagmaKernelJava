@@ -13,17 +13,20 @@ import java.util.stream.Collectors;
 public class BlockParser implements Parser {
 	@Override
 	public Optional<Node> parse(String content, Compiler compiler) {
-		String trim = content.trim();
-		if (trim.startsWith("{") && trim.endsWith("}")) {
-			String childString = trim.substring(1, trim.length() - 1);
-			Partitioner partitioner = new BracketPartitioner(childString);
-			List<Node> children = partitioner.partition()
-					.stream()
-					.filter(s -> !s.isBlank())
-					.map(compiler::parse)
-					.collect(Collectors.toList());
-			return Optional.of(new BlockNode(children));
-		}
-		return Optional.empty();
+		return Optional.of(content)
+				.map(String::trim)
+				.filter(s -> s.startsWith("{") && s.endsWith("}"))
+				.map(s -> s.substring(1, s.length() - 1))
+				.map(s -> parseChildren(compiler, s))
+				.map(BlockNode::new);
+	}
+
+	private List<Node> parseChildren(Compiler compiler, String childString) {
+		Partitioner partitioner = new BracketPartitioner(childString);
+		return partitioner.partition()
+				.stream()
+				.filter(s -> !s.isBlank())
+				.map(compiler::parse)
+				.collect(Collectors.toList());
 	}
 }
