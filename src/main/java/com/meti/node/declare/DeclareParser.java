@@ -2,7 +2,6 @@ package com.meti.node.declare;
 
 import com.meti.Compiler;
 import com.meti.Parser;
-import com.meti.exception.ParseException;
 import com.meti.exception.StateException;
 import com.meti.node.Node;
 import com.meti.node.Type;
@@ -10,78 +9,117 @@ import com.meti.parse.Declarations;
 import com.meti.parse.Flag;
 
 import java.util.Arrays;
-import java.util.EnumSet;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DeclareParser implements Parser {
-	private final Declarations declarations;
+    public static final String EMPTY_STRING = "";
+    private final Declarations declarations;
 
-	public DeclareParser(Declarations declarations) {
-		this.declarations = declarations;
-	}
+    public DeclareParser(Declarations declarations) {
+        this.declarations = declarations;
+    }
 
-	@Override
-	public Optional<Node> parse(String content, Compiler compiler) {
-		String trim = content.trim();
-		if (trim.contains("=")) {
-			int equalsIndex = trim.indexOf('=');
-			if (!isValid(trim, equalsIndex)) {
-				return Optional.empty();
-			}
-			String beforeEquals = trim.substring(0, equalsIndex).trim();
-			String afterEquals = trim.substring(equalsIndex + 1).trim();
-			int lastSpace = beforeEquals.lastIndexOf(' ');
-			String flagString = "";
-			String nameString = beforeEquals;
-			if (-1 != lastSpace) {
-				flagString = beforeEquals.substring(0, lastSpace);
-				nameString = beforeEquals.substring(lastSpace + 1);
-			}
-			Set<Flag> flags = Arrays.stream(flagString.split(" "))
-					.filter(s -> !s.isBlank())
-					.map(String::toUpperCase)
-					.map(Flag::valueOf)
-					.collect(Collectors.toSet());
-			boolean hasDeclareFlag = flags.contains(Flag.VAR) || flags.contains(Flag.VAL);
-			if (flags.contains(Flag.SINGLE)) {
-				nameString += "$";
-			}
-			if (hasDeclareFlag) {
-				if (declarations.relative(nameString).isPresent()) {
-					throw new StateException(nameString + " is already defined.");
-				}
-				Node declaration = declarations.inStack(nameString, name -> {
-					try {
-						Set<Flag> parentFlags = declarations.flags();
-						Set<Flag> parentFlagCopy = EnumSet.copyOf(parentFlags);
-						parentFlags.clear();
-						parentFlags.addAll(flags);
-						Type type = compiler.resolveValue(afterEquals);
-						declarations.defineParent(type, name, flags);
-						Node node = compiler.parse(afterEquals);
-						parentFlags.removeAll(flags);
-						parentFlags.addAll(parentFlagCopy);
-						return new DeclareNode(type, name, node);
-					} catch (ParseException e) {
-						throw new RuntimeException(e);
-					}
-				});
-				return Optional.of(declaration);
-			} else {
-				Node from = compiler.parse(afterEquals);
-				Node to = compiler.parse(nameString);
-				return Optional.of(new AssignNode(to, from));
-			}
-		}
-		return Optional.empty();
-	}
+    @Override
+    public Optional<Node> parse(String content, Compiler compiler) {
+        return Optional.of(content)
+                .map(String::trim)
+                .filter(s -> s.contains("="))
+                .filter(s -> isValid(s, s.indexOf('=')))
+                .map(s -> parseValid(compiler, s));
+    }
 
-	private boolean isValid(String trim, int equalsIndex) {
-		String twoString = trim.substring(equalsIndex, equalsIndex + 2);
-		if (twoString.equals("==")) {
-			return trim.substring(equalsIndex, equalsIndex + 3).equals("==>");
-		} else return !trim.substring(equalsIndex - 1, equalsIndex + 1).equals("!=");
-	}
+    Node parseValid(Compiler compiler, String trim) {
+        String head = parseHead(trim);
+        Set<Flag> flags = parseFlagSet(head);
+        String name = parseName(head);
+        String value = parseValue(trim);
+        return isDeclaration(flags) ?
+                buildDeclaration(compiler, flags, name, value) :
+                buildAssignment(compiler, head, value);
+    }
+
+    private String parseHead(String trim) {
+        int equalsIndex = trim.indexOf('=');
+        String head = trim.substring(0, equalsIndex);
+        return head.trim();
+    }
+
+    private String parseValue(String trim) {
+        int equalsIndex = trim.indexOf('=');
+        String value = trim.substring(equalsIndex + 1);
+        return value.trim();
+    }
+
+    private String parseName(String head) {
+        return parseNameString(head, head.lastIndexOf(' '));
+    }
+
+    private Set<Flag> parseFlagSet(String head) {
+        String flagString = parseFlagString(head, head.lastIndexOf(' '));
+        return parseFlags(flagString);
+    }
+
+    private String parseNameString(String beforeEquals, int lastSpace) {
+        return lastSpace == -1 ?
+                beforeEquals :
+                beforeEquals.substring(lastSpace + 1);
+    }
+
+    private String parseFlagString(String beforeEquals, int lastSpace) {
+        return -1 == lastSpace ?
+                EMPTY_STRING :
+                beforeEquals.substring(0, lastSpace);
+    }
+
+    private Node buildDeclaration(Compiler compiler, Set<Flag> flags, String name, String value) {
+        String formattadName = formatName(name, flags);
+        if (declarations.isDefined(formattadName)) throw new StateException(formattadName + " is already defined.");
+        return declarations.inStack(formattadName, s -> renderInStack(compiler, flags, s, value));
+    }
+
+    private boolean isDeclaration(Collection<Flag> flags) {
+        return flags.contains(Flag.VAR) || flags.contains(Flag.VAL);
+    }
+
+    private String formatName(String nameString, Collection<Flag> flags) {
+        return flags.contains(Flag.SINGLE) ? nameString + "$" : nameString;
+    }
+
+    private Node buildAssignment(Compiler compiler, String to, String from) {
+        Node fromNode = compiler.parse(from);
+        Node toNode = compiler.parse(to);
+        return new AssignNode(toNode, fromNode);
+    }
+
+    private Node renderInStack(Compiler compiler, Set<Flag> flags, String name, String valueString) {
+        Set<Flag> previousFlags = declarations.swapFlags(flags);
+        Node node = buildNode(compiler, flags, name, valueString);
+        declarations.swapFlags(previousFlags);
+        return node;
+    }
+
+    private Node buildNode(Compiler compiler, Set<Flag> flags, String name, String valueString) {
+        Type type = compiler.resolveValue(valueString);
+        declarations.defineParent(type, name, flags);
+        Node value = compiler.parse(valueString);
+        return new DeclareNode(type, name, value);
+    }
+
+    private Set<Flag> parseFlags(String flagString) {
+        return Arrays.stream(flagString.split(" "))
+                .filter(s -> !s.isBlank())
+                .map(String::toUpperCase)
+                .map(Flag::valueOf)
+                .collect(Collectors.toSet());
+    }
+
+    private boolean isValid(String trim, int equalsIndex) {
+        String twoString = trim.substring(equalsIndex, equalsIndex + 2);
+        return "==".equals(twoString) ?
+                "==>".equals(trim.substring(equalsIndex, equalsIndex + 3)) :
+                !"!=".equals(trim.substring(equalsIndex - 1, equalsIndex + 1));
+    }
 }

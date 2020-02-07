@@ -3,10 +3,7 @@ package com.meti.parse;
 import com.meti.node.Parameter;
 import com.meti.node.Type;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
 public interface Declarations {
@@ -38,13 +35,24 @@ public interface Declarations {
 
 	boolean isRoot(Declaration declaration);
 
-	Declaration parent();
+    Declaration parent();
 
-	Optional<Declaration> parent(String name);
+    Optional<Declaration> parent(String name);
 
-	Optional<Declaration> relative(String name);
+    Optional<Declaration> relative(String name);
 
-	Type toCurrentClass(String name);
+    Type toCurrentClass(String name);
 
-	Type toCurrentClass();
+    Type toCurrentClass();
+
+    default Set<Flag> swapFlags(Collection<Flag> flags) {
+        Set<Flag> previousFlags = EnumSet.copyOf(flags());
+        flags().clear();
+        flags().addAll(flags);
+        return previousFlags;
+    }
+
+    default boolean isDefined(String nameString) {
+        return relative(nameString).isPresent();
+    }
 }
