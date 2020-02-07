@@ -11,26 +11,43 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Main {
+public final class Main {
 	private static final Logger logger = Logger.getLogger("compile");
 	private static final List<Task> tasks = List.of(
 			new CompileTask(logger),
 			new BuildTask(logger),
 			new RunTask(logger));
 
+	private Main() {
+	}
+
 	public static void main(String[] args) {
+		new Main().run();
+	}
+
+	private void run() {
 		logger.log(Level.INFO, "Initializing compiler.");
 		try (Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
-			String line;
-			do {
-				line = scanner.nextLine().trim();
-				for (Task task : tasks) {
-					if (task.canExecute(line)) {
-						task.execute(line);
-					}
-				}
-			} while (!line.equals("exit"));
+			runCommands(scanner);
 		}
 		logger.log(Level.INFO, "Exiting compiler.");
+	}
+
+	private void runCommands(Scanner scanner) {
+		String command;
+		do {
+			command = scanner.nextLine().trim();
+			executeCommand(command);
+		} while (!shouldExit(command));
+	}
+
+	private void executeCommand(String line) {
+		tasks.stream()
+				.filter(task -> task.canExecute(line))
+				.forEach(task -> task.execute(line));
+	}
+
+	private boolean shouldExit(String line) {
+		return "exit".equals(line);
 	}
 }
