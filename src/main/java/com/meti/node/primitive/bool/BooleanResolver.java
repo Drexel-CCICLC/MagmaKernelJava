@@ -9,11 +9,10 @@ import java.util.Optional;
 public class BooleanResolver implements Resolver {
 	@Override
 	public Optional<Type> resolveName(String content, Compiler compiler) {
-		String trim = content.trim();
-		if (trim.equals("Bool")) {
-			return Optional.of(new BoolType());
-		}
-		return Optional.empty();
+		return Optional.of(content)
+				.map(String::trim)
+				.filter("Bool"::equals)
+				.map(s -> BoolType.INSTANCE);
 	}
 
 	@Override
