@@ -36,8 +36,6 @@ public interface Declarations {
 
 	boolean isInSingleton();
 
-	boolean isParent(Declaration parent);
-
 	boolean isRoot(Declaration declaration);
 
 	Declaration parent();

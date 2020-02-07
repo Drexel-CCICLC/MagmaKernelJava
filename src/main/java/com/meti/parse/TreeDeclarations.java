@@ -130,11 +130,6 @@ public class TreeDeclarations implements Declarations {
 	}
 
 	@Override
-	public boolean isParent(Declaration parent) {
-		return parent().equals(parent);
-	}
-
-	@Override
 	public boolean isRoot(Declaration declaration) {
 		return root.equals(declaration);
 	}
