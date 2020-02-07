@@ -14,4 +14,9 @@ abstract class ArrayType extends ValueType {
 	public String toMagmaString() {
 		return "";
 	}
+
+	@Override
+	public String render() {
+		return elementType.render() + "*";
+	}
 }

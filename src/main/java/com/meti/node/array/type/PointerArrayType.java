@@ -8,11 +8,6 @@ public class PointerArrayType extends ArrayType {
 	}
 
 	@Override
-	public String render() {
-		return elementType.render() + "*";
-	}
-
-	@Override
 	public String render(String name) {
 		//TODO: fix implementation
 		/*       return elementType.render() + "* " + name;*/

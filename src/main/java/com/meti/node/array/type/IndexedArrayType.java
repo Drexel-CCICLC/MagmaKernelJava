@@ -8,11 +8,6 @@ public class IndexedArrayType extends ArrayType {
 	}
 
 	@Override
-	public String render() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public String render(String name) {
 		return elementType.render(name) + "[]";
 	}
