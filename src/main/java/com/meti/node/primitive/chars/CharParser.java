@@ -10,14 +10,18 @@ import java.util.Optional;
 public class CharParser implements Parser {
 	@Override
 	public Optional<Node> parse(String content, Compiler compiler) throws ParseException {
-		String trim = content.trim();
-		if (trim.startsWith("'") && trim.endsWith("'")) {
-			if (3 == trim.length()) {
-				return Optional.of(new CharNode(trim.charAt(1)));
-			} else {
-				throw new ParseException(trim + " has too many characters.");
-			}
+		return Optional.of(content)
+				.map(String::trim)
+				.filter(s -> s.startsWith("'"))
+				.filter(s -> s.endsWith("'"))
+				.map(this::buildNode);
+	}
+
+	private Node buildNode(String trim) {
+		if (3 == trim.length()) {
+			return new CharNode(trim.charAt(1));
+		} else {
+			throw new ParseException(trim + " has too many characters.");
 		}
-		return Optional.empty();
 	}
 }
