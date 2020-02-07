@@ -7,9 +7,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class ProcessTask implements Task {
-	protected final Logger logger;
+	private final Logger logger;
 
-	public ProcessTask(Logger logger) {
+	ProcessTask(Logger logger) {
 		this.logger = logger;
 	}
 
