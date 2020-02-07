@@ -12,6 +12,7 @@ import com.meti.node.primitive.ints.IntResolver;
 import com.meti.node.primitive.ints.IntType;
 import com.meti.node.primitive.strings.StringParser;
 import com.meti.node.primitive.strings.StringResolver;
+import com.meti.node.primitive.strings.StringType;
 import com.meti.node.struct.ReturnParser;
 import com.meti.node.struct.StructUnit;
 import com.meti.node.struct.invoke.InvocationParser;
@@ -66,7 +67,7 @@ class OperationResolverTest {
 						}
 				            """);
 		Type type = compiler.resolveValue("copy(\"test\")");
-		assertEquals(IntType.INSTANCE, type);
+		assertEquals(StringType.INSTANCE, type);
 	}
 
 	@Test
