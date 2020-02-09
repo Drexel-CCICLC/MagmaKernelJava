@@ -41,22 +41,19 @@ public class InvocationParser implements Parser {
 			}
 			if (caller.contains(".")) {
 				int period = caller.lastIndexOf(".");
-				String parent = caller.substring(0, period);
+				String parent = caller.substring(0, period).trim();
 				String child = caller.substring(period + 1);
 				Optional<Declaration> singletonInstance = declarations.relative(parent + "$");
 				if (singletonInstance.isPresent() && singletonInstance.get().child(parent).isPresent()) {
-					arguments.add(new VariableNode(parent.trim()));
+					arguments.add(new VariableNode(parent));
 				}
 				Optional<Declaration> objectOptional = declarations.relative(parent);
 				if (objectOptional.isPresent()) {
 					Type objectType = objectOptional.get().type();
 					if (objectType instanceof ObjectType) {
-						Declaration classDeclaration = ((ObjectType) objectType).declaration();
-						if (classDeclaration.child(child).isPresent()) {
-							arguments.add(new VariableNode(parent.trim()));
-						} else {
-							throw new ParseException(caller + " is not defined.");
-						}
+						ObjectType type = (ObjectType) objectType;
+						Node node = type.childToNode(parent, child);
+						arguments.add(node);
 					} else {
 						throw new ParseException(objectType + " is not an object.");
 					}
