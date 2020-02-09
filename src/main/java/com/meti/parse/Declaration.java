@@ -47,7 +47,7 @@ public interface Declaration {
 
 	String name();
 
-	String tempName();
+	Type toDefinedStruct();
 
 	Parameter toParameter();
 

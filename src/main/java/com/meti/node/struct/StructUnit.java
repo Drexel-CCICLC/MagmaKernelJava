@@ -108,7 +108,7 @@ public class StructUnit implements Unit {
 	}
 
 	private Type buildMissingReturnType() {
-		return declarations.isInClass() ? declarations.toCurrentClass() : VoidType.INSTANCE;
+		return declarations.isInClass() ? declarations.toLazyStruct() : VoidType.INSTANCE;
 	}
 
 	private Node parseValidBlock(Compiler compiler, String implString) {

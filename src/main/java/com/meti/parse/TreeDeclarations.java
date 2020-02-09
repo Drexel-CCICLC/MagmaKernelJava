@@ -40,7 +40,7 @@ public class TreeDeclarations implements Declarations {
 	}
 
 	@Override
-	public Type toCurrentClass(String name) {
+	public Type toLazyStruct(String name) {
 		List<String> clone = new ArrayList<>(stack);
 		if (!clone.isEmpty() && !clone.get(clone.size() - 1).equals(name)) {
 			clone.add(name);
@@ -151,8 +151,8 @@ public class TreeDeclarations implements Declarations {
 	}
 
 	@Override
-	public Type toCurrentClass() {
-		return toCurrentClass(stack.peek());
+	public Type toLazyStruct() {
+		return toLazyStruct(stack.peek());
 	}
 
 	@Override

@@ -41,9 +41,9 @@ public interface Declarations {
 
     Optional<Declaration> relative(String name);
 
-    Type toCurrentClass(String name);
+    Type toLazyStruct(String name);
 
-    Type toCurrentClass();
+	Type toLazyStruct();
 
     default Set<Flag> swapFlags(Collection<Flag> flags) {
         Set<Flag> previousFlags = EnumSet.copyOf(flags());

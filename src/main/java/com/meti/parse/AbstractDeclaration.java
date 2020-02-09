@@ -1,11 +1,13 @@
 package com.meti.parse;
 
+import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.Parameter;
 import com.meti.node.Type;
 import com.meti.node.declare.DeclareNode;
 import com.meti.node.declare.VariableNode;
 import com.meti.node.struct.StructNode;
+import com.meti.node.struct.type.DefinedStructType;
 import com.meti.node.struct.type.NativeStructType;
 
 import java.util.*;
@@ -121,8 +123,11 @@ public abstract class AbstractDeclaration implements Declaration {
 	}
 
 	@Override
-	public String tempName() {
-		return stack + "_";
+	public Type toDefinedStruct() {
+		if (isFunctional()) {
+			return new DefinedStructType(this);
+		}
+		throw new ParseException(name() + " is not a function.");
 	}
 
 	@Override
