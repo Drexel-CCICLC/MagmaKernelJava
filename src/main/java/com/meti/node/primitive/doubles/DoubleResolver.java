@@ -17,15 +17,19 @@ public class DoubleResolver implements Resolver {
 
 	@Override
 	public Optional<Type> resolveValue(String content, Compiler compiler) {
-		String trim = content.trim();
-		String doubleValue = trim.endsWith("d") ?
-				trim.substring(0, trim.length() - 1) :
-				trim;
 		try {
+			String doubleValue = clip(content);
 			Double.parseDouble(doubleValue);
 			return Optional.of(DoubleType.INSTANCE);
 		} catch (NumberFormatException e) {
 			return Optional.empty();
 		}
+	}
+
+	private String clip(String content) {
+		String trim = content.trim();
+		return trim.endsWith("d") ?
+				trim.substring(0, trim.length() - 1) :
+				trim;
 	}
 }

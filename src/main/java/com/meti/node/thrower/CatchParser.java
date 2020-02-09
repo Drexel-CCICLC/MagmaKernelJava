@@ -53,7 +53,7 @@ public class CatchParser implements Parser {
 				return Optional.of(new IfNode(new OperationNode(THROWS, NullNode.INSTANCE, Operations.NOT_EQUALS),
 						new BlockNode(
 								Collections.singleton(new InvocationNode(new VariableNode("_catch" + counter),
-										Collections.singletonList(THROWS), returnType))
+										Collections.singletonList(THROWS)))
 						)));
 			} else {
 				throw new ParseException("Did not wrap values in parentheses.");

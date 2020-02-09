@@ -9,10 +9,9 @@ import java.util.Optional;
 public class NullParser implements Parser {
 	@Override
 	public Optional<Node> parse(String content, Compiler compiler) {
-		String trim = content.trim();
-		if (trim.equals("null")) {
-			return Optional.of(new NullNode());
-		}
-		return Optional.empty();
+		return Optional.of(content)
+				.map(String::trim)
+				.filter("null"::equals)
+				.map(s -> NullNode.INSTANCE);
 	}
 }

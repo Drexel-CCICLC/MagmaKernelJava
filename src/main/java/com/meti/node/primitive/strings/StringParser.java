@@ -9,10 +9,11 @@ import java.util.Optional;
 public class StringParser implements Parser {
 	@Override
 	public Optional<Node> parse(String content, Compiler compiler) {
-		String trim = content.trim();
-		if (trim.startsWith("\"") && trim.endsWith("\"")) {
-			return Optional.of(new StringNode(trim.substring(1, trim.length() - 1)));
-		}
-		return Optional.empty();
+		return Optional.of(content)
+				.map(String::trim)
+				.filter(s -> s.startsWith("\""))
+				.filter(s -> s.endsWith("\""))
+				.map(s -> s.substring(1, s.length() - 1))
+				.map(StringNode::new);
 	}
 }

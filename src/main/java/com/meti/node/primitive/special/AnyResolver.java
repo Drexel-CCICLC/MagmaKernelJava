@@ -9,11 +9,10 @@ import java.util.Optional;
 public class AnyResolver implements Resolver {
 	@Override
 	public Optional<Type> resolveName(String content, Compiler compiler) {
-		String trim = content.trim();
-		if (trim.equals("Any")) {
-			return Optional.of(new AnyType());
-		}
-		return Optional.empty();
+		return Optional.of(content)
+				.map(String::trim)
+				.filter("Any"::equals)
+				.map(s -> AnyType.INSTANCE);
 	}
 
 	@Override

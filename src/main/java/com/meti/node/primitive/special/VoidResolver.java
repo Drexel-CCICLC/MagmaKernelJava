@@ -9,11 +9,10 @@ import java.util.Optional;
 public class VoidResolver implements Resolver {
 	@Override
 	public Optional<Type> resolveName(String content, Compiler compiler) {
-		String trim = content.trim();
-		if (trim.equals("Void")) {
-			return Optional.of(VoidType.INSTANCE);
-		}
-		return Optional.empty();
+		return Optional.of(content)
+				.map(String::trim)
+				.filter("Void"::equals)
+				.map(s -> VoidType.INSTANCE);
 	}
 
 	@Override

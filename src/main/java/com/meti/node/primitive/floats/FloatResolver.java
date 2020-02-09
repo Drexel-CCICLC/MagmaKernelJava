@@ -9,11 +9,10 @@ import java.util.Optional;
 public class FloatResolver implements Resolver {
 	@Override
 	public Optional<Type> resolveName(String content, Compiler compiler) {
-		String trim = content.trim();
-		if (trim.equals("Float")) {
-			return Optional.of(FloatType.INSTANCE);
-		}
-		return Optional.empty();
+		return Optional.of(content)
+				.map(String::trim)
+				.filter("Float"::equals)
+				.map(s -> FloatType.INSTANCE);
 	}
 
 	@Override

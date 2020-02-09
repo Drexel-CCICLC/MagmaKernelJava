@@ -7,6 +7,7 @@ import com.meti.exception.RenderException;
 import com.meti.node.Node;
 import com.meti.node.Type;
 import com.meti.node.declare.VariableNode;
+import com.meti.node.primitive.special.VoidType;
 import com.meti.node.struct.type.FunctionType;
 import com.meti.node.struct.type.ObjectType;
 import com.meti.parse.Declaration;
@@ -74,8 +75,15 @@ public class InvocationParser implements Parser {
 			} else {
 				throw new RenderException(functionType + " is not a function.");
 			}
-			return Optional.of(new InvocationNode(callerNode, arguments, returnType));
+			Node node = buildNodeFromReturnType(callerNode, arguments, returnType);
+			return Optional.of(node);
 		}
 		return Optional.empty();
+	}
+
+	private Node buildNodeFromReturnType(Node callerNode, List<? extends Node> arguments, Type returnType) {
+		return returnType.equals(VoidType.INSTANCE) ?
+				new VoidInvocationNode(callerNode, arguments) :
+				new InvocationNode(callerNode, arguments);
 	}
 }

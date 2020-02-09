@@ -9,7 +9,6 @@ import com.meti.node.Parameter;
 import com.meti.node.Type;
 import com.meti.node.declare.AssignNode;
 import com.meti.node.declare.VariableNode;
-import com.meti.node.primitive.special.AnyType;
 import com.meti.node.primitive.special.VoidType;
 import com.meti.node.struct.invoke.InvocationNode;
 import com.meti.node.struct.type.FunctionTypeImpl;
@@ -124,7 +123,7 @@ public class StructUnit implements Unit {
 			String varName = name.substring(0, name.length() - 1);
 			singletonNode = compiler.parse("val " + varName + "={}");
 			cache.add(new AssignNode(new VariableNode(varName), new InvocationNode(new VariableNode(name),
-					Collections.emptyList(), AnyType.INSTANCE)));
+					Collections.emptyList())));
 		}
 		return new BlockNode(statements);
 	}

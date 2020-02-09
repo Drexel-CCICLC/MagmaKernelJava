@@ -58,7 +58,7 @@ public class ThrowParser implements Parser {
 				cache.addFunction(new FunctionNode("_throw" + counter, returnType, singleton(Parameter.create(type,
 						singletonList("throwable"))), new BlockNode(children)));
 				return Optional.of(new ReturnNode(new InvocationNode(new VariableNode("_throw" + counter),
-						singletonList(value), type)));
+						singletonList(value))));
 			}
 		}
 		return Optional.empty();
