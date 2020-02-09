@@ -6,7 +6,7 @@ import com.meti.node.declare.VariableNode;
 import com.meti.node.primitive.ints.IntNode;
 import com.meti.node.primitive.ints.IntType;
 import com.meti.node.struct.*;
-import com.meti.node.struct.type.StructType;
+import com.meti.node.struct.type.NativeStructType;
 import com.meti.util.CollectionCache;
 import org.junit.jupiter.api.Test;
 
@@ -55,13 +55,13 @@ class CacheTest {
 				Parameter.create(IntType.INSTANCE, Collections.singletonList("y")));
 		cache.addStruct(new StructNode("Point", structParams));
 
-		Collection<Parameter> getXParams = Collections.singleton(Parameter.create(new StructType("Point"),
+		Collection<Parameter> getXParams = Collections.singleton(Parameter.create(new NativeStructType("Point"),
 				Collections.singletonList("Point_")));
 		Collection<Node> getXContent = Collections.singleton(new ReturnNode(new FieldNode(new VariableNode("Point_"),
 				"x")));
 		cache.addFunction(new FunctionNode("Point_getX", IntType.INSTANCE, getXParams, new BlockNode(getXContent)));
 
-		Collection<Parameter> getYParams = Collections.singleton(Parameter.create(new StructType("Point"),
+		Collection<Parameter> getYParams = Collections.singleton(Parameter.create(new NativeStructType("Point"),
 				Collections.singletonList("Point_")));
 		Collection<Node> getYContent = Collections.singleton(new ReturnNode(new FieldNode(new VariableNode("Point_"),
 				"y")));

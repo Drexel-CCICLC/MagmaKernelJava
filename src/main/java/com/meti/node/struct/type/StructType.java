@@ -1,26 +1,15 @@
 package com.meti.node.struct.type;
 
-import com.meti.node.ValueType;
+import com.meti.node.Node;
+import com.meti.node.Type;
+import com.meti.parse.Declaration;
 
-public class StructType extends ValueType {
-	private final String name;
+import java.util.Optional;
 
-	public StructType(String name) {
-		this.name = name;
-	}
+public interface StructType extends Type {
+	Node bind(String instanceName, String child);
 
-	@Override
-	public String render() {
-		return "struct " + name;
-	}
+	Declaration declaration();
 
-	@Override
-	public String render(String name) {
-		return "struct " + this.name + " " + name;
-	}
-
-	@Override
-	public String toMagmaString() {
-		return "";
-	}
+	Optional<Type> typeOf(String child);
 }

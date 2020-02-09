@@ -4,7 +4,7 @@ import com.meti.Compiler;
 import com.meti.Resolver;
 import com.meti.exception.ParseException;
 import com.meti.node.Type;
-import com.meti.node.struct.type.ObjectType;
+import com.meti.node.struct.type.StructType;
 import com.meti.parse.Declaration;
 import com.meti.parse.Declarations;
 
@@ -33,8 +33,8 @@ public class VariableResolver implements Resolver {
 
 	private Type parseAccesor(Compiler compiler, String trim) {
 		Type parentType = parentType(compiler, trim);
-		if (parentType instanceof ObjectType) {
-			return parseChild((ObjectType) parentType, trim);
+		if (parentType instanceof StructType) {
+			return parseChild((StructType) parentType, trim);
 		} else {
 			throw new ParseException(parentType + " is not an object.");
 		}
@@ -52,9 +52,9 @@ public class VariableResolver implements Resolver {
 		return compiler.resolveValue(parent);
 	}
 
-	private Type parseChild(ObjectType parentType, String trim) {
+	private Type parseChild(StructType parentType, String trim) {
 		String child = trim.substring(trim.indexOf('.') + 1);
-		return parentType.childType(child).orElseThrow();
+		return parentType.typeOf(child).orElseThrow();
 	}
 
 	private Type resolveLocal(String trim) {

@@ -11,20 +11,22 @@ import com.meti.parse.Declarations;
 import java.util.List;
 import java.util.Optional;
 
-public class LazyObjectType extends ValueType implements ObjectType {
+public class LazyStructType extends ValueType implements StructType {
 	private final Declarations declarations;
 	private final List<String> stack;
 
-	public LazyObjectType(Declarations declarations, List<String> stack) {
+	public LazyStructType(Declarations declarations, List<String> stack) {
 		this.declarations = declarations;
 		this.stack = stack;
 	}
 
 	@Override
-	public Optional<Type> childType(String child) {
-		return declaration()
-				.child(child)
-				.map(Declaration::type);
+	public Node bind(String instanceName, String child) {
+		if (declaration().hasChild(child)) {
+			return new VariableNode(stack.get(stack.size() - 1));
+		} else {
+			throw new ParseException(instanceName + "." + child + " is not defined.");
+		}
 	}
 
 	@Override
@@ -33,12 +35,10 @@ public class LazyObjectType extends ValueType implements ObjectType {
 	}
 
 	@Override
-	public Node childToNode(String parent, String child) {
-		if (declaration().hasChild(child)) {
-			return new VariableNode(stack.get(stack.size() - 1));
-		} else {
-			throw new ParseException(parent + "." + child + " is not defined.");
-		}
+	public Optional<Type> typeOf(String child) {
+		return declaration()
+				.child(child)
+				.map(Declaration::type);
 	}
 
 	@Override
@@ -53,6 +53,6 @@ public class LazyObjectType extends ValueType implements ObjectType {
 
 	@Override
 	public String render(String name) {
-		return new StructType(declaration().name()).render(name);
+		return new NativeStructType(declaration().name()).render(name);
 	}
 }

@@ -7,7 +7,7 @@ import com.meti.node.Node;
 import com.meti.node.Type;
 import com.meti.node.struct.FieldNode;
 import com.meti.node.struct.type.FunctionType;
-import com.meti.node.struct.type.ObjectType;
+import com.meti.node.struct.type.StructType;
 import com.meti.parse.Declaration;
 import com.meti.parse.Declarations;
 
@@ -32,12 +32,12 @@ public class VariableParser implements Parser {
         String parent = trim.substring(0, trim.indexOf('.'));
         String child = trim.substring(trim.indexOf('.') + 1);
         Type parentType = compiler.resolveValue(parent);
-        return parentType instanceof ObjectType ?
-                parseObject(child, (ObjectType) parentType) :
+        return parentType instanceof StructType ?
+                parseObject(child, (StructType) parentType) :
                 parseSingleton(compiler, parent, child, parentType);
     }
 
-    private Optional<Node> parseObject(String child, ObjectType parentType) {
+    private Optional<Node> parseObject(String child, StructType parentType) {
         Declaration declaration = parentType.declaration();
         return buildField(declaration, child);
     }
@@ -65,8 +65,8 @@ public class VariableParser implements Parser {
 
     private Optional<Node> parseReference(Compiler compiler, String before, String after) {
         Type singletonType = compiler.resolveValue("_" + before);
-        if (singletonType instanceof ObjectType) {
-            return parseObject(after, (ObjectType) singletonType);
+        if (singletonType instanceof StructType) {
+            return parseObject(after, (StructType) singletonType);
         } else {
             throw new ParseException(before + " is not an instance of a singleton.");
         }

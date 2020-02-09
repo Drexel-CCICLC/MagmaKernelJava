@@ -6,7 +6,7 @@ import com.meti.node.Type;
 import com.meti.node.declare.DeclareNode;
 import com.meti.node.declare.VariableNode;
 import com.meti.node.struct.StructNode;
-import com.meti.node.struct.type.StructType;
+import com.meti.node.struct.type.NativeStructType;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -46,7 +46,7 @@ public abstract class AbstractDeclaration implements Declaration {
 
 	@Override
 	public Node declareInstance() {
-		return new DeclareNode(new StructType(name()),
+		return new DeclareNode(new NativeStructType(name()),
 				instanceName(), new VariableNode("{" + joinArgs() + "}"));
 	}
 

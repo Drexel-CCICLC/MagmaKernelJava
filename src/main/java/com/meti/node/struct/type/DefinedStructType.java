@@ -9,16 +9,20 @@ import com.meti.parse.Declaration;
 
 import java.util.Optional;
 
-public class DefinedObjectType extends ValueType implements ObjectType {
+public class DefinedStructType extends ValueType implements StructType {
 	private final Declaration declaration;
 
-	public DefinedObjectType(Declaration declaration) {
+	public DefinedStructType(Declaration declaration) {
 		this.declaration = declaration;
 	}
 
 	@Override
-	public Optional<Type> childType(String child) {
-		return declaration.child(child).map(Declaration::type);
+	public Node bind(String instanceName, String child) {
+		if (declaration().hasChild(child)) {
+			return new VariableNode(instanceName);
+		} else {
+			throw new ParseException(instanceName + "." + child + " is not defined.");
+		}
 	}
 
 	@Override
@@ -27,12 +31,8 @@ public class DefinedObjectType extends ValueType implements ObjectType {
 	}
 
 	@Override
-	public Node childToNode(String parent, String child) {
-		if (declaration().hasChild(child)) {
-			return new VariableNode(parent);
-		} else {
-			throw new ParseException(parent + "." + child + " is not defined.");
-		}
+	public Optional<Type> typeOf(String child) {
+		return declaration.child(child).map(Declaration::type);
 	}
 
 	@Override
@@ -47,6 +47,6 @@ public class DefinedObjectType extends ValueType implements ObjectType {
 
 	@Override
 	public String render(String name) {
-		return new StructType(declaration.name()).render(name);
+		return new NativeStructType(declaration.name()).render(name);
 	}
 }

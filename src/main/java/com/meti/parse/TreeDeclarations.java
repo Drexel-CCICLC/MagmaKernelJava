@@ -3,8 +3,8 @@ package com.meti.parse;
 import com.meti.exception.ParseException;
 import com.meti.node.Parameter;
 import com.meti.node.Type;
-import com.meti.node.struct.type.LazyObjectType;
-import com.meti.node.struct.type.StructType;
+import com.meti.node.struct.type.LazyStructType;
+import com.meti.node.struct.type.NativeStructType;
 
 import java.util.*;
 import java.util.function.Function;
@@ -23,12 +23,10 @@ public class TreeDeclarations implements Declarations {
 	}
 
 	@Override
-	public Type toCurrentClass(String name) {
-		List<String> clone = new ArrayList<>(stack);
-		if (!clone.isEmpty() && !clone.get(clone.size() - 1).equals(name)) {
-			clone.add(name);
-		}
-		return new LazyObjectType(this, clone);
+	public List<Parameter> buildStackParameters() {
+		return stack.subList(0, stack.size() - 1).stream()
+				.map(s -> Parameter.create(new NativeStructType(s), singletonList(s + "_")))
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -42,10 +40,12 @@ public class TreeDeclarations implements Declarations {
 	}
 
 	@Override
-	public List<Parameter> buildStackParameters() {
-		return stack.subList(0, stack.size() - 1).stream()
-				.map(s -> Parameter.create(new StructType(s), singletonList(s + "_")))
-				.collect(Collectors.toList());
+	public Type toCurrentClass(String name) {
+		List<String> clone = new ArrayList<>(stack);
+		if (!clone.isEmpty() && !clone.get(clone.size() - 1).equals(name)) {
+			clone.add(name);
+		}
+		return new LazyStructType(this, clone);
 	}
 
 	@Override

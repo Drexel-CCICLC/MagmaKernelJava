@@ -10,7 +10,7 @@ public class PointerArrayType extends ArrayType {
 	@Override
 	public String render(String name) {
 		//TODO: fix implementation
-		/*       return elementType.render() + "* " + name;*/
+		/*       return typeOf.render() + "* " + name;*/
 		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 }

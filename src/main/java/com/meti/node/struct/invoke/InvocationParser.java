@@ -9,7 +9,7 @@ import com.meti.node.Type;
 import com.meti.node.declare.VariableNode;
 import com.meti.node.primitive.special.VoidType;
 import com.meti.node.struct.type.FunctionType;
-import com.meti.node.struct.type.ObjectType;
+import com.meti.node.struct.type.StructType;
 import com.meti.parse.Declaration;
 import com.meti.parse.Declarations;
 
@@ -47,11 +47,11 @@ public class InvocationParser implements Parser {
 				if (singletonInstance.isPresent() && singletonInstance.get().child(parent).isPresent()) {
 					arguments.add(new VariableNode(parent));
 				}
-				Optional<Declaration> objectOptional = declarations.relative(parent);
-				objectOptional.map(Declaration::type)
-						.filter(ObjectType.class::isInstance)
-						.map(ObjectType.class::cast)
-						.map(s -> s.childToNode(parent, child))
+				declarations.relative(parent)
+						.map(Declaration::type)
+						.filter(StructType.class::isInstance)
+						.map(StructType.class::cast)
+						.map(s -> s.bind(parent, child))
 						.ifPresent(arguments::add);
 			}
 			Optional<Declaration> optional = declarations.relative(caller);
