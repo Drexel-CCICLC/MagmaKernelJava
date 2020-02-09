@@ -48,16 +48,11 @@ public class InvocationParser implements Parser {
 					arguments.add(new VariableNode(parent));
 				}
 				Optional<Declaration> objectOptional = declarations.relative(parent);
-				if (objectOptional.isPresent()) {
-					Type objectType = objectOptional.get().type();
-					if (objectType instanceof ObjectType) {
-						ObjectType type = (ObjectType) objectType;
-						Node node = type.childToNode(parent, child);
-						arguments.add(node);
-					} else {
-						throw new ParseException(objectType + " is not an object.");
-					}
-				}
+				objectOptional.map(Declaration::type)
+						.filter(ObjectType.class::isInstance)
+						.map(ObjectType.class::cast)
+						.map(s -> s.childToNode(parent, child))
+						.ifPresent(arguments::add);
 			}
 			Optional<Declaration> optional = declarations.relative(caller);
 			if (optional.isPresent()) {
