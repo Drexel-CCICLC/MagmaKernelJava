@@ -12,24 +12,37 @@ public class CastParser implements Parser {
 	public Optional<Node> parse(String content, Compiler compiler) {
 		String trim = content.trim();
 		if (trim.startsWith("<")) {
-			int indexToSplit = -1;
-			int depth = 0;
-			char[] charArray = content.substring(1).toCharArray();
-			for (int i = 0; i < charArray.length; i++) {
-				char c = charArray[i];
-				if ('>' == c && 0 == depth) {
-					indexToSplit = i;
-				} else {
-					if ('<' == c) depth++;
-					if ('>' == c) depth--;
-				}
-			}
-			String nameString = trim.substring(1, indexToSplit + 1);
-			Type type = compiler.resolveName(nameString);
-			String valueString = trim.substring(indexToSplit + 2);
-			Node value = compiler.parse(valueString);
+			int indexToSplit = findIndex(content);
+			Type type = parseType(compiler, trim, indexToSplit);
+			Node value = parseValue(compiler, trim, indexToSplit);
 			return Optional.of(new CastNode(type, value));
 		}
 		return Optional.empty();
+	}
+
+	private int findIndex(String content) {
+		int indexToSplit = -1;
+		int depth = 0;
+		char[] charArray = content.substring(1).toCharArray();
+		for (int i = 0; i < charArray.length; i++) {
+			char c = charArray[i];
+			if ('>' == c && 0 == depth) {
+				indexToSplit = i;
+			} else {
+				if ('<' == c) depth++;
+				if ('>' == c) depth--;
+			}
+		}
+		return indexToSplit;
+	}
+
+	private Type parseType(Compiler compiler, String trim, int indexToSplit) {
+		String nameString = trim.substring(1, indexToSplit + 1);
+		return compiler.resolveName(nameString);
+	}
+
+	private Node parseValue(Compiler compiler, String trim, int indexToSplit) {
+		String valueString = trim.substring(indexToSplit + 2);
+		return compiler.parse(valueString);
 	}
 }
