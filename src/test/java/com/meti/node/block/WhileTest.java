@@ -33,11 +33,9 @@ class WhileTest {
                 new IntResolver()
         );
         Compiler compiler = new UnitCompiler(parser, resolver);
-        Node node = compiler.parse("""
-                while(true) {
-                    val x = 10;
-                }
-                """);
+        Node node = compiler.parse("while(true) {\n" +
+                                   "    val x = 10;\n" +
+                                   "}\n");
         assertEquals("while(1){int x=10;}", node.render());
     }
 }

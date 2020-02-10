@@ -2,8 +2,6 @@ name := "MagmaKernelJava"
 
 version := "2.0.1"
 
-scalaVersion := "2.13.1"
-
 mainClass := Some("com.meti.core.Main")
 
 libraryDependencies += "org.junit.jupiter" % "junit-jupiter-api" % "5.+" % Test

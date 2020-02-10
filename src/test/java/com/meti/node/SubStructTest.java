@@ -40,24 +40,22 @@ class SubStructTest {
 				new VariableResolver(declarations)
 		);
 		Compiler compiler = new UnitCompiler(parser, resolver);
-		compiler.parse("""
-				            val addTwoNumbers = (Int x, Int y) => Int :{
-				                val doOperation ==> Int :{
-				                    return x + y;
-				                };
-				                return doOperation();
-				            }
-				""");
+		compiler.parse("            val addTwoNumbers = (Int x, Int y) => Int :{\n" +
+		               "                val doOperation ==> Int :{\n" +
+		               "                    return x + y;\n" +
+		               "                };\n" +
+		               "                return doOperation();\n" +
+		               "            }\n");
 		assertEquals("int _exitCode=0;" +
-				"void *_throw=NULL;" +
-				"struct addTwoNumbers{int x;int y;};" +
-				"int addTwoNumbers_doOperation(struct addTwoNumbers addTwoNumbers_){" +
-				"return addTwoNumbers_.x+addTwoNumbers_.y;" +
-				"}" +
-				"int addTwoNumbers(int x,int y){" +
-				"struct addTwoNumbers addTwoNumbers_={x,y};" +
-				"return addTwoNumbers_doOperation(addTwoNumbers_);" +
-				"}" +
+		             "void *_throw=NULL;" +
+		             "struct addTwoNumbers{int x;int y;};" +
+		             "int addTwoNumbers_doOperation(struct addTwoNumbers addTwoNumbers_){" +
+		             "return addTwoNumbers_.x+addTwoNumbers_.y;" +
+		             "}" +
+		             "int addTwoNumbers(int x,int y){" +
+		             "struct addTwoNumbers addTwoNumbers_={x,y};" +
+		             "return addTwoNumbers_doOperation(addTwoNumbers_);" +
+		             "}" +
 				"int main(){" +
 				"return _exitCode;" +
 				"}", cache.render());

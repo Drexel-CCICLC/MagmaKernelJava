@@ -55,17 +55,13 @@ class OperationResolverTest {
 				new OperationResolver(),
 				new VariableResolver(declarations)
 		));
-		compiler.parse("""
-				val length = (String value) => Int :{
-						return 0;
-					}
-				            """);
-		compiler.parse("""
-				val copy = (String value) => String : {
-							val oldLength = length(value);
-							val valueLength = oldLength + 1;
-						}
-				            """);
+		compiler.parse("val length = (String value) => Int :{\n" +
+		               "		return 0;\n" +
+		               "	}\n");
+		compiler.parse("val copy = (String value) => String : {\n" +
+		               "			val oldLength = length(value);\n" +
+		               "			val valueLength = oldLength + 1;\n" +
+		               "		}\n");
 		Type type = compiler.resolveValue("copy(\"test\")");
 		assertEquals(StringType.INSTANCE, type);
 	}

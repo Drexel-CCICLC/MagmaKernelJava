@@ -34,16 +34,14 @@ class StringIndexBufferTest {
 
 	@Test
 	void cutMultiple() {
-		IndexBuffer buffer = new StringIndexBuffer("""
-				(Int x, Int y) :{
-					val getX ==> Int :{
-						return x;
-					};
-					val getY ==> Int :{
-						return y;
-					};
-				}
-				            """, "(", "=>", ":");
+		IndexBuffer buffer = new StringIndexBuffer("(Int x, Int y) :{\n" +
+		                                           "	val getX ==> Int :{\n" +
+		                                           "		return x;\n" +
+		                                           "	};\n" +
+		                                           "	val getY ==> Int :{\n" +
+		                                           "		return y;\n" +
+		                                           "	};\n" +
+		                                           "}\n", "(", "=>", ":");
 		String result = buffer.cut(0);
 		assertEquals("(Int x, Int y) ", result);
 	}
@@ -55,16 +53,17 @@ class StringIndexBufferTest {
 
 	@Test
 	void test() {
-		IndexBuffer buffer = new StringIndexBuffer("""
-				            (Int x, Int y) :{
-					val getX ==> Int :{
-						return x;
-					};
-					val getY ==> Int :{
-						return y;
-					};
-				}
-				            """, "(", "=>", ":");
+		IndexBuffer buffer = new StringIndexBuffer("            (Int x, Int y) :{\n" +
+		                                           "	val getX ==> Int :{\n" +
+		                                           "		return x;\n" +
+		                                           "	};\n" +
+		                                           "	val getY ==> Int :{\n" +
+		                                           "		return y;\n" +
+		                                           "	};\n" +
+		                                           "}\n",
+				"(",
+				"=>",
+				":");
 		assertFalse(buffer.isPresent(1));
 	}
 

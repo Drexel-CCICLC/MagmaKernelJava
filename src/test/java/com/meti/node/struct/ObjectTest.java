@@ -38,26 +38,24 @@ public class ObjectTest {
                 new ObjectResolver(declarations)
         );
         Compiler compiler = new UnitCompiler(parser, resolver);
-        compiler.parse("""
-                class val Some = (Int value) : {
-                    val getValue ==> Int : {
-                        return value;
-                    };
-                    val compare = (Some other) => Int :{
-                        return value - other.getValue();
-                    };
-                }
-                """);
+        compiler.parse("class val Some = (Int value) : {\n" +
+                       "    val getValue ==> Int : {\n" +
+                       "        return value;\n" +
+                       "    };\n" +
+                       "    val compare = (Some other) => Int :{\n" +
+                       "        return value - other.getValue();\n" +
+                       "    };\n" +
+                       "}\n");
         Assertions.assertEquals("int _exitCode=0;" +
-                "void *_throw=NULL;" +
-                "struct Some{int value;};" +
-                "int Some_getValue(struct Some Some_){" +
-                "return Some_.value;}" +
-                "int Some_compare(struct Some other,struct Some Some_){" +
-                "return Some_.value-Some_getValue(other);}" +
-                "struct Some Some(int value){" +
-                "struct Some Some_={value};" +
-                "return Some_;}" +
+                                "void *_throw=NULL;" +
+                                "struct Some{int value;};" +
+                                "int Some_getValue(struct Some Some_){" +
+                                "return Some_.value;}" +
+                                "int Some_compare(struct Some other,struct Some Some_){" +
+                                "return Some_.value-Some_getValue(other);}" +
+                                "struct Some Some(int value){" +
+                                "struct Some Some_={value};" +
+                                "return Some_;}" +
                 "int main(){" +
                 "return _exitCode;}", cache.render());
     }
