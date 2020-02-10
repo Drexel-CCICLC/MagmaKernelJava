@@ -33,11 +33,9 @@ public class IfTest {
                 new IntResolver()
         );
         Compiler compiler = new UnitCompiler(parser, resolver);
-        Node node = compiler.parse("""
-                if(true) {
-                    val x = 10;
-                }
-                """);
+        Node node = compiler.parse("if(true) {\n" +
+                                   "    val x = 10;\n" +
+                                   "}\n");
         assertEquals("if(1){int x=10;}", node.render());
     }
 }

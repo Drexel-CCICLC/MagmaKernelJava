@@ -29,12 +29,10 @@ class BlockTest {
                 new IntResolver()
         );
         Compiler compiler = new UnitCompiler(parser, resolver);
-        Node result = compiler.parse("""
-                {
-                    val x = 10;
-                    val y = 20;
-                }
-                """);
+        Node result = compiler.parse("{\n" +
+                                     "    val x = 10;\n" +
+                                     "    val y = 20;\n" +
+                                     "}\n");
         assertEquals("{int x=10;int y=20;}", result.render());
     }
 }

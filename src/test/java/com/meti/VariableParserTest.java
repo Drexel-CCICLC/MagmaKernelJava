@@ -63,29 +63,27 @@ class VariableParserTest {
 				new ObjectResolver(declarations)
 		);
 		Compiler compiler = new UnitCompiler(parser, resolver);
-		compiler.parse("""
-				single val Strings =: {
-				    val length = (String string) => Int :{
-				        return 0;
-				    };
-
-				    val sameSize = (String s0, String s1) => Bool :{
-				        val length0 = length(s0);
-				        val length1 = length(s1);
-				        return length0 == length1;
-				    };
-				}
-				            """);
+		compiler.parse("single val Strings =: {\n" +
+		               "    val length = (String string) => Int :{\n" +
+		               "        return 0;\n" +
+		               "    };\n" +
+		               "\n" +
+		               "    val sameSize = (String s0, String s1) => Bool :{\n" +
+		               "        val length0 = length(s0);\n" +
+		               "        val length1 = length(s1);\n" +
+		               "        return length0 == length1;\n" +
+		               "    };\n" +
+		               "}\n");
 		assertEquals("int _exitCode=0;" +
-				"void *_throw=NULL;" +
-				"struct Strings${};" +
-				"int Strings$_length(char* string,struct Strings$ Strings$_){" +
-				"return 0;}" +
-				"int Strings$_sameSize(char* s0,char* s1,struct Strings$ Strings$_){" +
-				"int length0=Strings$_length(s0,Strings$_);" +
-				"int length1=Strings$_length(s1,Strings$_);" +
-				"return length0==length1;}" +
-				"struct Strings$ Strings={};" +
+		             "void *_throw=NULL;" +
+		             "struct Strings${};" +
+		             "int Strings$_length(char* string,struct Strings$ Strings$_){" +
+		             "return 0;}" +
+		             "int Strings$_sameSize(char* s0,char* s1,struct Strings$ Strings$_){" +
+		             "int length0=Strings$_length(s0,Strings$_);" +
+		             "int length1=Strings$_length(s1,Strings$_);" +
+		             "return length0==length1;}" +
+		             "struct Strings$ Strings={};" +
 				"struct Strings$ Strings$(){" +
 				"struct Strings$ Strings$_={};" +
 				"return Strings$_;}" +

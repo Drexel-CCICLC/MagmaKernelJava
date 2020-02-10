@@ -27,19 +27,17 @@ class StructUnitTest {
 
     @Test
     void innerDeclaraion() {
-        compiler.parse("""
-                val empty =: {
-                	val x = 10;
-                	val y = x;
-                }
-                            """);
+        compiler.parse("val empty =: {\n" +
+                       "	val x = 10;\n" +
+                       "	val y = x;\n" +
+                       "}\n");
         assertEquals("int _exitCode=0;" +
-                "void *_throw=NULL;" +
-                "void empty(){" +
-                "int x=10;" +
-                "int y=x;}" +
-                "int main(){" +
-                "return _exitCode;}", cache.render());
+                     "void *_throw=NULL;" +
+                     "void empty(){" +
+                     "int x=10;" +
+                     "int y=x;}" +
+                     "int main(){" +
+                     "return _exitCode;}", cache.render());
     }
 
     @Test

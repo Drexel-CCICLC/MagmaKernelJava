@@ -31,11 +31,9 @@ class ElseTest {
                 new IntResolver()
         );
         Compiler compiler = new UnitCompiler(parser, resolver);
-        Node node = compiler.parse("""
-                else {
-                    val x = 10;
-                }
-                """);
+        Node node = compiler.parse("else {\n" +
+                                   "    val x = 10;\n" +
+                                   "}\n");
         assertEquals("else{int x=10;}", node.render());
     }
 }
