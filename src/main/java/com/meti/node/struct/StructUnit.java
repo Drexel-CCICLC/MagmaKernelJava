@@ -55,7 +55,7 @@ public class StructUnit implements Unit {
 		Collection<Parameter> parameters = parseParameters(compiler, buffer);
 		Type returnType = parseReturnType(compiler, buffer);
 		Node block = parseBlock(compiler, buffer);
-		return new FunctionNode(funcName, returnType, parameters, block);
+		return new FunctionNode(funcName, returnType, block, parameters);
 	}
 
 	private Collection<Parameter> parseParameters(Compiler compiler, IndexBuffer buffer) {

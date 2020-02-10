@@ -76,7 +76,7 @@ public class CollectionCache implements Cache {
 
 	private String renderMain() {
 		main.add(new ReturnNode(new VariableNode(EXIT_NAME)));
-		Node node = new FunctionNode("main", IntType.INSTANCE, Collections.emptyList(), new BlockNode(main));
+		Node node = new FunctionNode("main", IntType.INSTANCE, new BlockNode(main), Collections.emptyList());
 		return node.render();
 	}
 }

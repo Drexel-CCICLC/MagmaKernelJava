@@ -59,13 +59,13 @@ class CacheTest {
 				Collections.singletonList("Point_")));
 		Collection<Node> getXContent = Collections.singleton(new ReturnNode(new FieldNode(new VariableNode("Point_"),
 				"x")));
-		cache.addFunction(new FunctionNode("Point_getX", IntType.INSTANCE, getXParams, new BlockNode(getXContent)));
+		cache.addFunction(new FunctionNode("Point_getX", IntType.INSTANCE, new BlockNode(getXContent), getXParams));
 
 		Collection<Parameter> getYParams = Collections.singleton(Parameter.create(new NativeStructType("Point"),
 				Collections.singletonList("Point_")));
 		Collection<Node> getYContent = Collections.singleton(new ReturnNode(new FieldNode(new VariableNode("Point_"),
 				"y")));
-		cache.addFunction(new FunctionNode("Point_getY", IntType.INSTANCE, getYParams, new BlockNode(getYContent)));
+		cache.addFunction(new FunctionNode("Point_getY", IntType.INSTANCE, new BlockNode(getYContent), getYParams));
 
 		assertEquals("int _exitCode=0;" +
 				"void *_throw=NULL;" +

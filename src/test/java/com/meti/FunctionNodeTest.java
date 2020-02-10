@@ -20,7 +20,7 @@ class FunctionNodeTest {
 		Set<Parameter> params = Collections.singleton(Parameter.create(IntType.INSTANCE, Collections.singletonList(
 				"value")));
 		Node block = new BlockNode(Collections.emptyList());
-		Node node = new FunctionNode("doSomething", VoidType.INSTANCE, params, block);
+		Node node = new FunctionNode("doSomething", VoidType.INSTANCE, block, params);
 		assertEquals("void doSomething(int value){}", node.render());
 	}
 }
