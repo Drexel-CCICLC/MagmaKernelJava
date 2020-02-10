@@ -1,11 +1,16 @@
 package com.meti.node;
 
-import com.meti.node.declare.Declaration;
-import com.meti.node.declare.ParameterDeclaration;
+import com.meti.parse.Declaration;
+import com.meti.parse.ParameterDeclaration;
 
+import java.util.Collections;
 import java.util.List;
 
 public interface Parameter {
+	static Parameter create(Type type, String name) {
+		return create(type, Collections.singletonList(name));
+	}
+
 	static Parameter create(Type type, List<String> name) {
 		return new ParameterImpl(type, name);
 	}

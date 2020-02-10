@@ -5,6 +5,7 @@ import com.meti.node.Node;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@Deprecated
 public class BlockNode implements Node {
 	private final Collection<? extends Node> children;
 

@@ -1,7 +1,7 @@
 package com.meti.node.struct;
 
 import com.meti.node.Node;
-import com.meti.node.declare.Declaration;
+import com.meti.parse.Declaration;
 
 public class FieldNode implements Node {
 	private final String name;

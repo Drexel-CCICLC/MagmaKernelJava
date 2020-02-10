@@ -1,17 +1,31 @@
 package com.meti;
 
-import com.meti.core.CollectionCache;
-import com.meti.core.ParentParser;
-import com.meti.core.ParentResolver;
-import com.meti.core.UnitCompiler;
 import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.block.BlockParser;
 import com.meti.node.block.BlockResolver;
-import com.meti.node.declare.*;
-import com.meti.node.primitive.*;
-import com.meti.node.struct.*;
-import com.meti.node.transform.OperationParser;
+import com.meti.node.declare.DeclareParser;
+import com.meti.node.declare.VariableParser;
+import com.meti.node.declare.VariableResolver;
+import com.meti.node.primitive.bool.BooleanResolver;
+import com.meti.node.primitive.ints.IntParser;
+import com.meti.node.primitive.ints.IntResolver;
+import com.meti.node.primitive.ints.IntType;
+import com.meti.node.primitive.strings.StringParser;
+import com.meti.node.primitive.strings.StringResolver;
+import com.meti.node.struct.ObjectResolver;
+import com.meti.node.struct.ReturnParser;
+import com.meti.node.struct.StructUnit;
+import com.meti.node.struct.ThisParser;
+import com.meti.node.struct.invoke.InvocationParser;
+import com.meti.node.struct.invoke.InvocationResolver;
+import com.meti.node.transform.operate.OperationParser;
+import com.meti.parse.Declarations;
+import com.meti.parse.TreeDeclarations;
+import com.meti.util.CollectionCache;
+import com.meti.util.ParentParser;
+import com.meti.util.ParentResolver;
+import com.meti.util.UnitCompiler;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -71,10 +85,10 @@ class VariableParserTest {
 				"int length0=Strings$_length(s0,Strings$_);" +
 				"int length1=Strings$_length(s1,Strings$_);" +
 				"return length0==length1;}" +
+				"struct Strings$ Strings={};" +
 				"struct Strings$ Strings$(){" +
 				"struct Strings$ Strings$_={};" +
 				"return Strings$_;}" +
-				"struct Strings$ Strings={};" +
 				"int main(){" +
 				"Strings=Strings$();" +
 				"return _exitCode;}", cache.render());

@@ -2,13 +2,18 @@ package com.meti.node.struct;
 
 import com.meti.Compiler;
 import com.meti.*;
-import com.meti.core.CollectionCache;
-import com.meti.core.ParentParser;
-import com.meti.core.ParentResolver;
-import com.meti.core.UnitCompiler;
-import com.meti.node.declare.*;
-import com.meti.node.primitive.IntResolver;
-import com.meti.node.transform.OperationParser;
+import com.meti.node.declare.DeclareParser;
+import com.meti.node.declare.VariableParser;
+import com.meti.node.declare.VariableResolver;
+import com.meti.node.primitive.ints.IntResolver;
+import com.meti.node.struct.invoke.InvocationParser;
+import com.meti.node.transform.operate.OperationParser;
+import com.meti.parse.Declarations;
+import com.meti.parse.TreeDeclarations;
+import com.meti.util.CollectionCache;
+import com.meti.util.ParentParser;
+import com.meti.util.ParentResolver;
+import com.meti.util.UnitCompiler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
