@@ -9,12 +9,10 @@ import java.util.Optional;
 public class TryParser implements Parser {
 	@Override
 	public Optional<Node> parse(String content, Compiler compiler) {
-		String trim = content.trim();
-		if (trim.startsWith("try")) {
-			String blockString = trim.substring(3);
-			Node node = compiler.parse(blockString);
-			return Optional.of(node);
-		}
-		return Optional.empty();
+		return Optional.of(content)
+				.map(String::trim)
+				.filter(s -> s.startsWith("try"))
+				.map(s -> s.substring(3))
+				.map(compiler::parse);
 	}
 }
