@@ -44,31 +44,24 @@ public class StructUnit implements Unit {
 	}
 
 	private Node buildFunction(Compiler compiler, IndexBuffer buffer) {
-		Collection<Parameter> parameters = parseParameters(compiler, buffer)
-				.peek(declarations::define)
-				.collect(Collectors.toCollection(ArrayList::new));
-		List<Parameter> stackParameters = declarations.buildStackParameters();
-		parameters.addAll(stackParameters);
-		Type returnType = parseReturnType(compiler, buffer);
 		if (declarations.current().isNative()) {
 			return new EmptyNode();
 		} else {
+			Collection<Parameter> parameters = parseParameters(compiler, buffer);
+			Type returnType = parseReturnType(compiler, buffer);
 			Node block = parseBlock(compiler, buffer);
 			String funcName = declarations.buildStackName();
 			return new FunctionNode(funcName, returnType, parameters, block);
 		}
 	}
 
-	private Stream<Parameter> parseParameters(Compiler compiler, IndexBuffer buffer) {
-		return buffer.cutIfPresent(0)
-				.stream()
-				.map(String::trim)
-				.filter(s -> s.startsWith("(") && s.endsWith(")"))
-				.map(s -> s.substring(1, s.length() - 1))
-				.map(s -> s.split(","))
-				.flatMap(Arrays::stream)
-				.filter(s -> !s.isBlank())
-				.map(paramString -> parseParam(compiler, paramString));
+	private Collection<Parameter> parseParameters(Compiler compiler, IndexBuffer buffer) {
+		Collection<Parameter> parameters = new ArrayList<>();
+		parseGivenParameters(compiler, buffer)
+				.peek(declarations::define)
+				.forEach(parameters::add);
+		parameters.addAll(declarations.buildStackParameters());
+		return parameters;
 	}
 
 	private Type parseReturnType(Compiler compiler, IndexBuffer buffer) {
@@ -93,11 +86,16 @@ public class StructUnit implements Unit {
 		throw new ParseException("Abstract methods are not supported yet.");
 	}
 
-	private Parameter parseParam(Compiler compiler, String paramString) {
-		int lastSpace = paramString.lastIndexOf(' ');
-		String type = paramString.substring(0, lastSpace);
-		String name = paramString.substring(lastSpace + 1);
-		return Parameter.create(compiler.resolveName(type), Collections.singletonList(name));
+	private Stream<Parameter> parseGivenParameters(Compiler compiler, IndexBuffer buffer) {
+		return buffer.cutIfPresent(0)
+				.stream()
+				.map(String::trim)
+				.filter(s -> s.startsWith("(") && s.endsWith(")"))
+				.map(s -> s.substring(1, s.length() - 1))
+				.map(s -> s.split(","))
+				.flatMap(Arrays::stream)
+				.filter(s -> !s.isBlank())
+				.map(paramString -> parseParam(compiler, paramString));
 	}
 
 	private Type buildMissingReturnType() {
@@ -119,6 +117,13 @@ public class StructUnit implements Unit {
 					Collections.emptyList())));
 		}
 		return new BlockNode(statements);
+	}
+
+	private Parameter parseParam(Compiler compiler, String paramString) {
+		int lastSpace = paramString.lastIndexOf(' ');
+		String type = paramString.substring(0, lastSpace);
+		String name = paramString.substring(lastSpace + 1);
+		return Parameter.create(compiler.resolveName(type), Collections.singletonList(name));
 	}
 
 	private Deque<Node> parseStatements(Compiler compiler, String implString) {
@@ -156,7 +161,7 @@ public class StructUnit implements Unit {
 	}
 
 	private Type extractType(Compiler compiler, IndexBuffer indexBuffer) {
-		Collection<Parameter> parameters = parseParameters(compiler, indexBuffer)
+		Collection<Parameter> parameters = parseGivenParameters(compiler, indexBuffer)
 				.collect(Collectors.toList());
 		Type returnType = parseReturnType(compiler, indexBuffer);
 		return new FunctionTypeImpl(parameters, returnType, declarations.currentName());
