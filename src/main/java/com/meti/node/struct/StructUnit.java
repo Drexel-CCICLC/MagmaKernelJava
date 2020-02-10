@@ -27,7 +27,6 @@ public class StructUnit implements Unit {
 	private static final List<String> MARKERS = List.of("(", "=>", ":");
 	private final Cache cache;
 	private final Declarations declarations;
-	private Node singletonNode = null;
 
 	public StructUnit(Declarations declarations, Cache cache) {
 		this.declarations = declarations;
@@ -36,17 +35,12 @@ public class StructUnit implements Unit {
 
 	@Override
 	public Optional<Node> parse(String content, Compiler compiler) {
-		singletonNode = null;
-		Optional<Node> nodeToReturn = Optional.of(content)
+		return Optional.of(content)
 				.map(String::trim)
 				.map(s -> new StringIndexBuffer(content, MARKERS))
 				.filter(IndexBuffer::isValid)
 				.map(buffer -> buildFunction(compiler, buffer))
 				.map(cache::addFunction);
-		if (singletonNode != null) {
-			cache.addFunction(singletonNode);
-		}
-		return nodeToReturn;
 	}
 
 	private Node buildFunction(Compiler compiler, IndexBuffer buffer) {
@@ -79,8 +73,7 @@ public class StructUnit implements Unit {
 
 	private Type parseReturnType(Compiler compiler, IndexBuffer buffer) {
 		Optional<String> s1 = buffer.cutIfPresent(1);
-		return s1
-				.filter(s -> s.startsWith("=>"))
+		return s1.filter(s -> s.startsWith("=>"))
 				.map(s -> s.substring(2))
 				.map(compiler::resolveName)
 				.orElseGet(this::buildMissingReturnType);
@@ -121,7 +114,7 @@ public class StructUnit implements Unit {
 		if (declarations.isInSingleton()) {
 			String name = current.name();
 			String varName = name.substring(0, name.length() - 1);
-			singletonNode = compiler.parse("val " + varName + "={}");
+			cache.addFunction(compiler.parse("val " + varName + "={}"));
 			cache.add(new AssignNode(new VariableNode(varName), new InvocationNode(new VariableNode(name),
 					Collections.emptyList())));
 		}

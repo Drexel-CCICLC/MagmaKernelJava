@@ -85,10 +85,10 @@ class VariableParserTest {
 				"int length0=Strings$_length(s0,Strings$_);" +
 				"int length1=Strings$_length(s1,Strings$_);" +
 				"return length0==length1;}" +
+				"struct Strings$ Strings={};" +
 				"struct Strings$ Strings$(){" +
 				"struct Strings$ Strings$_={};" +
 				"return Strings$_;}" +
-				"struct Strings$ Strings={};" +
 				"int main(){" +
 				"Strings=Strings$();" +
 				"return _exitCode;}", cache.render());

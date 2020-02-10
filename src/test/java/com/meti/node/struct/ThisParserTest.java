@@ -107,10 +107,10 @@ class ThisParserTest {
 				"struct MySingleton${};" +
 				"char* MySingleton$_returnAValue(struct MySingleton$ MySingleton$_){" +
 				"return \"test\";}" +
+				"struct MySingleton$ MySingleton={};" +
 				"struct MySingleton$ MySingleton$(){" +
 				"struct MySingleton$ MySingleton$_={};" +
 				"return MySingleton$_;}" +
-				"struct MySingleton$ MySingleton={};" +
 				"int main(){" +
 				"MySingleton=MySingleton$();" +
 				"return _exitCode;}", cache.render());
