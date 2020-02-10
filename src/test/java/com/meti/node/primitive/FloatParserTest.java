@@ -1,6 +1,7 @@
 package com.meti.node.primitive;
 
 import com.meti.Parser;
+import com.meti.node.primitive.floats.FloatParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

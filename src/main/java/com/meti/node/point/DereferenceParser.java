@@ -9,12 +9,10 @@ import java.util.Optional;
 public class DereferenceParser implements Parser {
 	@Override
 	public Optional<Node> parse(String content, Compiler compiler) {
-		String trim = content.trim();
-		if (trim.startsWith("*")) {
-			String valueString = trim.substring(1);
-			Node value = compiler.parse(valueString);
-			return Optional.of(new DereferenceNode(value));
-		}
-		return Optional.empty();
+		return Optional.of(content)
+				.filter(s -> s.startsWith("*"))
+				.map(s -> s.substring(1))
+				.map(compiler::parse)
+				.map(DereferenceNode::new);
 	}
 }

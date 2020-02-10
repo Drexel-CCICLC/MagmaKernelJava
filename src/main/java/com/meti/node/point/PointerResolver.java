@@ -9,13 +9,12 @@ import java.util.Optional;
 public class PointerResolver implements Resolver {
 	@Override
 	public Optional<Type> resolveName(String content, Compiler compiler) {
-		String trim = content.trim();
-		if (trim.endsWith("*")) {
-			String childString = trim.substring(0, trim.length() - 1);
-			Type child = compiler.resolveName(childString);
-			return Optional.of(new PointerType(child));
-		}
-		return Optional.empty();
+		return Optional.of(content)
+				.map(String::trim)
+				.filter(s -> s.endsWith("*"))
+				.map(s -> s.substring(0, s.length() - 1))
+				.map(compiler::resolveName)
+				.map(PointerType::new);
 	}
 
 	@Override

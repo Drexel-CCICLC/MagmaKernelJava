@@ -3,7 +3,7 @@ package com.meti.node.point;
 import com.meti.node.DefaultType;
 import com.meti.node.Node;
 import com.meti.node.Type;
-import com.meti.node.primitive.NullNode;
+import com.meti.node.primitive.special.NullNode;
 
 public class PointerType implements DefaultType {
 	private final Type child;

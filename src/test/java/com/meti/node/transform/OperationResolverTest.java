@@ -3,17 +3,28 @@ package com.meti.node.transform;
 import com.meti.Cache;
 import com.meti.Compiler;
 import com.meti.Unit;
-import com.meti.core.CollectionCache;
-import com.meti.core.ParentParser;
-import com.meti.core.ParentResolver;
-import com.meti.core.UnitCompiler;
 import com.meti.node.Type;
-import com.meti.node.declare.*;
-import com.meti.node.primitive.*;
-import com.meti.node.struct.InvocationParser;
-import com.meti.node.struct.InvocationResolver;
+import com.meti.node.declare.DeclareParser;
+import com.meti.node.declare.VariableParser;
+import com.meti.node.declare.VariableResolver;
+import com.meti.node.primitive.ints.IntParser;
+import com.meti.node.primitive.ints.IntResolver;
+import com.meti.node.primitive.ints.IntType;
+import com.meti.node.primitive.strings.StringParser;
+import com.meti.node.primitive.strings.StringResolver;
+import com.meti.node.primitive.strings.StringType;
 import com.meti.node.struct.ReturnParser;
 import com.meti.node.struct.StructUnit;
+import com.meti.node.struct.invoke.InvocationParser;
+import com.meti.node.struct.invoke.InvocationResolver;
+import com.meti.node.transform.operate.OperationParser;
+import com.meti.node.transform.operate.OperationResolver;
+import com.meti.parse.Declarations;
+import com.meti.parse.TreeDeclarations;
+import com.meti.util.CollectionCache;
+import com.meti.util.ParentParser;
+import com.meti.util.ParentResolver;
+import com.meti.util.UnitCompiler;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -56,7 +67,7 @@ class OperationResolverTest {
 						}
 				            """);
 		Type type = compiler.resolveValue("copy(\"test\")");
-		assertEquals(IntType.INSTANCE, type);
+		assertEquals(StringType.INSTANCE, type);
 	}
 
 	@Test
