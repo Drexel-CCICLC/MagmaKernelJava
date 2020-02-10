@@ -7,6 +7,7 @@ import com.meti.exception.ParseException;
 import com.meti.node.Node;
 import com.meti.node.Parameter;
 import com.meti.node.Type;
+import com.meti.node.block.BlockNode;
 import com.meti.node.declare.AssignNode;
 import com.meti.node.declare.VariableNode;
 import com.meti.node.primitive.special.VoidType;
@@ -44,15 +45,17 @@ public class StructUnit implements Unit {
 	}
 
 	private Node buildFunction(Compiler compiler, IndexBuffer buffer) {
-		if (declarations.current().isNative()) {
-			return new EmptyNode();
-		} else {
-			Collection<Parameter> parameters = parseParameters(compiler, buffer);
-			Type returnType = parseReturnType(compiler, buffer);
-			Node block = parseBlock(compiler, buffer);
-			String funcName = declarations.buildStackName();
-			return new FunctionNode(funcName, returnType, parameters, block);
-		}
+		return declarations.current().isNative() ?
+				new EmptyNode() :
+				buildNode(compiler, buffer);
+	}
+
+	private Node buildNode(Compiler compiler, IndexBuffer buffer) {
+		String funcName = declarations.buildStackName();
+		Collection<Parameter> parameters = parseParameters(compiler, buffer);
+		Type returnType = parseReturnType(compiler, buffer);
+		Node block = parseBlock(compiler, buffer);
+		return new FunctionNode(funcName, returnType, parameters, block);
 	}
 
 	private Collection<Parameter> parseParameters(Compiler compiler, IndexBuffer buffer) {
@@ -106,16 +109,8 @@ public class StructUnit implements Unit {
 		Deque<Node> statements = parseStatements(compiler, implString);
 		Declaration current = declarations.current();
 		if (current.isSuperStructure()) statements.addFirst(assign(current));
-		if (declarations.isInClass()) {
-			statements.addLast(new ReturnNode(new VariableNode(declarations.currentName() + "_")));
-		}
-		if (declarations.isInSingleton()) {
-			String name = current.name();
-			String varName = name.substring(0, name.length() - 1);
-			cache.addFunction(compiler.parse("val " + varName + "={}"));
-			cache.add(new AssignNode(new VariableNode(varName), new InvocationNode(new VariableNode(name),
-					Collections.emptyList())));
-		}
+		if (declarations.isInClass()) registerReturnInstance(statements);
+		if (declarations.isInSingleton()) registerSingleton(compiler, current);
 		return new BlockNode(statements);
 	}
 
@@ -138,6 +133,21 @@ public class StructUnit implements Unit {
 	private Node assign(Declaration current) {
 		cache.addStruct(current.toStruct());
 		return current.declareInstance();
+	}
+
+	private void registerReturnInstance(Deque<? super Node> statements) {
+		String name = declarations.currentName() + "_";
+		Node varNode = new VariableNode(name);
+		Node returnNode = new ReturnNode(varNode);
+		statements.addLast(returnNode);
+	}
+
+	private void registerSingleton(Compiler compiler, Declaration current) {
+		String name = current.name();
+		String varName = name.substring(0, name.length() - 1);
+		cache.addFunction(compiler.parse("val " + varName + "={}"));
+		cache.add(new AssignNode(new VariableNode(varName), new InvocationNode(new VariableNode(name),
+				Collections.emptyList())));
 	}
 
 	private Stream<String> partition(String childString) {
