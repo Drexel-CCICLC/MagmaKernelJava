@@ -10,7 +10,10 @@ import com.meti.node.struct.StructNode;
 import com.meti.node.struct.type.DefinedStructType;
 import com.meti.node.struct.type.NativeStructType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public abstract class AbstractDeclaration implements Declaration {
@@ -18,10 +21,6 @@ public abstract class AbstractDeclaration implements Declaration {
 	private final Set<Flag> flags;
 	private final List<String> stack;
 	private final Type type;
-
-	AbstractDeclaration() {
-		this(Collections.emptyList(), Collections.emptySet(), null);
-	}
 
 	AbstractDeclaration(List<String> stack, Set<Flag> flags, Type type) {
 		this.stack = stack;

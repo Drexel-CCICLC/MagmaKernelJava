@@ -42,7 +42,7 @@ public enum Operations implements Operation {
         String after = content.substring(fromIndex + from.length()).trim();
         Node beforeNode = parser.apply(before);
         Node afterNode = parser.apply(after);
-        return new OperationNode(beforeNode, afterNode, this);
+        return new OperationNode(beforeNode, this, afterNode);
     }
 
     @Override

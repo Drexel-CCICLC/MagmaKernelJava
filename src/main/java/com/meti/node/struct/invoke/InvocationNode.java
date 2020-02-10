@@ -9,6 +9,10 @@ public class InvocationNode implements Node {
 	private final List<? extends Node> arguments;
 	private final Node caller;
 
+	public InvocationNode(Node caller, Node... arguments) {
+		this(caller, List.of(arguments));
+	}
+
 	public InvocationNode(Node caller, List<? extends Node> arguments) {
 		this.caller = caller;
 		this.arguments = arguments;

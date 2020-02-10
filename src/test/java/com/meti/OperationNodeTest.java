@@ -14,7 +14,7 @@ class OperationNodeTest {
 	void render() {
 		Node value0 = new IntNode(10);
 		Node value1 = new IntNode(20);
-		Node node = new OperationNode(value0, value1, Operations.ADD);
+		Node node = new OperationNode(value0, Operations.ADD, value1);
 		assertEquals("10+20", node.render());
 	}
 }

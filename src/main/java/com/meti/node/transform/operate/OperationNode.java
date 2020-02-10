@@ -7,7 +7,7 @@ public class OperationNode implements Node {
 	private final Node node1;
 	private final Operation operation;
 
-	public OperationNode(Node node0, Node node1, Operation operation) {
+	public OperationNode(Node node0, Operation operation, Node node1) {
 		this.node0 = node0;
 		this.node1 = node1;
 		this.operation = operation;
